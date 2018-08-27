@@ -50,7 +50,9 @@ class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :expor
        started_at
        last_activity_at
        starter_username
-       other_party_username
+       other_party_username,
+       starter_coupon_balance,
+       author_coupon_balnce
      }.to_csv(force_quotes: true)
      transactions.each do |transaction|
        yielder << [
@@ -63,7 +65,9 @@ class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :expor
          transaction.created_at,
          transaction.last_activity,
          transaction.starter ? transaction.starter.username : "DELETED",
-         transaction.author ? transaction.author.username : "DELETED"
+         transaction.author ? transaction.author.username : "DELETED",
+         (transaction&.starter.present? && transaction.starter&.coupon_balance.present?) ? (transaction.starter&.coupon_balance_cents/100).to_f : "",
+         (transaction.author.present? && transaction.author&.coupon_balance.present?) ? (transaction.author&.coupon_balance_cents/100).to_f : ""
        ].to_csv(force_quotes: true)
      end
     end

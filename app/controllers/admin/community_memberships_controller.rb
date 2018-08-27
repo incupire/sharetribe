@@ -134,6 +134,7 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
       is_admin
       accept_emails_from_admin
       language
+      coupon_balance
     }
     header_row.push("can_post_listings") if community.require_verification_to_post_listings
     if user_fields_enabled
@@ -156,7 +157,8 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
           status: membership.status,
           is_admin: membership.admin,
           accept_emails_from_admin: nil,
-          language: user.locale
+          language: user.locale,
+          coupon_balance: user.coupon_balance.present? ? (user&.coupon_balance_cents/100).to_f : ""
         }
         user_data[:can_post_listings] = membership.can_post_listings if community.require_verification_to_post_listings
         if user_fields_enabled
