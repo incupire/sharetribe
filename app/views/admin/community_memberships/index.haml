@@ -54,6 +54,9 @@
             %th{:style => "text-align: center"}= render partial: "layouts/sort_link", locals: { column: "posting_allowed", direction: sort_link_direction("posting_allowed"), title: t("admin.communities.manage_members.posting_allowed") }
           %th= t("admin.communities.manage_members.admin")
           %th= t("admin.communities.manage_members.ban_user")
+          %th= t("admin.communities.manage_members.coupon_balance")
+          %th= t("admin.communities.manage_members.add_coupon_balance")
+          %th= t("admin.communities.manage_members.deduct_coupon_balance")
       %tbody
         - @memberships.each do |membership|
           - member = membership.person
@@ -77,6 +80,15 @@
                   data: {ban_url: ban_admin_community_community_membership_path(@current_community.id, membership.id),
                   unban_url: unban_admin_community_community_membership_path(@current_community.id, membership.id)},
                   class: "admin-members-ban-toggle"
+              %td.coupon_balance{id: "#{member.id}"}
+                = MoneyViewUtils.to_humanized(member.coupon_balance).html_safe
+              %td
+                %a.add_coupon_balance{href: '#', data: {id:  member.id, action: "add"}}
+                  = t('admin.communities.manage_members.add_coupon_balance')
+              %td
+                - if member.coupon_balance.present?
+                  %a.deduct_coupon_balance{href: '#', data: {id:  member.id, action: "deduct"}}
+                    = t('admin.communities.manage_members.deduct_coupon_balance')                                    
 
   .row
     .col-12
@@ -84,3 +96,37 @@
 - js_t(['admin.communities.manage_members.ban_user_confirmation',
   'admin.communities.manage_members.unban_user_confirmation',
   'admin.communities.manage_members.this_makes_the_user_an_admin'])
+
+
+.lightbox.lightbox-model.coupon-balance-popup
+  .lightbox-content.code-popup.border-thick
+    %a{:href => "", :class => "close", :id => "close_x"}
+      %i.icon.icon-remove.icon-custom
+    .row.heading-row
+      .col-12
+        = form_tag "#", remote: true, id: 'coupon_balance_form', method: :put do |f|
+          = label_tag :coupon_balance_cents , 'Add Coupon Balance', class: "label_add_deduct"
+          = text_field_tag :coupon_balance_cents
+          = button_tag 'Add', class: 'add_deduct_btn'
+
+
+- content_for :extra_javascript do
+  :javascript
+    var community_id = '#{@current_community.id}';
+    $('.add_coupon_balance, .deduct_coupon_balance').on("click", function(e){
+      e.preventDefault();
+      var person_id = $(this).data('id');
+      var action = $(this).data('action');
+      if (action == "add"){
+        add_bal_form_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/add_coupon_balance";
+        $('#coupon_balance_form').attr('action', add_bal_form_url);
+        $('.add_deduct_btn').text('Add');
+        $('.label_add_deduct').text('Add Coupon Balance');
+      }else if(action == "deduct"){
+        deduct_bal_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/deduct_coupon_balance";
+        $('#coupon_balance_form').attr('action', deduct_bal_url);
+        $('.add_deduct_btn').text('Deduct');
+        $('.label_add_deduct').text('Deduct Coupon Balance');      
+      }
+      $('.coupon-balance-popup').lightbox_me({centered: true, zIndex: 1000000})
+    });          

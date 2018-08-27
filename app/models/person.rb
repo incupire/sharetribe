@@ -42,6 +42,7 @@
 #  min_days_between_community_updates :integer          default(1)
 #  deleted                            :boolean          default(FALSE)
 #  cloned_from                        :string(22)
+#  coupon_balance_cents               :integer
 #
 # Indexes
 #
@@ -121,6 +122,8 @@ class Person < ApplicationRecord
             deprecator: MethodDeprecator.new
 
   accepts_nested_attributes_for :custom_field_values
+
+  monetize :coupon_balance_cents, :allow_nil => true, with_model_currency: :currency
 
   def to_param
     username

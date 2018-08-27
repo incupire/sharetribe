@@ -42,6 +42,7 @@
 #  min_days_between_community_updates :integer          default(1)
 #  deleted                            :boolean          default(FALSE)
 #  cloned_from                        :string(22)
+#  coupon_balance_cents               :integer
 #
 # Indexes
 #

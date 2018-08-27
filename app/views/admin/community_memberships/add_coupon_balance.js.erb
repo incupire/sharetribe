@@ -1,0 +1,5 @@
+$('.coupon-balance-popup').trigger('close');
+<% person = Person.find(params[:id]) %>
+<% available_balance = MoneyViewUtils.to_humanized(person.coupon_balance) %>
+$('#<%= params[:id]%>').html('<%= available_balance.html_safe %>');
+$('#coupon_balance_form')[0].reset();

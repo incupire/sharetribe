@@ -250,6 +250,9 @@ en:
         admin: Admin
         posting_allowed: "Posting allowed"
         ban_user: Ban
+        coupon_balance: "Coupon balance"
+        add_coupon_balance: "Add coupon balance"
+        deduct_coupon_balance: "Deduct coupon balance"
         saving_user_status: Saving...
         save_user_status_successful: Saved
         export_all_as_csv: "Export all as CSV"
