@@ -7,7 +7,8 @@ class ConfirmConversationsController < ApplicationController
   before_action :fetch_conversation
   before_action :fetch_listing
 
-  before_action :ensure_is_starter
+  before_action :ensure_is_starter, except: [:cancel_coupon_pay]
+  before_action :ensure_current_is_admin, only: [:cancel_coupon_pay]
 
   def confirm
     return redirect_to person_transaction_path(person_id: @current_user.id, message_id: @listing_transaction.id) unless in_valid_pre_state?
@@ -75,8 +76,26 @@ class ConfirmConversationsController < ApplicationController
     redirect_to redirect_path
   end
 
+  def cancel_coupon_pay
+    tx = Transaction.find(params[:id])
+    buyer_gets = order_total(tx)
+    buyer = tx.starter
+    buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
+    if buyer.update_attribute(:coupon_balance, buyer_coupon_bal)
+      tx.toggle!(:coupon_bal_refunded)
+      flash[:notice] = "Coupon balance refunded successfully!"
+    else
+      flash[:notice] = "Something went wrong please try later!"
+    end
+    redirect_to person_transaction_path(:person_id => @current_user.id, :id => tx.id)    
+  end
+
   private
 
+  def order_total(tx)
+    shipping_total = Maybe(tx.shipping_price).or_else(0)
+    tx.unit_price * tx.listing_quantity + shipping_total
+  end
 
   def complete_or_cancel_tx(community_id, tx_id, status, msg, sender_id)
     if status == :confirmed
@@ -101,6 +120,13 @@ class ConfirmConversationsController < ApplicationController
       redirect_to (session[:return_to_content] || root)
     end
   end
+
+  def ensure_current_is_admin
+    unless @current_user.has_admin_rights?(@current_community)
+      flash[:error] = "Only admin can perform the requested action"
+      redirect_to (session[:return_to_content] || root)
+    end
+  end  
 
   def fetch_listing
     @listing = @listing_transaction.listing

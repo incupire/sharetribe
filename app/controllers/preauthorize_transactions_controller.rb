@@ -45,7 +45,6 @@ class PreauthorizeTransactionsController < ApplicationController
         params: params_entity,
         shipping_enabled: listing.require_shipping_address,
         pickup_enabled: listing.pickup_enabled)
-
       TransactionService::Validation::Validator.validate_initiated_params(
         tx_params: tx_params,
         quantity_selector: listing.quantity_selector&.to_sym,
@@ -56,7 +55,19 @@ class PreauthorizeTransactionsController < ApplicationController
     }
 
     if validation_result.success
-      initiated_success(validation_result.data)
+      if params[:payment_type].eql?('coupon_pay')
+        price_break_down = price_break_down_locals(validation_result.data, listing)
+        total_amount_to_be_paid = (price_break_down[:total].cents/100).to_f
+        coupon_balance_of_current_user = (@current_user.coupon_balance_cents/100).to_f
+        if total_amount_to_be_paid > coupon_balance_of_current_user
+          error_msg = "Insufficient coupon balance!"
+          render_error_response(request.xhr?, error_msg, listing_path(listing))
+        else
+          initiated_success(validation_result.data)
+        end
+      else  
+        initiated_success(validation_result.data)
+      end
     else
       initiated_error(validation_result.data)
     end
@@ -97,7 +108,7 @@ class PreauthorizeTransactionsController < ApplicationController
       render_error_response(request.xhr?, t("error_messages.#{gateway}.generic_error"), action: :initiate)
     elsif (tx_response[:data][:gateway_fields][:redirect_url])
       xhr_json_redirect tx_response[:data][:gateway_fields][:redirect_url]
-    elsif gateway == :stripe
+    elsif gateway == :stripe || :coupon_pay
       xhr_json_redirect person_transaction_path(@current_user, tx_response[:data][:transaction][:id])
     else
       render json: {
@@ -201,7 +212,7 @@ class PreauthorizeTransactionsController < ApplicationController
         listing_author_id: listing.author.id
       })
 
-    unless ready[:data][:result]
+    unless ready[:data][:result] or @current_user.coupon_balance_cents.present?
       flash[:error] = t("layouts.notifications.listing_author_payment_details_missing")
 
       record_event(
@@ -270,7 +281,7 @@ class PreauthorizeTransactionsController < ApplicationController
         transaction: transaction,
         gateway_fields: gateway_fields
       },
-      force_sync: opts[:payment_type] == :stripe || opts[:force_sync])
+      force_sync: [:stripe, :coupon_pay].include?(opts[:payment_type]) || opts[:force_sync])
   end
 
   def paypal_event_params(listing)
@@ -403,7 +414,12 @@ class PreauthorizeTransactionsController < ApplicationController
         end_time:   tx_params[:end_time],
         per_hour:   tx_params[:per_hour]
       })
-
+    if params[:payment_type].eql?('coupon_pay')
+      total = (tx_response[:data][:gateway_fields][:sum].cents/100).to_f
+      coupon_balance = (@current_user.coupon_balance_cents/100).to_f
+      updated_bal = coupon_balance - total
+      @current_user.update_attribute(:coupon_balance, updated_bal)
+    end
     handle_tx_response(tx_response, params[:payment_type].to_sym)
   end
 

@@ -1398,6 +1398,7 @@ CREATE TABLE `transactions` (
   `availability` varchar(32) DEFAULT 'none',
   `booking_uuid` binary(16) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
+  `coupon_bal_refunded` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index_transactions_on_listing_id` (`listing_id`) USING BTREE,
   KEY `index_transactions_on_conversation_id` (`conversation_id`) USING BTREE,
@@ -2272,6 +2273,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20180523121344'),
 ('20180524075239'),
 ('20180524081429'),
-('20180826043038');
+('20180826043038'),
+('20180830105935');
 
 

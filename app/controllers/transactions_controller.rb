@@ -366,7 +366,7 @@ class TransactionsController < ApplicationController
       show_subtotal = !!tx.booking || quantity.present? && quantity > 1 || tx.shipping_price.present?
       total_label = (tx.payment_process != :preauthorize) ? t("transactions.price") : t("transactions.total")
       payment = TransactionService::Transaction.payment_details(tx)
-
+      
       TransactionViewUtils.price_break_down_locals({
         listing_price: tx.unit_price,
         localized_unit_type: localized_unit_type,
@@ -414,7 +414,7 @@ class TransactionsController < ApplicationController
                                   },
                                   is_booking: booking,
                                   unit: listing_model.unit_type)
-
+    
     total_label = t("transactions.price")
 
     m_price_break_down = Maybe(listing_model).select { |l_model| l_model.price.present? }.map { |l_model|

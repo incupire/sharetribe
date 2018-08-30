@@ -14,12 +14,14 @@ module TransactionService::Transaction
   SETTINGS_ADAPTERS = {
     paypal: TransactionService::Gateway::PaypalSettingsAdapter.new,
     stripe: TransactionService::Gateway::StripeSettingsAdapter.new,
+    coupon_pay: TransactionService::Gateway::CouponSettingsAdapter.new,
     none: TransactionService::Gateway::FreeSettingsAdapter.new
   }
 
   GATEWAY_ADAPTERS = {
     paypal: TransactionService::Gateway::PaypalAdapter.new,
     stripe: TransactionService::Gateway::StripeAdapter.new,
+    coupon_pay: TransactionService::Gateway::CouponAdapter.new,
     none: TransactionService::Gateway::FreeAdapter.new,
   }
 
@@ -42,6 +44,8 @@ module TransactionService::Transaction
       APP_CONFIG.paypal_expiration_period.to_i
     when :stripe
       APP_CONFIG.stripe_expiration_period.to_i
+    when :coupon_pay
+      3
     else
       raise ArgumentError.new("Unknown payment_type: '#{payment_type}'")
     end
@@ -110,7 +114,6 @@ module TransactionService::Transaction
 
     set_adapter = settings_adapter(opts_tx[:payment_gateway])
     tx_process_settings = set_adapter.tx_process_settings(opts_tx)
-
     tx = TxStore.create(opts_tx.merge(tx_process_settings))
 
     tx_process = tx_process(tx[:payment_process])
@@ -119,7 +122,6 @@ module TransactionService::Transaction
                             gateway_fields: opts[:gateway_fields],
                             gateway_adapter: gateway_adapter,
                             force_sync: force_sync)
-
     tx.reload
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
@@ -172,6 +174,14 @@ module TransactionService::Transaction
     gw = gateway_adapter(tx.payment_gateway)
 
     res = tx_process.reject(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
+    #return coupon balance to renter
+    if res.success && tx.payment_gateway.eql?(:coupon_pay)
+      buyer_gets = order_total(tx)
+      transaction = Transaction.find(tx[:id])
+      buyer = transaction.starter
+      buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
+      buyer.update_attribute(:coupon_balance, buyer_coupon_bal)
+    end
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -200,6 +210,14 @@ module TransactionService::Transaction
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
+    if res.success && tx.payment_gateway.eql?(:coupon_pay)
+      seller_gets = order_total(tx) - order_commission(tx)
+      transaction = Transaction.find(tx[:id])
+      seller = transaction.author
+      seller_coupon_bal = seller.coupon_balance.present? ? ((seller.coupon_balance_cents/100).to_f + (seller_gets.cents/100).to_f) : (seller_gets.cents/100).to_f
+      seller.update_attribute(:coupon_balance, seller_coupon_bal)
+      transaction.toggle!(:coupon_bal_refunded)
+    end      
   end
 
   def cancel(community_id:, transaction_id:, message: nil, sender_id: nil)
@@ -215,6 +233,15 @@ module TransactionService::Transaction
   end
 
   # private
+
+  def order_total(tx)
+    shipping_total = Maybe(tx.shipping_price).or_else(0)
+    tx.unit_price * tx.listing_quantity + shipping_total
+  end
+
+  def order_commission(tx)
+    TransactionService::Transaction.calculate_commission(tx.unit_price * tx.listing_quantity, tx.commission_from_seller, tx.minimum_commission)
+  end  
 
   def charge_commission(transaction_id)
     transaction = Transaction.find(transaction_id)

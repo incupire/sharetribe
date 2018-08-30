@@ -105,7 +105,7 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
   def deduct_coupon_balance
     person = Person.find(params[:id])
     if person.coupon_balance.present? && ((person.coupon_balance_cents/100).to_f >= params[:coupon_balance_cents].to_f)
-      coupon_bal =   person.coupon_balance_cents/100 - params[:coupon_balance_cents].to_f
+      coupon_bal =   (person.coupon_balance_cents/100).to_f - params[:coupon_balance_cents].to_f
       person.update_attribute(:coupon_balance, coupon_bal)
       flash[:error] = nil
     else

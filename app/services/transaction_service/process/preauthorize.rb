@@ -32,7 +32,6 @@ module TransactionService::Process
         tx: tx,
         gateway_fields: gateway_fields,
         force_sync: true)
-
       if completion[:success] && completion[:sync]
         finalize_create(tx: tx, gateway_adapter: gateway_adapter, force_sync: true)
       elsif !completion[:success]
@@ -93,12 +92,11 @@ module TransactionService::Process
             else
               Result::Success.new()
             end
-
           booking_res.on_success {
             TransactionService::StateMachine.transition_to(tx.id, :preauthorized)
           }
         end
-
+        
       res.and_then {
         Result::Success.new(TransactionService::Transaction.create_transaction_response(tx))
       }

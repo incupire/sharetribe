@@ -86,9 +86,8 @@
                 %a.add_coupon_balance{href: '#', data: {id:  member.id, action: "add"}}
                   = t('admin.communities.manage_members.add_coupon_balance')
               %td
-                - if member.coupon_balance.present?
-                  %a.deduct_coupon_balance{href: '#', data: {id:  member.id, action: "deduct"}}
-                    = t('admin.communities.manage_members.deduct_coupon_balance')                                    
+                %a.deduct_coupon_balance{href: '#', data: {id:  member.id, action: "deduct"}}
+                  = t('admin.communities.manage_members.deduct_coupon_balance')                                    
 
   .row
     .col-12

@@ -53,7 +53,6 @@ module StripeService::API
             transaction_id: tx.id,
             addr: gateway_fields[:shipping_address])
         end
-
         Result::Success.new(payment)
       rescue => e
         Airbrake.notify(e)
@@ -181,7 +180,6 @@ module StripeService::API
       def order_commission(tx)
         TransactionService::Transaction.calculate_commission(tx.unit_price * tx.listing_quantity, tx.commission_from_seller, tx.minimum_commission)
       end
-
     end
   end
 end

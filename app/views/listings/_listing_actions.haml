@@ -99,7 +99,7 @@
       - else
         %button.enabled-book-button
           .content
-            = action_button_label(@listing)
+            = action_button_label(@listing)                   
 
     - if @listing_presenter.payments_enabled?
       .row
@@ -142,4 +142,3 @@
             .icon-with-text-container
               = icon_tag("mail", ["icon-part"])
               .text-part#add-to-updates-email-text{data: {:"action-loading" => t("listings.edit_links.show_in_updates_email_loading"), :"action-error" => t("listings.edit_links.show_in_updates_email_error"), :"action-success"=> t("listings.edit_links.show_in_updates_email_success")}}= t("listings.edit_links.show_in_updates_email")
-

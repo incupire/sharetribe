@@ -603,6 +603,10 @@ class Person < ApplicationRecord
     joins(:communities).where("communities.id" => community.id)
   end
 
+  def has_coupon_balance?
+    coupon_balance_cents.present? ? true : false
+  end
+
 
   # Overrides method injected from Devise::DatabaseAuthenticatable
   # Updates password with password that has been rehashed with new algorithm.

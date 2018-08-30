@@ -36,6 +36,7 @@
 #  availability                      :string(32)       default("none")
 #  booking_uuid                      :binary(16)
 #  deleted                           :boolean          default(FALSE)
+#  coupon_bal_refunded               :boolean          default(FALSE)
 #
 # Indexes
 #
@@ -76,7 +77,7 @@ class Transaction < ApplicationRecord
   validates :availability, inclusion: ["none", "booking", :none, :booking], on: :create
   validates :delivery_method, inclusion: ["none", "shipping", "pickup", nil, :none, :shipping, :pickup], on: :create
   validates :payment_process, inclusion: [:none, :postpay, :preauthorize], on: :create
-  validates :payment_gateway, inclusion: [:paypal, :checkout, :braintree, :stripe, :none], on: :create
+  validates :payment_gateway, inclusion: [:paypal, :checkout, :braintree, :stripe, :coupon_pay, :none], on: :create
   validates :commission_from_seller, numericality: {only_integer: true}, on: :create
   validates :automatic_confirmation_after_days, numericality: {only_integer: true}, on: :create
 

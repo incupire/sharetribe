@@ -20,10 +20,10 @@ class AcceptPreauthorizedConversationsController < ApplicationController
       redirect_to person_transaction_path(person_id: @current_user.id, id: tx_id)
       return
     end
-
+    
     payment_type = tx.payment_gateway
     case payment_type
-    when :paypal, :stripe
+    when :paypal, :stripe, :coupon_pay
       render_payment_form("accept", payment_type)
     else
       raise ArgumentError.new("Unknown payment type: #{payment_type}")
@@ -41,7 +41,7 @@ class AcceptPreauthorizedConversationsController < ApplicationController
 
     payment_type = tx.payment_gateway
     case payment_type
-    when :paypal, :stripe
+    when :paypal, :stripe, :coupon_pay
       render_payment_form("reject", payment_type)
     else
       raise ArgumentError.new("Unknown payment type: #{payment_type}")

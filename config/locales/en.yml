@@ -2482,6 +2482,7 @@ en:
     commission: "%{commission} %"
     pay_with_stripe: "Pay with Stripe using %{card}"
     add_and_pay: "Confirm payment"
+    pay_with_cupon: "Coupon pay"
     card_not_stored: "Your payment is securely processed by Stripe. %{service_name} does not store your credit/debit card information."
     missing_payment: "You have open listings but your account is not set up to receive money. To configure your payment preferences, visit %{settings_link}"
     stripe_bank_connected: "Bank account details configured successfully!"
