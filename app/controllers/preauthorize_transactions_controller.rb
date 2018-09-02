@@ -57,9 +57,7 @@ class PreauthorizeTransactionsController < ApplicationController
     if validation_result.success
       if params[:payment_type].eql?('coupon_pay')
         price_break_down = price_break_down_locals(validation_result.data, listing)
-        total_amount_to_be_paid = (price_break_down[:total].cents/100).to_f
-        coupon_balance_of_current_user = (@current_user.coupon_balance_cents/100).to_f
-        if total_amount_to_be_paid > coupon_balance_of_current_user
+        if price_break_down[:total] > @current_user.coupon_balance
           error_msg = "Insufficient coupon balance!"
           render_error_response(request.xhr?, error_msg, listing_path(listing))
         else
@@ -414,12 +412,6 @@ class PreauthorizeTransactionsController < ApplicationController
         end_time:   tx_params[:end_time],
         per_hour:   tx_params[:per_hour]
       })
-    if params[:payment_type].eql?('coupon_pay')
-      total = (tx_response[:data][:gateway_fields][:sum].cents/100).to_f
-      coupon_balance = (@current_user.coupon_balance_cents/100).to_f
-      updated_bal = coupon_balance - total
-      @current_user.update_attribute(:coupon_balance, updated_bal)
-    end
     handle_tx_response(tx_response, params[:payment_type].to_sym)
   end
 

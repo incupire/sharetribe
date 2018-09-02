@@ -129,6 +129,10 @@ class Person < ApplicationRecord
     username
   end
 
+  def currency
+    community.currency
+  end  
+
   DEFAULT_TIME_FOR_COMMUNITY_UPDATES = 7.days
 
   # These are the email notifications, excluding newsletters settings

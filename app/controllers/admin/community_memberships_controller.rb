@@ -94,12 +94,18 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
   end
 
   def add_coupon_balance
+    currency = @current_community.currency
     person = Person.find(params[:id])
-    coupon_bal = person.coupon_balance.present? ? (person.coupon_balance_cents/100 + params[:coupon_balance_cents].to_f) : params[:coupon_balance_cents].to_f
-    person.update_attribute(:coupon_balance, coupon_bal)
+    cents = MoneyUtil.parse_str_to_subunits(params[:coupon_balance_cents], currency)
+    if person.coupon_balance_cents.present?
+      person.coupon_balance += MoneyUtil.to_money(cents, currency)    
+    else
+      person.coupon_balance = MoneyUtil.to_money(cents, currency)
+    end
+    person.save
     respond_to do |format|
       format.js {render layout: false}
-    end    
+    end
   end
 
   def deduct_coupon_balance
