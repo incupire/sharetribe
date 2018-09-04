@@ -1,14 +1,14 @@
 = javascript_include_tag "#{STRIPE_JS_HOST}/v3/"
 - if @current_user.has_coupon_balance?
   .pay_with_coupan
-    - if @current_user.has_coupon_balance? && @current_user.coupon_balance.to_i > 0
+    - if @current_user.has_coupon_balance? 
       .payment-button-wrapper.paypal-button-wrapper.left
         = button_tag "Pay with Ducat", id: "coupon-pay", class: 'checkout-with-coupon-pay',style:'margin: 0px;'
     .coupan_balances.for_booking
       %span.people-custom-fields-title.coupan_title Available Ducat balance:
       %span.price
-        ="$"+"#{@current_user.coupon_balance.to_i}"
-    %p.left Once you've purchased this Offer using your Ducat Credits,contact the Seller to Redeem your Offer.See detailed Redeem instructions on the offer Details page. 
+        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
+    %p.left Once you've purchased this offer using your Ducat Credits,contact the Seller to Redeem your offer. See detailed Redeem instructions on the offer details page. 
   %span.devide 
     %span.or or
 - if paypal_in_use
