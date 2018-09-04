@@ -932,7 +932,7 @@ en:
       request_rejected: Rejected
       request_confirmed: Completed
       request_confirmed_and_redeemed: "Completed Redeemed"
-      congrats_confirmed_and_redeemed: "Conrats! You have recieved the above amount in Ducat Credits"
+      congrats_confirmed_and_redeemed: "Completed Congrats! You have received the above amount in Ducat Credits"
       request_canceled: Canceled
       request_paid: "Payment successful"
       request_paid_and_available_coupon_balance: "Payment successful <b>in Ducat Credits</b> <element>Your remaining Ducat Credit balance %{avl_ducat_bal}</element>"
@@ -942,7 +942,7 @@ en:
       skip_feedback: "Skip feedback"
       waiting_for_listing_author_to_accept_offer: "Waiting for %{listing_author_name} to accept the offer"
       waiting_for_listing_author_to_accept_request: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you will be charged."
-      waiting_for_listing_author_to_accept_request_coupon: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you can follow Redeem instructions to recieve yout Offer"
+      waiting_for_listing_author_to_accept_request_coupon: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you can follow Redeem instructions to receive your Offer"
       waiting_for_you_to_accept_request: "Waiting for you to accept the request"
       waiting_confirmation_from_requester: "Waiting for %{requester_name} to mark the order completed"
       waiting_confirmation_from_you: "Waiting for you to mark the order completed"
