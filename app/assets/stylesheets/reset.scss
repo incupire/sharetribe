@@ -164,3 +164,108 @@ a img, img {
 hr {
   color: transparent;
   background: none; }
+.custom_balance {
+  opacity: 1 !important;
+  margin-left: 5px;
+}
+.coupan_balances {
+  .coupan_title {
+    font-size: 18px;
+    text-transform: capitalize;
+  }
+  span.price {
+    background: #eee;
+    padding: 7px 30px;
+    font-weight: 800;
+    border-radius: 4px;
+    font-size: 18px;
+  }
+  &.for_booking {
+    position: relative;
+    top: 10px;
+    left: 30px;
+    float: left;
+    span.price {
+      padding: 9px 30px;
+      @media (min-width: 320px) and (max-width: 480px) {
+        width: 100%;
+        float: left;
+        margin-top: 10px;
+      }
+    }
+    @media (min-width: 320px) and (max-width: 480px) {
+      left: 0px;
+      float: left;
+      width: 100%;
+      margin-bottom: 40px;
+      margin-top: 10px;
+    }
+  }
+}
+.pay_with_coupan {
+  max-width: 670px;
+  float: left;
+  padding: 15px;
+  width: 670px;
+  padding-left: 0px;
+  @media (min-width: 320px) and (max-width: 480px) {
+    width: 100%;
+  }
+  @media (min-width: 480px) and (max-width: 768px) {
+    width: 560px;
+  }
+  p {
+    margin: 0 auto;
+    float: none;
+    margin-left: 0px;
+    margin-top: 52px;
+    font-weight: 600;
+    font-size: 18px;
+    width: 100%;
+    @media (min-width: 320px) and (max-width: 480px) {
+      max-width: 100%;
+      max-width: 250px;
+    }
+    @media (min-width: 480px) and (max-width: 768px) {
+      max-width: 100%;
+    }
+  }
+}
+.devide {
+  border-top: 2px solid #ccc;
+  display: block;
+  float: left;
+  width: 100%;
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 20px;
+  .or {
+    margin-top: -15px;
+    display: block;
+    background: #fff;
+    width: 55px;
+    margin: -14px auto;
+    font-weight: 600;
+  }
+}
+.ban_icon {
+  float: left;
+  transform: rotate(125deg);
+}
+.text-part {
+  element {
+    font-weight: 600;
+    border: 1px solid #359235;
+    padding: 5px;
+    float: left;
+    margin-top: 10px;
+  }
+  &.red {
+    color: red;
+  }
+}
+.no_padding {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+  padding-top: 0px !important;
+}

@@ -282,8 +282,7 @@ Rails.application.routes.draw do
           member do
             put :ban
             put :unban
-            put :add_coupon_balance
-            put :deduct_coupon_balance
+            put :update_coupon_balance
           end
           collection do
             post :promote_admin

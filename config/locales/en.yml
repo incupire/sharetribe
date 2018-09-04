@@ -250,9 +250,9 @@ en:
         admin: Admin
         posting_allowed: "Posting allowed"
         ban_user: Ban
-        coupon_balance: "Coupon balance"
-        add_coupon_balance: "Add coupon balance"
-        deduct_coupon_balance: "Deduct coupon balance"
+        coupon_balance: "Ducat Balance"
+        add_coupon_balance: "Add ducat balance"
+        deduct_coupon_balance: "Deduct ducat balance"
         saving_user_status: Saving...
         save_user_status_successful: Saved
         export_all_as_csv: "Export all as CSV"
@@ -368,6 +368,17 @@ en:
             canceled: Canceled
             initiated: "Waiting Stripe payment"
             pending_ext: "Waiting Stripe payment"
+          coupon_pay:
+            free: Conversation
+            pending: Pending
+            preauthorized: "Ducat Pending"
+            accepted: Accepted
+            rejected: Declined
+            paid: Accepted
+            confirmed: Redeemed Completed
+            canceled: Canceled
+            initiated: "Waiting Stripe payment"
+            pending_ext: "Waiting Stripe payment"            
         not_available: "Not available"
       conversations:
         conversations: Conversations
@@ -920,12 +931,18 @@ en:
       request_accepted: Accepted
       request_rejected: Rejected
       request_confirmed: Completed
+      request_confirmed_and_redeemed: "Completed Redeemed"
+      congrats_confirmed_and_redeemed: "Conrats! You have recieved the above amount in Ducat Credits"
       request_canceled: Canceled
       request_paid: "Payment successful"
+      request_paid_and_available_coupon_balance: "Payment successful <b>in Ducat Credits</b> <element>Your remaining Ducat Credit balance %{avl_ducat_bal}</element>"
+      great_you_accepted_offer: "Great! You have Accepted this offer"
       request_preauthorized: "Payment authorized"
+      paid_with_coupon: "Paid with your Ducat Credits"
       skip_feedback: "Skip feedback"
       waiting_for_listing_author_to_accept_offer: "Waiting for %{listing_author_name} to accept the offer"
       waiting_for_listing_author_to_accept_request: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you will be charged."
+      waiting_for_listing_author_to_accept_request_coupon: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you can follow Redeem instructions to recieve yout Offer"
       waiting_for_you_to_accept_request: "Waiting for you to accept the request"
       waiting_confirmation_from_requester: "Waiting for %{requester_name} to mark the order completed"
       waiting_confirmation_from_you: "Waiting for you to mark the order completed"

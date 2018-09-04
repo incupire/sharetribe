@@ -93,33 +93,15 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     render body: nil, status: 200
   end
 
-  def add_coupon_balance
+  def update_coupon_balance
     currency = @current_community.currency
     person = Person.find(params[:id])
     cents = MoneyUtil.parse_str_to_subunits(params[:coupon_balance_cents], currency)
-    if person.coupon_balance_cents.present?
-      person.coupon_balance += MoneyUtil.to_money(cents, currency)    
-    else
-      person.coupon_balance = MoneyUtil.to_money(cents, currency)
-    end
+    person.coupon_balance = MoneyUtil.to_money(cents, currency)
     person.save
     respond_to do |format|
       format.js {render layout: false}
     end
-  end
-
-  def deduct_coupon_balance
-    person = Person.find(params[:id])
-    if person.coupon_balance.present? && ((person.coupon_balance_cents/100).to_f >= params[:coupon_balance_cents].to_f)
-      coupon_bal =   (person.coupon_balance_cents/100).to_f - params[:coupon_balance_cents].to_f
-      person.update_attribute(:coupon_balance, coupon_bal)
-      flash[:error] = nil
-    else
-      flash[:error] = "Deduction balance should not be greater than available balance!"
-    end 
-    respond_to do |format|
-      format.js {render layout: false}
-    end    
   end  
 
   private
