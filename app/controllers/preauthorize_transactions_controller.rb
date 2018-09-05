@@ -209,8 +209,8 @@ class PreauthorizeTransactionsController < ApplicationController
         community_id: @current_community.id,
         listing_author_id: listing.author.id
       })
-
-    unless ready[:data][:result] or @current_user.coupon_balance_cents.present?
+    
+    if ready[:data][:result] == false && @current_user.coupon_balance_cents.present? == false
       flash[:error] = t("layouts.notifications.listing_author_payment_details_missing")
 
       record_event(

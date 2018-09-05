@@ -25,7 +25,7 @@
     .row.coupan_balances
       %span.people-custom-fields-title.coupan_title Available Ducat balance:
       %span.price
-        ="$"+"#{@person.coupon_balance.to_i}"
+        = MoneyViewUtils.to_humanized(@person.coupon_balance).html_safe
     - if community_person_custom_fields.any?
       - community_person_custom_fields.each do |custom_field|
         - custom_field_value = @person.custom_field_value_for(custom_field)
