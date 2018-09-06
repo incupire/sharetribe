@@ -203,7 +203,7 @@
           <div class="col-md-6 col-sm-6 col-xs-12 top_categoris">
             <% unless @all_categories.blank? %>
               <% @all_categories.each_with_index do |category,index| %>
-                <% if index >= 12 %>
+                <% if index >= 12 && index <= 23%>
                   <%= link_to category.display_name(I18n.locale),search_path(category: category) %>
                 <% end %>
               <% end %>
