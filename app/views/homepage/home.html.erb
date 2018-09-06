@@ -1,11 +1,10 @@
 <div class="main_head_coverphoto col-md-12 col-sm-12 col-xs-12 no_padding_default">
   <div class="cover_photo">
-    <%#= image_tag 'main_cover.png',class:'acd' %>
     <h1 class="main_cover_title">
       <%= community_slogan.html_safe %>
     </h1>
-    <%= link_to '/en/signup' do %>
-    <%= button_tag 'JOIN THE COMMUNITY',class: 'community_tab' %>
+    <%= link_to sign_up_path do %>
+      <%= button_tag 'JOIN THE COMMUNITY',class: 'community_tab' %>
     <% end %>
     <p class="under_main_title">
       <%= community_description.html_safe %>
@@ -14,7 +13,6 @@
   <div class="main_wrapper">
     <div class="sub_wrapper">
       <h3 class="under_cover_photo_title">Start trading your excess capacity with the services below & much more...collaborate & gain high-quality local clients</h3>
-      <%#= link_to 'category',@category.last.url,class:'yutyhg'%>
       <div class="col-md-12 col-sm-12 col-xs-12 categories no_padding_default">
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
           <div class="listing_frame">
@@ -33,7 +31,7 @@
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
           <div class="listing_frame">
             <div class="image_frame">
-              <%= image_tag 'marketing_advertising.png', class: '' %>
+              <%= image_tag 'BeautySpas.png', class: '' %>
             </div>
             <div class="listing_details">
               <div class="category_heading">Beauty & <br>Spas</div>
@@ -68,7 +66,7 @@
               <%= link_to '/s?category=photography-and-video1' do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
-              <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
+              <div class="description">Need a new look for your website or a family photo shoot? Trade for it.</div>
             </div>
           </div>
         </div>
@@ -82,7 +80,7 @@
               <%= link_to '/s?category=food-and-drinks' do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
-              <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
+              <div class="description">Wanna take the family out to a nice dinner? Be smart and trade for it.</div>
             </div>
           </div>
         </div>
@@ -96,15 +94,14 @@
               <%= link_to '/s?category=events-and-things-to-do' do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
-              <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
+              <div class="description">Discover many fun experiences and events around town & save your cash</div>
             </div>
           </div>
         </div>
       </div>
       <div class="under_categories col-md-12 col-sm-12 col-xs-12">
-        <%= link_to 'Explore many more services in the marketplace','#' ,class:'more_services'%>
+        <%= link_to 'Explore many more services in the marketplace','javascript:void(0)' ,class:'more_services'%>
       </div>
-      
     </div>
   </div>
   <div class="main_wrapper_second">
@@ -157,7 +154,9 @@
         <div class="business_details">
           <h2>A MUST HAVE APP</h2>
           <p>We are creating a magical experience to connect local business owners, entrepreneurs, freelancers, influencers, makers, and doers to help grow your business</p>
-          <%=  button_tag 'Read More',class:'read_more_tab'%>
+          <%= link_to about_infos_path,class: 'anchor_web' do %>
+            <%=  button_tag 'Read More',class:'read_more_tab'%>
+          <% end %>  
         </div>
       </div>
     </div>
@@ -165,74 +164,50 @@
   <div class="footer_bottom">
     <div class="footer_wrapper">
       <ul class="social_icons_list">
-        <li><%= link_to 'https://www.instagram.com/avontage/' do %><i class="fa fa-instagram social_icons" aria-hidden="true"></i><% end %></li>
-        <li><%= link_to 'https://www.facebook.com/avontage/' do %><i class="fa fa-facebook social_icons" aria-hidden="true"></i><% end %></li>
-        <li><%= link_to 'https://www.linkedin.com/company/avontage/' do %><i class="fa fa-linkedin social_icons" aria-hidden="true"></i><% end %></li>
-        <li><%= link_to 'https://twitter.com/avontagebiz' do %><i class="fa fa-twitter social_icons" aria-hidden="true"></i><% end %></li>
-        <li><%= link_to 'https://www.pinterest.com/avontage/avontage/' do %><i class="fa fa-pinterest-p social_icons" aria-hidden="true"></i><% end %></li>
-        <li><%= link_to 'https://avontage.tumblr.com/' do %><i class="fa fa-tumblr social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://www.instagram.com/avontage/',target:"_blank" do %><i class="fa fa-instagram social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://www.facebook.com/avontage/',target:"_blank" do %><i class="fa fa-facebook social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://www.linkedin.com/company/avontage/',target:"_blank" do %><i class="fa fa-linkedin social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://twitter.com/avontagebiz',target:"_blank" do %><i class="fa fa-twitter social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://www.pinterest.com/avontage/avontage/',target:"_blank" do %><i class="fa fa-pinterest-p social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://avontage.tumblr.com/',target:"_blank" do %><i class="fa fa-tumblr social_icons" aria-hidden="true"></i><% end %></li>
       </ul>
       <div class="footer_list col-md-12 col-sm-12 col-xs-12">
         <div class="col-md-2 col-sm-2 col-xs-12 no_padding_default extra_div"></div>
         <div class="col-md-2 col-sm-2 col-xs-12 mobile_center">
           <span>Get started</span>
-          <%= link_to 'Create an account','/en/singup' %>
-          <%= link_to 'Post your Offers','/en/listings/new' %>
-          <%= link_to 'How-it-Works',how_to_use_infos_path %>
-          <%= link_to 'Terms of service',terms_infos_path %>
+          <%= link_to 'Create an account', sign_up_path %>
+          <%= link_to 'Post your Offers', new_listing_path %>
+          <%= link_to 'How-it-Works', how_to_use_infos_path %>
+          <%= link_to 'Terms of service', terms_infos_path %>
         </div>
         <div class="col-md-2 col-sm-2 col-xs-12 extra_div mobile_center">
           <span>Learn more</span>
-          <%= link_to 'Benefits','#' %>
-          <%= link_to 'FAQ','https://www.avontage.com/faq' %>
+          <%= link_to 'Benefits', 'https://www.avontage.com/benefits',target:"_blank" %>
+          <%= link_to 'FAQ','https://www.avontage.com/faq',target:"_blank" %>
           <%= link_to 'About Us',about_infos_path %>
-          <%= link_to 'Blog','#' %>
-          <%= link_to 'Help','#' %>
+          <%= link_to 'Blog','javascript:void(0)' %>
+          <%= link_to 'Help','javascript:void(0)' %>
           <%= link_to 'Privacy policy',privacy_infos_path %>
         </div>
         <div class="col-md-5 col-sm-5 col-xs-12 mobile_center">
           <span>Top categories</span>
           <div class="col-md-6 col-sm-6 col-xs-12 top_categoris">
-            <% if @all_categories.size > 0 %>
+            <% unless @all_categories.blank? %>
               <% @all_categories.each_with_index do |category,index| %>
                 <% if index < 12 %>
-                  <%= link_to category.url.gsub('-', ' ').capitalize,"/s?category="+"#{category.url}" %>
+                  <%= link_to category.display_name(I18n.locale), search_path(category: category) %>
                 <% end %>
               <% end %>
             <% end %>
-            <%#= link_to 'Accounting & Bookkeeping','#' %>
-            <%#= link_to 'Arts & Crafts','#' %>
-            <%#= link_to 'Attorney & Legal','#' %>
-            <%#= link_to 'Beauty & Spas','#' %>
-            <%#= link_to 'Business Services','#' %>
-            <%#= link_to 'Entertainment & Experiences','#' %>
-            <%#= link_to 'Event Planning','#' %>
-            <%#= link_to 'Food & Drink','#' %>
-            <%#= link_to 'Graphic Design','#' %>
-            <%#= link_to 'Health & Fitness','#' %>
-            <%#= link_to 'Healthcare & Wellness','#' %>
-            <%#= link_to 'Home & Real Estate','#' %>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12 top_categoris">
-            <% if @all_categories.size > 0 %>
+            <% unless @all_categories.blank? %>
               <% @all_categories.each_with_index do |category,index| %>
                 <% if index >= 12 %>
-                  <%= link_to category.url.gsub('-', ' ').capitalize,"/s?category="+"#{category.url}" %>
+                  <%= link_to category.display_name(I18n.locale),search_path(category: category) %>
                 <% end %>
               <% end %>
             <% end %>
-            <%#= link_to 'Influencers & Networking','#' %>
-            <%#= link_to 'Jewelry & Gifts','#' %>
-            <%#= link_to 'Lessons','#' %>
-            <%#= link_to 'Limos & Transportation','#' %>
-            <%#= link_to 'Maintenance & Repairs','#' %>
-            <%#= link_to 'Marketing & Advertising','#' %>
-            <%#= link_to 'Personal Services','#' %>
-            <%#= link_to 'Pet Services','#' %>
-            <%#= link_to 'Photography & Video','#' %>
-            <%#= link_to 'Technology Services','#' %>
-            <%#= link_to 'Travel & Getaway','#' %>
-            <%#= link_to 'Writing & Translation','#' %>
           </div>
         </div>
       </div>
