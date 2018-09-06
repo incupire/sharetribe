@@ -9,7 +9,7 @@ class HomepageController < ApplicationController
   # rubocop:disable AbcSize
   # rubocop:disable MethodLength
   def home
-    @category = Category.all
+    @all_categories = Category.all
   end
 
   def index

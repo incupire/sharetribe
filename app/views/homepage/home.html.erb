@@ -193,32 +193,46 @@
         <div class="col-md-5 col-sm-5 col-xs-12 mobile_center">
           <span>Top categories</span>
           <div class="col-md-6 col-sm-6 col-xs-12 top_categoris">
-            <%= link_to 'Accounting & Bookkeeping','#' %>
-            <%= link_to 'Arts & Crafts','#' %>
-            <%= link_to 'Attorney & Legal','#' %>
-            <%= link_to 'Beauty & Spas','#' %>
-            <%= link_to 'Business Services','#' %>
-            <%= link_to 'Entertainment & Experiences','#' %>
-            <%= link_to 'Event Planning','#' %>
-            <%= link_to 'Food & Drink','#' %>
-            <%= link_to 'Graphic Design','#' %>
-            <%= link_to 'Health & Fitness','#' %>
-            <%= link_to 'Healthcare & Wellness','#' %>
-            <%= link_to 'Home & Real Estate','#' %>
+            <% if @all_categories.size > 0 %>
+              <% @all_categories.each_with_index do |category,index| %>
+                <% if index < 12 %>
+                  <%= link_to category.url.gsub('-', ' ').capitalize,"/s?category="+"#{category.url}" %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <%#= link_to 'Accounting & Bookkeeping','#' %>
+            <%#= link_to 'Arts & Crafts','#' %>
+            <%#= link_to 'Attorney & Legal','#' %>
+            <%#= link_to 'Beauty & Spas','#' %>
+            <%#= link_to 'Business Services','#' %>
+            <%#= link_to 'Entertainment & Experiences','#' %>
+            <%#= link_to 'Event Planning','#' %>
+            <%#= link_to 'Food & Drink','#' %>
+            <%#= link_to 'Graphic Design','#' %>
+            <%#= link_to 'Health & Fitness','#' %>
+            <%#= link_to 'Healthcare & Wellness','#' %>
+            <%#= link_to 'Home & Real Estate','#' %>
           </div>
           <div class="col-md-6 col-sm-6 col-xs-12 top_categoris">
-            <%= link_to 'Influencers & Networking','#' %>
-            <%= link_to 'Jewelry & Gifts','#' %>
-            <%= link_to 'Lessons','#' %>
-            <%= link_to 'Limos & Transportation','#' %>
-            <%= link_to 'Maintenance & Repairs','#' %>
-            <%= link_to 'Marketing & Advertising','#' %>
-            <%= link_to 'Personal Services','#' %>
-            <%= link_to 'Pet Services','#' %>
-            <%= link_to 'Photography & Video','#' %>
-            <%= link_to 'Technology Services','#' %>
-            <%= link_to 'Travel & Getaway','#' %>
-            <%= link_to 'Writing & Translation','#' %>
+            <% if @all_categories.size > 0 %>
+              <% @all_categories.each_with_index do |category,index| %>
+                <% if index >= 12 %>
+                  <%= link_to category.url.gsub('-', ' ').capitalize,"/s?category="+"#{category.url}" %>
+                <% end %>
+              <% end %>
+            <% end %>
+            <%#= link_to 'Influencers & Networking','#' %>
+            <%#= link_to 'Jewelry & Gifts','#' %>
+            <%#= link_to 'Lessons','#' %>
+            <%#= link_to 'Limos & Transportation','#' %>
+            <%#= link_to 'Maintenance & Repairs','#' %>
+            <%#= link_to 'Marketing & Advertising','#' %>
+            <%#= link_to 'Personal Services','#' %>
+            <%#= link_to 'Pet Services','#' %>
+            <%#= link_to 'Photography & Video','#' %>
+            <%#= link_to 'Technology Services','#' %>
+            <%#= link_to 'Travel & Getaway','#' %>
+            <%#= link_to 'Writing & Translation','#' %>
           </div>
         </div>
       </div>
