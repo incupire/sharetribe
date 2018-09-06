@@ -1,5 +1,7 @@
 $('.coupon-balance-popup').trigger('close');
 <% person = Person.find(params[:id]) %>
+<%update_bal =  humanized_money(person.coupon_balance)%>
 <% available_balance = MoneyViewUtils.to_humanized(person.coupon_balance) %>
+$('[data-id="<%= params[:id]%>"]').data("ducat-bal", "<%=update_bal%>");
 $('#<%= params[:id]%>').html('<%= available_balance.html_safe %>');
 $('#coupon_balance_form')[0].reset();
