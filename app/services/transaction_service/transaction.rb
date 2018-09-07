@@ -122,7 +122,15 @@ module TransactionService::Transaction
                             gateway_fields: opts[:gateway_fields],
                             gateway_adapter: gateway_adapter,
                             force_sync: force_sync)
-    tx.reload
+    #Deduct renter coupon balance.
+    if res.success && tx.payment_gateway.eql?(:coupon_pay)
+      transaction = Transaction.find(tx[:id])
+      order_total = order_total(tx)
+      renter = transaction.starter
+      renter.coupon_balance = renter.coupon_balance - order_total
+      renter.save
+    end
+    tx.reload    
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -174,13 +182,17 @@ module TransactionService::Transaction
     gw = gateway_adapter(tx.payment_gateway)
 
     res = tx_process.reject(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
-    #return coupon balance to renter
+    #Return coupon balance to renter on reject
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
-      buyer_gets = order_total(tx)
       transaction = Transaction.find(tx[:id])
-      buyer = transaction.starter
-      buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
-      buyer.update_attribute(:coupon_balance, buyer_coupon_bal)
+      order_total = order_total(tx)
+      renter = transaction.starter
+      if renter.coupon_balance_cents.present?
+        renter.coupon_balance += order_total   
+      else
+        renter.coupon_balance = order_total
+      end
+      renter.save      
     end
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
@@ -207,17 +219,22 @@ module TransactionService::Transaction
     gw = gateway_adapter(tx.payment_gateway)
 
     res = tx_process.complete(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
+    # Add coupon balance to seller account on marked complete  
+    if res.success && tx.payment_gateway.eql?(:coupon_pay)
+      transaction = Transaction.find(tx[:id])
+      seller_gets = order_total(tx) - order_commission(tx)
+      seller = transaction.author
+      if seller.coupon_balance_cents.present?
+        seller.coupon_balance += seller_gets   
+      else
+        seller.coupon_balance = seller_gets
+      end
+      seller.save      
+      transaction.toggle!(:coupon_bal_refunded)
+    end      
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
-    if res.success && tx.payment_gateway.eql?(:coupon_pay)
-      seller_gets = order_total(tx) - order_commission(tx)
-      transaction = Transaction.find(tx[:id])
-      seller = transaction.author
-      seller_coupon_bal = seller.coupon_balance.present? ? ((seller.coupon_balance_cents/100).to_f + (seller_gets.cents/100).to_f) : (seller_gets.cents/100).to_f
-      seller.update_attribute(:coupon_balance, seller_coupon_bal)
-      transaction.toggle!(:coupon_bal_refunded)
-    end      
   end
 
   def cancel(community_id:, transaction_id:, message: nil, sender_id: nil)

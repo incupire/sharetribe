@@ -32,6 +32,7 @@
           %td
             = link_to person_transaction_path(person_id: @current_user.id, id: transaction.id) do
               = t("admin.communities.transactions.status.#{transaction.payment_gateway}.#{transaction.status}")
+            
           %td=transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""
           %td=l(transaction.created_at, format: :short_date)
           %td=l(transaction.last_activity, format: :short_date)

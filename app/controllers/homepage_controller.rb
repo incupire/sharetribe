@@ -8,6 +8,10 @@ class HomepageController < ApplicationController
 
   # rubocop:disable AbcSize
   # rubocop:disable MethodLength
+  def home
+    @all_categories = Category.all
+  end
+
   def index
     params = unsafe_params_hash.select{|k, v| v.present? }
 

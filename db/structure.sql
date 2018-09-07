@@ -1183,7 +1183,7 @@ CREATE TABLE `people` (
   `min_days_between_community_updates` int(11) DEFAULT '1',
   `deleted` tinyint(1) DEFAULT '0',
   `cloned_from` varchar(22) DEFAULT NULL,
-  `coupon_balance_cents` int(11) DEFAULT NULL,
+  `coupon_balance_cents` int(11) DEFAULT '0',
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -2274,6 +2274,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20180524075239'),
 ('20180524081429'),
 ('20180826043038'),
-('20180830105935');
+('20180830105935'),
+('20180904105153');
 
 

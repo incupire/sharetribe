@@ -1,4 +1,17 @@
 = javascript_include_tag "#{STRIPE_JS_HOST}/v3/"
+- if @current_user.has_coupon_balance?
+  .pay_with_coupan
+    - if @current_user.has_coupon_balance? 
+      .payment-button-wrapper.paypal-button-wrapper.left
+        = button_tag "Pay with Ducat", id: "coupon-pay", class: 'checkout-with-coupon-pay',style:'margin: 0px;'
+    .coupan_balances.for_booking
+      %span.people-custom-fields-title.coupan_title Available Ducat balance:
+      %span.price
+        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
+    %p.left Once you've purchased this offer using your Ducat Credits,contact the Seller to Redeem your offer. See detailed Redeem instructions on the offer details page.
+- if stripe_in_use   
+  %span.devide 
+    %span.or or
 - if paypal_in_use
   .row
     .col-12
@@ -49,17 +62,10 @@
       .col-12
 
   .row.stripe-payment
-    - if stripe_in_use && @current_user.has_coupon_balance?
+    - if stripe_in_use
       .col-6.payment-button-wrapper.paypal-button-wrapper
         = button_tag t("stripe_accounts.add_and_pay"), id: "send-add-card", class: 'checkout-with-stripe-button'
-      .col-6.payment-button-wrapper.paypal-button-wrapper
-        = button_tag t("stripe_accounts.pay_with_cupon"), id: "coupon-pay", class: 'checkout-with-coupon-pay',style:'margin: 0px;'
-    - elsif stripe_in_use
-      .col-6.payment-button-wrapper.paypal-button-wrapper
-        = button_tag t("stripe_accounts.add_and_pay"), id: "send-add-card", class: 'checkout-with-stripe-button'
-    - elsif @current_user.has_coupon_balance?
-      .col-6.payment-button-wrapper.paypal-button-wrapper
-        = button_tag t("stripe_accounts.pay_with_cupon"), id: "coupon-pay", class: 'checkout-with-coupon-pay',style:'margin: 0px;'     
+    
 
   - if stripe_in_use
     .row

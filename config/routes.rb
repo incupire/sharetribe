@@ -75,11 +75,11 @@ Rails.application.routes.draw do
   locale_matcher_anchored = Regexp.new("^(#{locale_regex_string})$")
 
   # Conditional routes for custom landing pages
-  get '/:locale/' => 'landing_page#index', as: :landing_page_with_locale, constraints: ->(request) {
+  get '/:locale/' => 'homepage#home', as: :landing_page_with_locale, constraints: ->(request) {
     locale_matcher_anchored.match(request.params["locale"]) &&
       CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
   }
-  get '/' => 'landing_page#index', as: :landing_page_without_locale, constraints: ->(request) {
+  get '/' => 'homepage#home', as: :landing_page_without_locale, constraints: ->(request) {
     CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
   }
 
@@ -282,8 +282,7 @@ Rails.application.routes.draw do
           member do
             put :ban
             put :unban
-            put :add_coupon_balance
-            put :deduct_coupon_balance
+            put :update_coupon_balance
           end
           collection do
             post :promote_admin

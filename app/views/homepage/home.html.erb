@@ -1,0 +1,218 @@
+<div class="main_head_coverphoto col-md-12 col-sm-12 col-xs-12 no_padding_default">
+  <div class="cover_photo">
+    <h1 class="main_cover_title">
+      <%= community_slogan.html_safe %>
+    </h1>
+    <%= link_to sign_up_path do %>
+      <%= button_tag 'JOIN THE COMMUNITY',class: 'community_tab' %>
+    <% end %>
+    <p class="under_main_title">
+      <%= community_description.html_safe %>
+    </p>
+  </div>
+  <div class="main_wrapper">
+    <div class="sub_wrapper">
+      <h3 class="under_cover_photo_title">Start trading your excess capacity with the services below & much more...collaborate & gain high-quality local clients</h3>
+      <div class="col-md-12 col-sm-12 col-xs-12 categories no_padding_default">
+        <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <div class="listing_frame">
+            <div class="image_frame">
+              <%= image_tag 'marketing_advertising.png', class: '' %>
+            </div>
+            <div class="listing_details">
+              <div class="category_heading">Marketing & Advertising</div>
+              <%= link_to '/s?category=marketing-and-advertising' do %>
+                <%= button_tag 'Explore Now',class:'explore_button' %>
+              <% end %>
+              <div class="description">Trade your services for marketing and advertising to promote your business</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <div class="listing_frame">
+            <div class="image_frame">
+              <%= image_tag 'BeautySpas.png', class: '' %>
+            </div>
+            <div class="listing_details">
+              <div class="category_heading">Beauty & <br>Spas</div>
+              <%= link_to '/s?category=beauty-and-spas' do %>
+                <%= button_tag 'Explore Now',class:'explore_button' %>
+              <% end %>
+              <div class="description">Need skincare, massage, or a stylist? Pay for it with your services</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <div class="listing_frame">
+            <div class="image_frame">
+              <%= image_tag 'Health_Fitness.png', class: '' %>
+            </div>
+            <div class="listing_details">
+              <div class="category_heading">Health & <br>Fitness</div>
+              <%= link_to '/s?category=health-and-fitness' do %>
+                <%= button_tag 'Explore Now',class:'explore_button' %>
+              <% end %>
+              <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <div class="listing_frame">
+            <div class="image_frame">
+              <%= image_tag 'Photography_Video.png', class: '' %>
+            </div>
+            <div class="listing_details">
+              <div class="category_heading">Photography &<br>Video</div>
+              <%= link_to '/s?category=photography-and-video1' do %>
+                <%= button_tag 'Explore Now',class:'explore_button' %>
+              <% end %>
+              <div class="description">Need a new look for your website or a family photo shoot? Trade for it.</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <div class="listing_frame">
+            <div class="image_frame">
+              <%= image_tag 'Food_Drinks.png', class: '' %>
+            </div>
+            <div class="listing_details">
+              <div class="category_heading">Food &<br>Drinks</div>
+              <%= link_to '/s?category=food-and-drinks' do %>
+                <%= button_tag 'Explore Now',class:'explore_button' %>
+              <% end %>
+              <div class="description">Wanna take the family out to a nice dinner? Be smart and trade for it.</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <div class="listing_frame">
+            <div class="image_frame">
+              <%= image_tag 'EventsThingsToDo.png', class: '' %>
+            </div>
+            <div class="listing_details">
+              <div class="category_heading">Events & <br>Things To Do</div>
+              <%= link_to '/s?category=events-and-things-to-do' do %>
+                <%= button_tag 'Explore Now',class:'explore_button' %>
+              <% end %>
+              <div class="description">Discover many fun experiences and events around town & save your cash</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="under_categories col-md-12 col-sm-12 col-xs-12">
+        <%= link_to 'Explore many more services in the marketplace','javascript:void(0)' ,class:'more_services'%>
+      </div>
+    </div>
+  </div>
+  <div class="main_wrapper_second">
+    <div class="col-md-12 col-sm-12 col-xs-12 no_padding_default main_frame_business">
+      <h2 class="heading_market">BENEFITS</h2>
+      <p class="below_heading_market">work & live like an owner!</p>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="listing_frame">
+          <div class="listing_image">
+            <%= image_tag 'EarnQualityLocalCustomers.png' ,class: 'earn_quality' %>
+          </div>
+          <div class="listing_description">
+            <h2>Earn Quality Local Customers</h2>
+            <p>Build loyalty and long-term relationships with like-minded business owners in your community</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="listing_frame">
+          <div class="listing_image">
+            <%= image_tag 'SaveYourCash.png' ,class: 'earn_quality' %>
+          </div>
+          <div class="listing_description">
+            <h2>Save Your Cash </h2>
+            <p>Discover many service offerings for your business or personal needs, delightful perks and experiences to trade with</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4 col-sm-4 col-xs-12">
+        <div class="listing_frame">
+          <div class="listing_image">
+            <%= image_tag 'GrowYourBusiness.png' ,class: 'earn_quality' %>
+          </div>
+          <div class="listing_description">
+            <h2>Grow Your Business</h2>
+            <p>Offer your excess capacity at your own schedule to fill up those slow times, and collaborate to earn high-quality clients</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="main_wrapper">
+    <div class="sub_wrapper">
+      <div class="col-md-7 col-sm-12 col-xs-12 no_padding_default">
+        <div class="business_group">
+          <%= image_tag 'business_group.png',class: 'business_image' %>
+        </div>
+      </div>
+      <div class="col-md-5 col-sm-12 col-xs-12 no_padding_default">
+        <div class="business_details">
+          <h2>A MUST HAVE APP</h2>
+          <p>We are creating a magical experience to connect local business owners, entrepreneurs, freelancers, influencers, makers, and doers to help grow your business</p>
+          <%= link_to about_infos_path,class: 'anchor_web' do %>
+            <%=  button_tag 'Read More',class:'read_more_tab'%>
+          <% end %>  
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="footer_bottom">
+    <div class="footer_wrapper">
+      <ul class="social_icons_list">
+        <li><%= link_to 'https://www.instagram.com/avontage/',target:"_blank" do %><i class="fa fa-instagram social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://www.facebook.com/avontage/',target:"_blank" do %><i class="fa fa-facebook social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://www.linkedin.com/company/avontage/',target:"_blank" do %><i class="fa fa-linkedin social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://twitter.com/avontagebiz',target:"_blank" do %><i class="fa fa-twitter social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://www.pinterest.com/avontage/avontage/',target:"_blank" do %><i class="fa fa-pinterest-p social_icons" aria-hidden="true"></i><% end %></li>
+        <li><%= link_to 'https://avontage.tumblr.com/',target:"_blank" do %><i class="fa fa-tumblr social_icons" aria-hidden="true"></i><% end %></li>
+      </ul>
+      <div class="footer_list col-md-12 col-sm-12 col-xs-12">
+        <div class="col-md-2 col-sm-2 col-xs-12 no_padding_default extra_div"></div>
+        <div class="col-md-2 col-sm-2 col-xs-12 mobile_center">
+          <span>Get started</span>
+          <%= link_to 'Create an account', sign_up_path %>
+          <%= link_to 'Post your Offers', new_listing_path %>
+          <%= link_to 'How-it-Works', how_to_use_infos_path %>
+          <%= link_to 'Terms of service', terms_infos_path %>
+        </div>
+        <div class="col-md-2 col-sm-2 col-xs-12 extra_div mobile_center">
+          <span>Learn more</span>
+          <%= link_to 'Benefits', 'https://www.avontage.com/benefits',target:"_blank" %>
+          <%= link_to 'FAQ','https://www.avontage.com/faq',target:"_blank" %>
+          <%= link_to 'About Us',about_infos_path %>
+          <%= link_to 'Blog','javascript:void(0)' %>
+          <%= link_to 'Help','javascript:void(0)' %>
+          <%= link_to 'Privacy policy',privacy_infos_path %>
+        </div>
+        <div class="col-md-5 col-sm-5 col-xs-12 mobile_center">
+          <span>Top categories</span>
+          <div class="col-md-6 col-sm-6 col-xs-12 top_categoris">
+            <% unless @all_categories.blank? %>
+              <% @all_categories.each_with_index do |category,index| %>
+                <% if index < 12 %>
+                  <%= link_to category.display_name(I18n.locale), search_path(category: category) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12 top_categoris">
+            <% unless @all_categories.blank? %>
+              <% @all_categories.each_with_index do |category,index| %>
+                <% if index >= 12 && index <= 23%>
+                  <%= link_to category.display_name(I18n.locale),search_path(category: category) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <h1 class="copyright">14747 N. Northsight Blvd Scottsdale, AZ 85260 <br>415.944.9067</h1>
+      <span class="color_15">©2018 by Avontage, LLC</span>  
+    </div>
+  </div>
+</div>

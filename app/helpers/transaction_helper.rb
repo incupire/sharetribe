@@ -213,19 +213,42 @@ module TransactionHelper
   def get_conversation_statuses(conversation, is_author)
     statuses = if conversation.listing && !conversation.status.eql?("free")
       status_hash = {
-        paid: ->() { {
-          both: [
-            status_info(t("conversations.status.request_paid"), icon_classes: icon_for("paid")),
-            delivery_status(conversation),
-            paid_status(conversation)
-          ]
-        } },
+        paid: ->() {
+          if conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.seller
+            {
+              author: [
+                status_info(t("conversations.status.great_you_accepted_offer"), icon_classes: icon_for("paid")),
+                delivery_status(conversation),
+                paid_status(conversation)
+              ],
+              starter: []
+            }            
+          elsif conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.buyer
+            {
+              starter: [
+                status_info(t("conversations.status.request_paid_and_available_coupon_balance", avl_ducat_bal: MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe).html_safe, icon_classes: icon_for("paid")),
+                delivery_status(conversation),
+                paid_status(conversation)
+              ],
+              author: [] 
+            }        
+          else
+            {
+              both: [
+                status_info(t("conversations.status.request_paid"), icon_classes: icon_for("paid")),
+                delivery_status(conversation),
+                paid_status(conversation)
+              ]
+            }
+          end   
+        },
         preauthorized: ->() { {
           both: [
-            status_info(t("conversations.status.request_preauthorized"), icon_classes: icon_for("preauthorized")),
+            status_info(conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.buyer ? t("conversations.status.paid_with_coupon") : t("conversations.status.request_preauthorized"), icon_classes: icon_for("preauthorized")),
             preauthorized_status(conversation)
           ]
-        } },
+          } 
+        },
         pending_ext: ->() {
           ## This is so wrong place to call services...
           #TODO Deprecated call, update to use PaypalService::API:Api.payments.get_payment
@@ -266,12 +289,32 @@ module TransactionHelper
             }
           end
         },
-        confirmed: ->() { {
-          both: [
-            status_info(t("conversations.status.request_confirmed"), icon_classes: icon_for("confirmed")),
-            feedback_status(conversation)
-          ]
-        } },
+        confirmed: ->() { 
+          if conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.seller
+            {
+              author: [
+                status_info(t("conversations.status.congrats_confirmed_and_redeemed") , icon_classes: icon_for("confirmed")),
+                feedback_status(conversation)
+              ],
+              starter: []
+            }             
+          elsif conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.buyer
+            {
+              starter: [
+                status_info(t("conversations.status.request_confirmed_and_redeemed") , icon_classes: icon_for("confirmed")),
+                feedback_status(conversation)
+              ],
+              author: []
+            }           
+          else  
+            {
+              both: [
+                status_info(t("conversations.status.request_confirmed") , icon_classes: icon_for("confirmed")),
+                feedback_status(conversation)
+              ]
+            } 
+          end
+        },
         canceled: ->() { {
           both: [
             status_info(t("conversations.status.request_canceled"), icon_classes: icon_for("canceled")),
@@ -431,13 +474,21 @@ module TransactionHelper
   end
 
   def waiting_for_author_to_accept_preauthorized(transaction)
-    text = t("conversations.status.waiting_for_listing_author_to_accept_request",
-      :listing_author_name => link_to(
-        PersonViewUtils.person_display_name_for_type(transaction.author, "first_name_only"),
-        transaction.author
-      )
-    ).html_safe
-
+    if transaction.payment_gateway == :coupon_pay
+      text = t("conversations.status.waiting_for_listing_author_to_accept_request_coupon",
+        :listing_author_name => link_to(
+          PersonViewUtils.person_display_name_for_type(transaction.author, "first_name_only"),
+          transaction.author
+        )
+      ).html_safe
+    else
+      text = t("conversations.status.waiting_for_listing_author_to_accept_request",
+        :listing_author_name => link_to(
+          PersonViewUtils.person_display_name_for_type(transaction.author, "first_name_only"),
+          transaction.author
+        )
+      ).html_safe
+    end
     status_info(text, icon_classes: 'ss-clock')
   end
 

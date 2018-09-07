@@ -42,7 +42,7 @@
 #  min_days_between_community_updates :integer          default(1)
 #  deleted                            :boolean          default(FALSE)
 #  cloned_from                        :string(22)
-#  coupon_balance_cents               :integer
+#  coupon_balance_cents               :integer          default(0)
 #
 # Indexes
 #
@@ -128,6 +128,10 @@ class Person < ApplicationRecord
   def to_param
     username
   end
+
+  def currency
+    community.currency
+  end  
 
   DEFAULT_TIME_FOR_COMMUNITY_UPDATES = 7.days
 
