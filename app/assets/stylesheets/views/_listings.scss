@@ -265,3 +265,45 @@ $listing-author-avatar-height: 108;
 .static-google-map {
   width: 100%;
 }
+.caps_one {
+  text-transform: capitalize;
+}
+.custom_grid_author {
+  height: auto;
+  float: left;
+  width: 100%;
+  .custom_title {
+    position: relative;
+    font-weight: 900;
+    text-transform: capitalize;
+    width: 65%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+  .home-fluid-thumbnail-grid-author-name {
+    position: relative;
+    left: 5px;
+    top: 5px;
+    color: #ff2600;
+  }
+  .modify_price {
+    background: transparent;
+    color: #ff2600;
+    font-weight: bold;
+    top: 6px;
+    .fluid-thumbnail-grid-image-quantity {
+      font-size: 18px;
+    }
+  }
+}
+@media (min-width: 48em){
+  .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
+      width: 50%;
+  }
+}
+@media (min-width: 63em){
+  .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
+      width: 33.333%;
+  }
+}
