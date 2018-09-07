@@ -302,6 +302,9 @@
         border-radius: 50%;
         padding: 7px;
         margin: 5px;
+        &:hover {
+          color: #fff;
+        }
       }
     }
     .footer_list {
@@ -340,6 +343,7 @@
         margin-top: 13px;
         &:hover {
           text-decoration: none;
+          color: #181818;
         }
       }
     }
