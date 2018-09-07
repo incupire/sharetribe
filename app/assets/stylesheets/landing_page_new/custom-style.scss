@@ -97,12 +97,13 @@
       overflow: hidden;
       transform: translateZ(0px);
       margin-right: 30px;
+      transition: 0.4s ease 0s;
       &.last {
         margin-right: 0px;
       }
       &:hover {
         transform: scale3d(1.02,1.02,1);
-        transition: 0.4s ease 0s
+        transition: 0.4s ease 0s;
       }
       .image_frame {
         height: 190px;
