@@ -23,7 +23,7 @@
             .ss-chat.icon-part
             .ss.text-part= t(".add_description")
     .row.coupan_balances
-      %span.people-custom-fields-title.coupan_title Available Ducat balance:
+      %span.people-custom-fields-title.coupan_title Your Available Ducat balance:
       %span.price
         = MoneyViewUtils.to_humanized(@person.coupon_balance).html_safe
     - if community_person_custom_fields.any?

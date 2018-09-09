@@ -131,7 +131,7 @@
                   - if show_subcategories
                     - category.children.each do |child|
                       - is_selected = selected_category == child
-                      = link_to child.display_name(I18n.locale), search_path(search_params.merge({category: child})), :class => "home-categories-sub #{if is_selected then 'selected' end}", :data => {:"sub-category" =>child.id}
+                      = link_to child.display_name(I18n.locale), search_path(search_params.merge({category: child})), :class => "home-categories-sub caps_one #{if is_selected then 'selected' end}", :data => {:"sub-category" =>child.id}
 
         #desktop-filters
           - # Filters will be relocated here when in desktop

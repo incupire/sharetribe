@@ -5,7 +5,7 @@
       .payment-button-wrapper.paypal-button-wrapper.left
         = button_tag "Pay with Ducat", id: "coupon-pay", class: 'checkout-with-coupon-pay',style:'margin: 0px;'
     .coupan_balances.for_booking
-      %span.people-custom-fields-title.coupan_title Available Ducat balance:
+      %span.people-custom-fields-title.coupan_title Your Available Ducat balance:
       %span.price
         = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
     %p.left Once you've purchased this offer using your Ducat Credits,contact the Seller to Redeem your offer. See detailed Redeem instructions on the offer details page.
