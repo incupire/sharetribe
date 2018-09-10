@@ -10,6 +10,7 @@ class HomepageController < ApplicationController
   # rubocop:disable MethodLength
   def home
     @all_categories = Category.all
+    redirect_to '/s' if logged_in?
   end
 
   def index
