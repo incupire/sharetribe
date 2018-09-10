@@ -1,0 +1,9 @@
+<% if flash[:error].present?%>
+  alert("<%=flash[:error]%>");
+<%else%>
+  $('.coupon-balance-popup').trigger('close');
+  <% person = Person.find(params[:id]) %>
+  <% available_balance = MoneyViewUtils.to_humanized(person.coupon_balance) %>
+  $('#coupon_balance_<%= params[:id]%>').html('<%= available_balance.html_safe %>');
+  $('#coupon_balance_form')[0].reset();
+<%end%>

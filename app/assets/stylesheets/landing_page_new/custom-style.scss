@@ -4,11 +4,14 @@
 .main_head_coverphoto {
   .cover_photo {
     float: left;
-    background: asset-url('main_cover.png') no-repeat;
+    //background: asset-url('main_cover.png');
     //background: url('cover_photo.png');
     width: 100%;
     height: 383px;
     position: relative;
+    background-size: cover !important;
+    background-position: center center !important;
+    background-repeat: no-repeat !important;
     .main_cover_title {
       text-align: center;
       margin-top: 65px;

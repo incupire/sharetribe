@@ -1,5 +1,6 @@
 = render :partial => 'layouts/head'
-- is_homepage = params[:controller] == "homepage" && params[:action] == "home"
+- is_homepage = params[:controller] == "homepage" && params[:action] == "index"
+- is_landing_page = params[:controller] == "homepage" && params[:action] == "home"
 %body
   %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css", :rel => "stylesheet"}
   %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800", :rel => "stylesheet"}
@@ -36,7 +37,7 @@
         = render partial: "layouts/admin_expiration_notice", locals: {external_plan_service_login_url: admin_plan_path}
       - else
         = render partial: "layouts/expiration_notice", locals: {contact_owner_link: new_user_feedback_path}
-    - if is_homepage
+    - if is_landing_page
       = yield
     - else
       - content_for(:page_content) do
@@ -46,7 +47,7 @@
               %figure.marketplace-cover.fluidratio
                 .lander-content.marketplace-lander-content
                   = yield :title_header
-          - elsif !(is_homepage && FeatureFlagHelper.feature_enabled?(:topbar_v1))
+          - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
             .coverimage
               %figure.marketplace-cover-small.fluidratio
               .coverimage-fade{:class => yield(:coverfade_class)}

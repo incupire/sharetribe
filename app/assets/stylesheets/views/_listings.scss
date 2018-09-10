@@ -275,6 +275,7 @@ $listing-author-avatar-height: 108;
   .custom_title {
     position: relative;
     font-weight: 900;
+    font-size: 14px;
     text-transform: capitalize;
     width: 65%;
     text-overflow: ellipsis;
@@ -285,6 +286,7 @@ $listing-author-avatar-height: 108;
     position: relative;
     left: 5px;
     top: 5px;
+    line-height: normal;
     color: #ff2600;
   }
   .modify_price {
@@ -293,7 +295,10 @@ $listing-author-avatar-height: 108;
     font-weight: bold;
     top: 6px;
     .fluid-thumbnail-grid-image-quantity {
-      font-size: 18px;
+      font-size: 14px;
+    }
+    .fluid-thumbnail-grid-image-price {
+      font-size: 14px;
     }
   }
 }
@@ -306,4 +311,11 @@ $listing-author-avatar-height: 108;
   .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
       width: 33.333%;
   }
+}
+.reviews_grid {
+  float: left;
+  position: relative;
+  left: 5px;
+  top: 5px;
+  font-size: 12px;
 }

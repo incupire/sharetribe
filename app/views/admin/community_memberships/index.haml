@@ -55,6 +55,8 @@
           %th= t("admin.communities.manage_members.admin")
           %th= t("admin.communities.manage_members.ban_user")
           %th= t("admin.communities.manage_members.coupon_balance")
+          %th= t("admin.communities.manage_members.add_coupon_balance")
+          %th= t("admin.communities.manage_members.deduct_coupon_balance")
 
       %tbody
         - @memberships.each do |membership|
@@ -79,11 +81,16 @@
                   data: {ban_url: ban_admin_community_community_membership_path(@current_community.id, membership.id),
                   unban_url: unban_admin_community_community_membership_path(@current_community.id, membership.id)},
                   class: "admin-members-ban-toggle"
+
+              %td.coupon_balance{id: "coupon_balance_#{member.id}"}
+                = MoneyViewUtils.to_humanized(member.coupon_balance).html_safe
               %td
-                .coupon_balance.left{id: "#{member.id}"}
-                  = MoneyViewUtils.to_humanized(member.coupon_balance).html_safe
-                %a.update_coupon_balance.custom_balance{href: '#', data: {id:  member.id, ducat_bal: humanized_money(member.coupon_balance)}}
-                  .icon-edit.left-navi-link-icon
+                %a.add_coupon_balance.custom_balance{href: '#', data: {id:  member.id, action: "add"}}
+                  %i.fa.fa-plus-square                
+
+              %td  
+                %a.deduct_coupon_balance.custom_balance{href: '#', data: {id:  member.id, action: "deduct"}}
+                  %i.fa.fa-minus-square                           
 
   .row
     .col-12
@@ -95,25 +102,33 @@
 
 .lightbox.lightbox-model.coupon-balance-popup
   .lightbox-content.code-popup.border-thick
-    %a{:href => "", :class => "close", :id => "close_x"}
+    %a{:href => "", :class => "close right", :id => "close_x"}
       %i.icon.icon-remove.icon-custom
     .row.heading-row
       .col-12
         = form_tag "#", remote: true, id: 'coupon_balance_form', method: :put do |f|
-          = label_tag :coupon_balance_cents , 'Update Ducat Balance'
-          = text_field_tag :coupon_balance_cents, "", class: 'avilabl_ducat_bal'
-          = button_tag 'Update'
+          = label_tag :coupon_balance_cents , 'Add Coupon Balance', class: "label_add_deduct"
+          = text_field_tag :coupon_balance_cents
+          = button_tag 'Add', class: 'add_deduct_btn'
 
 
 - content_for :extra_javascript do
   :javascript
     var community_id = '#{@current_community.id}';
-    $('.update_coupon_balance').on("click", function(e){
+    $('.add_coupon_balance, .deduct_coupon_balance').on("click", function(e){
       e.preventDefault();
       var person_id = $(this).data('id');
-      var ducat_bal = $(this).data('ducat-bal');
-      var form_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/update_coupon_balance";
-      $('.avilabl_ducat_bal').val(ducat_bal);
-      $('#coupon_balance_form').attr('action', form_url);
+      var action = $(this).data('action');
+      if (action == "add"){
+        add_bal_form_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/add_coupon_balance";
+        $('#coupon_balance_form').attr('action', add_bal_form_url);
+        $('.add_deduct_btn').text('Add');
+        $('.label_add_deduct').text('Add Ducat Balance');
+      }else if(action == "deduct"){
+        deduct_bal_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/deduct_coupon_balance";
+        $('#coupon_balance_form').attr('action', deduct_bal_url);
+        $('.add_deduct_btn').text('Deduct');
+        $('.label_add_deduct').text('Deduct Ducat  Balance');      
+      }
       $('.coupon-balance-popup').lightbox_me({centered: true, zIndex: 1000000})
-    });          
+    });        
