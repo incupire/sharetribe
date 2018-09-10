@@ -251,8 +251,8 @@ en:
         posting_allowed: "Posting allowed"
         ban_user: Ban
         coupon_balance: "Ducat Balance"
-        add_coupon_balance: "Add ducat balance"
-        deduct_coupon_balance: "Deduct ducat balance"
+        add_coupon_balance: "Add Ducat Balance"
+        deduct_coupon_balance: "Deduct Ducat Balance"
         saving_user_status: Saving...
         save_user_status_successful: Saved
         export_all_as_csv: "Export all as CSV"
