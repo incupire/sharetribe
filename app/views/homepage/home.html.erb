@@ -21,7 +21,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Marketing & Advertising</div>
-              <%= link_to '/s?category=marketing-and-advertising' do %>
+              <%= link_to logged_in? ? "/s?category=marketing-and-advertising" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Trade your services for marketing and advertising to promote your business</div>
@@ -35,7 +35,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Beauty & <br>Spas</div>
-              <%= link_to '/s?category=beauty-and-spas' do %>
+              <%= link_to logged_in? ? "/s?category=beauty-and-spas" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Need skincare, massage, or a stylist? Pay for it with your services</div>
@@ -49,7 +49,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Health & <br>Fitness</div>
-              <%= link_to '/s?category=health-and-fitness' do %>
+              <%= link_to logged_in? ? "/s?category=health-and-fitness" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
@@ -63,7 +63,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Photography &<br>Video</div>
-              <%= link_to '/s?category=photography-and-video1' do %>
+              <%= link_to logged_in? ? "/s?category=photography-and-video1" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Need a new look for your website or a family photo shoot? Trade for it.</div>
@@ -77,7 +77,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Food &<br>Drinks</div>
-              <%= link_to '/s?category=food-and-drinks' do %>
+              <%= link_to logged_in? ? "/s?category=food-and-drinks" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Wanna take the family out to a nice dinner? Be smart and trade for it.</div>
@@ -91,7 +91,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Events & <br>Things To Do</div>
-              <%= link_to '/s?category=events-and-things-to-do' do %>
+              <%= link_to logged_in? ? "/s?category=events-and-things-to-do" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Discover many fun experiences and events around town & save your cash</div>
@@ -100,7 +100,7 @@
         </div>
       </div>
       <div class="under_categories col-md-12 col-sm-12 col-xs-12">
-        <%= link_to 'Explore many more services in the marketplace','/s' ,class:'more_services'%>
+        <%= link_to 'Explore many more services in the marketplace', logged_in? ? '/s' : sign_up_path ,class:'more_services'%>
       </div>
     </div>
   </div>
@@ -195,7 +195,7 @@
             <% unless @all_categories.blank? %>
               <% @all_categories.each_with_index do |category,index| %>
                 <% if index < 12 %>
-                  <%= link_to category.display_name(I18n.locale), search_path(category: category) %>
+                  <%= link_to category.display_name(I18n.locale), logged_in? ? search_path(category: category) : sign_up_path %>
                 <% end %>
               <% end %>
             <% end %>
@@ -204,7 +204,7 @@
             <% unless @all_categories.blank? %>
               <% @all_categories.each_with_index do |category,index| %>
                 <% if index >= 12 && index <= 23%>
-                  <%= link_to category.display_name(I18n.locale),search_path(category: category) %>
+                  <%= link_to category.display_name(I18n.locale), logged_in? ? search_path(category: category) : sign_up_path %>
                 <% end %>
               <% end %>
             <% end %>
