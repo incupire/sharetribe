@@ -286,6 +286,7 @@ $listing-author-avatar-height: 108;
     position: relative;
     left: 5px;
     top: 5px;
+    line-height: normal;
     color: #ff2600;
   }
   .modify_price {
@@ -310,4 +311,11 @@ $listing-author-avatar-height: 108;
   .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
       width: 33.333%;
   }
+}
+.reviews_grid {
+  float: left;
+  position: relative;
+  left: 5px;
+  top: 5px;
+  font-size: 12px;
 }
