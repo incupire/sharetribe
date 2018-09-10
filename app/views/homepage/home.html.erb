@@ -1,7 +1,8 @@
 <div class="main_head_coverphoto col-md-12 col-sm-12 col-xs-12 no_padding_default">
-  <div class="cover_photo">
+  <div class="cover_photo" style="background: url('<%= @current_community.cover_photo.url %>');">
     <h1 class="main_cover_title">
       <%= community_slogan.html_safe %>
+      <%binding.pry%>
     </h1>
     <%= link_to sign_up_path do %>
       <%= button_tag 'JOIN THE COMMUNITY',class: 'community_tab' %>
