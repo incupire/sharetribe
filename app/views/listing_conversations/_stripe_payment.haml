@@ -8,7 +8,10 @@
       %span.people-custom-fields-title.coupan_title Your Available Ducat balance:
       %span.price
         = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
-    %p.left Once you've purchased this offer using your Ducat Credits,contact the Seller to Redeem your offer. See detailed Redeem instructions on the offer details page.
+    %p.left
+      / Once you've purchased this offer using your Ducat Credits,contact the Seller to Redeem your offer. See detailed Redeem instructions on the offer details page.
+      Once you've purchased this Offer using your Ducat Credits, and the Seller has Accepted, contact the Seller to Redeem your offer. See REDEEM INSTRUCTIONS on the Offer page.Ducat credits will be charged only if ​#{@listing.author.username} accepts this transaction.If #{@listing.author.username} declines, no charge is applied to your Ducat balance.
+    - binding.pry
 - if stripe_in_use   
   %span.devide 
     %span.or or
