@@ -177,6 +177,16 @@ function add_validator_methods() {
       $(element).val(value);
       return $.validator.methods.email.call(this, value, element)
     });
+
+    $.validator.
+      addMethod("listing_author_required", function(value, element) {
+        value = $('#listing_author_id').val();
+        if(value == ' '){
+          return false
+        }else{
+          return true
+        }
+      });
 }
 
 // Initialize code that is needed for every view

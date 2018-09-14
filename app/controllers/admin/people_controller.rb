@@ -49,7 +49,11 @@ class Admin::PeopleController < Admin::AdminBaseController
     people = Person.left_outer_joins(:emails)
                 .where("(emails.address LIKE ? OR people.username LIKE ?)", "%#{term}%", "%#{term}%")
                 .where.not(emails: {confirmed_at: nil})
-    render :json => people.map { |person| {:id => person.id, :label => person&.primary_email&.address, value: person&.primary_email&.address} }          
+    if people.present?        
+      render :json => people.map { |person| {:id => person.id, :label => person&.primary_email&.address, value: person&.primary_email&.address} }          
+    else
+      render :json =>  [{:label => "No Such user exists!", :value => " "}]
+    end
   end
 
   def destroy
