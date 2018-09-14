@@ -59,6 +59,7 @@
           %th= t("admin.communities.manage_members.coupon_balance")
           %th= t("admin.communities.manage_members.add_coupon_balance")
           %th= t("admin.communities.manage_members.deduct_coupon_balance")
+          %th= t("admin.communities.manage_members.delete_user")
 
       %tbody
         - @memberships.each do |membership|
@@ -92,7 +93,11 @@
 
               %td  
                 %a.deduct_coupon_balance.custom_balance{href: '#', data: {id:  member.id, action: "deduct"}}
-                  %i.fa.fa-minus-square                           
+                  %i.fa.fa-minus-square
+
+              %td  
+                %a.custom_balance{href: admin_person_path(member.username), data: {method: :delete}}
+                  %i.fa.fa-user-times
 
   .row
     .col-12

@@ -142,7 +142,13 @@ class ListingsController < ApplicationController
     @listing = Listing.new(result.data)
 
     ActiveRecord::Base.transaction do
-      @listing.author = @current_user
+      author = if params[:author_id_admin_pov].present?
+        Person.find(params[:author_id_admin_pov])
+      else
+        @current_user
+      end
+
+      @listing.author = author
 
       if @listing.save
         @listing.upsert_field_values!(params.to_unsafe_hash[:custom_fields])

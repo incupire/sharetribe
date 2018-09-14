@@ -1,4 +1,5 @@
 class Admin::PeopleController < Admin::AdminBaseController
+
   def new
     @person = if params[:person] then
       Person.new(params[:person].slice(:given_name, :family_name, :email, :username).permit!)
@@ -42,6 +43,42 @@ class Admin::PeopleController < Admin::AdminBaseController
 
     redirect_to admin_community_community_memberships_path(@current_community)
   end
+
+  def autocomplete_person_emails
+    term  = params[:term]
+    people = Person.includes(:emails).
+                    where("(emails.address LIKE ? OR people.username LIKE ?)", "%#{term}%", "%#{term}%").
+                    where.not(emails: {confirmed_at: nil}).references(:person)
+    render :json => people.map { |person| {:id => person.id, :label => person&.primary_email&.address, value: person&.primary_email&.address} }          
+  end
+
+  def destroy
+    target_user = Person.find_by!(username: params[:id], community_id: @current_community.id)
+
+    has_unfinished = TransactionService::Transaction.has_unfinished_transactions(target_user.id)
+    only_admin = @current_community.is_person_only_admin(target_user)
+
+    return redirect_to search_path if has_unfinished || only_admin
+
+    stripe_del = StripeService::API::Api.accounts.delete_seller_account(community_id: @current_community.id,
+                                                                        person_id: target_user.id)
+    unless stripe_del[:success]
+      flash[:error] =  t("layouts.notifications.stripe_you_account_balance_is_not_0")
+      return redirect_to search_path
+    end
+
+    # Do all delete operations in transaction. Rollback if any of them fails
+    ActiveRecord::Base.transaction do
+      Person.delete_user(target_user.id)
+      Listing.delete_by_author(target_user.id)
+      PaypalAccount.where(person_id: target_user.id, community_id: target_user.community_id).delete_all
+    end
+
+    #sign_out target_user
+    record_event(flash, 'user', {action: "deleted", opt_label: "by user"})
+    flash[:notice] = t("layouts.notifications.account_deleted_by_admin")
+    redirect_to admin_community_community_memberships_path(@current_community, sort: "join_date", direction: "desc")
+  end  
 
   private
 

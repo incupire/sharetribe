@@ -253,6 +253,7 @@ en:
         coupon_balance: "Ducat Balance"
         add_coupon_balance: "Add Ducat Balance"
         deduct_coupon_balance: "Deduct Ducat Balance"
+        delete_user: "Delete"
         saving_user_status: Saving...
         save_user_status_successful: Saved
         export_all_as_csv: "Export all as CSV"
@@ -415,6 +416,7 @@ en:
           updated: Updated
           category: Category
           status: Status
+          delete_listing: Delete
         open: Open
         closed: Closed
         expired: Expired
@@ -1538,6 +1540,7 @@ en:
       login_failed: "Login failed. Please enter the correct credentials."
       account_creation_successful: "Welcome to %{service_name}, %{person_name}!"
       account_deleted: "Your account is now deleted."
+      account_deleted_by_admin: "Account deleted settings"
       login_successful: "Welcome, %{person_name}!"
       logout_successful: "You have now been logged out of %{service_name}. See you soon!"
       news_item_created: "Article created"

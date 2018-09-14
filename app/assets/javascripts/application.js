@@ -24,6 +24,8 @@
 //= require jquery-ui-1.9.2.sortable
 //= require jquery.ui.touch-punch.min.js
 //= require jquery_ujs
+//= require jquery-ui/widgets/autocomplete
+//= require autocomplete-rails
 //= require jquery.form
 //= require jquery.validate
 //= require jquery.pageless
