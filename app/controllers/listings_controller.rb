@@ -142,10 +142,16 @@ class ListingsController < ApplicationController
     @listing = Listing.new(result.data)
 
     ActiveRecord::Base.transaction do
-      author = if params[:author_id_admin_pov].present?
-        Person.find(params[:author_id_admin_pov])
+      if params[:listing][:author_id].present?
+        #Admin point of view create new listing
+        author = Person.joins(:emails).where(emails: {address: params[:listing][:author_id]}).first
+        unless author.present?
+          flash[:error] = "Invalid author!"
+          redirect_to new_listing_path
+          return
+        end
       else
-        @current_user
+        author = @current_user
       end
 
       @listing.author = author

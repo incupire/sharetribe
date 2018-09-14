@@ -1,16 +1,2 @@
 = form.label 'Select Person'
-= form.autocomplete_field :author_id, '/admin/people/autocomplete_person_emails',class: "title_text_field" 
-= hidden_field_tag 'author_id_admin_pov'
-
-- content_for :autocmlt_js do
-  :javascript
-    $('#listing_author_id').bind('railsAutocomplete.select', function(event, data){
-       $('#author_id_admin_pov').val(data.item.id);
-    });
-
-- if run_js_immediately
-  = yield :autocmlt_js
-- else
-  - content_for :extra_javascript do
-    = yield :autocmlt_js
-
+= form.autocomplete_field :author_id, '/admin/people/autocomplete_person_emails',class: "title_text_field"

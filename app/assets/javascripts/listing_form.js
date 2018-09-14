@@ -464,7 +464,7 @@ window.ST = window.ST || {};
       },
       debug: false,
       rules: _.extend(numericRules, {
-        "listing[author_id]": {required: true, listing_author_required: true},
+        "listing[author_id]": {required: true, remote: "/admin/people/validate_listing_author"},
         "listing[title]": {required: true, minlength: 2, maxlength: 60},
         "listing[origin]": {address_validator: true},
         "listing[price]": {required: pr, money: true, minimum_price_required: [minimum_price, subunit_to_unit]},
@@ -473,7 +473,7 @@ window.ST = window.ST || {};
         "listing[valid_until(1i)]": { min_date: true, max_date: true }
       }),
       messages: {
-        "listing[author_id]": {listing_author_required: "Please select a valid user!"},
+        "listing[author_id]": {remote: "Please select a valid user!"},
         "listing[valid_until(1i)]": { min_date: date_message, max_date: date_message },
         "listing[price]": { minimum_price_required: minimum_price_message }
       },

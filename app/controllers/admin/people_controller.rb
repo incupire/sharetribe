@@ -56,6 +56,13 @@ class Admin::PeopleController < Admin::AdminBaseController
     end
   end
 
+  def validate_listing_author
+    author = Person.joins(:emails).where(emails: {address: params[:listing][:author_id]}).first
+    respond_to do |format|
+      format.json { render :json => author.present? ? true : false }
+    end
+  end
+
   def destroy
     target_user = Person.find_by!(username: params[:id], community_id: @current_community.id)
 

@@ -341,6 +341,7 @@ Rails.application.routes.draw do
       resources :people, only: [:new, :create, :destroy] do
         collection do
           get :autocomplete_person_emails
+          get :validate_listing_author
         end
       end
     end

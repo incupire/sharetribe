@@ -242,6 +242,7 @@ en:
         delete_this_marketplace: "Delete this marketplace"
         payment_preferences: "Payment system"
       manage_members:
+        add_new_user: "Add New User"
         manage_members: Users
         email: Email
         name: Name
