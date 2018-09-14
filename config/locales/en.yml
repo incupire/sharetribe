@@ -2051,6 +2051,7 @@ en:
       invitation_code: "Invitation code"
       not_required: ", not required"
       notification_is_mandatory: "You must pick at least one email address for receiving notifications. If you don't want to receive any emails from %{service_name}, check your email notification settings."
+      password: "Password"
       password_again: "Confirm password"
       show_my_name_to_others: "Show my real name to other %{service_name} users"
       sign_up: "Create a new %{service_name} account"

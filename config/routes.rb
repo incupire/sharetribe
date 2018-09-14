@@ -338,6 +338,7 @@ Rails.application.routes.draw do
         end
       end
       resource :plan, only: [:show]
+      resources :people, only: [:new, :create]
     end
 
     resources :invitations, only: [:new, :create ] do

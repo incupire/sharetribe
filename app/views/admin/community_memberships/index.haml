@@ -34,6 +34,8 @@
         = submit_tag t("admin.communities.manage_members.search"), class: 'button search-button'
         = link_to    t("admin.communities.manage_members.reset_search"), admin_community_community_memberships_path(@current_community.id)
 
+  .inline_user_btns
+    = link_to t("admin.communities.manage_members.add_new_user"), new_admin_person_path, class: 'button space_around'
   - if params[:q].blank?
     #export-as-csv.right= link_to(" " + t("admin.communities.manage_members.export_all_as_csv"), {format: :csv}, {class: "js-users-csv-export " + icon_class("download")})
 
