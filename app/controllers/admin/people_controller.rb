@@ -46,9 +46,9 @@ class Admin::PeopleController < Admin::AdminBaseController
 
   def autocomplete_person_emails
     term  = params[:term]
-    people = Person.includes(:emails).
-                    where("(emails.address LIKE ? OR people.username LIKE ?)", "%#{term}%", "%#{term}%").
-                    where.not(emails: {confirmed_at: nil}).references(:person)
+    people = Person.left_outer_joins(:emails)
+                .where("(emails.address LIKE ? OR people.username LIKE ?)", "%#{term}%", "%#{term}%")
+                .where.not(emails: {confirmed_at: nil})
     render :json => people.map { |person| {:id => person.id, :label => person&.primary_email&.address, value: person&.primary_email&.address} }          
   end
 

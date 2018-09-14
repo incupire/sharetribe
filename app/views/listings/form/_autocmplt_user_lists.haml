@@ -1,5 +1,5 @@
 = form.label 'Select Person'
-= form.autocomplete_field :author_id, '/admin/people/autocomplete_person_emails',class: "title_text_field"
+= form.autocomplete_field :author_id, '/admin/people/autocomplete_person_emails',class: "title_text_field", required: true 
 = hidden_field_tag 'author_id_admin_pov'
 
 - content_for :autocmlt_js do
