@@ -276,8 +276,7 @@ i.icon.icon-remove.icon-custom:before {
   font-weight: bold;
 }
 
-#sidewinder-wrapper + #ui-id-1 {
-  z-index: 1050;
+#sidewinder-wrapper + .ui-menu {
   padding-left: 0px;
   list-style: none;
   background: white;
@@ -287,4 +286,7 @@ i.icon.icon-remove.icon-custom:before {
   .ui-menu-item {
     padding: 8px;
   }
+}
+.ui-helper-hidden-accessible {
+  display: none;
 }
