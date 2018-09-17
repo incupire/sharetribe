@@ -142,7 +142,19 @@ class ListingsController < ApplicationController
     @listing = Listing.new(result.data)
 
     ActiveRecord::Base.transaction do
-      @listing.author = @current_user
+      if params[:listing][:author_id].present?
+        #Admin point of view create new listing
+        author = Person.joins(:emails).where(emails: {address: params[:listing][:author_id]}).first
+        unless author.present?
+          flash[:error] = "Invalid author!"
+          redirect_to new_listing_path
+          return
+        end
+      else
+        author = @current_user
+      end
+
+      @listing.author = author
 
       if @listing.save
         @listing.upsert_field_values!(params.to_unsafe_hash[:custom_fields])

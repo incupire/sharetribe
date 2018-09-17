@@ -11,6 +11,7 @@ gem 'sass-rails', '~> 5.0.6'
 gem 'compass-rails', '~> 3.0.2'
 
 gem 'jquery-rails', '~> 4.3.1'
+gem 'jquery-ui-rails'
 
 # Bundle the extra gems:
 
@@ -171,3 +172,4 @@ gem 'intercom'
 gem 'twitter_cldr'
 gem 'memoist'
 gem 'biz'
+gem 'rails-jquery-autocomplete'

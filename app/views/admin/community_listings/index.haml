@@ -27,6 +27,7 @@
         %th= t("admin.communities.listings.headers.category")
         %th= t("admin.communities.listings.headers.status")
         %th
+        %th= t("admin.communities.listings.headers.delete_listing")
 
     %tbody
       - @listings.each do |listing|
@@ -51,6 +52,9 @@
           %td
             = link_to edit_listing_path(listing) do
               = icon_tag("edit")
+          %td  
+            %a.custom_balance{href: admin_community_listing_path(@current_community.id,listing.id), data: {method: :delete}}
+              %i.fa.fa-trash
 
   .row
     .col-12

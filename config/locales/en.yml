@@ -242,6 +242,7 @@ en:
         delete_this_marketplace: "Delete this marketplace"
         payment_preferences: "Payment system"
       manage_members:
+        add_new_user: "Add New User"
         manage_members: Users
         email: Email
         name: Name
@@ -253,6 +254,7 @@ en:
         coupon_balance: "Ducat Balance"
         add_coupon_balance: "Add Ducat Balance"
         deduct_coupon_balance: "Deduct Ducat Balance"
+        delete_user: "Delete"
         saving_user_status: Saving...
         save_user_status_successful: Saved
         export_all_as_csv: "Export all as CSV"
@@ -415,6 +417,7 @@ en:
           updated: Updated
           category: Category
           status: Status
+          delete_listing: Delete
         open: Open
         closed: Closed
         expired: Expired
@@ -1538,6 +1541,7 @@ en:
       login_failed: "Login failed. Please enter the correct credentials."
       account_creation_successful: "Welcome to %{service_name}, %{person_name}!"
       account_deleted: "Your account is now deleted."
+      account_deleted_by_admin: "Account deleted settings"
       login_successful: "Welcome, %{person_name}!"
       logout_successful: "You have now been logged out of %{service_name}. See you soon!"
       news_item_created: "Article created"
@@ -2051,6 +2055,7 @@ en:
       invitation_code: "Invitation code"
       not_required: ", not required"
       notification_is_mandatory: "You must pick at least one email address for receiving notifications. If you don't want to receive any emails from %{service_name}, check your email notification settings."
+      password: "Password"
       password_again: "Confirm password"
       show_my_name_to_others: "Show my real name to other %{service_name} users"
       sign_up: "Create a new %{service_name} account"
