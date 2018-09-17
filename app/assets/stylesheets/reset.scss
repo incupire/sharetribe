@@ -275,3 +275,16 @@ i.icon.icon-remove.icon-custom:before {
   font-style: initial;
   font-weight: bold;
 }
+
+#sidewinder-wrapper + #ui-id-1 {
+  z-index: 1050;
+  padding-left: 0px;
+  list-style: none;
+  background: white;
+  float: left;
+  border: 1px solid rgb(195, 195, 195);
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
+  .ui-menu-item {
+    padding: 8px;
+  }
+}
