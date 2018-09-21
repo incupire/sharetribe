@@ -59,7 +59,7 @@
           %th= t("admin.communities.manage_members.coupon_balance")
           %th= t("admin.communities.manage_members.add_coupon_balance")
           %th= t("admin.communities.manage_members.deduct_coupon_balance")
-          %th
+          %th= t("admin.communities.manage_members.edit_profile")
           %th= t("admin.communities.manage_members.delete_user")
 
       %tbody
@@ -101,7 +101,7 @@
                   = icon_tag("edit")
 
               %td  
-                %a.custom_balance{href: admin_person_path(member.username), data: {method: :delete, confirm: "Are you sure you want to delete"}}
+                %a.custom_balance{href: admin_person_path(member.username), data: {method: :delete, confirm: "Are you sure you want to delete!"}}
                   %i.fa.fa-user-times
 
   .row
