@@ -9,7 +9,7 @@ class EnsureCanAccessPerson
     current_user = controller.current_user
     username = controller.params[@param_name]
 
-    unless current_user && current_user.username == username
+    unless current_user.has_admin_rights?(current_user.community) || (current_user && current_user.username == username)
       controller.flash[:error] = I18n.t(@error_message_key)
       controller.redirect_to controller.root and return
     end

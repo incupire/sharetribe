@@ -255,6 +255,7 @@ en:
         add_coupon_balance: "Add Ducat Balance"
         deduct_coupon_balance: "Deduct Ducat Balance"
         delete_user: "Delete"
+        edit_profile: "Edit"
         saving_user_status: Saving...
         save_user_status_successful: Saved
         export_all_as_csv: "Export all as CSV"
