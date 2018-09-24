@@ -101,7 +101,7 @@
                   = icon_tag("edit")
 
               %td  
-                %a.custom_balance{href: admin_person_path(member.username), data: {method: :delete, confirm: "Are you sure you want to delete!"}}
+                %a.custom_balance{href: admin_community_community_membership_path(@current_community.id, membership.id), data: {method: :delete, confirm: "Are you sure you want to delete!"}}
                   %i.fa.fa-user-times
 
   .row

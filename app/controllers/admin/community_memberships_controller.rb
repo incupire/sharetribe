@@ -122,7 +122,15 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     respond_to do |format|
       format.js {render layout: false}
     end    
-  end 
+  end
+
+  def destroy
+    membership = CommunityMembership.find_by(id: params[:id], community_id: @current_community.id)
+    person = membership.person
+    person.destroy
+    flash[:notice] = 'User deleted successfully!'
+    redirect_to admin_community_community_memberships_path(@current_community)
+  end   
 
   private
 
