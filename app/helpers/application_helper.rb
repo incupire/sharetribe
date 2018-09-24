@@ -571,7 +571,7 @@ module ApplicationHelper
         :id => "settings-tab-payments",
         :text => t("layouts.settings.payments"),
         :icon_class => icon_class("payments"),
-        :path => person_payment_settings_path(@current_user),
+        :path => person_payment_settings_path(person),
         :name => "payments"
       }
     end
