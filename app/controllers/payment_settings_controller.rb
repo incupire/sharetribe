@@ -23,7 +23,7 @@ class PaymentSettingsController < ApplicationController
 
     # If we can't create both account and link external bank account, ignore this partial record, and not store in our DB
     if @stripe_error && @just_created && @stripe_account_ready
-      stripe_accounts_api.destroy(community_id: @current_community.id, person_id: @current_user.id)
+      stripe_accounts_api.destroy(community_id: @current_community.id, person_id: target_user.id)
       @stripe_account[:stripe_seller_id] = nil
       @stripe_account_ready = false
       render 'index', locals: index_view_locals
@@ -91,7 +91,7 @@ class PaymentSettingsController < ApplicationController
     end
 
     {
-      left_hand_navigation_links: settings_links_for(@current_user, @current_community),
+      left_hand_navigation_links: settings_links_for(target_user, @current_community),
       commission_from_seller: t("stripe_accounts.commission", commission: payment_settings[:commission_from_seller]),
       minimum_commission: Money.new(payment_settings[:minimum_transaction_fee_cents], community_currency),
       commission_type: payment_settings[:commission_type],
@@ -117,14 +117,14 @@ class PaymentSettingsController < ApplicationController
   end
 
   def paypal_index
-    paypal_account = paypal_accounts_api.get(community_id: @current_community.id, person_id: @current_user.id).data || {}
+    paypal_account = paypal_accounts_api.get(community_id: @current_community.id, person_id: target_user.id).data || {}
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
 
     {
       next_action: next_action(paypal_account[:state] || ""),
       paypal_account: paypal_account,
-      order_permission_action: ask_order_permission_person_paypal_account_path(@current_user),
-      billing_agreement_action: ask_billing_agreement_person_paypal_account_path(@current_user),
+      order_permission_action: ask_order_permission_person_paypal_account_path(target_user),
+      billing_agreement_action: ask_billing_agreement_person_paypal_account_path(target_user),
       paypal_fees_url: PaypalCountryHelper.fee_link(community_country_code),
       create_url: PaypalCountryHelper.create_paypal_account_url(community_country_code),
       upgrade_url: PaypalCountryHelper.upgrade_paypal_account_url(community_country_code),
@@ -164,7 +164,7 @@ class PaymentSettingsController < ApplicationController
   end
 
   def load_stripe_account
-    @stripe_account = stripe_accounts_api.get(community_id: @current_community.id, person_id: @current_user.id).data || {}
+    @stripe_account = stripe_accounts_api.get(community_id: @current_community.id, person_id: target_user.id).data || {}
     @stripe_account_ready = @stripe_account[:stripe_seller_id].present?
     if @stripe_account_ready
       @api_seller_account = stripe_api.get_seller_account(community: @current_community.id, account_id: @stripe_account[:stripe_seller_id])
@@ -204,8 +204,8 @@ class PaymentSettingsController < ApplicationController
     @extra_forms[:stripe_account_form] = stripe_account_form
     if stripe_account_form.valid?
       account_attrs = stripe_account_form.to_hash
-      account_attrs[:email] =  @current_user.confirmed_notification_email_addresses.first || @current_user.primary_email.try(:address)
-      result = stripe_accounts_api.create(community_id: @current_community.id, person_id: @current_user.id, body: account_attrs)
+      account_attrs[:email] =  target_user.confirmed_notification_email_addresses.first || target_user.primary_email.try(:address)
+      result = stripe_accounts_api.create(community_id: @current_community.id, person_id: target_user.id, body: account_attrs)
       if result[:success]
         @just_created = true
         load_stripe_account
@@ -251,7 +251,7 @@ class PaymentSettingsController < ApplicationController
     return if !@stripe_account_ready || params[:stripe_bank_form].blank?
 
     if bank_form.valid? && bank_form.bank_account_number !~ /\*/
-      result = stripe_accounts_api.create_bank_account(community_id: @current_community.id, person_id: @current_user.id, body: bank_form.to_hash)
+      result = stripe_accounts_api.create_bank_account(community_id: @current_community.id, person_id: target_user.id, body: bank_form.to_hash)
       if result[:success]
         load_stripe_account
       else
@@ -320,7 +320,7 @@ class PaymentSettingsController < ApplicationController
     address_attrs[:birth_date] = account_params['birth_date(1i)'].present? ? parse_date(account_params) : nil
     @extra_forms[:stripe_account_form] = StripeAccountForm.new(address_attrs)
 
-    result = stripe_accounts_api.update_account(community_id: @current_community.id, person_id: @current_user.id, token: address_attrs[:token])
+    result = stripe_accounts_api.update_account(community_id: @current_community.id, person_id: target_user.id, token: address_attrs[:token])
     if result[:success]
       load_stripe_account
     else
@@ -365,4 +365,8 @@ class PaymentSettingsController < ApplicationController
 
     build_view_locals.merge(more_locals).merge(@extra_forms)
   end
+
+  def target_user
+    @target_user ||= Person.find_by!(username: params[:person_id], community_id: @current_community.id)
+  end  
 end

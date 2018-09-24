@@ -26,7 +26,7 @@
     .row.paypal-wizard.connect-row
       .col-12
         .paypal-wizard-content.connect-row
-          = form_tag update_person_payment_settings_path(@current_user),
+          = form_tag update_person_payment_settings_path(@target_user),
             id: "stripe-account-form", multipart: true, method: :put do
             = hidden_field_tag "stripe_account_form_address_country", stripe_seller_account[:address_country]
             = fields_for stripe_account_form do |form|
@@ -53,7 +53,7 @@
             = render partial: 'verification_fields_form', locals: {stripe_account_form: stripe_account_form, seller_needs_verification: seller_needs_verification}
 
             .col-4
-              = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@current_user), style: 'float: right; margin-top: 1.5em'
+              = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@target_user), style: 'float: right; margin-top: 1.5em'
               = button_tag t('stripe_accounts.form_new.save_details')
   - content_for :extra_javascript do
     :javascript
@@ -74,7 +74,7 @@
     %div
       .paypal-wizard-content.connect-row
         .col-12
-          = form_tag create_person_payment_settings_path(@current_user), id: "stripe-account-form", multipart: true do
+          = form_tag create_person_payment_settings_path(@target_user), id: "stripe-account-form", multipart: true do
             = fields_for stripe_account_form do |form|
               .row
                 .col-12
