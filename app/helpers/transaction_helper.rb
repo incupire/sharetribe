@@ -212,35 +212,23 @@ module TransactionHelper
   # }
   def get_conversation_statuses(conversation, is_author)
     statuses = if conversation.listing && !conversation.status.eql?("free")
+      is_coupon_pay = conversation.payment_gateway.eql?(:coupon_pay)
       status_hash = {
         paid: ->() {
-          if conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.seller
-            {
-              author: [
-                status_info(t("conversations.status.great_you_accepted_offer"), icon_classes: icon_for("paid")),
-                delivery_status(conversation),
-                paid_status(conversation)
-              ],
-              starter: []
-            }            
-          elsif conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.buyer
-            {
-              starter: [
-                status_info(t("conversations.status.request_paid_and_available_coupon_balance", avl_ducat_bal: MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe).html_safe, icon_classes: icon_for("paid")),
-                delivery_status(conversation),
-                paid_status(conversation)
-              ],
-              author: [] 
-            }        
+          status_info = if is_coupon_pay && current_user?(conversation.author)
+            status_info(t("conversations.status.great_you_accepted_offer"), icon_classes: icon_for("paid"))
+          elsif is_coupon_pay && current_user?(conversation.starter)
+            status_info(t("conversations.status.request_paid_and_available_coupon_balance", avl_ducat_bal: MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe).html_safe, icon_classes: icon_for("paid"))
           else
-            {
-              both: [
-                status_info(t("conversations.status.request_paid"), icon_classes: icon_for("paid")),
-                delivery_status(conversation),
-                paid_status(conversation)
-              ]
-            }
-          end   
+            status_info(t("conversations.status.request_paid"), icon_classes: icon_for("paid"))
+          end
+          {
+            both: [
+              status_info,
+              delivery_status(conversation),
+              paid_status(conversation)
+            ]
+          }
         },
         preauthorized: ->() { {
           both: [
@@ -289,31 +277,20 @@ module TransactionHelper
             }
           end
         },
-        confirmed: ->() { 
-          if conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.seller
-            {
-              author: [
-                status_info(t("conversations.status.congrats_confirmed_and_redeemed") , icon_classes: icon_for("confirmed")),
-                feedback_status(conversation)
-              ],
-              starter: []
-            }             
-          elsif conversation.payment_gateway.eql?(:coupon_pay) && @current_user == conversation.buyer
-            {
-              starter: [
-                status_info(t("conversations.status.request_confirmed_and_redeemed") , icon_classes: icon_for("confirmed")),
-                feedback_status(conversation)
-              ],
-              author: []
-            }           
-          else  
-            {
-              both: [
-                status_info(t("conversations.status.request_confirmed") , icon_classes: icon_for("confirmed")),
-                feedback_status(conversation)
-              ]
-            } 
-          end
+        confirmed: ->() {
+          status_info = if is_coupon_pay && current_user?(conversation.author)
+            status_info(t("conversations.status.congrats_confirmed_and_redeemed") , icon_classes: icon_for("confirmed"))
+          elsif is_coupon_pay && current_user?(conversation.starter)
+            status_info(t("conversations.status.request_confirmed_and_redeemed") , icon_classes: icon_for("confirmed"))
+          else
+            status_info(t("conversations.status.request_confirmed") , icon_classes: icon_for("confirmed"))
+          end           
+          {
+            both: [
+              status_info,
+              feedback_status(conversation)
+            ]
+          } 
         },
         canceled: ->() { {
           both: [
