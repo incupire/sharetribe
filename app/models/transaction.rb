@@ -108,7 +108,7 @@ class Transaction < ApplicationRecord
   }
   scope :for_testimonials, -> {
     includes(:testimonials, testimonials: [:author, :receiver], listing: :author)
-    .where(current_state: ['confirmed', 'canceled'])
+    .where(current_state: ['confirmed', 'canceled']).where.not(listings: {id: nil})
   }
 
   def booking_uuid_object
