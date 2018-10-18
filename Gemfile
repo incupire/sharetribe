@@ -74,7 +74,7 @@ gem 'airbrake', '~> 6.1.2'
 gem 'stripe', '~> 3.0.0'
 
 gem 'jwt', '~> 1.5.6'
-
+gem 'whenever', require: false
 gem 'oauth2', '~> 1.3.1'
 
 gem 'lograge', '~> 0.5.1'
