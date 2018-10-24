@@ -17,8 +17,6 @@
                               :name_link => name_link)).html_safe
                 
                   = link_to listing_url(@url_params.merge({:id => listing.id})), :target => "_blank", style: 'font-size: 16px;font-weight: bold;' do
-                    - if @show_listing_shape_label
-                      = shape_name(listing) + ":"
                     = listing.title
     %tr
       %td
@@ -26,25 +24,26 @@
           = link_to(image_tag(listing.listing_images.first.image.url(:big), :class => "listing_main_image", :alt => listing.title, :style => "width:100%;display:block;margin-left:30px;margin-bottom:20px;margin-top:4px;border:0", :align => "right"), listing_url(@url_params.merge({:id => listing.id})))
     %tr
       %td
-        %div{style: 'width: 70%;float: left'}
-          - unless listing.description.blank?
-            %p{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:12px;font-weight:100px; color:#898989;line-height:18px;margin-top:0;margin-bottom:8px;"}
-              - text_with_line_breaks_for_email do
-                = truncate_html(listing.description, :length => 200, :omission => "...")
-        %div{style: 'width: 30%;float: right'}
-          - if listing.price
-            .row{style: 'float: right'}
-              .col-12
-                .listing-price
-                  %span.listing-price-amount{style: 'font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size: 1.625em;line-height: 1.14286em;font-weight: 700;color: gray;display: block;float: left; margin-right: 0.375em;'}
-                    = MoneyViewUtils.to_humanized(listing.price)
-                  
-                  - ApplicationController.helpers.with_quantity_text(Community.last, listing) do |text|
-                    %span.listing-price-quantity{style: 'font-family:Helvetica Neue, Helvetica, Arial, sans-serif;vertical-align: top;position: relative;top: 0.3125em;color: gray;font-size:12px;'}
-                      = text
-            
+        %div{style: 'width: 100%; float: left'}
+          %div{style: 'width: 70%;float: left;'}
+            - unless listing.description.blank?
+              %p{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:12px;font-weight:100px; color:#898989;line-height:18px;margin-top:0;margin-bottom:8px;"}
+                - text_with_line_breaks_for_email do
+                  = truncate_html(listing.description, :length => 200, :omission => "...")
+          %div{style: 'width: 30%;float: left'}
+            - if listing.price
+              .row{style: 'float: right'}
+                .col-12
+                  .listing-price
+                    %span.listing-price-amount{style: 'font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size: 1.625em;line-height: 1.14286em;font-weight: 700;color: gray;display: block;float: left; margin-right: 0.375em;'}
+                      = MoneyViewUtils.to_humanized(listing.price)
                     
-          %button{style: '-moz-border-radius: 0.3125em;-webkit-border-radius: 0.3125em;border-radius: 0.3125em;color: white;text-align: center;cursor: pointer;margin: 0.75em 0;padding: 0 3.5em;padding-bottom: 4px;height: 2.625em;border: 0;display: table;line-height: 1.5em;font-size: 18px;height: 40px;line-height: 24px;padding-bottom: 3px;background: #fc1c54;float: right;clear: both;'}
+                    - ApplicationController.helpers.with_quantity_text(Community.last, listing) do |text|
+                      %span.listing-price-quantity{style: 'font-family:Helvetica Neue, Helvetica, Arial, sans-serif;vertical-align: top;position: relative;top: 0.3125em;color: gray;font-size:12px;'}
+                        = text
+            
+          = link_to listing_url(@url_params.merge({:id => listing.id})), :target => "_blank", style: 'font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:12px;color: #fff;text-decoration: none;border-radius: 5px;background-color: #fc1c54;padding: 8px 40px 8px;border: 2px solid #fb0341;clear: both;float:right;' do
             Buy
+          
 
 
