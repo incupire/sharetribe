@@ -1,3 +1,73 @@
+- if params[:category].present?
+  - if params[:category] == "health-and-fitness"
+    - content_for :title, "Health and Fitness Near Me | Avontage, Arizona | Buy and Sell"
+    - content_for :meta_description, "Avontage is a local community near you in Arizona that offers health and fitness services. Visit us to trade or buy and sell local health and fitness services."
+    - content_for :keywords, "health and fitness services"
+  - elsif params[:category] == 'beauty-and-spas'
+    - content_for :title, "Beauty & Spas near me in Arizona | Avontage | Shop Local"
+    - content_for :meta_description, "Do you live in Arizona and looking for beauty and spas services? Avontage offers you to shop local beauty and spas services near you. Sign up to get $200 free credit"
+    - content_for :keywords, "beauty and spas services near you"
+  - elsif params[:category] == 'photography-and-video'
+    - content_for :title, "Photography & Video Services in Arizona | Avontage | Buy and Sell"
+    - content_for :meta_description, "Are you looking for photography and video services in Arizona? Avotange is a local community platform where you get professional photography and video services."
+    - content_for :keywords, "Photography & Video Services in Arizona"
+  - elsif params[:category] == 'accounting-and-bookkeeping'
+    - content_for :title, "Local Accounting & Bookkeeping services in Arizona | Avontage"
+    - content_for :meta_description, "Avontage is a local business networking community that offers you accounting and bookkeeping services in Arizona. Visit us to buy and sell your expertise locally."
+    - content_for :keywords, "Accounting & Bookkeeping services in Arizona"
+  - elsif params[:category] == 'arts-and-crafts'
+    - content_for :title, "Buy & Sell Arts and Crafts in Arizona | Avontage – Community"
+    - content_for :meta_description, "Avontage is a small business owner’s community and provides you a platform to buy and sell arts and crafts in Arizona locally. Trade your services with free credit."
+    - content_for :keywords, "Buy & Sell Arts and Crafts in Arizona"
+  - elsif params[:category] == 'business-services'
+    - content_for :title, "Local Business Services in Arizona | Avontage- Local Businesses"
+    - content_for :meta_description, "Avontage is a community for local business owners and business networking groups in Arizona. Visit us to get local business services from Arizona influencers."
+    - content_for :keywords, "Local Business Services"
+  - elsif params[:category] == 'marketing-and-advertising'
+    - content_for :title, "Marketing and Advertising Services near Me in Arizona | Avontage"
+    - content_for :meta_description, "Do you want to grow your business? Arizona provides local marketing and advertising services near you in Arizona. Check the updates and buy or sell expert services."
+    - content_for :keywords, "Marketing and Advertising Services"
+  - elsif params[:category] == 'food-and-drink'
+    - content_for :title, "Local Buy or Sell Food & Drink Services in Arizona | Avontage"
+    - content_for :meta_description, "Are you expert in food & drink services and want to sell? Visit Avontage that provides you a platform for many others who are looking to buy food and drink services."
+    - content_for :keywords, "Food & Drink Services"
+  - elsif params[:category] == 'events-and-things-to-do'
+    - content_for :title, "Buy & Sell Event Planning Services in Arizona | Avontage"
+    - content_for :meta_description, "Do you want to hire a DJ, event makeup artist, catering, florist or event planning services? Visit Avontage, Arizona to get the services that fit with you locally."
+    - content_for :keywords, "Event Planning Services"
+  - elsif params[:category] == 'personal-services'
+    - content_for :title, "Personal Mediation & Counseling Services in Arizona | Avontage"
+    - content_for :meta_description, "Avontage is a local first Arizona marketplace to buy and sell personal mediation and counseling services from a local community. Check our platform to learn about it."
+    - content_for :keywords, "Personal Mediation & Counseling Services"
+  - elsif params[:category] == 'influencers-and-networking'
+    - content_for :title, "Local Arizona Influencers and Business Networking | Avontage"
+    - content_for :meta_description, "Avontage is a community for small and local business owners that gets you in touch with local Arizona influences and business networks. Trade your services with us."
+    - content_for :keywords, "Arizona Influencers and Business Networking"
+  - elsif params[:category] == 'event-planning'
+    - content_for :title, "Local Event Planning Services in Arizona | Avontage – Buy and Sell"
+    - content_for :meta_description, "You want to throw a party and need catering or event planning services in Arizona? Are you expert in event planning services and want to sell? Get in touch with us."
+    - content_for :keywords, "Event Planning Services in Arizona"
+  - elsif params[:category] == 'lessons-and-tutors'
+    - content_for :title, "Local Lessons & Tutors Services Near Me in Arizona | Avontage"
+    - content_for :meta_description, "Avontage is a freelance marketplace in Arizona from where you can buy and sell local lessons and tutors services. Visit us to get in touch with buyers and experts."
+    - content_for :keywords, "Local Lessons & Tutors Services"
+  - elsif params[:category] == 'printing-and-graphic-design'
+    - content_for :title, "Local Printing & Graphic Designing Services in Arizona | Avontage"
+    - content_for :meta_description, "Are you an expert in printing and graphic designing and want to sell? Do you want to grow your skills in printing and graphic designing? Buy and Sell at Avontage."
+    - content_for :keywords, "Printing & Graphic Designing"
+  - elsif params[:category] == 'maintenance-and-repair'
+    - content_for :title, "Maintenance & Repair Services Near Me in Arizona | Avontage"
+    - content_for :meta_description, "Do you want repair and maintenance services for your computer or other appliances? Check our freelance marketplace to get top repair and maintenance services."
+    - content_for :keywords, "Repair and maintenance services"
+  - elsif params[:category] == 'writing-and-editing'
+    - content_for :title, "Local Writing and Editing Services in Arizona | Avontage"
+    - content_for :meta_description, "Are you an expert in writing and editing services? Visit Avontage, Arizona to get in touch with top businesses who are looking for writing and editing services."
+    - content_for :keywords, "Writing and Editing Services"
+  - elsif params[:category] == 'automotive-services'
+    - content_for :title, "Buy and Sell Local Automotive Services in Arizona | Avontage"
+    - content_for :meta_description, "Avontage gives you the best automotive services in Arizona. Our sellers can provide you auto repair, brake services, transmission and oil changes locally in Arizona."
+    - content_for :keywords, "Automotive Services in Arizona"
+
 - content_for :javascript do
   initialize_homepage();
 

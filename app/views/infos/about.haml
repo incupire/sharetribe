@@ -1,6 +1,6 @@
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => about_links }
 
-- content_for :title, t('layouts.infos.about')
+- content_for :title, "About Us | Avontage, Arizona | Small-Local Business Community"
 
 - content_for :title_header do
   %h1= t("layouts.infos.info_about_kassi")
@@ -12,7 +12,7 @@
     - else
       - content = render :partial => "default_about_page"
 
-    - content_for :meta_description, StringUtils.first_words(strip_tags(content.html_safe))
-    - content_for :keywords, StringUtils.keywords(strip_tags(content.html_safe))
+    - content_for :meta_description, "Avontage is a Scottsdale-based small local business community in Arizona.  Explore our marketing & advertising, beauty & spas, health & fitness, and many other services."
+    - content_for :keywords, "Small local business community"
 
     - content
