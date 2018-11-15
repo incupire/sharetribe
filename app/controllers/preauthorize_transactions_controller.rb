@@ -57,7 +57,7 @@ class PreauthorizeTransactionsController < ApplicationController
     if validation_result.success
       if params[:payment_type].eql?('coupon_pay')
         price_break_down = price_break_down_locals(validation_result.data, listing)
-        if price_break_down[:total] > @current_user.coupon_balance
+        if price_break_down[:total] + order_commission(validation_result.data, listing) > @current_user.coupon_balance
           error_msg = "Insufficient  Avon-BUCKS! Please contact Avontage to learn how you can earn more Avon-BUCKS."
           render_error_response(request.xhr?, error_msg, listing_path(listing))
         else
@@ -73,6 +73,25 @@ class PreauthorizeTransactionsController < ApplicationController
 
 
   private
+
+  def order_commission(tx_params, listing)
+    is_booking = is_booking?(listing)
+    currency = @current_community.currency
+    quantity = calculate_quantity(tx_params: tx_params, is_booking: is_booking, unit: listing.unit_type)    
+    item_total = TransactionService::Validation::ItemTotal.new(
+      unit_price: listing.price,
+      quantity: quantity)
+
+    p_set = TransactionService::Store::PaymentSettings.get_active_by_gateway(community_id: @current_community.id, payment_gateway: :stripe)
+    minimum_commission = Money.new(p_set[:minimum_transaction_fee_cents], currency)
+    commission_from_seller = p_set[:commission_from_seller]    
+
+    [(item_total.total * (commission_from_seller / 100.0) unless commission_from_seller.nil?),
+     (minimum_commission unless minimum_commission.nil? || minimum_commission.zero?),
+     Money.new(0, currency)]
+      .compact
+      .max 
+  end
 
   def calculate_shipping_from_listing(tx_params:, listing:, quantity:)
     if tx_params[:delivery] == :shipping
