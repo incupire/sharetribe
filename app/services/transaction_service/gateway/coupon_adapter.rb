@@ -10,8 +10,8 @@ module TransactionService::Gateway
     end
 
     def create_payment(tx:, gateway_fields:, force_sync:)
-      total      = order_total(tx)
       commission = order_commission(tx)
+      total      = order_total(tx) + commission
       fee        = Money.new(0, total.currency)
       payment = {
         community_id: tx.community_id,
@@ -20,7 +20,7 @@ module TransactionService::Gateway
         receiver_id: tx.listing_author_id,
         status: :pending,
         sum:  total,
-        commission: commission,
+        commission: Money.new(0, total.currency), #Commission should be zero for seller in case of coupon payment!
         fee: fee,
         real_fee: nil,
         subtotal: total - fee,
@@ -37,8 +37,8 @@ module TransactionService::Gateway
     end
 
     def reject_payment(tx:, reason: "")
-      total      = order_total(tx)
       commission = order_commission(tx)
+      total      = order_total(tx) + commission
       fee        = Money.new(0, total.currency)
       payment = {
         community_id: tx.community_id,
@@ -47,7 +47,7 @@ module TransactionService::Gateway
         receiver_id: tx.listing_author_id,
         status: :canceled,
         sum:  total,
-        commission: commission,
+        commission: Money.new(0, total.currency), #Commission should be zero for seller in case of coupon payment!
         fee: fee,
         real_fee: nil,
         subtotal: total - fee,
@@ -69,8 +69,8 @@ module TransactionService::Gateway
     end
 
     def get_payment_details(tx:)
-      total      = order_total(tx)
       commission = order_commission(tx)
+      total      = order_total(tx)
       fee        = Money.new(0, total.currency)
       payment = {
         sum: total,
@@ -100,6 +100,6 @@ module TransactionService::Gateway
 
     def order_commission(tx)
       TransactionService::Transaction.calculate_commission(tx.unit_price * tx.listing_quantity, tx.commission_from_seller, tx.minimum_commission)
-    end        
+    end       
   end
 end

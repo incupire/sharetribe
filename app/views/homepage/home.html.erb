@@ -21,7 +21,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Marketing & Advertising</div>
-              <%= link_to logged_in? ? "/s?category=marketing-and-advertising" : sign_up_path do %>
+              <%= link_to (!logged_in? && !@current_community.private?) ? "/s?category=marketing-and-advertising" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Trade your services for marketing and advertising to promote your business</div>
@@ -35,10 +35,11 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Beauty & <br>Spas</div>
-              <%= link_to logged_in? ? "/s?category=beauty-and-spas" : sign_up_path do %>
+              <%= link_to (!logged_in? && !@current_community.private?) ? "/s?category=beauty-and-spas" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
-              <div class="description">Need skincare, massage, or a stylist? Pay for it with your services</div>
+              <div class="description">Need skincare, massage, or a stylist? Pay for it with your services
+              </div>
             </div>
           </div>
         </div>
@@ -49,7 +50,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Health & <br>Fitness</div>
-              <%= link_to logged_in? ? "/s?category=health-and-fitness" : sign_up_path do %>
+              <%= link_to (!logged_in? && !@current_community.private?) ? "/s?category=health-and-fitness" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
@@ -63,7 +64,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Photography &<br>Video</div>
-              <%= link_to logged_in? ? "/s?category=photography-and-video1" : sign_up_path do %>
+              <%= link_to (!logged_in? && !@current_community.private?)? "/s?category=photography-and-video1" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Need a new look for your website or a family photo shoot? Trade for it.</div>
@@ -77,7 +78,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Food &<br>Drinks</div>
-              <%= link_to logged_in? ? "/s?category=food-and-drinks" : sign_up_path do %>
+              <%= link_to (!logged_in? && !@current_community.private?)? "/s?category=food-and-drinks" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Wanna take the family out to a nice dinner? Be smart and trade for it.</div>
@@ -91,7 +92,7 @@
             </div>
             <div class="listing_details">
               <div class="category_heading">Events & <br>Things To Do</div>
-              <%= link_to logged_in? ? "/s?category=events-and-things-to-do" : sign_up_path do %>
+              <%= link_to (!logged_in? && !@current_community.private?)? "/s?category=events-and-things-to-do" : sign_up_path do %>
                 <%= button_tag 'Explore Now',class:'explore_button' %>
               <% end %>
               <div class="description">Discover many fun experiences and events around town & save your cash</div>
@@ -185,7 +186,7 @@
           <%= link_to 'Benefits', 'https://www.avontage.com/benefits',target:"_blank" %>
           <%= link_to 'FAQ', how_to_use_infos_path, target:"_blank" %>
           <%= link_to 'About Us', about_infos_path %>
-          <%= link_to 'Blog','javascript:;' %>
+          <%= link_to 'Blog', '/blog' %>
           <%= link_to 'Contact us', new_user_feedback_path, target: "_blank" %>
           <%= link_to 'Privacy policy', privacy_infos_path, target: "_blank"%>
         </div>

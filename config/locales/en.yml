@@ -8,7 +8,7 @@ en:
   admin:
     categories:
       edit:
-        edit_listing_category: "Edit category '%{category}'"
+        edit_listing_category: "Edit category '%{category}'" 
       index:
         listing_categories: "Listing categories"
         create_a_new_category: "+ Create a new category"
@@ -251,9 +251,9 @@ en:
         admin: Admin
         posting_allowed: "Posting allowed"
         ban_user: Ban
-        coupon_balance: "Ducat Balance"
-        add_coupon_balance: "Add Ducat Balance"
-        deduct_coupon_balance: "Deduct Ducat Balance"
+        coupon_balance: "Avon-BUCKS"
+        add_coupon_balance: "Add Avon-BUCKS"
+        deduct_coupon_balance: "Deduct Avon-BUCKS"
         delete_user: "Delete"
         edit_profile: "Edit"
         saving_user_status: Saving...
@@ -374,7 +374,7 @@ en:
           coupon_pay:
             free: Conversation
             pending: Pending
-            preauthorized: "Ducat Pending"
+            preauthorized: "Avon-BUCKS Pending"
             accepted: Accepted
             rejected: Declined
             paid: Accepted
@@ -936,13 +936,13 @@ en:
       request_rejected: Rejected
       request_confirmed: Completed
       request_confirmed_and_redeemed: "Completed Redeemed"
-      congrats_confirmed_and_redeemed: "Completed Congrats! You have received the above amount in Ducat Credits"
+      congrats_confirmed_and_redeemed: "Completed Congrats! You have received the above amount in Avon-BUCKS Credits"
       request_canceled: Canceled
       request_paid: "Payment successful"
-      request_paid_and_available_coupon_balance: "Payment successful <b>in Ducat Credits</b> <element>Your remaining Ducat Credit balance %{avl_ducat_bal}</element>"
+      request_paid_and_available_coupon_balance: "Payment successful <b>in Avon-BUCKS Credits</b> <element>Your remaining Avon-BUCKS Credit balance %{avl_ducat_bal}</element>"
       great_you_accepted_offer: "Great! You have Accepted this offer"
       request_preauthorized: "Payment authorized"
-      paid_with_coupon: "Paid with your Ducat Credits"
+      paid_with_coupon: "Paid with your Avon-BUCKS Credits"
       skip_feedback: "Skip feedback"
       waiting_for_listing_author_to_accept_offer: "Waiting for %{listing_author_name} to accept the offer"
       waiting_for_listing_author_to_accept_request: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you will be charged."
