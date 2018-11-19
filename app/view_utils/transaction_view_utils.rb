@@ -27,6 +27,7 @@ module TransactionViewUtils
     [:sum, :money],
     [:fee, :money],
     [:seller_gets, :money],
+    [:avon_commission, :money],
     [:start_time, :time],
     [:end_time, :time],
     [:per_hour, :to_bool, default: false]
