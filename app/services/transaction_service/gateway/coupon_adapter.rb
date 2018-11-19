@@ -11,7 +11,7 @@ module TransactionService::Gateway
 
     def create_payment(tx:, gateway_fields:, force_sync:)
       commission = order_commission(tx)
-      total      = order_total(tx) + commission
+      total      = order_total(tx)
       fee        = Money.new(0, total.currency)
       payment = {
         community_id: tx.community_id,
@@ -20,7 +20,7 @@ module TransactionService::Gateway
         receiver_id: tx.listing_author_id,
         status: :pending,
         sum:  total,
-        commission: Money.new(0, total.currency), #Commission should be zero for seller in case of coupon payment!
+        commission: Money.new(0, total.currency), #TODO Commission should be zero for seller in case of coupon payment!
         fee: fee,
         real_fee: nil,
         subtotal: total - fee,
@@ -70,7 +70,7 @@ module TransactionService::Gateway
 
     def get_payment_details(tx:)
       commission = order_commission(tx)
-      total      = order_total(tx)
+      total      = order_total(tx) + commission #avon_commission = commission
       fee        = Money.new(0, total.currency)
       payment = {
         sum: total,

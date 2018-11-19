@@ -288,7 +288,8 @@ class PreauthorizeTransactionsController < ApplicationController
           payment_gateway: opts[:payment_type].to_sym,
           payment_process: :preauthorize,
           booking_fields: opts[:booking_fields],
-          delivery_method: opts[:delivery_method] || :none
+          delivery_method: opts[:delivery_method] || :none,
+          avon_commission: opts[:avon_commission]
     }
 
     if(opts[:delivery_method] == :shipping)
@@ -409,8 +410,13 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def initiated_success(tx_params)
+    if params[:payment_type].eql?('coupon_pay')
+      avon_commission = order_commission(tx_params, listing)
+    else
+      avon_commission = Money.new(0, @current_community.currency)
+    end
     is_booking = is_booking?(listing)
-
+    
     quantity = calculate_quantity(tx_params: tx_params, is_booking: is_booking, unit: listing.unit_type)
     shipping_total = calculate_shipping_from_listing(tx_params: tx_params, listing: listing, quantity: quantity)
 
@@ -424,6 +430,7 @@ class PreauthorizeTransactionsController < ApplicationController
       force_sync: !request.xhr?,
       delivery_method: tx_params[:delivery],
       shipping_price: shipping_total.total,
+      avon_commission: avon_commission,
       booking_fields: {
         start_on:   tx_params[:start_on],
         end_on:     tx_params[:end_on],
