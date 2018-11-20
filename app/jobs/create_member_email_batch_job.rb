@@ -30,11 +30,14 @@ class CreateMemberEmailBatchJob < Struct.new(:sender_id, :community_id, :content
       when :with_listing
         has_listings_person_ids(community)
       when :with_listing_no_payment
-        has_listings_person_ids(community) - paypal_person_ids(community) - stripe_person_ids(community)
+        #has_listings_person_ids(community) - paypal_person_ids(community) - stripe_person_ids(community)
+        has_listings_person_ids(community) - stripe_person_ids(community)
       when :with_payment_no_listing
-        (paypal_person_ids(community) + stripe_person_ids(community)) - has_listings_person_ids(community)
+        #(paypal_person_ids(community) + stripe_person_ids(community)) - has_listings_person_ids(community)
+        stripe_person_ids(community) - has_listings_person_ids(community)
       when :no_listing_no_payment
-        has_no_listings_person_ids(community) - paypal_person_ids(community) - stripe_person_ids(community)
+        #has_no_listings_person_ids(community) - paypal_person_ids(community) - stripe_person_ids(community)
+        has_no_listings_person_ids(community) - stripe_person_ids(community)
       when :customers
         community.transactions.where(current_state: ['paid', 'confirmed']).select(:starter_id).distinct.map(&:starter_id)
       else
