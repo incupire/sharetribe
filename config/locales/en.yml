@@ -223,6 +223,8 @@ en:
         email_preferences: "Email preferences"
         automatic_newsletters: "Send automatic daily / weekly newsletters to all users (unless they opt out)"
         email_admins_about_new_members: "Send admins an email whenever a new user signs up"
+        send_unread_message_reminder: "Send inbox unread messages reminders every "
+        send_unread_message_reminder_day: "Unread message reminder day"
         google_analytics_key: "Google Analytics tracking ID"
         twitter_handle: "Twitter handle (used with tweet button in listing page)"
         update_settings: "Save settings"
@@ -1089,6 +1091,11 @@ en:
       view_message: "View message"
       has_sent_you_a_message_in_kassi: "%{sender} has sent you a message in %{service_name}."
       you_have_a_new_message: "A new message in %{service_name} from %{sender_name}"
+    unread_message_reminder:
+      you_have_an_unread_message: "You have an unread message!"
+      not_responded_yet_for_message: "You received a message from %{sender} in your inbox, but you haven't responded yet."
+      tip_about_responding_message: "Tip: Responding to messages from the members of your community is first step to making great connections and collaborating."
+      click_here_to_reply: "Click here to reply"
     new_payment:
       new_payment: "You have received a new payment"
       price_per_unit_type: "Price per %{unit_type}"

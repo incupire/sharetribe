@@ -17,6 +17,7 @@
 class Message < ApplicationRecord
 
   after_save :update_conversation_read_status
+  after_save :push_unread_message_reminder
 
   belongs_to :sender, :class_name => "Person"
   belongs_to :conversation
@@ -37,6 +38,13 @@ class Message < ApplicationRecord
     conversation.participations.each do |p|
       last_at = p.person.eql?(sender) ? :last_sent_at : :last_received_at
       p.update_attributes({ :is_read => p.person.eql?(sender), last_at => created_at})
+    end
+  end
+
+  def push_unread_message_reminder
+    community = conversation.community
+    if community.unread_message_reminder_enabled? && community.send_unread_message_reminder_day.present?
+      Delayed::Job.enqueue(UnreadMessageReminderJob.new(self.id, conversation_id, conversation.community_id), priority: 9, :run_at => (Date.today + community.send_unread_message_reminder_day.to_i.days).beginning_of_day + 4.hours)
     end
   end
 end

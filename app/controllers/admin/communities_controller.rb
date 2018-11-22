@@ -348,7 +348,9 @@ class Admin::CommunitiesController < Admin::AdminBaseController
       :automatic_confirmation_after_days,
       :automatic_newsletters,
       :default_min_days_between_community_updates,
-      :email_admins_about_new_members
+      :email_admins_about_new_members,
+      :unread_message_reminder_enabled,
+      :send_unread_message_reminder_day
     ]
     settings_params = params.require(:community).permit(*permitted_params)
 

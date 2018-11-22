@@ -90,6 +90,8 @@
 #  favicon_processing                         :boolean
 #  deleted                                    :boolean
 #  end_user_analytics                         :boolean          default(TRUE)
+#  unread_message_reminder_enabled            :boolean          default(FALSE)
+#  send_unread_message_reminder_day           :string(255)
 #
 # Indexes
 #
@@ -626,6 +628,10 @@ class Community < ApplicationRecord
 
   def is_person_only_admin(person)
     admins.count == 1 && admins.first == person
+  end
+
+  def public?
+    private? ? false : true
   end
 
   private
