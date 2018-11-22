@@ -14,10 +14,12 @@
     <div class="sub_wrapper">
       <h3 class="under_cover_photo_title">Start trading your excess capacity with the services below & much more...collaborate & gain high-quality local clients</h3>
       <div class="col-md-12 col-sm-12 col-xs-12 categories no_padding_default">
+          <%= link_to  "/s?category=marketing-and-advertising" do %>
+          <%= link_to (!logged_in? && !@current_community.private?) ? "/s?category=marketing-and-advertising" : sign_up_path do %>
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
           <div class="listing_frame">
             <div class="image_frame">
-              <%= image_tag 'marketing_advertising.png', class: '' %>
+            <%= image_tag 'marketing_advertising.png', class: '' %>
             </div>
             <div class="listing_details">
               <div class="category_heading">Marketing & Advertising</div>
@@ -29,6 +31,8 @@
           </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <%= link_to  "/s?category=beauty-and-spas" do %>
+          <%= link_to (!logged_in? && !@current_community.private?) ? "/s?category=beauty-and-spas" : sign_up_path do %>
           <div class="listing_frame">
             <div class="image_frame">
               <%= image_tag 'BeautySpas.png', class: '' %>
@@ -42,8 +46,12 @@
               </div>
             </div>
           </div>
+          <% end %>
+          <% end %>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <%= link_to  "/s?category=health-and-fitness" do %>
+          <%= link_to (!logged_in? && !@current_community.private?) ? "/s?category=health-and-fitness" : sign_up_path do %>
           <div class="listing_frame">
             <div class="image_frame">
               <%= image_tag 'Health_Fitness.png', class: '' %>
@@ -56,8 +64,12 @@
               <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
             </div>
           </div>
+          <% end %>
+          <% end %>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <%= link_to  "s?category=photography-and-video" do %>
+          <%= link_to (!logged_in? && !@current_community.private?)? "s?category=photography-and-video" : sign_up_path do %>
           <div class="listing_frame">
             <div class="image_frame">
               <%= image_tag 'Photography_Video.png', class: '' %>
@@ -70,8 +82,12 @@
               <div class="description">Need a new look for your website or a family photo shoot? Trade for it.</div>
             </div>
           </div>
+          <% end %>
+          <% end %>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <%= link_to  "/s?category=food-and-drink" do %>
+          <%= link_to (!logged_in? && !@current_community.private?)? "/s?category=food-and-drink" : sign_up_path do %>
           <div class="listing_frame">
             <div class="image_frame">
               <%= image_tag 'Food_Drinks.png', class: '' %>
@@ -84,8 +100,12 @@
               <div class="description">Wanna take the family out to a nice dinner? Be smart and trade for it.</div>
             </div>
           </div>
+          <% end %>
+          <% end %>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
+          <%= link_to  "/s?category=events-and-things-to-do" do %>
+          <%= link_to (!logged_in? && !@current_community.private?)? "/s?category=events-and-things-to-do" : sign_up_path do %>
           <div class="listing_frame">
             <div class="image_frame">
               <%= image_tag 'EventsThingsToDo.png', class: '' %>
@@ -98,7 +118,11 @@
               <div class="description">Discover many fun experiences and events around town & save your cash</div>
             </div>
           </div>
+          <% end %>
+          <% end %>
         </div>
+        <% end %>
+        <% end %> 
       </div>
       <div class="under_categories col-md-12 col-sm-12 col-xs-12">
         <%= link_to 'Explore many more services in the marketplace', (!logged_in? && !@current_community.private?) ? '/s' : sign_up_path ,class:'more_services'%>
