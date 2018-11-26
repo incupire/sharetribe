@@ -83,7 +83,16 @@
         .checkbox-container
           = form.check_box :email_admins_about_new_members
           = form.label :email_admins_about_new_members, t(".email_admins_about_new_members"), :class => "settings-checkbox-label"
-
+        .checkbox-container
+          %span
+            = form.check_box :unread_message_reminder_enabled
+            = form.label :unread_message_reminder_enabled, t(".send_unread_message_reminder"), :class => "settings-checkbox-label"
+          %span
+            = form.text_field :send_unread_message_reminder_day, class: 'unread_message_reminder'
+          %span
+            Day
+          
+          
     .row
       .col-12
         = form.button t(".update_settings")
@@ -92,37 +101,37 @@
     :javascript
       window.ST.initializeDeleteMarketplace('#{delete_confirmation}');
 
-  - if can_delete_marketplace
-    .row.without-margin
-      .col-12
-        .alert-box-danger
+  / - if can_delete_marketplace
+  /   .row.without-margin
+  /     .col-12
+  /       .alert-box-danger
 
-          %p
-            %span.alert-box-icon<>
-              = icon_tag("alert", ["icon-fix"])
-            %span<
-              %strong
-                = t("admin.communities.settings.delete_marketplace_title")
-          %p
-            = t("admin.communities.settings.once_you_delete")
+  /         %p
+  /           %span.alert-box-icon<>
+  /             = icon_tag("alert", ["icon-fix"])
+  /           %span<
+  /             %strong
+  /               = t("admin.communities.settings.delete_marketplace_title")
+  /         %p
+  /           = t("admin.communities.settings.once_you_delete")
 
-          = button_tag t("admin.communities.settings.delete_this_marketplace"), class: "delete-button js-delete-marketplace-button"
+  /         = button_tag t("admin.communities.settings.delete_this_marketplace"), class: "delete-button js-delete-marketplace-button"
 
-          = form_tag delete_marketplace_admin_community_path(@current_community), method: :delete, class: "hidden js-delete-marketplace-confirmation-form" do
+  /         = form_tag delete_marketplace_admin_community_path(@current_community), method: :delete, class: "hidden js-delete-marketplace-confirmation-form" do
 
-            %strong
-              = t("admin.communities.settings.are_you_sure")
+  /           %strong
+  /             = t("admin.communities.settings.are_you_sure")
 
-            - if delete_redirect_url
-              %p
-                = t("admin.communities.settings.you_will_be_redirected_to", destination: delete_redirect_url)
+  /           - if delete_redirect_url
+  /             %p
+  /               = t("admin.communities.settings.you_will_be_redirected_to", destination: delete_redirect_url)
 
-            %p
-              = t("admin.communities.settings.last_community_updates")
+  /           %p
+  /             = t("admin.communities.settings.last_community_updates")
 
-            %p
-              = t("admin.communities.settings.type_marketplace_domain", domain: delete_confirmation)
+  /           %p
+  /             = t("admin.communities.settings.type_marketplace_domain", domain: delete_confirmation)
 
-            = text_field_tag :delete_confirmation, nil, placeholder: t("admin.communities.settings.type_marketplace_domain_placeholder"), class: "js-delete-marketplace-confirmation-domain"
+  /           = text_field_tag :delete_confirmation, nil, placeholder: t("admin.communities.settings.type_marketplace_domain_placeholder"), class: "js-delete-marketplace-confirmation-domain"
 
-            = button_tag t("admin.communities.settings.i_understand_button"), class: "delete-button js-confirmation-button"
+  /           = button_tag t("admin.communities.settings.i_understand_button"), class: "delete-button js-confirmation-button"

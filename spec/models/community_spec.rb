@@ -91,6 +91,8 @@
 #  favicon_processing                         :boolean
 #  deleted                                    :boolean
 #  end_user_analytics                         :boolean          default(TRUE)
+#  unread_message_reminder_enabled            :boolean          default(FALSE)
+#  send_unread_message_reminder_day           :string(255)
 #
 # Indexes
 #
