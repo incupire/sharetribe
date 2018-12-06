@@ -114,6 +114,8 @@ class Transaction < ApplicationRecord
     .where(current_state: ['confirmed', 'canceled']).where.not(listings: {id: nil})
   }
 
+  after_save :push_unread_message_reminder
+
   def booking_uuid_object
     if self[:booking_uuid].nil?
       nil
@@ -289,4 +291,12 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def push_unread_message_reminder
+    if ["preauthorized", "paid", "rejected", "confirmed", "canceled"].include?(self.current_state)
+      community = self.community
+      if community.unread_message_reminder_enabled? && community.send_unread_message_reminder_day.present?
+        Delayed::Job.enqueue(UnreadTransactionReminderJob.new(self.id, conversation_id, community.id), priority: 9, :run_at => (Date.today + community.send_unread_message_reminder_day.to_i.days).beginning_of_day + 4.hours)
+      end
+    end     
+  end
 end
