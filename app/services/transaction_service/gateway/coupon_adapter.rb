@@ -38,7 +38,7 @@ module TransactionService::Gateway
 
     def reject_payment(tx:, reason: "")
       commission = order_commission(tx)
-      total      = order_total(tx) + commission
+      total      = order_total(tx)
       fee        = Money.new(0, total.currency)
       payment = {
         community_id: tx.community_id,

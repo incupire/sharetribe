@@ -560,7 +560,14 @@ module ApplicationHelper
         :icon_class => icon_class("notification_settings"),
         :path => notifications_person_settings_path(person),
         :name => "notifications"
-      }
+      },
+      {
+        :id => "settings-tab-new-stripe-customber",
+        :text => t("layouts.settings.stripe_customer"),
+        :icon_class => icon_class("payments"),
+        :path => person_new_stripe_customber_settings_path(person),
+        :name => "new-stripe-customber"
+      }      
     ]
 
     paypal_ready = PaypalHelper.community_ready_for_payments?(@current_community.id)

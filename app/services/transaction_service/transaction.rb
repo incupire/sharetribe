@@ -126,8 +126,7 @@ module TransactionService::Transaction
     #Deduct renter coupon balance.
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
       transaction = Transaction.find(tx[:id])
-      #PAYING WITH Avon-BUCKS: The Transaction fee: x% SHOULD BE CHARGED TO THE BUYERS CREDIT CARD
-      order_total = order_total(tx) + transaction.avon_commission
+      order_total = order_total(tx)
       renter = transaction.starter
       renter.coupon_balance = renter.coupon_balance - order_total
       renter.save
@@ -187,7 +186,7 @@ module TransactionService::Transaction
     #Return coupon balance to renter on reject
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
       transaction = Transaction.find(tx[:id])
-      order_total = order_total(tx) + order_commission(tx)
+      order_total = order_total(tx)
       renter = transaction.starter
       if renter.coupon_balance_cents.present?
         renter.coupon_balance += order_total   

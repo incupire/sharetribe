@@ -48,6 +48,37 @@ class PaymentSettingsController < ApplicationController
     render 'index', locals: index_view_locals
   end
 
+  def new_stripe_customber
+    @selected_left_navi_link = "new-stripe-customber"
+    render 'new_stripe_customber', locals: {left_hand_navigation_links: settings_links_for(@target_user, @current_community),
+                                     stripe_publishable_key: StripeHelper.publishable_key(@current_community.id)} 
+  end
+
+  def create_stripe_customer
+    if params[:stripe_token].present?
+      begin
+          stripe_customer = StripeService::API::StripeApiWrapper.register_customer(
+                                  community: @current_community, 
+                                  email: @current_user.primary_email.address, 
+                                  card_token: params[:stripe_token])
+          @current_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
+          flash[:success] = "Card saved successfully!"
+          redirect_to '/s'                         
+      rescue Stripe::CardError => e
+        body = e.json_body
+        err  = body[:error]
+        flash[:error] = "Stripe could not finalize your request as #{err[:message]}"
+        render 'new_stripe_customber'
+      rescue Exception => e
+        flash[:error] = "Stripe could not finalize your request now, please try later!"
+        render 'new_stripe_customber'
+      end
+    else
+      flash[:error] = "Stripe could not finalize your request now, please try later!"
+      render 'new_stripe_customber'
+    end
+  end
+
   private
 
   def ensure_payments_enabled

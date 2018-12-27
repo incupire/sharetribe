@@ -83,6 +83,18 @@ class StripeService::API::StripeApiWrapper
       end
     end
 
+    def stripe_customer_charge(community:, cust_id:, amount:, currency:, description:, is_captured:, metadata: {})
+      with_stripe_payment_config(community) do |payment_settings|
+        Stripe::Charge.create({
+          amount: amount,
+          currency: currency,
+          customer: cust_id,
+          description: description,
+          capture: is_captured,
+        }.merge(metadata: metadata))      
+      end
+    end
+
     def capture_charge(community:, charge_id:, seller_id:)
       with_stripe_payment_config(community) do |payment_settings|
         case charges_mode(community)

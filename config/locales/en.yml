@@ -1642,6 +1642,7 @@ en:
     settings:
       account: Account
       notifications: Notifications
+      stripe_customer: "Stripe Customer"
       profile: "Profile info"
       settings: Settings
       paypal_payments: "PayPal Payments"
@@ -2592,3 +2593,6 @@ en:
     wrong_setup: "There is something wrong with the payment system setup in this marketplace: the platform has not been registered. Please contact the team to let them know that they should register their platform at Stripe."
     invalid_bank_account_number: "Please check that your bank account is entered correctly and matches your country."
     invalid_postal_code: "Invalid postal code for %{country}"
+    stripe_customer:
+      title: "Card Payment References"
+      save_card: "Save"
