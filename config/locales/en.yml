@@ -2596,3 +2596,4 @@ en:
     stripe_customer:
       title: "Card Payment References"
       save_card: "Save"
+      no_saved_cards: "You don't have any saved cards."

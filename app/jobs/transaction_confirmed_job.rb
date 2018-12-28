@@ -23,31 +23,6 @@ class TransactionConfirmedJob < Struct.new(:conversation_id, :community_id)
       when :destination then Delayed::Job.enqueue(StripePayoutJob.new(transaction.id, community_id), :priority => 9, :run_at => available_date)
       when :separate then Delayed::Job.enqueue(StripePayoutJob.new(transaction.id, community_id), :priority => 9)
       end
-    elsif transaction.payment_gateway == :coupon_pay
-      ###### The marketplace Transaction Fee is charged to the BUYERs credit card for coupon pay transaction ######
-      commission_amount = order_commission(transaction)
-      begin
-        stripe_customer_charge = StripeService::API::StripeApiWrapper.stripe_customer_charge(
-                                          community: community,
-                                          cust_id: transaction.buyer.stripe_customer_id,
-                                          amount: commission_amount.cents,
-                                          currency: commission_amount.currency.iso_code,
-                                          description: "Avon-BUCKS commission for transaction - #{transaction.id}",
-                                          is_captured: true,
-                                          metadata: {
-                                            buyer: "#{transaction.buyer.primary_email.address}",
-                                            seller: "#{transaction.seller.primary_email.address}",
-                                            transaction_id: "#{transaction.id}"
-                                          }
-                                        )       
-      rescue Exception => e
-        error(self, e)
-      end
     end
   end
-
-  private
-    def order_commission(tx)
-      TransactionService::Transaction.calculate_commission(tx.unit_price * tx.listing_quantity, tx.commission_from_seller, tx.minimum_commission)
-    end
 end

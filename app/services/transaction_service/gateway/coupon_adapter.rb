@@ -13,6 +13,22 @@ module TransactionService::Gateway
       commission = order_commission(tx)
       total      = order_total(tx)
       fee        = Money.new(0, total.currency)
+
+      avon_commission_charge = stripe_api.stripe_customer_charge(
+        community: tx.community,
+        cust_id: tx.buyer.stripe_customer_id,
+        amount: commission.cents,
+        currency: commission.currency.iso_code,
+        description: "Avon-BUCKS commission for transaction - #{tx.id}",
+        is_captured: false,
+        metadata: {
+          buyer: "#{tx.buyer.primary_email.address}",
+          seller: "#{tx.seller.primary_email.address}",
+          transaction_id: "#{tx.id}"
+        })
+
+      tx.update_attribute(:avon_commission_charge_id, avon_commission_charge.id)
+
       payment = {
         community_id: tx.community_id,
         transaction_id: tx.id,
@@ -64,8 +80,12 @@ module TransactionService::Gateway
     end
 
     def complete_preauthorization(tx:)
+      charge = stripe_api.capture_charge(community: tx.community_id, charge_id: tx.avon_commission_charge_id, seller_id: nil)
       result = Result::Success.new({})
       SyncCompletion.new(result)
+    rescue => e
+      Airbrake.notify(e)
+      Result::Error.new(e.message)
     end
 
     def get_payment_details(tx:)
@@ -100,6 +120,10 @@ module TransactionService::Gateway
 
     def order_commission(tx)
       TransactionService::Transaction.calculate_commission(tx.unit_price * tx.listing_quantity, tx.commission_from_seller, tx.minimum_commission)
+    end
+
+    def stripe_api
+      StripeService::API::Api.wrapper
     end       
   end
 end

@@ -565,7 +565,7 @@ module ApplicationHelper
         :id => "settings-tab-new-stripe-customber",
         :text => t("layouts.settings.stripe_customer"),
         :icon_class => icon_class("payments"),
-        :path => person_new_stripe_customber_settings_path(person),
+        :path => person_stripe_customber_settings_path(person),
         :name => "new-stripe-customber"
       }      
     ]
