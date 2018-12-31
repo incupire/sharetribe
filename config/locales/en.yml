@@ -1165,8 +1165,8 @@ en:
     community_updates:
       added_offer: "%{name_link} added a listing:"
       added_request: "%{name_link} added a listing:"
-      added_listing: "%{name_link} added a listing:"
-      update_mail_title: "%{title_link} update"
+      added_listing: "%{name_link} added"
+      update_mail_title: "%{title_link} New Offers"
       title_link_text: "%{community_name}"
       intro_paragraph: "Here are some of the things that happened on %{community_link} during the past %{time_since_last_update}."
       intro_paragraph_link_text: "%{community_name}"

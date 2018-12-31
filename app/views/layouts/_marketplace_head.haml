@@ -3,12 +3,12 @@
 - if content_for?(:title)
   - title = "#{content_for(:title)} - #{title_service_name}"
 - else
-  - title = "#{title_service_name} - #{community_slogan}"
+  - title = "Avontage, Arizona| Freelancers, Influencers, and Business Owners"
 
 - if content_for?(:keywords)
   - keywords = content_for(:keywords)
 - else
-  - keywords = StringUtils.keywords(community_slogan)
+  - keywords = "Freelancers, influencers, business owners"
 
 - if content_for?(:meta_author)
   - meta_author = content_for(:meta_author)
@@ -20,7 +20,7 @@
 - if content_for?(:meta_description)
   - meta_description = "#{content_for(:meta_description)}"
 - else
-  - meta_description = "#{community_description(false)} - #{community_slogan}"
+  - meta_description = "Avontage, Arizona is platform for local trading services, freelancers, influencers and business owners. Join us to trade marketing, beauty, health, photography services."
 
 - if content_for?(:meta_image)
   - meta_image = content_for(:meta_image)
