@@ -115,13 +115,14 @@ module TransactionService::Transaction
     set_adapter = settings_adapter(opts_tx[:payment_gateway])
     tx_process_settings = set_adapter.tx_process_settings(opts_tx)
     tx = TxStore.create(opts_tx.merge(tx_process_settings))
-
     tx_process = tx_process(tx[:payment_process])
+    
     gateway_adapter = gateway_adapter(tx[:payment_gateway])
     res = tx_process.create(tx: tx,
                             gateway_fields: opts[:gateway_fields],
                             gateway_adapter: gateway_adapter,
                             force_sync: force_sync)
+
     #Deduct renter coupon balance.
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
       transaction = Transaction.find(tx[:id])
@@ -222,7 +223,7 @@ module TransactionService::Transaction
     # Add coupon balance to seller account on marked complete  
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
       transaction = Transaction.find(tx[:id])
-      seller_gets = order_total(tx) - order_commission(tx)
+      seller_gets = order_total(tx) #- order_commission(tx)
       seller = transaction.author
       if seller.coupon_balance_cents.present?
         seller.coupon_balance += seller_gets   

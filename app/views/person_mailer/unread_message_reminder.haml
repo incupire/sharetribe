@@ -1,0 +1,13 @@
+- url = person_message_url(@recipient, @url_params.merge({:id => @conversation.id.to_s})) + "#message#{@message.id.to_s}"
+
+%tr
+  %td{:align => "left"}
+    %font{body_font}
+      = t("emails.unread_message_reminder.not_responded_yet_for_message", :sender => PersonViewUtils.person_display_name(@message.sender, @current_community))
+
+= render :partial => "action_button", :locals => { :text => t("emails.unread_message_reminder.click_here_to_reply"), :url => url}
+
+%tr
+  %td{:align => "left"}
+    %font{body_font}
+      = t("emails.unread_message_reminder.tip_about_responding_message")

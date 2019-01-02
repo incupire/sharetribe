@@ -10,9 +10,25 @@ module TransactionService::Gateway
     end
 
     def create_payment(tx:, gateway_fields:, force_sync:)
-      total      = order_total(tx)
       commission = order_commission(tx)
+      total      = order_total(tx)
       fee        = Money.new(0, total.currency)
+
+      avon_commission_charge = stripe_api.stripe_customer_charge(
+        community: tx.community,
+        cust_id: tx.buyer.stripe_customer_id,
+        amount: commission.cents,
+        currency: commission.currency.iso_code,
+        description: "Avon-BUCKS commission for transaction - #{tx.id}",
+        is_captured: false,
+        metadata: {
+          buyer: "#{tx.buyer.primary_email.address}",
+          seller: "#{tx.seller.primary_email.address}",
+          transaction_id: "#{tx.id}"
+        })
+
+      tx.update_attribute(:avon_commission_charge_id, avon_commission_charge.id)
+
       payment = {
         community_id: tx.community_id,
         transaction_id: tx.id,
@@ -20,7 +36,7 @@ module TransactionService::Gateway
         receiver_id: tx.listing_author_id,
         status: :pending,
         sum:  total,
-        commission: commission,
+        commission: Money.new(0, total.currency), #TODO Commission should be zero for seller in case of coupon payment!
         fee: fee,
         real_fee: nil,
         subtotal: total - fee,
@@ -37,8 +53,8 @@ module TransactionService::Gateway
     end
 
     def reject_payment(tx:, reason: "")
-      total      = order_total(tx)
       commission = order_commission(tx)
+      total      = order_total(tx)
       fee        = Money.new(0, total.currency)
       payment = {
         community_id: tx.community_id,
@@ -47,7 +63,7 @@ module TransactionService::Gateway
         receiver_id: tx.listing_author_id,
         status: :canceled,
         sum:  total,
-        commission: commission,
+        commission: Money.new(0, total.currency), #Commission should be zero for seller in case of coupon payment!
         fee: fee,
         real_fee: nil,
         subtotal: total - fee,
@@ -64,13 +80,17 @@ module TransactionService::Gateway
     end
 
     def complete_preauthorization(tx:)
+      charge = stripe_api.capture_charge(community: tx.community_id, charge_id: tx.avon_commission_charge_id, seller_id: nil)
       result = Result::Success.new({})
       SyncCompletion.new(result)
+    rescue => e
+      Airbrake.notify(e)
+      Result::Error.new(e.message)
     end
 
     def get_payment_details(tx:)
-      total      = order_total(tx)
       commission = order_commission(tx)
+      total      = order_total(tx) + commission #avon_commission = commission
       fee        = Money.new(0, total.currency)
       payment = {
         sum: total,
@@ -100,6 +120,10 @@ module TransactionService::Gateway
 
     def order_commission(tx)
       TransactionService::Transaction.calculate_commission(tx.unit_price * tx.listing_quantity, tx.commission_from_seller, tx.minimum_commission)
-    end        
+    end
+
+    def stripe_api
+      StripeService::API::Api.wrapper
+    end       
   end
 end

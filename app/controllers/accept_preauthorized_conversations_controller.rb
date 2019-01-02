@@ -155,10 +155,10 @@ class AcceptPreauthorizedConversationsController < ApplicationController
   def render_payment_form(preselected_action, payment_type)
     community_country_code = LocalizationUtils.valid_country_code(@current_community.country)
     payment_details = TransactionService::Transaction.payment_details(@transaction)
-
+    
     render "accept", locals: {
       listing: @listing,
-      sum: @transaction.item_total + (payment_details[:payment_gateway_fee] || 0),
+      sum: @transaction.payment_gateway.eql?(:coupon_pay) ? @transaction.item_total + (payment_details[:payment_gateway_fee] || 0) + @transaction.commission : @transaction.item_total + (payment_details[:payment_gateway_fee] || 0),
       fee: @transaction.commission,
       gateway_fee: payment_details[:payment_gateway_fee],
       seller_gets: payment_details[:total_price]- @transaction.commission,

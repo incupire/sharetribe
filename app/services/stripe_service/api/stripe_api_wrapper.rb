@@ -49,7 +49,7 @@ class StripeService::API::StripeApiWrapper
         customer
       end
     end
-
+    
     def publishable_key(community)
       with_stripe_payment_config(community) do |payment_settings|
         payment_settings.api_publishable_key
@@ -83,7 +83,19 @@ class StripeService::API::StripeApiWrapper
       end
     end
 
-    def capture_charge(community:, charge_id:, seller_id:)
+    def stripe_customer_charge(community:, cust_id:, amount:, currency:, description:, is_captured:, metadata: {})
+      with_stripe_payment_config(community) do |payment_settings|
+        Stripe::Charge.create({
+          amount: amount,
+          currency: currency,
+          customer: cust_id,
+          description: description,
+          capture: is_captured,
+        }.merge(metadata: metadata))      
+      end
+    end
+
+    def capture_charge(community:, charge_id:, seller_id: nil)
       with_stripe_payment_config(community) do |payment_settings|
         case charges_mode(community)
         when :separate, :destination

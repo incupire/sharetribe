@@ -1,5 +1,5 @@
 # coding: utf-8
-class PreauthorizeTransactionsController < ApplicationController
+class PreauthorizeTransactionsController < ApplicationController 
 
   before_action do |controller|
    controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_do_a_transaction")
@@ -7,6 +7,7 @@ class PreauthorizeTransactionsController < ApplicationController
 
   before_action :ensure_listing_is_open
   before_action :ensure_listing_author_is_not_current_user
+  before_action :ensure_user_has_stripe_customer_account, only: [:initiated]
   before_action :ensure_authorized_to_reply
   before_action :ensure_can_receive_payment
 
@@ -34,11 +35,16 @@ class PreauthorizeTransactionsController < ApplicationController
     if validation_result.success
       initiation_success(validation_result.data)
     else
-      initiation_error(validation_result.data)
+      initiation_error(validation_result.data) 
     end
   end
 
   def initiated
+    if params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?
+      flash[:error] = "10%(pulled from settings screen) transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your credit card information, then proceed with your purchase."
+      redirect_to person_new_stripe_customber_settings_path(@current_user)
+      return
+    end   
     params_validator = params_per_hour? ? TransactionService::Validation::NewPerHourTransactionParams : TransactionService::Validation::NewTransactionParams
     validation_result = params_validator.validate(params).and_then { |params_entity|
       tx_params = add_defaults(
@@ -57,8 +63,8 @@ class PreauthorizeTransactionsController < ApplicationController
     if validation_result.success
       if params[:payment_type].eql?('coupon_pay')
         price_break_down = price_break_down_locals(validation_result.data, listing)
-        if price_break_down[:total] > @current_user.coupon_balance
-          error_msg = "Insufficient Ducat balance! Please contact Avontage to learn how you can earn more Ducats."
+        if price_break_down[:total]  > @current_user.coupon_balance
+          error_msg = "Insufficient  Avon-BUCKS! Please contact Avontage to learn how you can earn more Avon-BUCKS."
           render_error_response(request.xhr?, error_msg, listing_path(listing))
         else
           initiated_success(validation_result.data)
@@ -73,6 +79,25 @@ class PreauthorizeTransactionsController < ApplicationController
 
 
   private
+
+  def order_commission(tx_params, listing)
+    is_booking = is_booking?(listing)
+    currency = @current_community.currency
+    quantity = calculate_quantity(tx_params: tx_params, is_booking: is_booking, unit: listing.unit_type)    
+    item_total = TransactionService::Validation::ItemTotal.new(
+      unit_price: listing.price,
+      quantity: quantity)
+
+    p_set = TransactionService::Store::PaymentSettings.get_active_by_gateway(community_id: @current_community.id, payment_gateway: :stripe)
+    minimum_commission = Money.new(p_set[:minimum_transaction_fee_cents], currency)
+    commission_from_seller = p_set[:commission_from_seller]    
+
+    [(item_total.total * (commission_from_seller / 100.0) unless commission_from_seller.nil?),
+     (minimum_commission unless minimum_commission.nil? || minimum_commission.zero?),
+     Money.new(0, currency)]
+      .compact
+      .max 
+  end
 
   def calculate_shipping_from_listing(tx_params:, listing:, quantity:)
     if tx_params[:delivery] == :shipping
@@ -269,7 +294,8 @@ class PreauthorizeTransactionsController < ApplicationController
           payment_gateway: opts[:payment_type].to_sym,
           payment_process: :preauthorize,
           booking_fields: opts[:booking_fields],
-          delivery_method: opts[:delivery_method] || :none
+          delivery_method: opts[:delivery_method] || :none,
+          avon_commission: opts[:avon_commission]
     }
 
     if(opts[:delivery_method] == :shipping)
@@ -391,10 +417,12 @@ class PreauthorizeTransactionsController < ApplicationController
 
   def initiated_success(tx_params)
     is_booking = is_booking?(listing)
-
+    
     quantity = calculate_quantity(tx_params: tx_params, is_booking: is_booking, unit: listing.unit_type)
     shipping_total = calculate_shipping_from_listing(tx_params: tx_params, listing: listing, quantity: quantity)
-
+    
+    avon_commission = params[:payment_type].eql?('coupon_pay') ? order_commission(tx_params, listing) : Money.new(0, @current_community.currency)
+    
     tx_response = create_preauth_transaction(
       payment_type: params[:payment_type].to_sym,
       community: @current_community,
@@ -405,6 +433,7 @@ class PreauthorizeTransactionsController < ApplicationController
       force_sync: !request.xhr?,
       delivery_method: tx_params[:delivery],
       shipping_price: shipping_total.total,
+      avon_commission: avon_commission,
       booking_fields: {
         start_on:   tx_params[:start_on],
         end_on:     tx_params[:end_on],
@@ -433,5 +462,13 @@ class PreauthorizeTransactionsController < ApplicationController
       end
 
     render_error_response(request.xhr?, error_msg, path)
+  end
+
+  def ensure_user_has_stripe_customer_account
+    if params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?
+      flash[:error] = "10%(pulled from settings screen) transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your credit card information, then proceed with your purchase."
+      xhr_json_redirect person_new_stripe_customber_settings_path(@current_user)
+      return
+    end
   end
 end

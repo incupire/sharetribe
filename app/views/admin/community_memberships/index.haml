@@ -1,4 +1,4 @@
-- content_for :javascript do
+- content_for :javascript do 
   ST.initializeManageMembers();
 
 - content_for :title_header do
@@ -111,8 +111,7 @@
   'admin.communities.manage_members.unban_user_confirmation',
   'admin.communities.manage_members.this_makes_the_user_an_admin'])
 
-
-.lightbox.lightbox-model.coupon-balance-popup
+.lightbox.lightbox-model.coupon-balance-popup 
   .lightbox-content.code-popup.border-thick
     %a{:href => "", :class => "close right", :id => "close_x"}
       %i.icon.icon-remove.icon-custom
@@ -135,12 +134,12 @@
         add_bal_form_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/add_coupon_balance";
         $('#coupon_balance_form').attr('action', add_bal_form_url);
         $('.add_deduct_btn').text('Add');
-        $('.label_add_deduct').text('Add Ducat Balance');
+        $('.label_add_deduct').text('Add Avon-BUCKS');
       }else if(action == "deduct"){
         deduct_bal_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/deduct_coupon_balance";
         $('#coupon_balance_form').attr('action', deduct_bal_url);
         $('.add_deduct_btn').text('Deduct');
-        $('.label_add_deduct').text('Deduct Ducat  Balance');      
+        $('.label_add_deduct').text('Deduct Avon-BUCKS');      
       }
       $('.coupon-balance-popup').lightbox_me({centered: true, zIndex: 1000000})
     });        

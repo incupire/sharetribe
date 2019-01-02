@@ -380,6 +380,7 @@ class TransactionsController < ApplicationController
         total: Maybe(tx.payment_total).or_else(payment[:total_price]),
         seller_gets: Maybe(tx.payment_total).or_else(payment[:total_price]) - tx.commission,
         fee: tx.commission,
+        avon_commission: tx.avon_commission,
         shipping_price: tx.shipping_price,
         total_label: total_label,
         unit_type: tx.unit_type,

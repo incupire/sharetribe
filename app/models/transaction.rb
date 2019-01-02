@@ -37,6 +37,9 @@
 #  booking_uuid                      :binary(16)
 #  deleted                           :boolean          default(FALSE)
 #  coupon_bal_refunded               :boolean          default(FALSE)
+#  avon_commission_cents             :integer
+#  avon_commission_currency          :string(255)
+#  avon_commission_charge_id         :string(255)
 #
 # Indexes
 #
@@ -83,6 +86,7 @@ class Transaction < ApplicationRecord
 
   monetize :minimum_commission_cents, with_model_currency: :minimum_commission_currency
   monetize :unit_price_cents, with_model_currency: :unit_price_currency
+  monetize :avon_commission_cents, with_model_currency: :avon_commission_currency
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :unit_price_currency
 
   scope :exist, -> { where(deleted: false) }
@@ -110,6 +114,8 @@ class Transaction < ApplicationRecord
     includes(:testimonials, testimonials: [:author, :receiver], listing: :author)
     .where(current_state: ['confirmed', 'canceled']).where.not(listings: {id: nil})
   }
+
+  after_save :push_unread_message_reminder
 
   def booking_uuid_object
     if self[:booking_uuid].nil?
@@ -279,7 +285,19 @@ class Transaction < ApplicationRecord
     unit_price       = self.unit_price || 0
     quantity         = self.listing_quantity || 1
     shipping_price   = self.shipping_price || 0
-    (unit_price * quantity) + shipping_price
+    if self.payment_gateway.eql?(:coupon_pay)
+      (unit_price * quantity) + shipping_price + commission
+    else
+      (unit_price * quantity) + shipping_price
+    end
   end
 
+  def push_unread_message_reminder
+    if ["preauthorized", "paid", "rejected", "confirmed", "canceled"].include?(self.current_state)
+      community = self.community
+      if community.unread_message_reminder_enabled? && community.send_unread_message_reminder_day.present?
+        Delayed::Job.enqueue(UnreadTransactionReminderJob.new(self.id, conversation_id, community.id), priority: 9, :run_at => (Date.today + community.send_unread_message_reminder_day.to_i.days).beginning_of_day + 4.hours)
+      end
+    end     
+  end
 end

@@ -267,6 +267,8 @@ CREATE TABLE `communities` (
   `favicon_processing` tinyint(1) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT NULL,
   `end_user_analytics` tinyint(1) DEFAULT '1',
+  `unread_message_reminder_enabled` tinyint(1) DEFAULT '0',
+  `send_unread_message_reminder_day` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -1184,6 +1186,7 @@ CREATE TABLE `people` (
   `deleted` tinyint(1) DEFAULT '0',
   `cloned_from` varchar(22) DEFAULT NULL,
   `coupon_balance_cents` int(11) DEFAULT '0',
+  `stripe_customer_id` varchar(255) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -1399,6 +1402,9 @@ CREATE TABLE `transactions` (
   `booking_uuid` binary(16) DEFAULT NULL,
   `deleted` tinyint(1) DEFAULT '0',
   `coupon_bal_refunded` tinyint(1) DEFAULT '0',
+  `avon_commission_cents` int(11) DEFAULT NULL,
+  `avon_commission_currency` varchar(255) DEFAULT NULL,
+  `avon_commission_charge_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_transactions_on_listing_id` (`listing_id`) USING BTREE,
   KEY `index_transactions_on_conversation_id` (`conversation_id`) USING BTREE,
@@ -2275,6 +2281,10 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20180524081429'),
 ('20180826043038'),
 ('20180830105935'),
-('20180904105153');
+('20180904105153'),
+('20181119101139'),
+('20181122065110'),
+('20181226103538'),
+('20181228120306');
 
 

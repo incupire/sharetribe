@@ -359,6 +359,37 @@ class PersonMailer < ActionMailer::Base
     end
   end
 
+  def unread_message_reminder(conversation, message)
+    @email_type =  "email_about_new_messages"
+    @conversation = conversation
+    @community = conversation.community
+    recipient = message.conversation.other_party(message.sender)
+    set_up_layout_variables(recipient, @community, @email_type)
+    with_locale(recipient.locale, @community.locales.map(&:to_sym), @community.id) do
+      @message = message
+      sending_params = {:to => recipient.confirmed_notification_emails_to,
+                     :from => community_specific_sender(@community),
+                     :subject => t("emails.unread_message_reminder.you_have_an_unread_message")}
+      premailer_mail(sending_params)
+    end   
+  end
+
+  def unread_transaction_reminder(tx, conversation, recipient)
+    @transaction = tx
+    @email_type =  "email_about_new_messages"
+    @conversation = conversation
+    @community = conversation.community
+    recipient = recipient
+    set_up_layout_variables(recipient, @community, @email_type)
+    with_locale(recipient.locale, @community.locales.map(&:to_sym), @community.id) do
+      @message = message
+      sending_params = {:to => recipient.confirmed_notification_emails_to,
+                     :from => community_specific_sender(@community),
+                     :subject => t("emails.unread_message_reminder.you_have_an_unread_message")}
+      premailer_mail(sending_params)
+    end       
+  end
+
   def premailer_mail(opts, &block)
     premailer(mail(opts, &block))
   end

@@ -148,6 +148,9 @@ Rails.application.routes.draw do
     get '/:person_id/settings/payments' => 'payment_settings#index', :as => :person_payment_settings
     post '/:person_id/settings/payments' => 'payment_settings#create', :as => :create_person_payment_settings
     put '/:person_id/settings/payments' => 'payment_settings#update', :as => :update_person_payment_settings
+    get '/:person_id/settings/stripe_customber' => 'payment_settings#stripe_customer', :as => :person_stripe_customber_settings
+    get  '/:person_id/settings/stripe_customber/edit' => 'payment_settings#edit_stripe_customer', :as => :person_edit_stripe_customber_settings
+    put '/:person_id/settings/update_stripe_customer' => 'payment_settings#update_stripe_customer', as: :person_update_stripe_customer_settings
     get '/:person_id/settings/payments/paypal_account' => 'paypal_accounts#index', :as => :paypal_account_settings_payment
 
     # community membership related actions

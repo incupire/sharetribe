@@ -1,4 +1,4 @@
-- content_for :javascript do
+- content_for :javascript do 
   initialize_profile_view("#{@person.username}");
 
 - content_for :title_header do
@@ -24,7 +24,7 @@
             .ss.text-part= t(".add_description")
     - if @current_user.present? && @current_user == @person     
       .row.coupan_balances
-        %span.people-custom-fields-title.coupan_title Your Available Ducat balance:
+        %span.people-custom-fields-title.coupan_title Your Available Avon-BUCKS:
         %span.price
           = MoneyViewUtils.to_humanized(@person.coupon_balance).html_safe
     - if community_person_custom_fields.any?
