@@ -227,7 +227,7 @@ class Community < ApplicationRecord
   has_attached_file :small_cover_photo,
                     :styles => {
                       :header => "1600x195#",
-                      :hd_header => "1920x96#",
+                      :hd_header => "1920x300#",
                       :original => "3840x3840>"
                     },
                     :default_url => ->(_) { ActionController::Base.helpers.asset_path("cover_photos/header/default.jpg") },

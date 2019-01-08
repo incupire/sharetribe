@@ -421,6 +421,8 @@ en:
           category: Category
           status: Status
           delete_listing: Delete
+          edit_listing: Edit
+          featured:  Featured
         open: Open
         closed: Closed
         expired: Expired
@@ -1319,7 +1321,7 @@ en:
     contact_us: "Contact us"
     profile: Profile
     manage_listings: "Manage listings"
-    invite: "Invite new members"
+    invite: "Invite new members to trade with"
     login: "Log in"
     signup: "Sign up"
     menu: Menu

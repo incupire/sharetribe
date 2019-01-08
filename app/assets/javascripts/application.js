@@ -69,6 +69,7 @@
 //= require admin/expiration_notice
 //= require admin/custom_fields
 //= require admin/categories
+//= require admin/manage_listings
 //= require admin/manage_members
 //= require admin/topbar_menu
 //= require admin/community_customizations

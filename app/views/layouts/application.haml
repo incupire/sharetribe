@@ -48,14 +48,15 @@
                 .lander-content.marketplace-lander-content
                   = yield :title_header
           - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
-            .coverimage
-              %figure.marketplace-cover-small.fluidratio
-              .coverimage-fade{:class => yield(:coverfade_class)}
-                %figure.marketplace-cover-small-fade.fluidratio
-            .title-container
-              .title-header-wrapper
-                .marketplace-title-header
-                  = yield :title_header
+            = link_to search_path(category: "featured") do
+              .coverimage
+                %figure.marketplace-cover-small.fluidratio
+                .coverimage-fade{:class => yield(:coverfade_class)}
+                  %figure.marketplace-cover-small-fade.fluidratio
+              .title-container
+                .title-header-wrapper
+                  .marketplace-title-header
+                    = yield :title_header
 
         %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : ''}
           .wrapper

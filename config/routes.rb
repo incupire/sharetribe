@@ -271,7 +271,11 @@ Rails.application.routes.draw do
           get "getting_started_guide/invitation",             to: redirect("/admin/getting_started_guide/invitation")
 
         end
-        resources :listings, controller: :community_listings, only: [:index, :destroy]
+        resources :listings, controller: :community_listings, only: [:index, :destroy] do
+          member do
+            put :featured
+          end
+        end
         resources :transactions, controller: :community_transactions, only: :index do
           collection do
             get 'export'
