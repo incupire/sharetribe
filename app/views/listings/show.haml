@@ -100,14 +100,22 @@
             .listing-fb-like-button
               = facebook_like(current_user?(@listing.author))
             .listing-tweet-button
-              - twitter_params =  {count: "horizontal", via: (@current_community.twitter_handle), text: @listing.title }.compact
-              = link_to("", "https://twitter.com/share", :class => "twitter-share-button", "data" => twitter_params)
-              - content_for :extra_javascript do
-                :javascript
-                  !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+              .twitter_button
+                = image_tag 'twitter-logo-silhouette.png'
+                %span Share on Twitter
+              .around_hide
+                - twitter_params =  {count: "horizontal", via: (@current_community.twitter_handle), text: @listing.title }.compact
+                = link_to("", "https://twitter.com/share", :class => "twitter-share-button", "data" => twitter_params)
+                - content_for :extra_javascript do
+                  :javascript
+                    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
             .linkedin-share-button
-              %a{href: "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url(@listing)}&title=#{@listing.title}&summary=#{@listing.description}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
-                %img{alt: "", height: "20", src: "/assets/LinkedIN.png", width: "54"}                  
+              .linked_in
+                = image_tag 'linkedin-letters.png'
+                %span Share on linkedIn
+              .around_hide
+                %a{href: "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url(@listing)}&title=#{@listing.title}&summary=#{@listing.description}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
+                  %img{alt: "", height: "20", src: "/assets/LinkedIN.png", width: "54"}                  
 
 
     - unless (@listing.closed? && !current_user?(@listing.author)) || !@current_community.listing_comments_in_use

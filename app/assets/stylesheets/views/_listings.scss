@@ -31,7 +31,8 @@
 .listing-fb-like-button,
 .listing-tweet-button {
   float: left;
-  margin-right: lines(1);
+  margin-right: 5px;
+  position: relative;
 }
 
 .listing-tweet-button {
@@ -305,12 +306,14 @@ $listing-author-avatar-height: 108;
 }
 @media (min-width: 48em){
   .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
-      width: 50%;
+    width: 50%;
+
   }
 }
 @media (min-width: 63em){
   .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
       width: 33.333%;
+      
   }
 }
 .reviews_grid {
@@ -319,4 +322,66 @@ $listing-author-avatar-height: 108;
   left: 5px;
   top: 5px;
   font-size: 12px;
+}
+
+.linkedin-share-button {
+  display: inline-block;
+  width: 125px;
+  @media (min-width: 320px) and (max-width: 480px) {
+    display: block;
+    width: 100%;
+    float: left;
+    margin-top: 5px;
+  }
+}
+.around_hide {
+  opacity: 0;
+  a {
+    width:100%;
+  }
+}
+.twitter_button {
+  position: absolute;
+  display: inline-block;
+  background: #4080ff;
+  height: 25px;
+  border-radius: 4px;
+  padding: 5px 10px;
+  img {
+    width: 15px;
+  }
+  span {
+    font-size: 12px;
+    position: relative;
+    top: -3px;
+    color: #fff;
+    font-weight: 600;
+  }
+}
+.linked_in {
+  position: absolute;
+  display: inline-block;
+  background: #4080ff;
+  height: 25px;
+  border-radius: 4px;
+  padding: 5px 10px;
+  img {
+    width: 12px;
+    position: relative;
+    top: -3px;
+  }
+  span {
+    font-size: 12px;
+    position: relative;
+    top: -3px;
+    color: #fff;
+    font-weight: 600;
+  }
+}
+.listing-tweet-button {
+  padding-top: 0px;
+  width: 125px;
+}
+.listing-fb-like-button {
+  height: 25px;
 }
