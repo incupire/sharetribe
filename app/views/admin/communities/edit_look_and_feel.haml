@@ -43,7 +43,7 @@
     .row
       .col-12
         = form.label :small_cover_photo, t(".small_community_cover_photo"), :class => "input"
-        = render :partial => "layouts/info_text", :locals => { :text => t(".small_cover_photo_visibility") + " " + t(".small_cover_photo_instructions_text_with_dimensions", :width => 1920, :height => 96) }
+        = render :partial => "layouts/info_text", :locals => { :text => t(".small_cover_photo_visibility") + " " + t(".small_cover_photo_instructions_text_with_dimensions", :width => 1920, :height => 300) }
         = render 'layouts/filename', file_field: @community.small_cover_photo
         = form.file_field(:small_cover_photo, :class => "file_field")
 
