@@ -41,8 +41,8 @@
                     - ApplicationController.helpers.with_quantity_text(Community.last, listing) do |text|
                       %span.listing-price-quantity{style: 'font-family:Helvetica Neue, Helvetica, Arial, sans-serif;vertical-align: top;position: relative;top: 0.3125em;color: gray;font-size:12px;'}
                         = text
-            
-          = link_to listing_url(@url_params.merge({:id => listing.id})), :target => "_blank", style: 'font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:12px;color: #fff;text-decoration: none;border-radius: 5px;background-color: #fc1c54;padding: 8px 40px 8px;border: 2px solid #fb0341;clear: both;float:right;' do
+          - color = Maybe(Community.last).custom_color1.or_else { "fc1c54" }
+          = link_to listing_url(@url_params.merge({:id => listing.id})), :target => "_blank", style: "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:12px;color: #fff;text-decoration: none;border-radius: 5px;background-color: ##{color};padding: 8px 40px 8px;border: 2px solid #fb0341;clear: both;float:right;" do
             Buy
           
 
