@@ -21,6 +21,17 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
     redirect_to admin_community_listings_path(@current_community, sort: "updated")
   end
 
+  def featured
+    listing = Listing.find(params[:id])
+    listing.toggle!(:featured)
+
+    if request.xhr?
+      render json: {status: listing.featured}
+    else
+      redirect_to admin_community_listings_path(@current_community, sort: "updated")
+    end
+  end
+
   private
 
   def resource_scope

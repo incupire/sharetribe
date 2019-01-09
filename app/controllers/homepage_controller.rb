@@ -171,7 +171,8 @@ class HomepageController < ApplicationController
       price_max: params[:price_max],
       locale: I18n.locale,
       include_closed: false,
-      sort: nil
+      sort: nil,
+      featured: params[:category].eql?('featured') ? true : false
     }
 
     if @view_type != 'map' && location_search_in_use
