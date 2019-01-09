@@ -421,6 +421,8 @@ en:
           category: Category
           status: Status
           delete_listing: Delete
+          edit_listing: Edit
+          featured:  Featured
         open: Open
         closed: Closed
         expired: Expired
@@ -1319,7 +1321,7 @@ en:
     contact_us: "Contact us"
     profile: Profile
     manage_listings: "Manage listings"
-    invite: "Invite new members"
+    invite: "Invite new members to trade with"
     login: "Log in"
     signup: "Sign up"
     menu: Menu
@@ -1642,6 +1644,7 @@ en:
     settings:
       account: Account
       notifications: Notifications
+      stripe_customer: "Stripe Customer"
       profile: "Profile info"
       settings: Settings
       paypal_payments: "PayPal Payments"
@@ -2592,3 +2595,7 @@ en:
     wrong_setup: "There is something wrong with the payment system setup in this marketplace: the platform has not been registered. Please contact the team to let them know that they should register their platform at Stripe."
     invalid_bank_account_number: "Please check that your bank account is entered correctly and matches your country."
     invalid_postal_code: "Invalid postal code for %{country}"
+    stripe_customer:
+      title: "Card Payment References"
+      save_card: "Save"
+      no_saved_cards: "You don't have any saved cards."

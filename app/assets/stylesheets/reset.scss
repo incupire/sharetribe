@@ -296,3 +296,18 @@ i.icon.icon-remove.icon-custom:before {
   text-align: center;
   padding: 4px !important;
 }
+.marketplace-lander .coverimage-fade.disbale_fade {
+  background: transparent !important;
+}
+figure.marketplace-cover-small.fluidratio.custom_small_cover {
+  background-repeat: no-repeat;
+  height: 300px;
+  background-position: center center;
+}
+.marketplace-lander .marketplace-title-header.make_custom_cover_title {
+  h1 {
+    font-size: 3em;
+    color: #fff;
+    text-align: center;
+  }
+}

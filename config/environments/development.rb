@@ -68,6 +68,9 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = false
 
   config.action_mailer.perform_caching = false
+  
+  ActionMailer::Base.delivery_method = :letter_opener
+  config.action_mailer.perform_deliveries = true
 
   # if APP_CONFIG.mail_delivery_method == "sendmail"
   #   ActionMailer::Base.delivery_method = :sendmail
@@ -83,8 +86,6 @@ Rails.application.configure do
   #     :enable_starttls_auto => true
   #   }
   # end
-
-  config.action_mailer.delivery_method = :letter_opener
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log

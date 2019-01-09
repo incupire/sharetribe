@@ -48,6 +48,52 @@ class PaymentSettingsController < ApplicationController
     render 'index', locals: index_view_locals
   end
 
+  def stripe_customer
+    @selected_left_navi_link = "new-stripe-customber"
+    if @current_user.stripe_customer_id.present?
+      customer = stripe_api.get_customer_account(community: @current_community, customer_id: @current_user.stripe_customer_id)
+      card_info = stripe_api.get_card_info(customer: customer)
+    else
+      card_info = nil
+    end
+    render 'stripe_customer', locals: {left_hand_navigation_links: settings_links_for(@target_user, @current_community),
+                                     stripe_publishable_key: StripeHelper.publishable_key(@current_community.id),
+                                     card_info: card_info}     
+  end
+
+  def edit_stripe_customer
+    @selected_left_navi_link = "new-stripe-customber"
+    render 'edit_stripe_customer', locals: {left_hand_navigation_links: settings_links_for(@target_user, @current_community),
+                                     stripe_publishable_key: StripeHelper.publishable_key(@current_community.id)}      
+  end
+
+  def update_stripe_customer
+    if params[:stripe_token].present?
+      begin
+        if @current_user.stripe_customer_id.present?
+          customer = stripe_api.get_customer_account(community: @current_community, customer_id: @current_user.stripe_customer_id)
+          stripe_customer = stripe_api.update_customer(community: @current_community, customer_id: @current_user.stripe_customer_id, token: params[:stripe_token])          
+        else
+          stripe_customer = stripe_api.register_customer(
+            community: @current_community, 
+            email: @current_user.primary_email.address, 
+            card_token: params[:stripe_token])
+        end
+        @current_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
+        flash[:success] = "Card saved successfully!"
+        redirect_to '/s'
+        return                         
+      rescue Stripe::CardError => e
+        flash[:error] = "Stripe could not finalize your request as: #{e.message}"
+      rescue Exception => e
+        flash[:error] = "Stripe could not finalize your request now, please try later!"
+      end
+    else
+      flash[:error] = "Stripe could not finalize your request now, please provide valid card information!"
+    end
+    redirect_to person_edit_stripe_customber_settings_path(@current_user)
+  end
+
   private
 
   def ensure_payments_enabled
@@ -368,5 +414,5 @@ class PaymentSettingsController < ApplicationController
 
   def target_user
     @target_user ||= Person.find_by!(username: params[:person_id], community_id: @current_community.id)
-  end  
+  end
 end
