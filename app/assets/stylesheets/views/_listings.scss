@@ -446,3 +446,23 @@ $listing-author-avatar-height: 108;
   line-height: 1.5em;
   width: 100%;
 }
+.custom_facebook_like {
+  background: #4267b2;
+  height: 40px;
+  float: left;
+  padding: 0px 10px;
+  margin-right: 5px;
+  border-radius: 4px;
+  &:active {
+    background: #4080ff;
+  }
+  &:hover {
+    background: #365899;
+  }
+}
+.fb-like.fb_iframe_widget {
+  display: block;
+  height: 40px;
+  float: left;
+  line-height: 30px;
+}
