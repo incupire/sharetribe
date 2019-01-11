@@ -167,7 +167,7 @@
             = link_to("javascript:;", class: 'fb_share') do
               = image_tag 'facebook-logo1.png'
               %span Share on Facebook
-            %a.twitter_share{:href => "https://twitter.com/share?url=https://#{request.host_with_port}/en/listings/#{@listing.id}&via=Avontage&related=#{@listing.title}&hashtags=Avontage&text=#{@listing.title}", target: '_blank'}
+            %a.twitter_share{:href => "https://twitter.com/share?url=https://#{request.host_with_port}/en/listings/#{@listing.id}&via=Avontage&related=#{@listing.title}&hashtags=Avontage&text=#{@listing.title}&listing_image=#{@listing.listing_images.first.image.url if @listing.listing_images.present?}", target: '_blank'}
               = image_tag 'twitter-logo-silhouette.png'
               %span Share on Twitter
             %a.twitter_share{href: "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url(@listing)}&title=#{@listing.title}&summary=#{@listing.description}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
