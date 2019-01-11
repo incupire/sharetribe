@@ -311,3 +311,8 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
     text-align: center;
   }
 }
+.home-fluid-thumbnail-grid-narrow.mobile-padding {
+  @media (min-width: 320px) and (max-width: 480px) {
+    padding: 15px;
+  }
+}

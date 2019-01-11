@@ -44,7 +44,9 @@ class FreeTransactionsController < ApplicationController
             content: contact_form.content,
             starting_page: ::Conversation::LISTING,
             payment_gateway: :none,
-            payment_process: :none}
+            payment_process: :none,
+            avon_commission: Money.new(0, @current_community.currency)
+          }
         })
 
       unless transaction_response[:success]
