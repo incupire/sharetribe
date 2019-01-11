@@ -100,11 +100,9 @@
             = link_to("javascript:;", class: 'fb_share') do
               = image_tag 'facebook-logo1.png'
               %span Share on Facebook
-            %a.twitter_share{:href => "https://twitter.com/share?url=https://#{request.host_with_port}/en/listings/#{@listing.id}&via=Avontage1&related=#{@listing.title}&hashtags=Avontage1&text=#{@listing.description}", target: '_blank'}
+            %a.twitter_share{:href => "https://twitter.com/share?url=https://#{request.host_with_port}/en/listings/#{@listing.id}&via=Avontage&related=#{@listing.title}&hashtags=Avontage&text=#{@listing.title}&listing_image=#{@listing.listing_images.first.image.url}", target: '_blank'}
               = image_tag 'twitter-logo-silhouette.png'
               %span Share on Twitter
-            
-
             %a.twitter_share{href: "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url(@listing)}&title=#{@listing.title}&summary=#{@listing.description}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
               = image_tag 'linkedin-letters.png'
               %span Share on linkedIn                  
@@ -151,9 +149,9 @@
               = link_to PersonViewUtils.person_display_name(@listing.author, @current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{PersonViewUtils.person_display_name(@listing.author, @current_community)}"
             - if @listing.author != @current_user
               .listing-author-contact
-                %a#listing-contact{href: contact_to_listing_path(:listing_id => @listing.id.to_s), :class => "listing-author-contact-button"}
+                %a#listing-contact{href: contact_to_listing_path(:listing_id => @listing.id.to_s), :class => "listing-author-contact-buttonx custom_contact button"}
                   .content
-                    = t(".contact")
+                    = t(".ask_seller")
 
     - if @listing_presenter.received_testimonials.size > 0
       .row-with-divider.listing-author-activity

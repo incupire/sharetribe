@@ -214,7 +214,7 @@
             = render :partial => "map", locals: { viewport: viewport }
         - else
           - if @view_type.eql?("grid")
-            %div{class: @category_menu_enabled ? "home-fluid-thumbnail-grid-narrow" : "home-fluid-thumbnail-grid-wide"}
+            %div{class: @category_menu_enabled ? "home-fluid-thumbnail-grid-narrow mobile-padding" : "home-fluid-thumbnail-grid-wide"}
               .home-fluid-thumbnail-grid
                 = render partial: "grid_item", collection: @listings, as: :listing, locals: { show_distance: location_search_in_use }
           - else
