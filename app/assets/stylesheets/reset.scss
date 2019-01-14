@@ -303,6 +303,9 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
   background-repeat: no-repeat;
   height: 300px;
   background-position: center center;
+  @media (min-width: 320px) and (max-width: 480px) {
+    height: 100px;
+  }
 }
 .marketplace-lander .marketplace-title-header.make_custom_cover_title {
   h1 {
