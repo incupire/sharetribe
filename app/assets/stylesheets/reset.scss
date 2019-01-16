@@ -312,6 +312,11 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
     font-size: 3em;
     color: #fff;
     text-align: center;
+    @media (min-width: 320px) and (max-width: 480px) {
+      font-size: 20px;
+      display: block;
+      padding-top: 1.5em;
+    }
   }
 }
 .home-fluid-thumbnail-grid-narrow.mobile-padding {
