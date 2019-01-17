@@ -329,3 +329,9 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
     padding: 15px;
   }
 }
+.main_height {
+  height: 250px;
+  @media (min-width: 320px) and (max-width: 480px) {
+    height: 100px;
+  }
+}
