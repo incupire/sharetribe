@@ -39,12 +39,7 @@ class PreauthorizeTransactionsController < ApplicationController
     end
   end
 
-  def initiated
-    if params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?
-      flash[:error] = "10%(pulled from settings screen) transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your credit card information, then proceed with your purchase."
-      redirect_to person_new_stripe_customber_settings_path(@current_user)
-      return
-    end   
+  def initiated  
     params_validator = params_per_hour? ? TransactionService::Validation::NewPerHourTransactionParams : TransactionService::Validation::NewTransactionParams
     validation_result = params_validator.validate(params).and_then { |params_entity|
       tx_params = add_defaults(
@@ -467,7 +462,7 @@ class PreauthorizeTransactionsController < ApplicationController
   def ensure_user_has_stripe_customer_account
     if params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?
       flash[:error] = "10%(pulled from settings screen) transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your credit card information, then proceed with your purchase."
-      xhr_json_redirect person_new_stripe_customber_settings_path(@current_user)
+      xhr_json_redirect person_stripe_customber_settings_path(@current_user)
       return
     end
   end
