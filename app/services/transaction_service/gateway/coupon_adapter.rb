@@ -13,21 +13,24 @@ module TransactionService::Gateway
       commission = order_commission(tx)
       total      = order_total(tx)
       fee        = Money.new(0, total.currency)
+      marketplace_txn_percentage_fee = marketplace_txn_percentage_fee(tx)
 
-      avon_commission_charge = stripe_api.stripe_customer_charge(
-        community: tx.community,
-        cust_id: tx.buyer.stripe_customer_id,
-        amount: commission.cents,
-        currency: commission.currency.iso_code,
-        description: "Avon-BUCKS commission for transaction - #{tx.id}",
-        is_captured: false,
-        metadata: {
-          buyer: "#{tx.buyer.primary_email.address}",
-          seller: "#{tx.seller.primary_email.address}",
-          transaction_id: "#{tx.id}"
-        })
+      if commission > 0 && marketplace_txn_percentage_fee[:commission_from_seller] > 0
+        avon_commission_charge = stripe_api.stripe_customer_charge(
+          community: tx.community,
+          cust_id: tx.buyer.stripe_customer_id,
+          amount: commission.cents,
+          currency: commission.currency.iso_code,
+          description: "Avon-BUCKS commission for transaction - #{tx.id}",
+          is_captured: false,
+          metadata: {
+            buyer: "#{tx.buyer.primary_email.address}",
+            seller: "#{tx.seller.primary_email.address}",
+            transaction_id: "#{tx.id}"
+          })
 
-      tx.update_attribute(:avon_commission_charge_id, avon_commission_charge.id)
+        tx.update_attribute(:avon_commission_charge_id, avon_commission_charge.id)
+      end
 
       payment = {
         community_id: tx.community_id,
@@ -80,7 +83,9 @@ module TransactionService::Gateway
     end
 
     def complete_preauthorization(tx:)
-      charge = stripe_api.capture_charge(community: tx.community_id, charge_id: tx.avon_commission_charge_id, seller_id: nil)
+      if tx.avon_commission_charge_id.present?
+        charge = stripe_api.capture_charge(community: tx.community_id, charge_id: tx.avon_commission_charge_id, seller_id: nil)
+      end
       result = Result::Success.new({})
       SyncCompletion.new(result)
     rescue => e
@@ -116,6 +121,10 @@ module TransactionService::Gateway
     def order_total(tx)
       shipping_total = Maybe(tx.shipping_price).or_else(0)
       tx.unit_price * tx.listing_quantity + shipping_total
+    end
+
+    def marketplace_txn_percentage_fee(tx)
+      TransactionService::API::Api.settings.get(community_id: tx[:community_id], payment_gateway: "stripe", payment_process: "preauthorize")[:data]      
     end
 
     def order_commission(tx)
