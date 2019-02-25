@@ -4,6 +4,28 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
     @selected_left_navi_link = "listings"
     @listings = resource_scope.order("#{sort_column} #{sort_direction}")
       .paginate(:page => params[:page], :per_page => 30)
+
+    respond_to do |format|
+      format.html do
+        @listings = resource_scope.order("#{sort_column} #{sort_direction}")
+                .paginate(:page => params[:page], :per_page => 30)        
+      end
+
+      format.csv do
+        all_listings = resource_scope
+
+        marketplace_name = @current_community.use_domain ? @current_community.domain : @current_community.ident
+
+        self.response.headers["Content-Type"] ||= 'text/csv'
+        self.response.headers["Content-Disposition"] = "attachment; filename=#{marketplace_name}-listings-#{Date.today}.csv"
+        self.response.headers["Content-Transfer-Encoding"] = "binary"
+        self.response.headers["Last-Modified"] = Time.now.ctime.to_s
+
+        self.response_body = Enumerator.new do |yielder|
+          generate_csv_for(yielder, all_listings, @current_community)
+        end
+      end
+    end      
   end
 
   def destroy
@@ -50,4 +72,34 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
   def sort_direction
     params[:direction] == 'asc' ? 'asc' : 'desc'
   end
+
+  def generate_csv_for(yielder, all_listings, community)
+    # first line is column names
+    header_row = %w{
+      title
+      author
+      created_at
+      updated_at
+      category
+      status
+      featured
+    }
+    yielder << header_row.to_csv(force_quotes: true)
+    unless all_listings.blank?
+      all_listings.each do |listing|
+        expired = listing.valid_until && listing.valid_until < DateTime.current
+        listing_data = {
+          title: listing.title,
+          author: PersonViewUtils.person_display_name(listing.author, community),
+          created_at: listing.created_at,
+          updated_at: listing.updated_at,
+          category: listing.category.display_name(I18n.locale),
+          status: expired ? 'expired' : (listing.open? ? 'open' : 'closed'),
+          featured: listing.featured?
+        }
+        data = listing_data.clone
+        yielder << data.values.to_csv(force_quotes: true)        
+      end
+    end
+  end  
 end

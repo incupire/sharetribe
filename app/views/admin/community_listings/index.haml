@@ -23,6 +23,8 @@
 
 = render :partial => "layouts/ajax_update_notification"
 
+#export-as-csv.right= link_to(" " + t("admin.communities.manage_members.export_all_as_csv"), {format: :csv}, {class: "js-users-csv-export " + icon_class("download")})
+
 .left-navi-section
   %h2= t("admin.communities.listings.listings")
 
