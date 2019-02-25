@@ -2,8 +2,6 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
 
   def index
     @selected_left_navi_link = "listings"
-    @listings = resource_scope.order("#{sort_column} #{sort_direction}")
-      .paginate(:page => params[:page], :per_page => 30)
 
     respond_to do |format|
       format.html do
@@ -66,6 +64,8 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
       'listings.created_at'
     when 'updated', nil
       'listings.updated_at'
+    when 'category'
+      'listings.featured'
     end
   end
 
