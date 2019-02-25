@@ -83,6 +83,11 @@
         .checkbox-container
           = form.check_box :email_admins_about_new_members
           = form.label :email_admins_about_new_members, t(".email_admins_about_new_members"), :class => "settings-checkbox-label"
+
+        .checkbox-container
+          = form.check_box :new_offer_reminder_to_admins
+          = form.label :new_offer_reminder_to_admins, t(".new_offer_reminder_to_admins"), :class => "settings-checkbox-label"
+
         .checkbox-container
           %span
             = form.check_box :unread_message_reminder_enabled
