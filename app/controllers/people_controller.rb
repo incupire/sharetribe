@@ -423,6 +423,7 @@ class PeopleController < Devise::RegistrationsController
         :description,
         :password,
         :password2,
+        :referral_code,
         :min_days_between_community_updates,
         location: [:address, :google_address, :latitude, :longitude],
         send_notifications: [],

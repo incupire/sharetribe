@@ -8,7 +8,7 @@
   - Adds `modifier_class` which can be used for view specific fine tunings
 
 %div{id: "favorite_#{listing[:id]}"}
-  - if @current_user.id != listing[:author][:id]
+  - if @current_user.present? && @current_user.id != listing[:author][:id]
     = render :partial => 'favorites/favorite_select_unselect', :locals => {:listing_id => listing[:id]}
 = link_to(listing_path(listing.url), :class => "#{modifier_class} fluid-thumbnail-grid-image-item-link") do
   .fluid-thumbnail-grid-image-image-container{:class => "#{modifier_class}"}
