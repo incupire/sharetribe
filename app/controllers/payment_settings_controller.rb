@@ -49,6 +49,7 @@ class PaymentSettingsController < ApplicationController
   end
 
   def stripe_customer
+    @stripe_service = stripe_settings
     @selected_left_navi_link = "new-stripe-customber"
     if @current_user.stripe_customer_id.present?
       customer = stripe_api.get_customer_account(community: @current_community, customer_id: @current_user.stripe_customer_id)
@@ -414,5 +415,9 @@ class PaymentSettingsController < ApplicationController
 
   def target_user
     @target_user ||= Person.find_by!(username: params[:person_id], community_id: @current_community.id)
+  end
+
+  def stripe_settings
+    TransactionService::API::Api.settings.get(community_id: @current_community.id, payment_gateway: "stripe", payment_process: "preauthorize")[:data]
   end
 end

@@ -18,7 +18,7 @@
     = t("settings.profile.these_fields_are_shown_in_your")
     = link_to(t("settings.profile.profile_page"), target_user) + "."
 
-  = form_for target_user do |form|
+  = form_for target_user do |form| 
     = form.label :given_name, t("settings.profile.given_name")
     = form.text_field :given_name, :class => "text_field", :maxlength => "30"
     .inline-label-container

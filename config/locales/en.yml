@@ -1653,12 +1653,12 @@ en:
     settings:
       account: Account
       notifications: Notifications
-      stripe_customer: "Stripe Customer"
+      stripe_customer: "Avontage Fees"
       profile: "Profile info"
       settings: Settings
       paypal_payments: "PayPal Payments"
       stripe_payments: "Stripe Payments"
-      payments: Payments  
+      payments: "Accept Credit Card" 
   listings:
     bubble_listing_not_visible:
       listing_not_visible: "You do not have permission to view this listing."
@@ -2609,3 +2609,7 @@ en:
       title: "Card Payment References"
       save_card: "Save"
       no_saved_cards: "You don't have any saved cards."
+      avontage_fee_structure: "Avontage Fee Structure:"
+      content1: "There is zero transaction fee for any offers you SELL in exchange for Avon-BUCKS"
+      content2: "A Transaction Fee of %{commission_from_seller}% will be charged to you when you BUY an Offer using your Avon-BUCKS credit"
+      content3: "A Transaction of  %{commission_from_seller}% will be deducted from any offers you SELL when accepting credit card payme"
