@@ -378,7 +378,14 @@ Rails.application.routes.draw do
         get :browse
         get :locations_json
         get :verification_required
+        get :favorites_listing
       end
+    resources :favorites  do
+      collection do
+        post :select
+        delete :unselect
+      end
+    end  
       resources :comments, :only => [:create, :destroy]
       resources :listing_images do
         collection do

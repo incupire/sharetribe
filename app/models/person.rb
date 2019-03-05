@@ -87,7 +87,9 @@ class Person < ApplicationRecord
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
-
+  
+  has_many :favorites, dependent: :destroy
+  has_many :favorite_listings, through: :favorites, source: :listing
   has_many :listings, -> { where(deleted: 0) }, :dependent => :destroy, :foreign_key => "author_id"
   has_many :emails, :dependent => :destroy, :inverse_of => :person
 
@@ -638,6 +640,10 @@ class Person < ApplicationRecord
     self.legacy_encrypted_password = nil
     self.password_salt = nil
     super
+  end
+
+  def is_favorite?(listing_id)
+    favorite_listings.pluck(:id).include?(listing_id)
   end
 
   def unsubscribe_from_community_updates

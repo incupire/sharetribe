@@ -273,6 +273,10 @@ class ListingsController < ApplicationController
     change_follow_status("unfollow")
   end
 
+  def favorites_listing
+    @listings = @current_user.favorite_listings
+  end
+
   def verification_required
 
   end
@@ -471,6 +475,7 @@ class ListingsController < ApplicationController
     if @current_community.follow_in_use?
       Delayed::Job.enqueue(NotifyFollowersJob.new(@listing.id, @current_community.id), :run_at => NotifyFollowersJob::DELAY.from_now)
     end
+    Delayed::Job.enqueue(NewOfferReminderToAdminsJob.new(@listing.id, @current_community.id))
 
     flash[:notice] = t(
       "layouts.notifications.listing_created_successfully",

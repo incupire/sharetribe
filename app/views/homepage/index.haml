@@ -140,7 +140,7 @@
           = icon_tag(view_type, ["icon-fix", "home-button-group-icon"])
           %span.home-toolbar-button-text
             = t("homepage.filters.#{view_type}_button")
-
+    
     - if listing_shape_menu_enabled || @category_menu_enabled
       .home-toolbar-filters.home-toolbar-filters-mobile-hidden#home-toolbar-filters
         - if listing_shape_menu_enabled

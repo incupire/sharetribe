@@ -73,6 +73,7 @@ class Listing < ApplicationRecord
 
   belongs_to :author, :class_name => "Person", :foreign_key => "author_id"
 
+  has_many :favorites
   has_many :listing_images, -> { where("error IS NULL").order("position") }, :dependent => :destroy
 
   has_many :conversations

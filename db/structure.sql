@@ -269,6 +269,7 @@ CREATE TABLE `communities` (
   `end_user_analytics` tinyint(1) DEFAULT '1',
   `unread_message_reminder_enabled` tinyint(1) DEFAULT '0',
   `send_unread_message_reminder_day` varchar(255) DEFAULT NULL,
+  `new_offer_reminder_to_admins` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -532,6 +533,18 @@ CREATE TABLE `export_task_results` (
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `favorites`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `favorites` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `listing_id` int(11) DEFAULT NULL,
+  `person_id` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `feature_flags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -2287,6 +2300,9 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20181122065110'),
 ('20181226103538'),
 ('20181228120306'),
-('20190102101555');
+('20190102101555'),
+('20190225131833'),
+('20190225133031'),
+('20190227132821');
 
 

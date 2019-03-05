@@ -6,7 +6,7 @@
           .content
             .icon-with-text{:class => "ss-delete"}
             .text-with-icon
-              Cancel and refund Avon-BUCKS balance
+              Click if you'd like to Cancel and refund Avon-BUCKS balance
               
   - get_conversation_statuses(__transaction_model, is_author).each do |status|
     - if status[:type] == :status_info

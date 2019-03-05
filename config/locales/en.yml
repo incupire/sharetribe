@@ -735,7 +735,7 @@ en:
       lend: Lending
       swap: Swapping
       service: Offering
-      service_w_online_payment: "Offering with online payment"
+      service_w_online_payment: "Offering without online payment"
       service_wo_online_payment: "Offering without online payment"
       request: Requesting
       inquiry: Announcement
@@ -828,7 +828,7 @@ en:
       decline: Decline
       quantity_label: "Quantity:"
       sum_label: "Subtotal:"
-      service_fee_label: "%{service_name} fee:"
+      service_fee_label: "%{service_name} fee :"
       you_will_get_label: "You will get:"
       total_label: "Total:"
       total_value: "%{seller_gets}*"
@@ -972,11 +972,11 @@ en:
       reject_offer: "Not this time"
       reject_request: "Not this time"
       accept_preauthorized_offer: "Accept offer"
-      accept_preauthorized_request: "Accept request"
+      accept_preauthorized_request: "Click to Accept request"
       reject_preauthorized_offer: "Not this time"
-      reject_preauthorized_request: "Not this time"
-      confirm: "Mark completed"
-      cancel: Dispute
+      reject_preauthorized_request: "Click to Decline request"
+      confirm: "Click to Mark Complete"
+      cancel: "Click to Dispute"
   feedback:
     feedback_subject: "New feedback from %{service_name}"
     feedback_body: "%{author_name_and_email} has sent the following feedback from %{service_name}"
@@ -1035,6 +1035,7 @@ en:
       has_marked_request_as_canceled: "%{other_party_full_name} has canceled the order about '%{request}'. You can still give feedback to %{other_party_given_name}."
       giving_feedback_is_good_idea: "Giving feedback is always a good idea. If everything went well, you should let others know that %{other_party_given_name} can be trusted. If there were any problems, it's good to mention those as well."
       give_feedback_to: "Give feedback to %{other_party_given_name}"
+      avon_bucks_commission_charge_from_buyer: "%{commission_from_seller}% Avontage Fee will be charged to your credit card when paying with Avon-Bucks(trade-credits)"
       stripe:
         has_marked_request_as_confirmed: "%{other_party_full_name} has marked the order about '%{request}' completed. The payment for this transaction has now been released to your bank account. You can now give feedback to %{other_party_given_name}."
     transaction_automatically_confirmed:
@@ -1094,6 +1095,7 @@ en:
       view_message: "View message"
       has_sent_you_a_message_in_kassi: "%{sender} has sent you a message in %{service_name}."
       you_have_a_new_message: "A new message in %{service_name} from %{sender_name}"
+      has_sent_you_a_message_in_kass: "has created a new offer"
     unread_message_reminder:
       you_have_an_unread_message: "You have an unread message!"
       not_responded_yet_for_message: "You received a message from %{sender} in your inbox, but you haven't responded yet."
@@ -1216,6 +1218,12 @@ en:
       this_is_automatic_message: "This is an automatic message sent to administrators of %{community}."
       person_name: "Name:"
       person_email: "Email:"
+    new_offer_notication_to_admin:
+      subject: "New offer created"
+      new_offer_created: "%{author} has created new offer." 
+      title: "Title: "
+      author: "Author: "
+      url: "URL: "
   error_messages:
     booking:
       booking_failed_payment_voided: "Booking failed due to an unexpected error. Please try again later. You haven't been charged."
@@ -1650,7 +1658,7 @@ en:
       settings: Settings
       paypal_payments: "PayPal Payments"
       stripe_payments: "Stripe Payments"
-      payments: Payments
+      payments: Payments  
   listings:
     bubble_listing_not_visible:
       listing_not_visible: "You do not have permission to view this listing."
@@ -1928,7 +1936,7 @@ en:
     transaction_agreement_checkbox:
       read_more: View.
     stripe_payment:
-      payment: Payment
+      payment: Select a form of Payment 
       pay_with_card: "Pay with credit or debit card"
       address: "Shipping address"
       address_country: "Country *"

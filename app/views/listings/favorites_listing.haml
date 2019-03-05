@@ -1,0 +1,10 @@
+%tr
+  %td id
+  %td title
+  %td image
+%tr
+  - @listings.each do|listing|
+    %br/
+    %td= listing.id
+    %td= listing.title
+    %br/

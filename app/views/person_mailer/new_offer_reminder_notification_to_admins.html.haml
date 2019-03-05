@@ -1,0 +1,23 @@
+- listing_url = listing_url(@listing.to_param, @url_params)
+- person_url = person_url(@listing.author, @url_params)
+
+%tr
+  %td{:align => "left"}
+    %font{body_font}
+      = t("emails.new_offer_notication_to_admin.new_offer_created", :author => PersonViewUtils.person_display_name_for_type(@listing.author, "first_name_only"))
+
+%tr
+  %td{:align => "left", :style => "padding: 20px 0;"}
+    %table{:cellpadding => 5, :cellspacing => 0, :style => "border-collapse: collapse; width: 100%"}
+      %tbody
+        %tr
+          %td{:width => "200"}
+            %b= t("emails.new_offer_notication_to_admin.title")
+          %td
+            =link_to @listing.title, listing_url
+
+        %tr
+          %td{:width => "200"}
+            %b= t("emails.new_offer_notication_to_admin.author")
+          %td
+            = link_to PersonViewUtils.person_display_name_for_type(@listing.author, "first_name_only"), person_url
