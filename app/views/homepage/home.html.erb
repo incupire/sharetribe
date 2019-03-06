@@ -1,4 +1,19 @@
 <% public_and_not_logged_in = (@current_community.public? && !logged_in?)%>
+
+<div class="col-sm-12 col-md-12 sub-header">
+  <div class="custom-search-bar">
+    <form action="/s" method="get" class="search-form">
+      <input type="text" name="q" placeholder="Hi First_Name! What are you looking for today?" class="style-for-input">
+      <button type="submit" class="search-btn">
+        <u class="text">Search</u>
+        <div>
+          <svg width="17" height="17" viewBox="336 14 17 17" xmlns="http://www.w3.org/2000/svg"><g opacity=".7" fill="none" fill-rule="evenodd" transform="matrix(-1 0 0 1 352 15)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M11 11l3.494 3.494"></path><circle cx="6" cy="6" r="6"></circle></g></svg>
+        </div>
+      </button>
+    </form>
+  </div>
+</div>
+
 <div class="main_head_coverphoto col-md-12 col-sm-12 col-xs-12 no_padding_default">
   <div class="cover_photo" style='background: url("<%= @current_community.cover_photo.present? ? @current_community.cover_photo.url(:original) : asset_url('main_cover.png')%>");'>
     <h1 class="main_cover_title">
@@ -115,20 +130,160 @@
       </div>
       <div class="under_categories col-md-12 col-sm-12 col-xs-12">
         <%= link_to 'Explore many more services in the marketplace', public_and_not_logged_in  ? '/s' : sign_up_path ,class:'more_services'%>
+
+
+
+        <div class="explore_services">
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/new_customer.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">New Customers</h1>
+              <p class="service-details">Gain hight-quality, like-minded clients, and repeat customers. Business owners like you are more loyal than customers looking for deep discounts.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/cash_flow.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Better Cash Flow</h1>
+              <p class="service-details">Keep cash in your business by reducing where you spend it. Use your slow times, empty seats and unbooked hours to pay for things you need.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/local_community.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Local Community</h1>
+              <p class="service-details">Become part of a growning network of local business to build the next sharing-economy platform similar to Airbnb & Lyft.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/line_of_credit.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Line of Credit</h1>
+              <p class="service-details">Get the funds you need to grow your business and pay it back from new customers gained in Avontage. It's the smartest way to increase your spending power without spending your cash.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/employe_perks.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Employee Perks</h1>
+              <p class="service-details">Give a gift or an incentive to your employees without spending your cash. Our employee incentive program allows you to offer bonuses and higher salaries in trade dollars.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/charities.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Charities</h1>
+              <p class="service-details">Donate your extra trade-dollars to your favorite non-profits and receive tax benefits. Non-profits join Avontage to gain access to services in our marketplace.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="discover-community">
+          <h4 class="discover-heading">DISCOVER THE COMMUNITY</h4>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="left-side">
+              <p class="discover-details">Avontage is more than  just a marketplace, it's a <b>vibrant community powered by local business owners, enterpreneurs, influencers, and marketers,</b> who collaborate, build long-lasting connections, and help one another to grow their businesses.</p>
+              <p class="discover-details top-p">Join us to see who's here!</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="right-side">
+              <%= image_tag 'business_group.png', class: 'comminity-pic' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="quotes-section">
+          <div class="members_wrapper">
+            <h1 class="our-members">Our members believe in us ...</h1>
+            <div class="member-section">
+              <div class="member-box">
+                <div class="inner-box">
+                  <div class="testimonial-headshot text-center">
+                     <%= image_tag 'homepage/Jessica.jpeg'%>
+                  </div>
+                  <div class="member-detail text-center">
+                    <p class="name">Jessica K.</p>
+                    <p class="work">High Priority Massage</p>
+                    <p class="type">Phoenix,AZ</p>
+                  </div>
+                  <p class="card-detail">The ability to meet others and get services traded into a community of like-minded professionals that in turn drive more business to you!</p>
+                </div>
+              </div>
+
+              <div class="member-box">
+                <div class="inner-box">
+                  <div class="testimonial-headshot text-center">
+                     <%= image_tag 'homepage/Jesse.jpg'%>
+                  </div>
+                  <div class="member-detail text-center">
+                    <p class="name">Jesse C.</p>
+                    <p class="work">Easy-Click Web Design</p>
+                    <p class="type">Peoria,AZ</p>
+                  </div>
+                  <p class="card-detail">I am excited for this community and see what it can do for my business and look forward to helping other small businesses.</p>
+                </div>
+              </div>
+
+              <div class="member-box">
+                <div class="inner-box">
+                  <div class="testimonial-headshot text-center">
+                     <%= image_tag 'homepage/Kelly.png'%>
+                  </div>
+                  <div class=" member-detail text-center">
+                    <p class="name">Kelly G.</p>
+                    <p class="work">The Gannon Edit</p>
+                    <p class="type">Scottsdale,AZ</p>
+                  </div>
+                  <p class="card-detail">Kelly embodies the spirit of collaboration that is in the Avontage DNA. She's had many collaborations to promote and share member stories with an authentic voice.</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="How-it-Works-wrapper">
+            <h1 class="heading-work">How It Works</h1>
+            <div class="inner-work">
+              <div class="col-sm-7 col-md-7 col-xs-12">
+                <div class="left-side-text">
+                   <h1 class="heading-left">Post Your Offers to Sell or Trade</h1>
+                   <p class="left-text">Craft and post your special Offers to book your slow times, empty seats, and extra capacities. Post as many Offers as you like, change them any time. Cap the limit on the amount of trade you'd like to offer each month.</p>
+
+                   <h1 class="heading-left heading-left2">Explore Offers from Other Members</h1>
+                   <p class="left-text">Explore offers from other local businesses in every service category such as marketing & advertising, healthcare, fitness, beauty, photography, legal, accounting, repairs, web develpoment, restaurants, events, and entertainment. Use them for your personal or business needs.</p>
+
+                   <h1 class="heading-left heading-left3">Sell or Buy using Trade Credits or Credit Card</h1>
+                   <p class="left-text">Earn & spend trade-credits to buy offers form Avontage community members. Members of the public pay you with credit card. Use our site messaging to communicate directly with others. Submit your request, payment, and recieve confirmation in a few clicks. Arrange to redeem  the offers and rate your experience.</p>
+
+                   <div>
+                     <button class="get-started">GET STARTED</button>
+                   </div>
+                </div>
+              </div>
+              <div class="col-sm-5 col-md-5 col-xs-12">
+                <div class="right-side-img">
+                  <%= image_tag 'homepage/iPhoneHand.png', class: 'iphone-hand' %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
   <div class="main_wrapper_second">
     <div class="col-md-12 col-sm-12 col-xs-12 no_padding_default main_frame_business">
-      <h2 class="heading_market">BENEFITS</h2>
-      <p class="below_heading_market">work & live like an owner!</p>
+      <h2 class="heading_market">The Advantages of Avontage</h2>
+      <!-- <p class="below_heading_market">work & live like an owner!</p> -->
       <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="listing_frame">
           <div class="listing_image">
             <%= image_tag 'EarnQualityLocalCustomers.png' ,class: 'earn_quality' %>
           </div>
           <div class="listing_description">
-            <h2>Earn Quality Local Customers</h2>
+            <h2>Gain Quality Local Customers</h2>
             <p>Build loyalty and long-term relationships with like-minded business owners in your community</p>
           </div>
         </div>
@@ -157,24 +312,24 @@
       </div>
     </div>
   </div>
-  <div class="main_wrapper">
+  <!-- <div class="main_wrapper">
     <div class="sub_wrapper">
       <div class="col-md-7 col-sm-12 col-xs-12 no_padding_default">
         <div class="business_group">
-          <%= image_tag 'business_group.png',class: 'business_image' %>
+          <%#= image_tag 'business_group.png',class: 'business_image' %>
         </div>
       </div>
       <div class="col-md-5 col-sm-12 col-xs-12 no_padding_default">
         <div class="business_details">
           <h2>A MUST HAVE APP</h2>
           <p>We are creating a magical experience to connect local business owners, entrepreneurs, freelancers, influencers, makers, and doers to help grow your business</p>
-          <%= link_to about_infos_path,class: 'anchor_web' do %>
-            <%=  button_tag 'Read More',class:'read_more_tab'%>
-          <% end %>  
+          <%#= link_to about_infos_path,class: 'anchor_web' do %>
+            <%#=  button_tag 'Read More',class:'read_more_tab'%>
+          <%# end %>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="footer_bottom">
     <div class="footer_wrapper">
       <ul class="social_icons_list">
@@ -226,7 +381,7 @@
         </div>
       </div>
       <h1 class="copyright">14747 N. Northsight Blvd Scottsdale, AZ 85260 <br>415.944.9067</h1>
-      <span class="color_15">©2018 by Avontage, LLC</span>  
+      <span class="color_15">©2018 by Avontage, LLC</span>
     </div>
   </div>
-</div>
+</div>f

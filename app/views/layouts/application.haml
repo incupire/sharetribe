@@ -8,7 +8,7 @@
 
     -# Render railsContext here before any react component gets rendered
     = prepend_render_rails_context("")
-    
+
     %noscript
       .noscript-padding
         -# Noscript content will be positioned here
@@ -27,8 +27,9 @@
       - if(@view_type.eql?("map"))
         = javascript_include_tag "markerclusterer.js"
       - props = topbar_props
-      - cache props do
-        = react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
+      .custom_react_navbar
+        - cache props do
+          = react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
     - else
       = render partial: 'layouts/global_header', locals: header_props()
 

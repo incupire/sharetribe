@@ -133,6 +133,8 @@
         .home-toolbar-show-filters-button#home-toolbar-show-filters
           = t(".filter")
 
+      =link_to t("homepage.filters.click_on_link"), new_listing_path
+
     .home-toolbar-button-group{:class => listing_shape_menu_enabled || @category_menu_enabled ? "filters-enabled" : ""}
       - ["grid", "list", "map"].each do |view_type|
         - selected_class = @view_type == view_type ? "selected" : ""

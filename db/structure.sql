@@ -1201,6 +1201,7 @@ CREATE TABLE `people` (
   `cloned_from` varchar(22) DEFAULT NULL,
   `coupon_balance_cents` int(11) DEFAULT '0',
   `stripe_customer_id` varchar(255) DEFAULT NULL,
+  `referral_code` varchar(255) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -2303,6 +2304,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20190102101555'),
 ('20190225131833'),
 ('20190225133031'),
-('20190227132821');
+('20190227132821'),
+('20190305113658');
 
 
