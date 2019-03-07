@@ -1440,9 +1440,9 @@ en:
       map_button: Map
       grid_button: Grid
       list_button: List
-      all_listing_types: "All listing types"
+      all_listing_types: "All Order types"
       all_categories: "All categories"
-      click_on_link: "CLICK HERE to post your first offer.Remember your business is not visible unless you post an Offer."
+      click_on_link: "to post your first offer. Remember your business is not visible unless you post an Offer."
     errors:
       search_engine_not_responding: "Search is currently unavailable. Try searching again soon."
   infos:

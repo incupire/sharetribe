@@ -380,6 +380,9 @@ $home-list-avatar-padding: lines(0.25);
   &.selected {
     font-weight: bold;
   }
+  &.custom-categories-btn {
+    color: #fff !important;
+  }
 }
 
 .home-categories-main {

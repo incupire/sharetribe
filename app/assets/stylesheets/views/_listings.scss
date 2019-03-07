@@ -469,3 +469,14 @@ $listing-author-avatar-height: 108;
   float: left;
   line-height: 30px;
 }
+
+.home-fluid-thumbnail-grid-item {
+  height: 300px;
+  position: relative;
+  .custom-favorite {
+    position: absolute;
+    z-index: 1;
+    right: 30px;
+    top: 5px;
+  }
+}
