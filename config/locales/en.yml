@@ -8,7 +8,7 @@ en:
   admin:
     categories:
       edit:
-        edit_listing_category: "Edit category '%{category}'" 
+        edit_listing_category: "Edit category '%{category}'"
       index:
         listing_categories: "Listing categories"
         create_a_new_category: "+ Create a new category"
@@ -384,7 +384,7 @@ en:
             confirmed: Redeemed Completed
             canceled: Canceled
             initiated: "Waiting Stripe payment"
-            pending_ext: "Waiting Stripe payment"            
+            pending_ext: "Waiting Stripe payment"
         not_available: "Not available"
       conversations:
         conversations: Conversations
@@ -1223,7 +1223,7 @@ en:
       person_email: "Email:"
     new_offer_notication_to_admin:
       subject: "New offer created"
-      new_offer_created: "%{author} has created new offer." 
+      new_offer_created: "%{author} has created new offer."
       title: "Title: "
       author: "Author: "
       url: "URL: "
@@ -1662,7 +1662,7 @@ en:
       settings: Settings
       paypal_payments: "PayPal Payments"
       stripe_payments: "Stripe Payments"
-      payments: "Accept Credit Card" 
+      payments: "Accept Credit Card"
   listings:
     bubble_listing_not_visible:
       listing_not_visible: "You do not have permission to view this listing."
@@ -1942,7 +1942,7 @@ en:
     transaction_agreement_checkbox:
       read_more: View.
     stripe_payment:
-      payment: Select a form of Payment 
+      payment: Select a form of Payment
       pay_with_card: "Pay with credit or debit card"
       address: "Shipping address"
       address_country: "Country *"
@@ -2481,6 +2481,7 @@ en:
       signup: "Sign up"
       admin_dashboard: "Admin dashboard"
       language: Language
+      listings: "My listings"
     utils:
       km: km
       mi: mi

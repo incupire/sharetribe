@@ -385,7 +385,7 @@ Rails.application.routes.draw do
         post :select
         delete :unselect
       end
-    end  
+    end
       resources :comments, :only => [:create, :destroy]
       resources :listing_images do
         collection do
@@ -509,6 +509,7 @@ Rails.application.routes.draw do
             get :account
             get :notifications
             get :unsubscribe
+            get :listings
           end
         end
         resources :testimonials
