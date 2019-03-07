@@ -457,7 +457,11 @@ Rails.application.routes.draw do
         end
         resources :person_messages
 
-        resource :inbox, :only => [:show]
+        resource :inbox, :only => [:show] do
+          collection do
+            get '/transactions', to: 'inboxes#transactions'
+          end
+        end
 
         resources :messages, :controller => :conversations do
           collection do

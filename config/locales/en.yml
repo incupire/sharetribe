@@ -1460,6 +1460,7 @@ en:
       inbox: Inbox
       settings: Settings
       feedback: "Contact the %{service_name} team"
+      transactions: Transactions
     application:
       join_this_community: "Join marketplace"
       read_more: "Read more"
