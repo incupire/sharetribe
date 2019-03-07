@@ -10,6 +10,6 @@
 #
 
 class Favorite < ApplicationRecord
-  belongs_to :listing
-  belongs_to :person 
+  belongs_to :listing, counter_cache: true, touch: true
+  belongs_to :person , counter_cache: true, touch: true
 end

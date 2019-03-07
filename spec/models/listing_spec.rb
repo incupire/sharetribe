@@ -48,6 +48,7 @@
 #  availability                    :string(32)       default("none")
 #  per_hour_ready                  :boolean          default(FALSE)
 #  featured                        :boolean          default(FALSE)
+#  favorites_count                 :integer          default(0)
 #
 # Indexes
 #

@@ -828,7 +828,8 @@ en:
       decline: Decline
       quantity_label: "Quantity:"
       sum_label: "Subtotal:"
-      service_fee_label: "%{service_name} fee :"
+      avontage_service_fee_label: "%{service_name} fee (charged to the buyer):"
+      service_fee_label: "%{service_name} fee:"
       you_will_get_label: "You will get:"
       total_label: "Total:"
       total_value: "%{seller_gets}*"
@@ -1439,9 +1440,9 @@ en:
       map_button: Map
       grid_button: Grid
       list_button: List
-      all_listing_types: "All listing types"
+      all_listing_types: "All Order types"
       all_categories: "All categories"
-      click_on_link: "CLICK HERE to post your first offer.Remember your business is not visible unless you post an Offer."
+      click_on_link: "to post your first offer. Remember your business is not visible unless you post an Offer."
     errors:
       search_engine_not_responding: "Search is currently unavailable. Try searching again soon."
   infos:
@@ -1903,6 +1904,8 @@ en:
       times_viewed: Viewed
       processing_uploaded_image: "(Processing uploaded image...)"
       listing_created_at: "Listing created"
+      other_offers: "Member's other offers:"
+      profile_info: "Member's profile info:"
       price:
         per_quantity_unit: "per %{quantity_unit}"
         per_day: "per day"

@@ -90,6 +90,32 @@ class ListingsController < ApplicationController
     make_listing_presenter
     @listing_presenter.form_path = new_transaction_path(listing_id: @listing.id)
 
+    search = {
+      author_id: @listing.author.id,
+      include_closed: false,
+      page: 1,
+      per_page: @listing.author.listings.currently_open.count
+    }
+
+    @author_listings =
+      ListingIndexService::API::Api
+      .listings
+      .search(
+        community_id: @current_community.id,
+        search: search,
+        engine: FeatureFlagHelper.search_engine,
+        raise_errors: Rails.env.development?,
+        includes: [:author, :listing_images]
+      ).and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: [:author, :listing_images],
+        page: search[:page],
+        per_page: search[:per_page]
+      ))
+    }.data
+
     record_event(
       flash.now,
       "ListingViewed",

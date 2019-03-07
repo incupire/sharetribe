@@ -1,0 +1,9 @@
+.people-fluid-thumbnail-grid-container
+  .people-fluid-thumbnail-grid#profile-listings-list
+    -listings.each do |listing|
+      - if listing.id != @listing.id
+        .people-fluid-thumbnail-grid-item
+          %div
+            -# Listing image
+            = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "people-listings"}
+

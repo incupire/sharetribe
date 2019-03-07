@@ -6,6 +6,10 @@
   border-bottom: 1px solid #e6e6eb;
   margin-bottom: 10px;
   .custom-search-bar {
+    @media screen and (max-width: 767px) {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
     .search-form {
       width: 1000px;
       margin-left: 20px;
@@ -33,16 +37,16 @@
           outline: none;
         }
         &::-webkit-input-placeholder {
-          color: #000;
+          color: #bbb;
         }
         &::-moz-placeholder {
-          color: #000;
+          color: #bbb;
         }
         &:-ms-input-placeholder {
-          color: #000;
+          color: #bbb;
         }
         &:-moz-placeholder {
-          color: #000;
+          color: #bbb;
         }
         @media screen and (min-width: 768px) and (max-width: 1024px) {
           width: 88%;
@@ -53,7 +57,6 @@
         }
       }
       .search-btn {
-        background: #3483de;
         color: #fff;
         float: left;
         width: 110px;
@@ -64,9 +67,7 @@
         left: 2px;
         border-radius: 10px;
         padding: 0px;
-        &:hover {
-          background: #5bc9de;
-        }
+        
         @media screen and (min-width: 768px) and (max-width: 1024px) {
           width: 12%;
         }
@@ -77,10 +78,9 @@
           margin: 0;
           padding: 0;
           width: 15%;
-          height: 36px;
-          background-color: transparent;
+          height: 39px;
           border: none;
-          stroke: #3483de;
+          stroke: #fff;
           cursor: pointer;
         }
         svg {
@@ -89,7 +89,7 @@
             width: 16px;
             height: 16px;
             margin-top: 10px;
-            fdisplay: inline-block;
+            display: inline-block;
           }
         }
         .text {

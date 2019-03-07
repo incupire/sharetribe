@@ -98,7 +98,10 @@
           = MoneyViewUtils.to_humanized(sum)
       .conversation-service-fee-wrapper
         %span.conversation-service-fee-label
-          = t("conversations.accept.service_fee_label")
+          - if service_name == "Avontage"
+            = t("conversations.accept.avontage_service_fee_label")
+          - else
+            = t("conversations.accept.service_fee_label")
         %span.conversation-service-fee-value
           = "-#{MoneyViewUtils.to_humanized(fee)}"
 

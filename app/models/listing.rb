@@ -49,6 +49,7 @@
 #  availability                    :string(32)       default("none")
 #  per_hour_ready                  :boolean          default(FALSE)
 #  featured                        :boolean          default(FALSE)
+#  favorites_count                 :integer          default(0)
 #
 # Indexes
 #
@@ -73,7 +74,7 @@ class Listing < ApplicationRecord
 
   belongs_to :author, :class_name => "Person", :foreign_key => "author_id"
 
-  has_many :favorites
+  has_many :favorites, dependent: :destroy
   has_many :listing_images, -> { where("error IS NULL").order("position") }, :dependent => :destroy
 
   has_many :conversations

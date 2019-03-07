@@ -326,12 +326,32 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
 }
 .home-fluid-thumbnail-grid-narrow.mobile-padding {
   @media (min-width: 320px) and (max-width: 480px) {
-    padding: 15px;
+    //padding: 15px;
+    .home-fluid-thumbnail-grid{
+      margin:0 ;
+    }
+    .home-fluid-thumbnail-grid-item{
+      padding-right: 0;
+    }
   }
+}
+@media screen and (max-width:992px) and (min-width: 768px){
+    home-fluid-thumbnail-grid{
+      margin: 0;
+    }
+    .home-fluid-thumbnail-grid-item{
+      padding-right: 0;
+    }
 }
 .main_height {
   height: 250px;
   @media (min-width: 320px) and (max-width: 480px) {
     height: 100px;
   }
+}
+
+.mobile-view-wrapper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  
 }

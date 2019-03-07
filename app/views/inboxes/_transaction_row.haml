@@ -1,0 +1,60 @@
+.row-with-divider.without-margin.conversation-row{:class => conversation[:should_notify] ? "conversation-unread" : ""}
+
+  .col-2
+    .conversation-details-container
+      - avatar = conversation[:other].image.present? ? conversation[:other].image.url(:thumb) : missing_avatar(:thumb)
+      = link_to person_path(conversation[:other]) do
+        = image_tag avatar, :class => "conversation-avatar"
+      .conversation-details
+        .conversation-other-party-name
+          = link_to_unless conversation[:other].deleted, PersonViewUtils.person_display_name(conversation[:other], @current_community), person_path(conversation[:other])
+        .conversation-last-message-at
+          = conversation[:last_activity_ago]
+
+  %div{class: payments_in_use ? "col-4" : "col-8"}
+    = link_to conversation[:path], class:(conversation[:should_notify] ? 'conversation-title-link-unread' : 'conversation-title-link') do
+      - if conversation[:title].present?
+        = conversation[:title]
+      - else
+        %span.conversation-last-message-content-not-available
+          = t("conversations.conversation.message_content_not_available")
+    .conversation-context
+      - if conversation[:listing_url].present?
+        = t("conversations.conversation.about_listing", listing_title: link_to_unless(conversation[:listing_deleted], conversation[:listing_title], conversation[:listing_url])).html_safe
+        - listing = Listing.find_by(id: conversation[:listing_id])
+        - if listing.present? && listing.price
+          %span.fluid-thumbnail-grid-image-price
+            = MoneyViewUtils.to_humanized(listing.price)
+            - price_unit = price_quantity_slash_unit(listing)
+          - if !price_unit.blank?
+            - price_text = " " + price_unit
+            %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
+              = price_text
+        - else
+          %span.fluid-thumbnail-grid-image-type
+            = shape_name(listing)             
+      - else
+        = t("conversations.conversation.free_message")
+
+  - if payments_in_use
+    .col-4
+
+      -# Only for transactions
+      - status = conversation[:last_transition_to_state]
+      - if status.present? && status != "free"
+        - status_meta = conversation[:transitions].last[:metadata]
+        - is_author = !conversation[:current_is_starter]
+        - waiting_feedback = conversation[:waiting_feedback]
+        - other_name = PersonViewUtils.person_display_name(conversation[:other], @current_community)
+
+        - icon, status_description = conversation_icon_and_status(status, is_author, other_name, waiting_feedback, status_meta)
+
+        .conversation-list-status-container
+          .conversation-list-status-icon
+            = icon
+          .conversation-list-status
+            = status_description
+
+  .col-2
+    -# Only for transactions
+    = link_to 'View Details', conversation[:path]     

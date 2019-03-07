@@ -15,7 +15,6 @@ class HomepageController < ApplicationController
 
   def index
     params = unsafe_params_hash.select{|k, v| v.present? }
-
     redirect_to landing_page_path and return if no_current_user_in_private_clp_enabled_marketplace?
 
     all_shapes = @current_community.shapes

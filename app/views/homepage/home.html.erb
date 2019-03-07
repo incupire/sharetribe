@@ -1,19 +1,5 @@
 <% public_and_not_logged_in = (@current_community.public? && !logged_in?)%>
 
-<div class="col-sm-12 col-md-12 sub-header">
-  <div class="custom-search-bar">
-    <form action="/s" method="get" class="search-form">
-      <input type="text" name="q" placeholder="Hi First_Name! What are you looking for today?" class="style-for-input">
-      <button type="submit" class="search-btn">
-        <u class="text">Search</u>
-        <div>
-          <svg width="17" height="17" viewBox="336 14 17 17" xmlns="http://www.w3.org/2000/svg"><g opacity=".7" fill="none" fill-rule="evenodd" transform="matrix(-1 0 0 1 352 15)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M11 11l3.494 3.494"></path><circle cx="6" cy="6" r="6"></circle></g></svg>
-        </div>
-      </button>
-    </form>
-  </div>
-</div>
-
 <div class="main_head_coverphoto col-md-12 col-sm-12 col-xs-12 no_padding_default">
   <div class="cover_photo" style='background: url("<%= @current_community.cover_photo.present? ? @current_community.cover_photo.url(:original) : asset_url('main_cover.png')%>");'>
     <h1 class="main_cover_title">
@@ -384,4 +370,12 @@
       <span class="color_15">©2018 by Avontage, LLC</span>
     </div>
   </div>
-</div>f
+</div>
+
+<script type="text/javascript">
+  $('.home-categories-main').click(function(e){
+    var x = $(this).attr("data-url");
+    $(this).attr('href', x);
+    $('#search_val').val("");
+  });
+</script>

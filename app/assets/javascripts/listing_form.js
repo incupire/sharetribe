@@ -475,7 +475,9 @@ window.ST = window.ST || {};
       messages: {
         "listing[author_id]": {remote: "Please select a valid user!"},
         "listing[valid_until(1i)]": { min_date: date_message, max_date: date_message },
-        "listing[price]": { minimum_price_required: minimum_price_message }
+        "listing[price]": { money: "Enter numbers only, no Symbols.", minimum_price_required: minimum_price_message },
+        "listing[shipping_price]": {money: "Enter numbers only, no Symbols."},
+        "listing[shipping_price_additional]": {money: "Enter numbers only, no Symbols."}
       },
       // Run validations only when submitting the form.
       onkeyup: false,

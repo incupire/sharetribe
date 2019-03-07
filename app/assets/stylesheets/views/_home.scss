@@ -78,6 +78,15 @@
   float: left;
   padding-right: lines(0.5 / 2);
 }
+.msg{
+  padding: 10px;
+  background: #e8e8e8;
+  color: #3c3c3c;
+  margin-bottom: 15px;
+  font-size: 15px;
+  border-radius: 5px;
+  text-align: center;
+}
 
 .home-toolbar-show-filters-button {
   @include button($link);
@@ -379,6 +388,9 @@ $home-list-avatar-padding: lines(0.25);
 
   &.selected {
     font-weight: bold;
+  }
+  &.custom-categories-btn {
+    color: #fff !important;
   }
 }
 
