@@ -66,6 +66,7 @@ class Transaction < ApplicationRecord
   belongs_to :starter, class_name: "Person", foreign_key: :starter_id
   belongs_to :conversation
   has_many :testimonials
+  has_one :avon_bucks_history, class_name: "AvonBucksHistory", foreign_key: "transaction_id"
 
   delegate :author, to: :listing
   delegate :title, to: :listing, prefix: true
