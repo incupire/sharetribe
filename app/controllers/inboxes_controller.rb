@@ -53,6 +53,50 @@ class InboxesController < ApplicationController
     end
   end
 
+  def transactions
+    # We use pageless scroll, so the page should be always the first one (1) when request was not AJAX request
+    params[:page] = 1 unless request.xhr?
+
+    pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
+
+    inbox_rows = InboxService.inbox_data(
+      @current_user.id,
+      @current_community.id,
+      pagination_opts[:limit],
+      pagination_opts[:offset])
+    
+    # Transactions Messages & Management are on aseparated from Inbox messages
+    transactional_rows = inbox_rows.select{|row| row[:type].eql?(:transaction)}
+
+    count = transactional_rows.count
+    
+    inbox_rows = transactional_rows.map { |inbox_row|
+      inbox_row.merge(
+        path: path_to_conversation_or_transaction(inbox_row),
+        last_activity_ago: time_ago(inbox_row[:last_activity_at]),
+        title: inbox_title(inbox_row, inbox_payment(inbox_row)),
+        listing_url: listing_path(id: inbox_row[:listing_id])
+      )
+    }
+
+    paginated_inbox_rows = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], count) do |pager|
+      pager.replace(inbox_rows)
+    end
+
+    if request.xhr?
+      render :partial => "transaction_row",
+        :collection => paginated_inbox_rows, :as => :conversation,
+        locals: {
+          payments_in_use: @current_community.payments_in_use?
+        }
+    else
+      render locals: {
+        inbox_rows: paginated_inbox_rows,
+        payments_in_use: @current_community.payments_in_use?
+      }
+    end    
+  end
+
   private
 
   def inbox_title(inbox_item, payment_sum)
