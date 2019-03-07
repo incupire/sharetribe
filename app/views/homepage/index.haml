@@ -125,17 +125,17 @@
     = t(".this_is_private_community")
 
 - else
-
+  .msg
+    - if @current_user.present? && (@current_user.listings.count == 0)
+      =link_to("CLICK HERE", new_listing_path)
+      = t("homepage.filters.click_on_link")
+      
   .home-toolbar
 
     - if listing_shape_menu_enabled || @category_menu_enabled
       .home-toolbar-show-filters-button-container
         .home-toolbar-show-filters-button#home-toolbar-show-filters
           = t(".filter")
-
-      - if @current_user.present? && (@current_user.listings.count == 0)
-        =link_to("CLICK HERE", new_listing_path)
-        = t("homepage.filters.click_on_link")
 
     .home-toolbar-button-group{:class => listing_shape_menu_enabled || @category_menu_enabled ? "filters-enabled" : ""}
       - ["grid", "list", "map"].each do |view_type|
