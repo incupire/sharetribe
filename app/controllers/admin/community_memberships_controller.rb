@@ -125,7 +125,6 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     else
       flash[:error] = "Deduction balance should not be greater than available balance!"
     end 
-    binding.pry
     AvonBucksHistory.create(
       amount: MoneyUtil.to_money(cents, currency),
       operation: "deducted",
