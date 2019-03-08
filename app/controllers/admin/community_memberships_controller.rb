@@ -103,6 +103,12 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
       person.coupon_balance = MoneyUtil.to_money(cents, currency)
     end
     person.save
+    AvonBucksHistory.create(
+      amount: MoneyUtil.to_money(cents, currency),
+      operation: "added",
+      remaining_balance: person.coupon_balance_cents,
+      person_id: person.id
+      )
     respond_to do |format|
       format.js {render layout: false}
     end   
@@ -119,6 +125,13 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     else
       flash[:error] = "Deduction balance should not be greater than available balance!"
     end 
+    binding.pry
+    AvonBucksHistory.create(
+      amount: MoneyUtil.to_money(cents, currency),
+      operation: "deducted",
+      remaining_balance: person.coupon_balance_cents,
+      person_id: person.id
+      )
     respond_to do |format|
       format.js {render layout: false}
     end    

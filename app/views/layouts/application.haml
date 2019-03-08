@@ -62,7 +62,7 @@
                     = yield :title_header
 
         %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : ''}
-          .wrapper
+          %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
             = render :partial => "layouts/notifications"
             = yield
             - if display_branding_info?

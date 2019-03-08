@@ -174,19 +174,22 @@
               = image_tag 'linkedin-letters.png'
               %span Share on linkedIn                  
 
-    .row
-      #profile-listings-list
-        = t(".other_offers")
-        = render :partial => 'author_other_listings', :locals => {person: @listing.author, listings: @author_listings}
+    .row.mr-0
+      #profile-listings-list.custom_styling
+        %span
+          = t(".other_offers")
+        .padding_left
+          = render :partial => 'author_other_listings', :locals => {person: @listing.author, listings: @author_listings}
 
-    .row
-      = t(".profile_info")
-      .row.profile-about-me
-        - if @listing.author.description && !@listing.author.description.blank?
-          = markdown(@listing.author.description)
-
-      .people-image
-        = huge_avatar_thumb(@listing.author)
+    .parent
+      %span
+        = t(".profile_info")
+      .profile-about-me.custom_padding
+        .name_text
+          - if @listing.author.description && !@listing.author.description.blank?
+            = markdown(@listing.author.description)
+        .profile_img
+          = huge_avatar_thumb(@listing.author)
 
     - unless (@listing.closed? && !current_user?(@listing.author)) || !@current_community.listing_comments_in_use
       .view-item
