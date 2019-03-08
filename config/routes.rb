@@ -378,14 +378,13 @@ Rails.application.routes.draw do
         get :browse
         get :locations_json
         get :verification_required
-        get :favorites_listing
       end
-    resources :favorites  do
+    resources :favorites, only: []  do
       collection do
         post :select
         delete :unselect
       end
-    end  
+    end
       resources :comments, :only => [:create, :destroy]
       resources :listing_images do
         collection do
@@ -471,6 +470,7 @@ Rails.application.routes.draw do
             # This is only a redirect from old route, changed 2014-09-11
             # You can clean up this later
             get :received, to: 'inboxes#show'
+            get :transactions, to: 'inboxes#transactions'
           end
           member do
             get :confirm, to: 'confirm_conversations#confirm'
@@ -509,6 +509,8 @@ Rails.application.routes.draw do
             get :account
             get :notifications
             get :unsubscribe
+            get :transactions_person_messages
+            get :favorite
           end
         end
         resources :testimonials
@@ -527,6 +529,7 @@ Rails.application.routes.draw do
 
     get '/:person_id/settings/profile', to: redirect("/%{person_id}/settings") #needed to keep old links working
 
+    get '/:person_id/favorite_listings', to: 'favorites#index', as: :person_favorite_listings
   end # scope locale
 
   id_to_username = Proc.new do |params, req|

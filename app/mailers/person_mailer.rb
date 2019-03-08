@@ -37,7 +37,7 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @message = message
       sending_params = {:to => recipient.confirmed_notification_emails_to,
-                        :subject => t("emails.new_message.you_have_a_new_message", :sender_name => PersonViewUtils.person_display_name(message.sender, community)),
+                        :subject => t("emails.new_message.you_have_a_new_message", :sender_name => PersonViewUtils.person_display_name(message.sender, community), :person_name => recipient[:given_name]),
                         :from => community_specific_sender(community)}
 
       premailer_mail(sending_params)

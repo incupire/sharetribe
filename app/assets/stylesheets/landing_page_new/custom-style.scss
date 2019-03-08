@@ -67,7 +67,7 @@
         left: 2px;
         border-radius: 10px;
         padding: 0px;
-        
+
         @media screen and (min-width: 768px) and (max-width: 1024px) {
           width: 12%;
         }
@@ -117,7 +117,7 @@
     .main_cover_title {
       text-align: center;
       margin-top: 65px;
-      color: #fff;
+    //  color: #fff;
       font-weight: 700;
       font-size: 32px;
       line-height: 1.5em;
@@ -150,7 +150,7 @@
       text-align: center;
       max-width: 24em;
       font-weight: 100;
-      color: #fff;
+     // color: #fff;
       margin: 0 auto;
       @media (min-width: 320px) and (max-width: 480px) {
         padding: 10px;
