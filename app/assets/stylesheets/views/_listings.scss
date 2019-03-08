@@ -478,6 +478,11 @@ $listing-author-avatar-height: 108;
     z-index: 1;
     right: 30px;
     top: 5px;
+    a{
+      svg{
+       // position: absolute;
+      }
+    }
   }
 }
 .custom_styling{
