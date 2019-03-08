@@ -2279,6 +2279,16 @@ figure.fluidratio {
     .SearchBar__root__2hIPj {
       visibility: hidden;
     }
+
+    .ProfileDropdown__profileAction__1H9nm {
+      width: 5.72em;
+      height: 5.72em;
+    }
+    .ProfileDropdown__profileActionLabel__2lW8j {
+      -webkit-flex-basis: 25%;
+      flex-basis: 25%;
+      font-size: 12px;
+    }
   }
 }
 
@@ -2350,7 +2360,7 @@ figure.fluidratio {
         border-radius: 10px;
         padding: 0px;
         margin: 0;
-        
+
         @media screen and (min-width: 768px) and (max-width: 1024px) {
           width: 12%;
         }
