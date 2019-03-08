@@ -1057,7 +1057,7 @@ en:
       confirmation_link_text: "Confirm my address"
       or_paste_link: "Alternatively, you can copy the following link to your browser's address bar:"
     common:
-      hey: "Hello %{name},,"
+      hey: "Hello %{name},"
       kassi_team: "The %{service_name} Team"
       thanks: "Thanks,"
       dont_want_to_receive_these_emails: "Don't want to receive these emails?"
@@ -1096,7 +1096,7 @@ en:
       has_commented_listing_you_follow_in_kassi: "%{author} has commented on the listing '%{listing}' you are following in %{service_name}."
     new_message:
       view_message: "View message"
-      has_sent_you_a_message_in_kassi: "%{sender} you have a new message from %{service_name}."
+      has_sent_you_a_message_in_kassi: "%{receiver}, you have a new message from %{sender}."
       you_have_a_new_message: "%{person_name} ,you have a  new message in %{service_name} from %{sender_name}"
       has_sent_you_a_message_in_kass: "has created a new offer"
     unread_message_reminder:
