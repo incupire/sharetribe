@@ -11,13 +11,11 @@
                     %tr
                       %td{:width => "5%"}
                       %td{:valign => "top", :width => "90%"}
-                        %h1{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-weight:400;font-size:18px;margin-top:20px;margin-bottom:5px; padding: 20px; background: #ebebeb;text-align: left;line-height:22px;"}
-                          %span{:style => "color:#464646;"}
-                            / = t("emails.community_updates.update_mail_title", :title_link => link_to(@title_link_text, search_url(@url_params))).html_safe
+                        = image_tag 'https://www.avontage.com/assets/logo.png'
                         %div{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;line-height:22px; padding: 10px 0;text-align:left;"}
                           %p
                             = t("emails.newsletter.hi", :name => link_to(PersonViewUtils.person_display_name_for_type(@recipient, "first_name_only"), person_url(@recipient, @url_params))).html_safe
-                          %p
+                          %p{style: "font-family: sans-serif;"}
 
                             %b= t("emails.community_updates.hello_to_new_member")
 
