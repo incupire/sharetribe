@@ -59,6 +59,11 @@ $bottom-gutter: lines(0.5);
   border-bottom: 1px solid $border;
 }
 
+.row-with-dynamiv-divider {
+  @extend .row;
+  border-bottom: 1px solid ;
+}
+
 /**
   Creates a basic grid system, prefixed "col"
 
