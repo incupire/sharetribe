@@ -14,6 +14,7 @@ const baseProps = {
   routes: {
     person_inbox_path: fakeRoute,
     listings_person_settings_path: fakeRoute,
+    person_favorite_listings_path: fakeRoute,
     person_path: fakeRoute,
     person_settings_path: fakeRoute,
     logout_path: fakeRoute,

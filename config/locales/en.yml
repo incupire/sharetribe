@@ -2481,7 +2481,8 @@ en:
       signup: "Sign up"
       admin_dashboard: "Admin dashboard"
       language: Language
-      listings: "My listings"
+      transactions: "Transactions"
+      favorite: "Favorite"
     utils:
       km: km
       mi: mi

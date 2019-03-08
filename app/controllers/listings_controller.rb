@@ -299,10 +299,6 @@ class ListingsController < ApplicationController
     change_follow_status("unfollow")
   end
 
-  def favorites_listing
-    @listings = @current_user.favorite_listings
-  end
-
   def verification_required
 
   end
