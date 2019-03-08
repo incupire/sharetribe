@@ -94,12 +94,12 @@ module TopbarHelper
           locale_param: locale_param
         ),
         title: I18n.t("header.home"),
-        priority: -1
+        priority: 0
       },
       {
         link: paths.about_infos_path(locale: locale_param),
         title: I18n.t("header.about"),
-        priority: 0
+        priority: -1
       },
       {
         link: paths.new_user_feedback_path(locale: locale_param),
