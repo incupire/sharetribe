@@ -125,8 +125,8 @@
     = t(".this_is_private_community")
 
 - else
-  .msg
-    - if @current_user.present? && (@current_user.listings.count == 0)
+  - if @current_user.present? && (@current_user.listings.count == 0)
+    .msg
       =link_to("CLICK HERE", new_listing_path)
       = t("homepage.filters.click_on_link")
       
