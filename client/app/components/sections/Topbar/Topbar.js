@@ -35,7 +35,7 @@ const profileActions = function profileActions(routes, username) {
   return username ?
   {
     inboxAction: routes.person_inbox_path(username),
-    listingsAction: routes.listings_person_settings_path(username),
+    transactionsAction: routes.transactions_person_messages_path(username),
     favoriteAction: routes.person_favorite_listings_path(username),
     profileAction: routes.person_path(username),
     settingsAction: routes.person_settings_path(username),
@@ -48,7 +48,7 @@ const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, not
   const color = customColor || styleVariables['--customColorFallback'];
   const actions = {
     inboxAction: () => false,
-    listingsAction: () => false,
+    transactionsAction: () => false,
     favoriteAction: () => false,
     profileAction: () => false,
     settingsAction: () => false,
@@ -58,7 +58,7 @@ const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, not
   };
   const translations = {
     inbox: t('web.topbar.inbox'),
-    listings: t('web.topbar.listings'),
+    transactions: t('web.topbar.transactions'),
     favorite: t('web.topbar.favorite'),
     profile: t('web.topbar.profile'),
     settings: t('web.topbar.settings'),
@@ -88,7 +88,7 @@ const mobileProfileLinks = function mobileProfileLinks(username, isAdmin, router
     const links = [
       formatLinkData(profilePaths.inboxAction, location, customColor, [t('web.topbar.inbox')].concat(notificationBadgeInArray)),
       formatLinkData(profilePaths.profileAction, location, customColor, t('web.topbar.profile'), 'menuitem'),
-      formatLinkData(profilePaths.listingsAction, location, customColor, t('web.topbar.manage_listings')),
+      formatLinkData(profilePaths.transactionsAction, location, customColor, t('web.topbar.manage_transactions')),
       formatLinkData(profilePaths.favoriteAction, location, customColor, t('web.topbar.favorite')),
       formatLinkData(profilePaths.settingsAction, location, customColor, t('web.topbar.settings')),
       formatLinkData(profilePaths.logoutAction, location, customColor, t('web.topbar.logout')),

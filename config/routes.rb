@@ -470,6 +470,7 @@ Rails.application.routes.draw do
             # This is only a redirect from old route, changed 2014-09-11
             # You can clean up this later
             get :received, to: 'inboxes#show'
+            get :transactions, to: 'inboxes#transactions'
           end
           member do
             get :confirm, to: 'confirm_conversations#confirm'
@@ -508,7 +509,7 @@ Rails.application.routes.draw do
             get :account
             get :notifications
             get :unsubscribe
-            get :listings
+            get :transactions_person_messages
             get :favorite
           end
         end
