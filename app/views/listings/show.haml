@@ -172,24 +172,25 @@
               %span Share on Twitter
             %a.twitter_share{href: "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url(@listing)}&title=#{@listing.title}&summary=#{@listing.description}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
               = image_tag 'linkedin-letters.png'
-              %span Share on linkedIn                  
+              %span Share on linkedIn
 
-    .row.mr-0
-      #profile-listings-list.custom_styling
+    - unless @author_listings.blank?
+      .row.mr-0
+        #profile-listings-list.custom_styling
+          %span
+            = t(".other_offers")
+          .padding_left
+            = render :partial => 'author_other_listings', :locals => {person: @listing.author, listings: @author_listings}
+
+      .parent
         %span
-          = t(".other_offers")
-        .padding_left
-          = render :partial => 'author_other_listings', :locals => {person: @listing.author, listings: @author_listings}
-
-    .parent
-      %span
-        = t(".profile_info")
-      .profile-about-me.custom_padding
-        .name_text
-          - if @listing.author.description && !@listing.author.description.blank?
-            = markdown(@listing.author.description)
-        .profile_img
-          = huge_avatar_thumb(@listing.author)
+          = t(".profile_info")
+        .profile-about-me.custom_padding
+          .name_text
+            - if @listing.author.description && !@listing.author.description.blank?
+              = markdown(@listing.author.description)
+          .profile_img
+            = huge_avatar_thumb(@listing.author)
 
     - unless (@listing.closed? && !current_user?(@listing.author)) || !@current_community.listing_comments_in_use
       .view-item
