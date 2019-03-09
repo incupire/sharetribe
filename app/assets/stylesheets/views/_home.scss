@@ -582,9 +582,11 @@ $home-list-avatar-padding: lines(0.25);
 
 .custom_pd{
   position: relative;
-  height: 320px;
+  height: 320px;  
   @media screen and (max-width: 769px){
     padding-right: 0;
+    padding: 0 15px !important;
+
   }
   .custom-favorite{
     position: absolute;
