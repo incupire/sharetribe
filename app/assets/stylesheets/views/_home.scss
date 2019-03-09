@@ -580,3 +580,18 @@ $home-list-avatar-padding: lines(0.25);
   }
 }
 
+.custom_pd{
+  position: relative;
+  height: 320px;
+  @media screen and (max-width: 769px){
+    padding-right: 0;
+  }
+  .custom-favorite{
+    position: absolute;
+    z-index: 2;
+    right: 30px;
+    top: 6px;
+    padding: 0px;
+  }
+}
+
