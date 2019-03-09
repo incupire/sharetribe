@@ -594,6 +594,9 @@ $home-list-avatar-padding: lines(0.25);
     right: 30px;
     top: 6px;
     padding: 0px;
+    @media screen and (max-width: 769px){
+      right: 22px;
+    }
   }
 }
 
