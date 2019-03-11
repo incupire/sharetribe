@@ -410,7 +410,6 @@ class PreauthorizeTransactionsController < ApplicationController
     logger.error(error_msg, :transaction_initiate_error, data)
     redirect_to listing_path(listing.id)
   end
-
   def initiated_success(tx_params)
     is_booking = is_booking?(listing)
     
@@ -418,7 +417,6 @@ class PreauthorizeTransactionsController < ApplicationController
     shipping_total = calculate_shipping_from_listing(tx_params: tx_params, listing: listing, quantity: quantity)
     
     avon_commission = params[:payment_type].eql?('coupon_pay') ? order_commission(tx_params, listing) : Money.new(0, @current_community.currency)
-    
     tx_response = create_preauth_transaction(
       payment_type: params[:payment_type].to_sym,
       community: @current_community,
@@ -440,10 +438,10 @@ class PreauthorizeTransactionsController < ApplicationController
     handle_tx_response(tx_response, params[:payment_type].to_sym)
     if tx_response[:data][:transaction][:payment_gateway] == "coupon_pay" && tx_response[:success] == true
       AvonBucksHistory.create(
-        amount: MoneyUtil.to_money(cents, currency),
+        amount: MoneyUtil.to_money(tx_response[:data][:transaction][:unit_price_cents],tx_response[:data][:transaction][:unit_price_currency]),
         operation: "deducted",
-        remaining_balance: person.coupon_balance_cents,
-        person_id: person.id,
+        remaining_balance: @current_user.coupon_balance_cents,
+        person_id: @current_user.id,
         transaction_id: tx_response[:data][:transaction][:id]
       )
     end
