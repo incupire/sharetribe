@@ -183,33 +183,32 @@
           <div class="members_wrapper ipad">
             <h1 class="our-members">Our members believe in us ...</h1>
             <div class="member-section custom_container">
-              <a href="https://www.avontage.com/en/jessica">
-              <div class="member-box">
-                <div class="inner-box">
-                  <div class="testimonial-headshot text-center">
-                    <% if jessica =Person.find_by(username: "jessica") && jessica.image.present? %>
-                      <%= image_tag 'Person.find_by(username: "jessica").image.url'%>
-                    <% end %>
+              <%=link_to "https://www.avontage.com/en/jessica" do%>
+                <div class="member-box">
+                  <div class="inner-box">
+                    <div class="testimonial-headshot text-center">
+                      <% jessica = Person.find_by(username: "jessica")%>
+                      <% avatar = jessica.present? && jessica.image.present? ? jessica.image.url(:thumb) : missing_avatar(:thumb) %>
+                      <%= image_tag avatar%>
+                    </div>
+                    <div class="member-detail text-center">
+                      <p class="name">Jessica K.</p>
+                      <p class="work">High Priority Massage</p>
+                      <p class="type">Phoenix,AZ</p>
+                    </div>
+                    <p class="card-detail">The ability to meet others and get services traded into a community of like-minded professionals that in turn drive more business to you!</p>
                   </div>
-                  <div class="member-detail text-center">
-                    <p class="name">Jessica K.</p>
-                    <p class="work">High Priority Massage</p>
-                    <p class="type">Phoenix,AZ</p>
-                  </div>
-                  <p class="card-detail">The ability to meet others and get services traded into a community of like-minded professionals that in turn drive more business to you!</p>
                 </div>
-              </div>
-              </a>
+              <%end%>
               
               <%=link_to 'https://www.avontage.com/en/jessedeanclark' do%>  
                 <div class="member-box">
                   <div class="inner-box">
                     <div class="testimonial-headshot text-center">
-                      <%jessedeanclark =Person.find_by(username: "jessedeanclark")%>
-                      <% if jessedeanclark.present?%>
-                        <%= image_tag 'Person.find_by(username: "jessedeanclark").image.url'%>
-                      <% end %>
-                    </div>
+                      <% jessedeanclark = Person.find_by(username: "jessedeanclark")%>
+                      <% avatar = jessedeanclark.present? && jessedeanclark.image.present? ? jessedeanclark.image.url(:thumb) : missing_avatar(:thumb) %>
+                      <%= image_tag avatar%>
+                    </div>                    
                     <div class="member-detail text-center">
                       <p class="name">Jesse C.</p>
                       <p class="work">Easy-Click Web Design</p>
@@ -220,25 +219,24 @@
                 </div>
               <%end%>
               
-              <a href="https://www.avontage.com/en/thegannonedit">
-              <div class="member-box">
-                <div class="inner-box">
-                  <div class="testimonial-headshot text-center">
-                    <% if thegannonedit =Person.find_by(username: "thegannonedit") && thegannonedit.image.present? %>
-                      <%= image_tag 'Person.find_by(username: "thegannonedit").image.url'%>
-                    <% end %>
+              <%= link_to 'https://www.avontage.com/en/thegannonedit' do%>  
+                <div class="member-box">
+                  <div class="inner-box">
+                    <div class="testimonial-headshot text-center">
+                      <% thegannonedit = Person.find_by(username: "thegannonedit")%>
+                      <% avatar = thegannonedit.present? && thegannonedit.image.present? ? thegannonedit.image.url(:thumb) : missing_avatar(:thumb) %>
+                      <%= image_tag avatar%>
+                    </div>
+                    <div class=" member-detail text-center">
+                      <p class="name">Kelly G.</p>
+                      <p class="work">The Gannon Edit</p>
+                      <p class="type">Scottsdale,AZ</p>
+                    </div>
+                    <p class="card-detail">Kelly embodies the spirit of collaboration that is in the Avontage DNA. She's had many collaborations to promote and share member stories with an authentic voice.</p>
                   </div>
-                  <div class=" member-detail text-center">
-                    <p class="name">Kelly G.</p>
-                    <p class="work">The Gannon Edit</p>
-                    <p class="type">Scottsdale,AZ</p>
-                  </div>
-                  <p class="card-detail">Kelly embodies the spirit of collaboration that is in the Avontage DNA. She's had many collaborations to promote and share member stories with an authentic voice.</p>
                 </div>
-              </div>
-            </a>
+              <%end%>
             </div>
-
           </div>
 
           <div class="How-it-Works-wrapper">
@@ -256,7 +254,9 @@
                    <p class="left-text">Earn & spend trade-credits to buy offers form Avontage community members. Members of the public pay you with credit card. Use our site messaging to communicate directly with others. Submit your request, payment, and recieve confirmation in a few clicks. Arrange to redeem  the offers and rate your experience.</p>
 
                    <div>
-                     <button class="get-started">GET STARTED</button>
+                      <%= link_to new_listing_path do %>
+                        <button class="get-started">GET STARTED</button>
+                      <% end %>
                    </div>
                 </div>
               </div>
