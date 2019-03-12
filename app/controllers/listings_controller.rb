@@ -97,7 +97,7 @@ class ListingsController < ApplicationController
       per_page: @listing.author.listings.currently_open.count
     }
 
-    @author_listings =
+    author_listings =
       ListingIndexService::API::Api
       .listings
       .search(
@@ -115,7 +115,7 @@ class ListingsController < ApplicationController
         per_page: search[:per_page]
       ))
     }.data
-
+    @other_listings = author_listings.reject{|listing| listing.id == @listing.id}
     record_event(
       flash.now,
       "ListingViewed",
