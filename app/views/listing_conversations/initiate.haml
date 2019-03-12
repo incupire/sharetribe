@@ -56,6 +56,7 @@
       = hidden_field_tag :payment_type
 
       - if stripe_in_use || @current_user.has_coupon_balance?
+        .row-with-dynamiv-divider
         .row
           .col-12
             %h2
