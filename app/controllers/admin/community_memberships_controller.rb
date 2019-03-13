@@ -102,13 +102,9 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     else
       person.coupon_balance = MoneyUtil.to_money(cents, currency)
     end
-    person.save
-    AvonBucksHistory.create(
-      amount: MoneyUtil.to_money(cents, currency),
-      operation: "added",
-      remaining_balance: person.coupon_balance_cents,
-      person_id: person.id
-      )
+    if person.save
+      create_avon_bucks_history(person, cents, "added")
+    end
     respond_to do |format|
       format.js {render layout: false}
     end   
@@ -120,17 +116,13 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     cents = MoneyUtil.parse_str_to_subunits(params[:coupon_balance_cents], currency)
     if person.coupon_balance_cents.present? && (person.coupon_balance_cents >= cents)
       person.coupon_balance -= MoneyUtil.to_money(cents, currency)
-      person.save
+      if person.save
+        create_avon_bucks_history(person, cents, "deducted")
+      end
       flash[:error] = nil
     else
       flash[:error] = "Deduction balance should not be greater than available balance!"
     end 
-    AvonBucksHistory.create(
-      amount: MoneyUtil.to_money(cents, currency),
-      operation: "deducted",
-      remaining_balance: person.coupon_balance_cents,
-      person_id: person.id
-      )
     respond_to do |format|
       format.js {render layout: false}
     end    
@@ -235,5 +227,14 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     else
       "desc" #default
     end
+  end
+
+  def create_avon_bucks_history(person, cents, operation)
+    AvonBucksHistory.create(
+      amount: MoneyUtil.to_money(cents, @current_community.currency),
+      operation: operation,
+      remaining_balance: person.coupon_balance,
+      person_id: person.id
+    )    
   end
 end

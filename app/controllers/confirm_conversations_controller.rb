@@ -82,6 +82,13 @@ class ConfirmConversationsController < ApplicationController
     buyer = tx.starter
     buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
     if buyer.update_attribute(:coupon_balance, buyer_coupon_bal)
+      AvonBucksHistory.create(
+        amount: buyer_gets,
+        operation: "added",
+        remaining_balance: buyer.coupon_balance,
+        person_id: buyer.id,
+        transaction_id: tx.id
+      )      
       tx.toggle!(:coupon_bal_refunded)
       flash[:notice] = "Coupon balance refunded successfully!"
     else

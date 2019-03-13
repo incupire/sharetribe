@@ -121,6 +121,7 @@ class TransactionsController < ApplicationController
   end
 
   def show
+    @stripe_service = stripe_settings
     @transaction = @current_community.transactions.find(params[:id])
     m_admin = @current_user.has_admin_rights?(@current_community)
     m_participant = @current_user.id == @transaction.starter_id || @current_user.id == @transaction.listing_author_id
@@ -484,4 +485,8 @@ class TransactionsController < ApplicationController
   def transaction_process_tokens
     TransactionService::API::Api.process_tokens
   end
+
+  def stripe_settings
+    TransactionService::API::Api.settings.get(community_id: @current_community.id, payment_gateway: "stripe", payment_process: "preauthorize")[:data]
+  end  
 end

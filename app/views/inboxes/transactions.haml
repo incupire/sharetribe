@@ -1,5 +1,5 @@
 - content_for :title_header do
-  %h1= t("layouts.no_tribe.transactions")
+  %h1= t("layouts.no_tribe.avon_buck_history")
 
 .undo-mobile-wrapper-margin#transactions
   - if @current_user.present?    
@@ -9,10 +9,10 @@
         = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
     %br
     
-  - if inbox_rows.present?
-    = render :partial => "transaction_row", :collection => inbox_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
-    = will_paginate(inbox_rows)
-    = pageless(inbox_rows.total_pages, '#transactions', request.path, t('conversations.index.loading_more_messages'))
+  - if history_rows.present?
+    = render :partial => "transaction_row", :collection => history_rows, :as => :history
+    = will_paginate(history_rows)
+    = pageless(history_rows.total_pages, '#transactions', request.path, t('conversations.index.loading_more_messages'))
   - else
     #no_conversations
-      = t("conversations.index.no_received_messages")
+      = t("conversations.avon_bucks_history.no_history")
