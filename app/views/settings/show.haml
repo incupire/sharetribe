@@ -41,6 +41,8 @@
       = form.label :referral_code, t("settings.profile.referral_code"), class: "inline"
     %span.alert-box-icon
       = icon_tag("information", ["icon-fix"])
+    %small
+      = t("settings.profile.referral_code_description")      
     = form.text_field :referral_code, class: "text_field", :maxlength => "30"
 
 
