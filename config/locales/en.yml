@@ -828,7 +828,8 @@ en:
       decline: Decline
       quantity_label: "Quantity:"
       sum_label: "Subtotal:"
-      avontage_service_fee_label: "%{service_name} fee (charged to the buyer):"
+      avontage_service_fee_label_coupon_pay: "%{service_name} fee (charged to the buyer):"
+      avontage_service_fee_label_credit_card_pay: "%{service_name} fee:"
       service_fee_label: "%{service_name} fee:"
       you_will_get_label: "You will get:"
       total_label: "Total:"
@@ -872,6 +873,12 @@ en:
       about_listing: "About listing %{listing_title}"
       free_message: "Direct message"
       message_content_not_available: "Message content not available"
+    avon_bucks_history: 
+      avon_bucks_adjusment_by_admin: "Bonus Avon-Bucks Adjustment by Avontage Admin"
+      added: "Avon-Bucks Added" 
+      deducted: "Avon-Bucks Deducted"
+      view_details: "View Details"
+      no_history: "No Transaction History"
     message:
       accepted_request: "accepted the request"
       received_payment: "accepted the request, received payment for %{sum}"
@@ -1441,7 +1448,7 @@ en:
       map_button: Map
       grid_button: Grid
       list_button: List
-      all_listing_types: "All Order types"
+      all_listing_types: "All offer types"
       all_categories: "All categories"
       click_on_link: "to post your first offer. Remember your business is not visible unless you post an Offer."
     errors:
@@ -1474,6 +1481,8 @@ en:
       settings: Settings
       feedback: "Contact the %{service_name} team"
       transactions: "Transactions"
+      favorite: "Favorite Listings"
+      avon_buck_history: "Avon-BUCKS History"
     application:
       join_this_community: "Join marketplace"
       read_more: "Read more"
@@ -2249,6 +2258,7 @@ en:
       display_name_description: "If you represent an organisation, you can use its name as your display name. Display name is shown to other users instead of your first and last name."
       location_description: "You can provide either your street address or only a city or zip/postal code. It’s good to also add your country when adding your location. Examples: \"10117 Berlin, Germany\" or \"2000 Sand Hill Road, CA, USA\"."
       referral_code: "Referral Code"
+      referral_code_description: "Enter the name of the person or business who referred you to avontage so we can reward them or enter how you found out about us."
       profile_picture_description: "The profile picture should be in a square format (1:1 ratio), for example, 800x800 pixels. Otherwise, it will be cropped to fit."
       phone_number: "Phone number"
       profile_picture: "Profile picture"
@@ -2426,7 +2436,11 @@ en:
     unit_price: "Unit price: %{unit_price}"
     total: "Total:"
     total_to_pay: "Payment total:"
-    avon_commission: "Avon Commission:"
+    avon_commission: "Avontage Fee (%{commission_from_seller} %): "
+    avontage_fee_charged_from_card: "Avontage Fee(charged to your credit card): "
+    offer_price_deducted_from_avon_bucks: "Offer price (deducted from your Avon-Bucks): "
+    total_to_seller: "Total (To Seller): "
+    avontage_fee_deducted_from_seller: "Avontage fee (deducted from seller): "
   unit:
     day: day
     days: days

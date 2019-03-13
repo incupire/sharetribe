@@ -1,3 +1,6 @@
+- content_for :title_header do
+  %h1= t("layouts.no_tribe.favorite")
+
 - if @current_user.favorite_listings.present?
   .people-fluid-thumbnail-grid-container
     #profile-listings-list.cstm_container
