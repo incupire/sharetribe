@@ -1,3 +1,4 @@
+require "csv"
 class Admin::CommunityListingsController < Admin::AdminBaseController
 
   def index
