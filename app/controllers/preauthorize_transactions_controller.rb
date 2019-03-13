@@ -436,15 +436,6 @@ class PreauthorizeTransactionsController < ApplicationController
         per_hour:   tx_params[:per_hour]
       })
     handle_tx_response(tx_response, params[:payment_type].to_sym)
-    if tx_response[:data][:transaction][:payment_gateway] == "coupon_pay" && tx_response[:success] == true
-      AvonBucksHistory.create(
-        amount: MoneyUtil.to_money(tx_response[:data][:transaction][:unit_price_cents],tx_response[:data][:transaction][:unit_price_currency]),
-        operation: "deducted",
-        remaining_balance: @current_user.coupon_balance_cents,
-        person_id: @current_user.id,
-        transaction_id: tx_response[:data][:transaction][:id]
-      )
-    end
   end
 
   def initiated_error(data)
