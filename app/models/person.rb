@@ -89,7 +89,7 @@ class Person < ApplicationRecord
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
   attr_accessor :login
-  has_many :avon_bucks_histories
+  has_many :avon_bucks_histories, dependent: :destroy
   has_many :favorites, dependent: :destroy
   has_many :favorite_listings, through: :favorites, source: :listing
   has_many :listings, -> { where(deleted: 0) }, :dependent => :destroy, :foreign_key => "author_id"

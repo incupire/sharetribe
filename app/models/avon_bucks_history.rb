@@ -14,6 +14,9 @@
 #
 
 class AvonBucksHistory < ApplicationRecord
+  VALID_OPERATIONS = ["added", "deducted"]
+  validates_inclusion_of :operation, :in => VALID_OPERATIONS
+  
   belongs_to :person
   belongs_to :bucks_transaction, class_name: "Transaction", foreign_key: "transaction_id" , optional: true
 

@@ -59,41 +59,13 @@ class InboxesController < ApplicationController
 
     pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
 
-    inbox_rows = InboxService.inbox_data(
-      @current_user.id,
-      @current_community.id,
-      pagination_opts[:limit],
-      pagination_opts[:offset])
-    
-    # Transactions Messages & Management are on aseparated from Inbox messages
-    transactional_rows = inbox_rows.select{|row| row[:type].eql?(:transaction)}
-
-    count = transactional_rows.count
-    
-    inbox_rows = transactional_rows.map { |inbox_row|
-      inbox_row.merge(
-        path: path_to_conversation_or_transaction(inbox_row),
-        last_activity_ago: time_ago(inbox_row[:last_activity_at]),
-        title: inbox_title(inbox_row, inbox_payment(inbox_row)),
-        listing_url: listing_path(id: inbox_row[:listing_id])
-      )
-    }
-
-    paginated_inbox_rows = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], count) do |pager|
-      pager.replace(inbox_rows)
-    end
+    avon_bucks_histories = @current_user.avon_bucks_histories.order('created_at desc').paginate(page: params[:page], per_page: pagination_opts[:per_page])
 
     if request.xhr?
       render :partial => "transaction_row",
-        :collection => paginated_inbox_rows, :as => :conversation,
-        locals: {
-          payments_in_use: @current_community.payments_in_use?
-        }
+        :collection => avon_bucks_histories, :as => :history
     else
-      render locals: {
-        inbox_rows: paginated_inbox_rows,
-        payments_in_use: @current_community.payments_in_use?
-      }
+      render locals: { history_rows: avon_bucks_histories}
     end    
   end
 
