@@ -188,7 +188,7 @@
                   <div class="inner-box">
                     <div class="testimonial-headshot text-center">
                       <% jessica = Person.find_by(username: "jessica")%>
-                      <% avatar = jessica.present? && jessica.image.present? ? jessica.image.url(:thumb) : missing_avatar(:thumb) %>
+                      <% avatar = jessica.present? && jessica.image.present? ? jessica.image.url(:medium) : missing_avatar(:thumb) %>
                       <%= image_tag avatar%>
                     </div>
                     <div class="member-detail text-center">
@@ -206,7 +206,7 @@
                   <div class="inner-box">
                     <div class="testimonial-headshot text-center">
                       <% jessedeanclark = Person.find_by(username: "jessedeanclark")%>
-                      <% avatar = jessedeanclark.present? && jessedeanclark.image.present? ? jessedeanclark.image.url(:thumb) : missing_avatar(:thumb) %>
+                      <% avatar = jessedeanclark.present? && jessedeanclark.image.present? ? jessedeanclark.image.url(:medium) : missing_avatar(:thumb) %>
                       <%= image_tag avatar%>
                     </div>                    
                     <div class="member-detail text-center">
@@ -224,7 +224,7 @@
                   <div class="inner-box">
                     <div class="testimonial-headshot text-center">
                       <% thegannonedit = Person.find_by(username: "thegannonedit")%>
-                      <% avatar = thegannonedit.present? && thegannonedit.image.present? ? thegannonedit.image.url(:thumb) : missing_avatar(:thumb) %>
+                      <% avatar = thegannonedit.present? && thegannonedit.image.present? ? thegannonedit.image.url(:medium) : missing_avatar(:thumb) %>
                       <%= image_tag avatar%>
                     </div>
                     <div class=" member-detail text-center">
