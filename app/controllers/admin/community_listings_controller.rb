@@ -84,11 +84,15 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
       category
       status
       featured
+      price
+      max_number_of_offers_available_for_trade_credits_per_month
     }
     yielder << header_row.to_csv(force_quotes: true)
     unless all_listings.blank?
       all_listings.each do |listing|
         expired = listing.valid_until && listing.valid_until < DateTime.current
+        custom_field_name = listing.custom_field_values.select{|value| value.question.name.eql?("MAX. NUMBER OF OFFERS AVAILABLE FOR TRADE-CREDITS (Avon-BUCKS) PER MONTH. (enter a number between 1 to 100)?")}.first
+        value = custom_field_name.display_value if custom_field_name.present?
         listing_data = {
           title: listing.title,
           author: PersonViewUtils.person_display_name(listing.author, community),
@@ -96,7 +100,9 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
           updated_at: listing.updated_at,
           category: listing.category.display_name(I18n.locale),
           status: expired ? 'expired' : (listing.open? ? 'open' : 'closed'),
-          featured: listing.featured?
+          featured: listing.featured?,
+          price: MoneyViewUtils.to_humanized(listing.price),
+          max_number_of_offers_available_for_trade_credits_per_month: value.present? ? value : nil
         }
         data = listing_data.clone
         yielder << data.values.to_csv(force_quotes: true)        

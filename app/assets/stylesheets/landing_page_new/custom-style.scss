@@ -37,16 +37,16 @@
           outline: none;
         }
         &::-webkit-input-placeholder {
-          color: #bbb;
+          color: #000;
         }
         &::-moz-placeholder {
-          color: #bbb;
+          color: #000;
         }
         &:-ms-input-placeholder {
-          color: #bbb;
+          color: #000;
         }
         &:-moz-placeholder {
-          color: #bbb;
+          color: #000;
         }
         @media screen and (min-width: 768px) and (max-width: 1024px) {
           width: 88%;

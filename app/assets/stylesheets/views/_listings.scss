@@ -284,6 +284,16 @@ $listing-author-avatar-height: 108;
     overflow: hidden;
     white-space: nowrap;
   }
+  .custom_parent{
+      width: 54%;
+    }
+    .custom_price{
+      width: 46%;
+      text-align: right;
+      span{
+        display: inline;
+      }
+    }
   .home-fluid-thumbnail-grid-author-name {
     position: relative;
     left: 10px;
@@ -532,4 +542,9 @@ $listing-author-avatar-height: 108;
 }
 .mr-0{
   margin: 0;
+}
+.home-fluid-thumbnail-grid-author.custom_grid_author{
+  .custom_price{
+    margin-top: 0px;
+  }
 }

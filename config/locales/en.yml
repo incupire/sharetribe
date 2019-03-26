@@ -1037,6 +1037,9 @@ en:
       sell_offer_online: "If you wish to sell your offers online and accept credit card payments, in addition to trading with other members, please go to your payment settings and fill in the required payment information."
       secure_information: "Your bank information is secure and is not stored on our servers. All banking and credit card processing is managed by Stripe.com."
       payment_settings_link: "payment settings"
+      signature: "Happy Collaborating!"
+      team: "The Avontage Success Team"
+      website: "Avontage.com"
     transaction_confirmed:
       here_is_a_message_from: "Here's a message from %{other_party_given_name}:"
       request_marked_as_confirmed: "Order completed - remember to give feedback"
@@ -1102,9 +1105,9 @@ en:
       listing_you_follow_has_a_new_comment: "%{author} has commented on a listing you follow in %{service_name}"
       has_commented_listing_you_follow_in_kassi: "%{author} has commented on the listing '%{listing}' you are following in %{service_name}."
     new_message:
-      view_message: "View message"
-      has_sent_you_a_message_in_kassi: "%{receiver}, you have a new message from %{sender}."
-      you_have_a_new_message: "%{person_name} ,you have a  new message in %{service_name} from %{sender_name}"
+      view_message: "Reply Now"
+      has_sent_you_a_message_in_kassi: "%{receiver} , you have a new message from %{sender}."
+      you_have_a_new_message: "%{person_name} , you have a new message in %{service_name} from %{sender_name}"
       has_sent_you_a_message_in_kass: "has created a new offer"
     unread_message_reminder:
       you_have_an_unread_message: "You have an unread message!"
@@ -1181,7 +1184,7 @@ en:
       added_offer: "%{name_link} added a listing:"
       added_request: "%{name_link} added a listing:"
       added_listing: "%{name_link} added"
-      #update_mail_title: "%{title_link} New Offers"
+      update_mail_title: "%{title_link} New Offers"
       title_link_text: "%{community_name}"
       hello_to_new_member: "Say hello to new members in your community and check out their offers"
       intro_paragraph: "Here are some of the things that happened on %{community_link} during the past %{time_since_last_update}."

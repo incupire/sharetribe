@@ -88,7 +88,7 @@ const mobileProfileLinks = function mobileProfileLinks(username, isAdmin, router
     const links = [
       formatLinkData(profilePaths.inboxAction, location, customColor, [t('web.topbar.inbox')].concat(notificationBadgeInArray)),
       formatLinkData(profilePaths.profileAction, location, customColor, t('web.topbar.profile'), 'menuitem'),
-      formatLinkData(profilePaths.transactionsAction, location, customColor, t('web.topbar.manage_transactions')),
+      formatLinkData(profilePaths.transactionsAction, location, customColor, t('web.topbar.transactions')),
       formatLinkData(profilePaths.favoriteAction, location, customColor, t('web.topbar.favorite')),
       formatLinkData(profilePaths.settingsAction, location, customColor, t('web.topbar.settings')),
       formatLinkData(profilePaths.logoutAction, location, customColor, t('web.topbar.logout')),
