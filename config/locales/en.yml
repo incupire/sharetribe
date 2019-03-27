@@ -1486,6 +1486,7 @@ en:
       transactions: "Transactions"
       favorite: "Favorite Listings"
       avon_buck_history: "Avon-BUCKS History"
+      transaction_history: "Transactions History"
     application:
       join_this_community: "Join marketplace"
       read_more: "Read more"

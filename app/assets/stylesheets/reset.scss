@@ -179,6 +179,8 @@ hr {
     font-weight: 800;
     border-radius: 4px;
     font-size: 18px;
+    display: inline-block;
+    margin-top: 8px;
   }
   &.for_booking {
     position: relative;
@@ -356,4 +358,46 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
     padding-right: 0 !important;
   }
   
+}
+
+//transactions tabs scss
+
+.custom_tabs{
+  .tablink {
+    background-color: #959595;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 50%;
+    border-radius: 0px;
+    margin: 0;
+    @media screen and (max-width: 680px){
+      padding: 10px 0px;
+      font-size: 16px;
+    }
+    &.fir{
+      border-radius: 7px 0px 0px 7px;
+    }
+    &.sec{
+      border-radius: 0px 7px 7px 0px;
+    }
+  }
+
+  .tablink:hover {
+    background-color: #777;
+  }
+
+  /* Style the tab content (and add height:100% for full page content) */
+  .tabcontent {
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+  }
+
+  #News {background-color: #fff;}
+  #Contact {background-color: #fff;}
 }
