@@ -878,7 +878,7 @@ en:
       added: "Avon-Bucks Added" 
       deducted: "Avon-Bucks Deducted"
       view_details: "View Details"
-      no_history: "No Transaction History"
+      no_history: "No Avon-BUCKS Transaction History"
     message:
       accepted_request: "accepted the request"
       received_payment: "accepted the request, received payment for %{sum}"
