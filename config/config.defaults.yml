@@ -185,7 +185,7 @@ default: &default_settings
   feedback_mailer_recipients:  'admins@example.com'
 
   grid_listings_limit: 24
-  map_listings_limit: 150
+  map_listings_limit: 10000
 
   # DEPRECATED, use Google Tag Manager instead
   # Google Analytics can be used to track traffic on the site
