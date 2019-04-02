@@ -9,7 +9,7 @@
 
         .home-fluid-thumbnail-grid-author.custom_grid_author
           .fluid-thumbnail-grid-image-title.custom_title.custom_parent
-            = listing.description if listing.description.present?
+            = listing.title if listing.title.present?
           .fluid-thumbnail-grid-image-price-container.modify_price.custom_price
             - if listing.price
               %span.fluid-thumbnail-grid-image-price.custom_price
@@ -19,3 +19,6 @@
                 - price_text = " " + price_unit
                 %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
                   = price_text
+            - else
+              %span.fluid-thumbnail-grid-image-type
+                = shape_name(listing)  
