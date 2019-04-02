@@ -45,7 +45,7 @@
             title: t("admin.communities.listings.headers.updated") }
         %th
           = render partial: "layouts/sort_link", locals: { column: "category",
-            direction: sort_link_direction("category"),
+            direction: params[:sort].eql?('category') && params[:direction].eql?("asc") ? "asc" : "desc",
             title: t("admin.communities.listings.headers.category") }         
         %th= t("admin.communities.listings.headers.status")
         %th= t("admin.communities.listings.headers.featured")
