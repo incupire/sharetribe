@@ -67,7 +67,9 @@ module TopbarHelper
         loggedInUsername: user&.username,
         isAdmin: user&.has_admin_rights?(community) || false,
       },
-      unReadMessagesCount: InboxService.notification_count(user&.id, community.id)
+      unReadMessagesCount: InboxService.notification_count(user&.id, community.id),
+      unReadTransactionalMessagesCount: InboxService.transactional_notification_count(user&.id, community.id),
+      unReadDirectMessageCount: InboxService.direct_conversations_notification_count(user&.id, community.id)
     }
   end
 

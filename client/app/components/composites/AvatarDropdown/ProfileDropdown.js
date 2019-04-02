@@ -17,7 +17,7 @@ const actionProps = function actionProps(action) {
 };
 
 const ProfileActionCard = function ProfileActionCard({ icon, label, action, notificationCount }) {
-  const notificationCountInArray = notificationCount > 0 ? [span({ className: css.notificationCount }, notificationCount)] : [];
+  const notificationCountInArray = notificationCount > 0 ? [span({ className: label == 'Transactions' ? css.transactionCount : css.notificationCount }, notificationCount)] : [];
   return a({ ...actionProps(action), className: css.profileAction }, [
     div({ className: css.profileActionIconWrapper }, [
       div({ className: css.profileActionIcon, dangerouslySetInnerHTML: { __html: icon } }),
@@ -48,8 +48,8 @@ class ProfileDropdown extends Component {
       div({ className: css.rootArrowBelow }),
       div({ className: css.box }, [
         div({ className: css.profileActions }, [
-          r(ProfileActionCard, { label: this.props.translations.inbox, icon: inboxEmptyIcon, action: this.props.actions.inboxAction, notificationCount: this.props.notificationCount }),
-          r(ProfileActionCard, { label: this.props.translations.transactions, icon: transactionsIcon, action: this.props.actions.transactionsAction }),
+          r(ProfileActionCard, { label: this.props.translations.inbox, icon: inboxEmptyIcon, action: this.props.actions.inboxAction, notificationCount: this.props.unReadDirectMessageCount }),
+          r(ProfileActionCard, { label: this.props.translations.transactions, icon: transactionsIcon, action: this.props.actions.transactionsAction, notificationCount: this.props.unReadTransactionalMessagesCount }),
           r(ProfileActionCard, { label: this.props.translations.favorite, icon: heartIcon, action: this.props.actions.favoriteAction }),
           r(ProfileActionCard, { label: this.props.translations.profile, icon: profileIcon, action: this.props.actions.profileAction }),
           r(ProfileActionCard, { label: this.props.translations.settings, icon: settingsIcon, action: this.props.actions.settingsAction }),

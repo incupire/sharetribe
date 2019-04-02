@@ -37,6 +37,14 @@ module InboxService
     query_notification_count(person_id, community_id)
   end
 
+  def direct_conversations_notification_count(person_id, community_id)
+    direct_conversation_query_notification_count(person_id, community_id)
+  end
+
+  def transactional_notification_count(person_id, community_id)
+    query_transactional_notification_count(person_id, community_id)
+  end  
+
   @tiny_int_to_bool = ->(tiny_int) {
     !(tiny_int.nil? || tiny_int == 0)
   }
@@ -98,6 +106,34 @@ module InboxService
 
     connection.select_value(sql)
   end
+
+  def query_transactional_notification_count(person_id, community_id)
+    conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
+    return 0 if conversation_ids.empty?
+
+    connection = ActiveRecord::Base.connection
+    sql = SQLUtils.ar_quote(connection, @construct_transactional_notification_count_sql,
+      person_id: person_id,
+      community_id: community_id,
+      conversation_ids: conversation_ids
+    )
+
+    connection.select_value(sql)
+  end  
+
+  def direct_conversation_query_notification_count(person_id, community_id)
+    conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
+    return 0 if conversation_ids.empty?
+
+    connection = ActiveRecord::Base.connection
+    sql = SQLUtils.ar_quote(connection, @construct_direct_conversation_notification_count_sql,
+      person_id: person_id,
+      community_id: community_id,
+      conversation_ids: conversation_ids
+    )
+
+    connection.select_value(sql)
+  end  
 
   def query_inbox_data(person_id, community_id, limit, offset)
     conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
@@ -260,6 +296,63 @@ module InboxService
       )
     "
   }
+
+
+  @construct_direct_conversation_notification_count_sql = ->(params) {
+    "
+      SELECT COUNT(conversations.id) FROM conversations
+
+      LEFT JOIN transactions      ON transactions.conversation_id = conversations.id
+      LEFT JOIN participations    ON (participations.conversation_id = conversations.id AND participations.person_id = #{params[:person_id]})
+
+      # Where person and community
+      WHERE conversations.community_id = #{params[:community_id]}
+      AND conversations.id IN (#{params[:conversation_ids].join(',')})
+
+      AND (transactions.id IS NULL)
+      AND (participations.is_read = FALSE)
+    "
+  }
+
+  @construct_transactional_notification_count_sql = ->(params) {
+    "
+      SELECT COUNT(conversations.id) FROM conversations
+
+      LEFT JOIN transactions      ON transactions.conversation_id = conversations.id
+      LEFT JOIN listings          ON transactions.listing_id = listings.id
+      LEFT JOIN testimonials      ON (testimonials.transaction_id = transactions.id AND testimonials.author_id = #{params[:person_id]})
+      LEFT JOIN participations    ON (participations.conversation_id = conversations.id AND participations.person_id = #{params[:person_id]})
+
+      # Where person and community
+      WHERE conversations.community_id = #{params[:community_id]}
+      AND conversations.id IN (#{params[:conversation_ids].join(',')})
+
+      # Ignore initiated and deleted
+      AND (
+        transactions.id IS NOT NULL
+        AND (transactions.current_state != 'initiated'
+            AND transactions.deleted = 0)
+      )
+
+      # This is a bit complicated logic that is now moved from app to SQL.
+      # I'm not complelety sure if it's a good or bad. However, since this query is called once per every page
+      # load, I think it's ok to make some performance optimizations and have this logic in SQL.
+      AND (
+        # Is read?
+        (participations.is_read = FALSE) OR
+
+        # Requires actions
+        (transactions.current_state = 'preauthorized' AND participations.is_starter = FALSE) OR
+        (transactions.current_state = 'paid'          AND participations.is_starter = TRUE) OR
+
+        # Waiting feedback
+        ((transactions.current_state = 'confirmed') AND (
+          (participations.is_starter = TRUE AND transactions.starter_skipped_feedback = FALSE AND testimonials.id IS NULL) OR
+          (participations.is_starter = FALSE AND transactions.author_skipped_feedback = FALSE AND testimonials.id IS NULL)
+        ))
+      )
+    "
+  }   
 
   # Construct query for
   # - person

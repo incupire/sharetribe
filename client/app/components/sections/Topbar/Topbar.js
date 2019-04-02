@@ -44,7 +44,7 @@ const profileActions = function profileActions(routes, username) {
   } : null;
 };
 
-const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, notificationCount, routes) => {
+const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, notificationCount, routes, unReadTransactionalMessagesCount, unReadDirectMessageCount) => {
   const color = customColor || styleVariables['--customColorFallback'];
   const actions = {
     inboxAction: () => false,
@@ -65,14 +65,17 @@ const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, not
     adminDashboard: t('web.topbar.admin_dashboard'),
     logout: t('web.topbar.logout'),
   };
-  return { actions, translations, customColor: color, isAdmin, notificationCount, ...avatarDropdown };
+  return { actions, translations, customColor: color, isAdmin, notificationCount, unReadTransactionalMessagesCount, unReadDirectMessageCount, ...avatarDropdown };
 };
 
-const mobileProfileLinks = function mobileProfileLinks(username, isAdmin, router, location, customColor, unReadMessagesCount) {
+const mobileProfileLinks = function mobileProfileLinks(username, isAdmin, router, location, customColor, unReadDirectMessageCount, unReadTransactionalMessagesCount) {
   if (username) {
-    const notificationBadgeInArray = unReadMessagesCount > 0 ?
-      [r(NotificationBadge, { className: css.notificationBadge, countClassName: css.notificationBadgeCount }, unReadMessagesCount)] :
+    const notificationBadgeInArray = unReadDirectMessageCount > 0 ?
+      [r(NotificationBadge, { className: css.notificationBadge, countClassName: css.notificationBadgeCount }, unReadDirectMessageCount)] :
       [];
+    const transactionaNotificationBadgeInArray = unReadTransactionalMessagesCount > 0 ?
+      [r(NotificationBadge, { className: css.notificationBadge, countClassName: css.notificationBadgeCount }, unReadTransactionalMessagesCount)] :
+      [];      
 
     const profilePaths = profileActions(router, username);
     const formatLinkData = function getLink(link, currentLocation, color, content) {
@@ -88,7 +91,7 @@ const mobileProfileLinks = function mobileProfileLinks(username, isAdmin, router
     const links = [
       formatLinkData(profilePaths.inboxAction, location, customColor, [t('web.topbar.inbox')].concat(notificationBadgeInArray)),
       formatLinkData(profilePaths.profileAction, location, customColor, t('web.topbar.profile'), 'menuitem'),
-      formatLinkData(profilePaths.transactionsAction, location, customColor, t('web.topbar.transactions')),
+      formatLinkData(profilePaths.transactionsAction, location, customColor, [t('web.topbar.transactions')].concat(transactionaNotificationBadgeInArray)),
       formatLinkData(profilePaths.favoriteAction, location, customColor, t('web.topbar.favorite')),
       formatLinkData(profilePaths.settingsAction, location, customColor, t('web.topbar.settings')),
       formatLinkData(profilePaths.logoutAction, location, customColor, t('web.topbar.logout')),
@@ -223,7 +226,7 @@ class Topbar extends Component {
         menuLinksTitle: t('web.topbar.menu'),
         menuLinks: menuLinksData,
         userLinksTitle: t('web.topbar.user'),
-        userLinks: mobileProfileLinks(loggedInUsername, isAdmin, this.props.routes, location, marketplaceColor1, this.props.unReadMessagesCount),
+        userLinks: mobileProfileLinks(loggedInUsername, isAdmin, this.props.routes, location, marketplaceColor1, this.props.unReadDirectMessageCount, this.props.unReadTransactionalMessagesCount),
         languages: mobileMenuLanguageProps,
         avatar: mobileMenuAvatarProps,
         newListingButton: this.props.newListingButton ?
@@ -279,7 +282,7 @@ class Topbar extends Component {
       this.props.avatarDropdown && loggedInUsername ?
         r(AvatarDropdown, {
           ...avatarDropdownProps(this.props.avatarDropdown, marketplaceColor1,
-                                 loggedInUsername, isAdmin, this.props.unReadMessagesCount, this.props.routes),
+                                 loggedInUsername, isAdmin, this.props.unReadMessagesCount, this.props.routes, this.props.unReadTransactionalMessagesCount, this.props.unReadDirectMessageCount),
           classSet: css.topbarAvatarDropdown,
         }) :
         r(LoginLinks, {
@@ -337,6 +340,8 @@ Topbar.propTypes = {
     isAdmin: PropTypes.bool,
   }),
   unReadMessagesCount: PropTypes.number,
+  unReadTransactionalMessagesCount: PropTypes.number,
+  unReadDirectMessageCount: PropTypes.number
 };
 
 export default Topbar;

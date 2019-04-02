@@ -90,6 +90,8 @@ class AvatarDropdown extends Component {
         actions: this.props.actions,
         isAdmin: this.props.isAdmin,
         notificationCount: this.props.notificationCount,
+        unReadTransactionalMessagesCount: this.props.unReadTransactionalMessagesCount,
+        unReadDirectMessageCount: this.props.unReadDirectMessageCount,
         translations: this.props.translations,
         profileDropdownRef: (c) => {
           this.profileDropdown = c;
