@@ -16,7 +16,10 @@
                   - if action_name == "new_message_notification"
                     %tr
                       %td{:valign => "top", :width => "90%"}
-                        = image_tag 'https://www.avontage.com/assets/logo.png'
+                        - if Rails.env == "staging"
+                          = image_tag 'http://52.8.132.212/assets/logo.png'
+                        - else
+                          = image_tag 'https://www.avontage.com/assets/logo.png'
                   - else
                     %tr
                       %td{:align => "left", :style => "padding-top: 20px; padding-bottom: 5px; border-bottom:1px dotted grey;"}

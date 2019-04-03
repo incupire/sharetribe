@@ -11,7 +11,6 @@
 - if @current_user.present? && @current_user.id != listing[:author][:id]
   %div.custom-favorite{id: "favorite_#{listing[:id]}"}
     = render :partial => 'favorites/favorite_select_unselect', :locals => {:listing_id => listing[:id]}
-
 = link_to(listing_path(listing.url), :class => "#{modifier_class} fluid-thumbnail-grid-image-item-link") do
   .fluid-thumbnail-grid-image-image-container{:class => "#{modifier_class}"}
     - with_first_listing_image(listing) do |first_image_url|

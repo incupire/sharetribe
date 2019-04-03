@@ -89,12 +89,11 @@ class ListingsController < ApplicationController
 
     make_listing_presenter
     @listing_presenter.form_path = new_transaction_path(listing_id: @listing.id)
-
     search = {
       author_id: @listing.author.id,
       include_closed: false,
       page: 1,
-      per_page: @listing.author.listings.currently_open.count
+      per_page: 1000
     }
 
     author_listings =

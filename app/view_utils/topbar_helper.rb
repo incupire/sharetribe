@@ -22,7 +22,6 @@ module TopbarHelper
     })
 
     given_name, family_name = *PersonViewUtils.person_display_names(user, community)
-
     {
       logo: {
         href: PathHelpers.landing_page_path(
