@@ -30,9 +30,9 @@
                 %span.fluid-thumbnail-grid-image-type
                   = shape_name(listing)
             .home-fluid-thumbnail-grid-author-avatar.left
-              = PersonViewUtils.person_display_name(listing.author, @current_community)
               = link_to(person_path(username: listing.author.username)) do
                 = image_tag(listing.author.image.url(:thumb) || missing_avatar(:thumb), :class => "home-fluid-thumbnail-grid-author-avatar-image")
+              = PersonViewUtils.person_display_name(listing.author, @current_community)
 - else
   %p
     No favorite listings to show
