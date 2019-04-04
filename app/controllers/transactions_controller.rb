@@ -106,7 +106,8 @@ class TransactionsController < ApplicationController
               starting_page: ::Conversation::PAYMENT,
               booking_fields: booking_fields,
               payment_gateway: process.process == :none ? :none : gateway, # TODO This is a bit awkward
-              payment_process: process.process
+              payment_process: process.process,
+              avon_commission: Money.new(0, @current_community.currency)
             }
           })
       }
