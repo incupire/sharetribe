@@ -1,0 +1,33 @@
+.row-with-divider.without-margin.conversation-row
+  - person = Person.find(operator_id)
+  .col-2
+    .conversation-details-container
+      - avatar = person.image.present? ? person.image.url(:thumb) : missing_avatar(:thumb)
+      = link_to person_path(person) do
+        = image_tag avatar, :class => "conversation-avatar"
+      .conversation-details
+        .conversation-other-party-name
+          = link_to_unless person.deleted, PersonViewUtils.person_display_name(person, @current_community), person_path(person)
+        .conversation-last-message-at
+          = "#{time_ago_in_words(last_transition_at)} ago"
+
+  .col-4
+    = t("conversations.avon_bucks_history.avon_bucks_adjusment_by_admin")
+    .conversation-context
+
+  .col-2
+    - if operation.eql?("added")
+      = "+ #{MoneyViewUtils.to_humanized(amount)} Avon"
+    - else
+      = "- #{MoneyViewUtils.to_humanized(amount)} Avon"
+
+  .col-2
+    - if operation.eql?("added")
+      = t("conversations.avon_bucks_history.added")
+    - else
+      = t("conversations.avon_bucks_history.deducted")
+
+  .col-2
+    = link_to '#' do
+      %button.get-started{disabled: true}
+        = t("conversations.avon_bucks_history.view_details")        

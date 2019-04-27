@@ -234,7 +234,8 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
       amount: MoneyUtil.to_money(cents, @current_community.currency),
       operation: operation,
       remaining_balance: person.coupon_balance,
-      person_id: person.id
+      person_id: person.id,
+      operator_id:  @current_user.id
     )    
   end
 end

@@ -424,3 +424,10 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
   top: 3px;
   right: 3px;
 }
+
+.get-started {
+  &[disabled] {
+    cursor: default;
+    background: #ccc;
+  }  
+}

@@ -11,6 +11,7 @@
 #  updated_at              :datetime         not null
 #  currency                :string(255)
 #  transaction_id          :integer
+#  operator_id             :string(255)
 #
 
 class AvonBucksHistory < ApplicationRecord
@@ -19,7 +20,8 @@ class AvonBucksHistory < ApplicationRecord
   
   belongs_to :person
   belongs_to :bucks_transaction, class_name: "Transaction", foreign_key: "transaction_id" , optional: true
-
+  belongs_to :operator, class_name: "Person", foreign_key: "operator_id", optional: true
+  
   monetize :amount_cents, :allow_nil => true, with_model_currency: :currency
   monetize :remaining_balance_cents, :allow_nil => true, with_model_currency: :currency
 end
