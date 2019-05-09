@@ -66,6 +66,8 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
     when 'updated', nil
       'listings.updated_at'
     when 'category'
+      'categories.url'
+    when 'featured'
       'listings.featured'
     end
   end

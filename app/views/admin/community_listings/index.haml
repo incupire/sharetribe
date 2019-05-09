@@ -45,10 +45,13 @@
             title: t("admin.communities.listings.headers.updated") }
         %th
           = render partial: "layouts/sort_link", locals: { column: "category",
-            direction: params[:sort].eql?('category') && params[:direction].eql?("asc") ? "asc" : "desc",
+            direction: sort_link_direction("category"),
             title: t("admin.communities.listings.headers.category") }         
         %th= t("admin.communities.listings.headers.status")
-        %th= t("admin.communities.listings.headers.featured")
+        %th
+          = render partial: "layouts/sort_link", locals: { column: "featured",
+            direction: sort_link_direction("featured"),
+            title: t("admin.communities.listings.headers.featured") }       
         %th= t("admin.communities.listings.headers.edit_listing")
         %th= t("admin.communities.listings.headers.delete_listing")
 

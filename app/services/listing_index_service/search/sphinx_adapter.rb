@@ -93,15 +93,7 @@ module ListingIndexService::Search
         )
 
         begin
-          if models.count > 0 && search[:categories].present?
-            listing_ids = models.pluck(:id)
-            listings = Listing.currently_open.where(id: listing_ids).order('title ASC')
-          end
-          if listings
-            DatabaseSearchHelper.success_result(listings.count, listings, includes)
-          else
-            DatabaseSearchHelper.success_result(models.total_entries, models, includes)
-          end
+          DatabaseSearchHelper.success_result(models.total_entries, models, includes)
         rescue ThinkingSphinx::SphinxError => e
           Result::Error.new(e)
         end
