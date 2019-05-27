@@ -283,6 +283,7 @@ $listing-author-avatar-height: 108;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
+    padding: 0.75em 0;
   }
   .custom_parent{
       width: 54%;
@@ -306,24 +307,25 @@ $listing-author-avatar-height: 108;
     color: #ff2600;
     font-weight: bold;
     top: 6px;
+    padding: 0.3em 0;
     .fluid-thumbnail-grid-image-quantity {
-      font-size: 14px;
+      font-size: 12px;
     }
     .fluid-thumbnail-grid-image-price {
-      font-size: 14px;
+      font-size: 12px;
     }
   }
 }
 @media (min-width: 48em){
   .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
     width: 50%;
-
+    padding-right: 1em;
+    margin-bottom: 1em;
   }
 }
 @media (min-width: 63em){
   .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid-item {
-      width: 33.333%;
-      
+    width: 25%;
   }
 }
 .reviews_grid {
@@ -547,4 +549,10 @@ $listing-author-avatar-height: 108;
   .custom_price{
     margin-top: 0px;
   }
+}
+
+@media (min-width: 48em){
+  .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid {
+      margin-right:-0.75em;
+  } 
 }
