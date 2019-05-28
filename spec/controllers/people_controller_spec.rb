@@ -46,6 +46,7 @@
 #  stripe_customer_id                 :string(255)
 #  referral_code                      :string(255)
 #  favorites_count                    :integer          default(0)
+#  linkedin_id                        :string(255)
 #
 # Indexes
 #

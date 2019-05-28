@@ -112,41 +112,77 @@ class SessionsController < ApplicationController
   end
 
   def facebook
+    omniauth_setup('facebook')
+  end
+
+  def linkedin
+    omniauth_setup('linkedin')
+  end
+
+  def omniauth_setup(provider)
     data = request.env["omniauth.auth"].extra.raw_info
+    if provider.eql?('linkedin')
+      data = request.env["omniauth.auth"].info
+      data[:uid] = request.env["omniauth.auth"].uid
+    end
     origin_locale = get_origin_locale(request, available_locales())
     I18n.locale = origin_locale if origin_locale
 
     persons = Person
               .includes(:emails, :community_memberships)
               .references(:emails)
-              .where(["people.facebook_id = ? OR emails.address = ?", data.id, data.email]).uniq
+              .where(["people.facebook_id = ? OR people.linkedin_id =? OR emails.address = ?", data.id, data.uid, data.email]).uniq
 
     people_in_this_community = persons.select { |p| p.is_admin? || p.community_memberships.map(&:community_id).include?(@current_community.id) }
-    person_by_fb_id = people_in_this_community.find { |p| p.facebook_id == data.id }
+    person_by_auth_id = if provider.eql?('facebook')
+      people_in_this_community.find { |p| p.facebook_id == data.id }
+    elsif provider.eql?('linkedin')
+      people_in_this_community.find { |p| p.linkedin_id == data.uid }
+    end
     person_by_email = people_in_this_community.find { |p| p.emails.any? { |e| e.address == data.email && e.confirmed_at.present? } }
     email_unconfirmed = people_in_this_community.flat_map(&:emails).find { |e| e.address == data.email && e.confirmed_at.blank? }.present?
 
-    person = person_by_fb_id || person_by_email
-
+    person = person_by_auth_id || person_by_email
     if person
       person.update_facebook_data(data.id)
-      flash[:notice] = t("devise.omniauth_callbacks.success", :kind => "Facebook")
-      sign_in_and_redirect person, :event => :authentication
+      if provider.eql?('linkedin')
+        image = data&.picture_url
+        person.update_linkedin_data(data.uid, image)
+      end
+      flash[:notice] = t("devise.omniauth_callbacks.success", :kind => provider.capitalize)
+      sign_in_and_redirect person, event: :authentication
     elsif data.email.blank?
-      flash[:error] = t("layouts.notifications.could_not_get_email_from_facebook")
-      redirect_to sign_up_path and return
+      flash[:error] = t("layouts.notifications.could_not_get_email_from_#{provider}")
+      redirect_to sign_up_path and return     
     elsif email_unconfirmed
-      flash[:error] = t("layouts.notifications.facebook_email_unconfirmed", email: data.email)
+      flash[:error] = t("layouts.notifications.#{provider}_email_unconfirmed", email: data.email)
       redirect_to login_path and return
     else
-      facebook_data = {"email" => data.email,
-                       "given_name" => data.first_name,
-                       "family_name" => data.last_name,
-                       "username" => data.username,
-                       "id"  => data.id}
+      omniauth_data = set_omniauth_session(data, provider)
+      session["devise.omniauth_data"] = omniauth_data
+      redirect_to :action => :create_omniauth_based, :controller => :people
+    end
+  end
 
-      session["devise.facebook_data"] = facebook_data
-      redirect_to :action => :create_facebook_based, :controller => :people
+  def set_omniauth_session(data, provider)
+    if provider.eql?('facebook')
+      {
+        "email"       => data.email,
+        "given_name"  => data.first_name,
+        "family_name" => data.last_name,
+        "username"    => data.username,
+        "id"          => data.id
+      }
+    elsif provider.eql?('linkedin')
+      {
+        "email"       => data.email,
+        "given_name"  => data.first_name,
+        "family_name" => data.last_name,
+        "username"    => data.username,
+        "id"          => data.uid,
+        "kind"        => 'linkedin',
+        "image"       => data.picture_url
+      }
     end
   end
 

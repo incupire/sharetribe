@@ -624,6 +624,10 @@ module ApplicationHelper
      community.facebook_connect_enabled?.or_else(false)
   end
 
+  def linkedin_connect_in_use?
+    APP_CONFIG.linkedin_client_key.present? && APP_CONFIG.linkedin_client_secret.present?
+  end
+
   def community_slogan
     if @community_customization  && !@community_customization.slogan.blank?
       @community_customization.slogan

@@ -46,6 +46,7 @@
 #  stripe_customer_id                 :string(255)
 #  referral_code                      :string(255)
 #  favorites_count                    :integer          default(0)
+#  linkedin_id                        :string(255)
 #
 # Indexes
 #
@@ -79,7 +80,7 @@ class Person < ApplicationRecord
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :omniauthable
+         :omniauthable, omniauth_providers: [:facebook, :linkedin]
 
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,
@@ -537,6 +538,15 @@ class Person < ApplicationRecord
       end
     end
   end
+
+  def update_linkedin_data(linkedin_id, image_url=nil)
+    self.update_attribute(:linkedin_id, linkedin_id)
+    self.store_picture_from_linkedin!(image_url) if self.image_file_size.nil? && image_url.present?
+  end
+
+  def store_picture_from_linkedin!(image_url=nil)
+    self.picture_from_url(image_url)
+  end  
 
   def self.find_by_email_address_and_community_id(email_address, community_id)
     Maybe(
