@@ -1,0 +1,96 @@
+<div class="mobile_view_slide_navbar">
+	<div class="inner_mobile_view_slide_navbar">
+		<div class="items">
+			<a href="javascript:void(0);" class="cross">&#10060;</a>
+			<a href="#">Profile</a>
+			<a href="#">Transaction</a>
+			<a href="#">Favorite</a>
+			<a href="#">Settings</a>
+			<a href="#">Log out</a>
+			<a href="#"></a>
+		</div>
+		<div class="row-with-dynamiv-divider"></div>
+		<div class="items">
+			<a href="#">About</a>
+			<a href="#">Contact us</a>
+			<a href="#">Invite new members to trade with</a>
+			<a href="#">Post your offers</a>
+			<a href="#">How-it-work</a>
+			<a href="#">Refer & Earn</a>
+			<a href="#">Book a Demo</a>
+			<a href="#">Blog</a>
+		</div>
+	</div>
+</div>
+<!-- mobile view footer -->
+<div class="mobile_navbar_bottom">
+	<div class="menus">
+		<div class="icons">
+			<%=link_to search_path, class: 'inner_icon' do %>
+			  <%=image_tag 'home_2.png', alt: ''%>
+				<!-- <img src="assets/home_2.png" alt=""> -->
+				<span>Home</span>
+			<%end%>
+		</div>
+		<div class="icons">
+			<a href="#" class="inner_icon">
+				<img src="assets/search.png" alt="">
+				<span>Explore</span>
+			</a>
+		</div>
+		<div class="icons">
+			<%= link_to new_listing_path, class: 'inner_icon' do%>
+				<img src="assets/plus.png" alt="">
+				<span>Post Offer</span>
+			<%end%>
+		</div>
+		<div class="icons">
+			<%=link_to @current_user.present? ? person_inbox_path(@current_user) : '', class: 'inner_icon' do %>
+			  <%= image_tag 'mail.png', alt: ''%>
+				<span>Inbox</span>
+			<%end%>
+		</div>
+		<div class="icons slide_menu">
+			<a href="javascript:void(0);" class="inner_icon">
+				<img src="assets/menu_2.png" alt="">
+				<span>More</span>
+			</a>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	<% content_for :javascript do %>
+	$(document).ready(function(){
+		$('.slide_menu').click(function(){
+			if (!$('.mobile_view_slide_navbar').hasClass('add')) {
+				$('.mobile_view_slide_navbar').addClass('add');
+			}
+			else{
+				$('.mobile_view_slide_navbar').removeClass('add');
+			}
+		});
+		$('.cross').click(function(){
+			$('.mobile_view_slide_navbar').removeClass('add');
+		})
+	});
+	<% end %>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
