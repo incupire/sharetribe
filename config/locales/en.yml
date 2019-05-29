@@ -254,9 +254,9 @@ en:
         admin: Admin
         posting_allowed: "Posting allowed"
         ban_user: Ban
-        coupon_balance: "Avon-BUCKS"
-        add_coupon_balance: "Add Avon-BUCKS"
-        deduct_coupon_balance: "Deduct Avon-BUCKS"
+        coupon_balance: "Avontage Bucks"
+        add_coupon_balance: "Add Avontage Bucks"
+        deduct_coupon_balance: "Deduct Avontage Bucks"
         delete_user: "Delete"
         edit_profile: "Edit"
         saving_user_status: Saving...
@@ -377,7 +377,7 @@ en:
           coupon_pay:
             free: Conversation
             pending: Pending
-            preauthorized: "Avon-BUCKS Pending"
+            preauthorized: "Avontage Bucks Pending"
             accepted: Accepted
             rejected: Declined
             paid: Accepted
@@ -874,11 +874,11 @@ en:
       free_message: "Direct message"
       message_content_not_available: "Message content not available"
     avon_bucks_history: 
-      avon_bucks_adjusment_by_admin: "Bonus Avon-Bucks Adjustment by Avontage Admin"
-      added: "Avon-Bucks Added" 
-      deducted: "Avon-Bucks Deducted"
+      avon_bucks_adjusment_by_admin: "Bonus Avontage Bucks Adjustment by Avontage Admin"
+      added: "Avontage Bucks Added" 
+      deducted: "Avontage Bucks Deducted"
       view_details: "View Details"
-      no_history: "No Avon-BUCKS Transaction History"
+      no_history: "No Avontage Bucks Transaction History"
     message:
       accepted_request: "accepted the request"
       received_payment: "accepted the request, received payment for %{sum}"
@@ -949,13 +949,13 @@ en:
       request_rejected: Rejected
       request_confirmed: Completed
       request_confirmed_and_redeemed: "Completed Redeemed"
-      congrats_confirmed_and_redeemed: "Completed Congrats! You have received the above amount in Avon-BUCKS Credits"
+      congrats_confirmed_and_redeemed: "Completed Congrats! You have received the above amount in Avontage Bucks Credits"
       request_canceled: Canceled
       request_paid: "Payment successful"
-      request_paid_and_available_coupon_balance: "Payment successful <b>in Avon-BUCKS Credits</b> <element>Your remaining Avon-BUCKS Credit balance %{avl_ducat_bal}</element>"
+      request_paid_and_available_coupon_balance: "Payment successful <b>in Avontage Bucks Credits</b> <element>Your remaining Avontage Bucks Credit balance %{avl_ducat_bal}</element>"
       great_you_accepted_offer: "Great! You have Accepted this offer"
       request_preauthorized: "Payment authorized"
-      paid_with_coupon: "Paid with your Avon-BUCKS Credits"
+      paid_with_coupon: "Paid with your Avontage Bucks Credits"
       skip_feedback: "Skip feedback"
       waiting_for_listing_author_to_accept_offer: "Waiting for %{listing_author_name} to accept the offer"
       waiting_for_listing_author_to_accept_request: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you will be charged."
@@ -1032,7 +1032,7 @@ en:
       automatic_confirmation: "If you don't confirm or cancel the order within %{days_to_automatic_confirmation} days after the request was accepted, we will mark it automatically as completed."
     payment_settings_reminder:
       remember_to_add_payment_details: "Remember to add your payment details to receive payments"
-      you_have_added_listing_with_payment: "Thank you for posting %{listing_link} to trade with other members via Avon-BUCKS(trade-credits)."
+      you_have_added_listing_with_payment: "Thank you for posting %{listing_link} to trade with other members via Avontage Bucks(trade-credits)."
       please_go_to_payment_settings: "Please note that on Avontage, your Offers will also be available to sell to the public via credit card, however, you haven't yet added your bank details in your profile."
       sell_offer_online: "If you wish to sell your offers online and accept credit card payments, in addition to trading with other members, please go to your payment settings and fill in the required payment information."
       secure_information: "Your bank information is secure and is not stored on our servers. All banking and credit card processing is managed by Stripe.com."
@@ -1048,7 +1048,7 @@ en:
       has_marked_request_as_canceled: "%{other_party_full_name} has canceled the order about '%{request}'. You can still give feedback to %{other_party_given_name}."
       giving_feedback_is_good_idea: "Giving feedback is always a good idea. If everything went well, you should let others know that %{other_party_given_name} can be trusted. If there were any problems, it's good to mention those as well."
       give_feedback_to: "Give feedback to %{other_party_given_name}"
-      avon_bucks_commission_charge_from_buyer: "%{commission_from_seller}% Avontage Fee will be charged to your credit card when paying with Avon-Bucks(trade-credits)"
+      avon_bucks_commission_charge_from_buyer: "%{commission_from_seller}% Avontage Fee will be charged to your credit card when paying with Avontage Bucks(trade-credits)"
       stripe:
         has_marked_request_as_confirmed: "%{other_party_full_name} has marked the order about '%{request}' completed. The payment for this transaction has now been released to your bank account. You can now give feedback to %{other_party_given_name}."
     transaction_automatically_confirmed:
@@ -1485,7 +1485,7 @@ en:
       feedback: "Contact the %{service_name} team"
       transactions: "Transactions"
       favorite: "Favorite Listings"
-      avon_buck_history: "Avon-BUCKS History"
+      avon_buck_history: "Avontage Bucks History"
       transaction_history: "Transactions History"
     application:
       join_this_community: "Join marketplace"
@@ -2447,7 +2447,7 @@ en:
     total_to_pay: "Payment total:"
     avon_commission: "Avontage Fee (%{commission_from_seller} %): "
     avontage_fee_charged_from_card: "Avontage Fee(charged to your credit card): "
-    offer_price_deducted_from_avon_bucks: "Offer price (deducted from your Avon-Bucks): "
+    offer_price_deducted_from_avon_bucks: "Offer price (deducted from your Avontage Bucks): "
     total_to_seller: "Total (To Seller): "
     avontage_fee_deducted_from_seller: "Avontage fee (deducted from seller): "
   unit:
@@ -2644,6 +2644,6 @@ en:
       save_card: "Save"
       no_saved_cards: "You don't have any saved cards."
       avontage_fee_structure: "Avontage Fee Structure:"
-      content1: "There is zero transaction fee for any offers you SELL in exchange for Avon-BUCKS"
-      content2: "A Transaction Fee of %{commission_from_seller}% will be charged to you when you BUY an Offer using your Avon-BUCKS credit"
+      content1: "There is zero transaction fee for any offers you SELL in exchange for Avontage Bucks"
+      content2: "A Transaction Fee of %{commission_from_seller}% will be charged to you when you BUY an Offer using your Avontage Bucks credit"
       content3: "A Transaction of  %{commission_from_seller}% will be deducted from any offers you SELL when accepting credit card payme"
