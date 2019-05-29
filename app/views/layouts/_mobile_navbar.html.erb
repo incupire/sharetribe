@@ -1,83 +1,89 @@
 <div class="mobile_view_slide_navbar">
-	<div class="inner_mobile_view_slide_navbar">
-		<div class="items">
-			<a href="javascript:void(0);" class="cross">&#10060;</a>
-			<a href="#">Profile</a>
-			<a href="#">Transaction <span class="custom_notification">2</span></a>
-			<a href="#">Favorite</a>
-			<a href="#">Settings</a>
-			<a href="#">Log out</a>
-			<a href="#"></a>
-		</div>
-		<div class="row-with-dynamiv-divider"></div>
-		<div class="items">
-			<a href="#">About</a>
-			<a href="#">Contact us</a>
-			<a href="#">Invite new members to trade with</a>
-			<a href="#">Post your offers</a>
-			<a href="#">How-it-work</a>
-			<a href="#">Refer & Earn</a>
-			<a href="#">Book a Demo</a>
-			<a href="#">Blog</a>
-		</div>
-	</div>
+  <div class="inner_mobile_view_slide_navbar">
+    <div class="items">
+      <a href="javascript:void(0);" class="cross">&#10060;</a>
+      <%= link_to 'Profile', logged_in? ? person_path(@current_user) : login_path%>
+      <%= link_to logged_in? ? transactions_person_messages_path(@current_user) : login_path do%>
+        Transaction 
+        <span class="custom_notification"><%=topbar_props[:unReadTransactionalMessagesCount]%></span>
+      <%end%>
+      <%= link_to 'Favorite', logged_in? ? person_favorite_listings_path(@current_user) : login_path%>
+      <%= link_to 'Settings', logged_in? ? person_settings_path(@current_user) : login_path%>
+      <%= link_to 'Log out', logout_path%>
+      <a href="#"></a>
+    </div>
+    <div class="row-with-dynamiv-divider"></div>
+    <div class="items">
+      <%= link_to 'About', about_infos_path %>
+      <%=link_to 'Contact us', new_user_feedback_path%>
+      <%= link_to 'Invite new members to trade with', new_invitation_path%>
+      <%= link_to 'Post your offers', new_listing_path%>
+      <%= link_to 'How-it-works', how_to_use_infos_path%>
+      <%= link_to 'Refer & Earn', 'https://avontage.leaddyno.com' %>
+      <%= link_to 'Book a Demo', 'https://app.hubspot.com/meetings/vipdesk'%>
+      <%= link_to 'Blog', 'https://www.avontage.com/blog' %>
+    </div>
+  </div>
 </div>
 <!-- mobile view footer -->
 <div class="mobile_navbar_bottom">
-	<div class="menus">
-		<div class="icons">
-			<%=link_to search_path, class: 'inner_icon' do %>
-			  <%=image_tag 'home_2.png', alt: ''%>
-				<!-- <img src="assets/home_2.png" alt=""> -->
-				<span>Home</span>
-			<%end%>
-		</div>
-		<div class="icons">
-			<%=link_to explore_path, class: 'inner_icon' do%>
-				<%=image_tag 'search.png', alt: ''%>
-				<span>Explore</span>
-			<%end%>	
-		</div>
-		<div class="icons">
-			<%= link_to new_listing_path, class: 'inner_icon' do%>
-				<%=image_tag 'plus.png', alt: ''%>
-				<span>Post Offer</span>
-			<%end%>
-		</div>
-		<div class="icons">
-			<%=link_to @current_user.present? ? person_inbox_path(@current_user) : '', class: 'inner_icon' do %>
-				<span class="tool_alert">1</span>
-			  <%=image_tag 'mail.png', alt: ''%>
-				<span>Inbox</span>
-			<%end%>
-		</div>
-		<div class="icons slide_menu">
-			<a href="javascript:void(0);" class="inner_icon">
-				<span class="tool_alert">2</span>
-				<%=image_tag 'menu_2.png', alt: ''%>
-				<span>More</span>
-			</a>
-		</div>
-	</div>
+  <div class="menus">
+    <div class="icons">
+      <%=link_to search_path, class: 'inner_icon' do %>
+        <%=image_tag 'home_2.png', alt: ''%>
+        <span>Home</span>
+      <%end%>
+    </div>
+    <div class="icons">
+      <%=link_to explore_path, class: 'inner_icon' do%>
+        <%=image_tag 'search.png', alt: ''%>
+        <span>Explore</span>
+      <%end%> 
+    </div>
+    <div class="icons">
+      <%= link_to new_listing_path, class: 'inner_icon' do%>
+        <%=image_tag 'plus.png', alt: ''%>
+        <span>Post Offer</span>
+      <%end%>
+    </div>
+    <div class="icons">
+      <%=link_to @current_user.present? ? person_inbox_path(@current_user) : '', class: 'inner_icon' do %>
+        <%if topbar_props[:unReadDirectMessageCount].present?  && topbar_props[:unReadDirectMessageCount] > 0%>
+          <span class="tool_alert"><%=topbar_props[:unReadDirectMessageCount]%></span>
+        <%end%>  
+        <%=image_tag 'mail.png', alt: ''%>
+        <span>Inbox</span>
+      <%end%>
+    </div>
+    <div class="icons slide_menu">
+      <a href="javascript:void(0);" class="inner_icon">
+        <%if topbar_props[:unReadTransactionalMessagesCount].present? && topbar_props[:unReadTransactionalMessagesCount] > 0 %>
+          <span class="tool_alert"><%=topbar_props[:unReadTransactionalMessagesCount]%></span>
+        <%end%>  
+        <%=image_tag 'menu_2.png', alt: ''%>
+        <span>More</span>
+      </a>
+    </div>
+  </div>
 </div>
 
 
 <script type="text/javascript">
-	<% content_for :javascript do %>
-	$(document).ready(function(){
-		$('.slide_menu').click(function(){
-			if (!$('.mobile_view_slide_navbar').hasClass('add')) {
-				$('.mobile_view_slide_navbar').addClass('add');
-			}
-			else{
-				$('.mobile_view_slide_navbar').removeClass('add');
-			}
-		});
-		$('.cross').click(function(){
-			$('.mobile_view_slide_navbar').removeClass('add');
-		})
-	});
-	<% end %>
+  <% content_for :javascript do %>
+  $(document).ready(function(){
+    $('.slide_menu').click(function(){
+      if (!$('.mobile_view_slide_navbar').hasClass('add')) {
+        $('.mobile_view_slide_navbar').addClass('add');
+      }
+      else{
+        $('.mobile_view_slide_navbar').removeClass('add');
+      }
+    });
+    $('.cross').click(function(){
+      $('.mobile_view_slide_navbar').removeClass('add');
+    })
+  });
+  <% end %>
 </script>
 
 
