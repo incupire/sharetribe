@@ -113,27 +113,29 @@
         = form.password_field :password2, :class => :text_field_account, :maxlength => "255", :placeholder => t(".confirm_new_password")
         = form.button t(".save"), :class => "send_button_account", :id => "password_submit"
 
-  -# Account removal
-  .account-settings-row
-    .ss-deleteuser.account-settings-icon
-    .account-settings-text
-      %b
-        = t("settings.account.delete_account")
+  -# Temporary Hide Account delettion option  
+  -#
+    -# Account removal
+    .account-settings-row
+      .ss-deleteuser.account-settings-icon
+      .account-settings-text
+        %b
+          = t("settings.account.delete_account")
 
-    %p
-      = t("settings.account.delete_personal_information")
-    %p
-      = t("settings.account.delete_information_others_involved")
-
-    - button_disabled = has_unfinished || only_admin
-    = form_tag url_for(:controller => :people, :action => :destroy, :id => target_user.username), :method => :delete do
-      = button_tag t('.delete_account_button'), :class => (button_disabled ? 'disabled-button' : ''), :disabled => button_disabled, :id => "delete_account_button", :data => {:confirm => t('.delete_account_confirmation_popup')}
-
-    - if has_unfinished
       %p
-        = t('settings.account.unfinished_transactions')
-
-    - if only_admin
+        = t("settings.account.delete_personal_information")
       %p
-        = t('settings.account.only_admin')
+        = t("settings.account.delete_information_others_involved")
+
+      - button_disabled = has_unfinished || only_admin
+      = form_tag url_for(:controller => :people, :action => :destroy, :id => target_user.username), :method => :delete do
+        = button_tag t('.delete_account_button'), :class => (button_disabled ? 'disabled-button' : ''), :disabled => button_disabled, :id => "delete_account_button", :data => {:confirm => t('.delete_account_confirmation_popup')}
+
+      - if has_unfinished
+        %p
+          = t('settings.account.unfinished_transactions')
+
+      - if only_admin
+        %p
+          = t('settings.account.only_admin')
 
