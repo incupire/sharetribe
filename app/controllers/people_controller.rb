@@ -418,6 +418,7 @@ class PeopleController < Devise::RegistrationsController
         :display_name,
         :street_address,
         :phone_number,
+        :mobile_number,
         :image,
         :description,
         :password,

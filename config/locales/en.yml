@@ -2269,6 +2269,7 @@ en:
       referral_code_description: "Enter the name of the person or business who referred you to avontage so we can reward them or enter how you found out about us."
       profile_picture_description: "The profile picture should be in a square format (1:1 ratio), for example, 800x800 pixels. Otherwise, it will be cropped to fit."
       phone_number: "Phone number"
+      mobile_number: "Mobile Number"
       profile_picture: "Profile picture"
       postal_code: "Postal code"
       profile_page: "in your profile page"
