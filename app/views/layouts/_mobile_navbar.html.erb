@@ -3,7 +3,7 @@
 		<div class="items">
 			<a href="javascript:void(0);" class="cross">&#10060;</a>
 			<a href="#">Profile</a>
-			<a href="#">Transaction</a>
+			<a href="#">Transaction <span class="custom_notification">2</span></a>
 			<a href="#">Favorite</a>
 			<a href="#">Settings</a>
 			<a href="#">Log out</a>
@@ -33,26 +33,28 @@
 			<%end%>
 		</div>
 		<div class="icons">
-			<a href="#" class="inner_icon">
-				<img src="assets/search.png" alt="">
+			<%=link_to explore_path, class: 'inner_icon' do%>
+				<%=image_tag 'search.png', alt: ''%>
 				<span>Explore</span>
-			</a>
+			<%end%>	
 		</div>
 		<div class="icons">
 			<%= link_to new_listing_path, class: 'inner_icon' do%>
-				<img src="assets/plus.png" alt="">
+				<%=image_tag 'plus.png', alt: ''%>
 				<span>Post Offer</span>
 			<%end%>
 		</div>
 		<div class="icons">
 			<%=link_to @current_user.present? ? person_inbox_path(@current_user) : '', class: 'inner_icon' do %>
-			  <%= image_tag 'mail.png', alt: ''%>
+				<span class="tool_alert">1</span>
+			  <%=image_tag 'mail.png', alt: ''%>
 				<span>Inbox</span>
 			<%end%>
 		</div>
 		<div class="icons slide_menu">
 			<a href="javascript:void(0);" class="inner_icon">
-				<img src="assets/menu_2.png" alt="">
+				<span class="tool_alert">2</span>
+				<%=image_tag 'menu_2.png', alt: ''%>
 				<span>More</span>
 			</a>
 		</div>

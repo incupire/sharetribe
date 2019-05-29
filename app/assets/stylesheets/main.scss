@@ -2431,23 +2431,41 @@ figure.fluidratio {
     height: 100%;
     align-items: center;
     padding: 10px 0;
-    box-shadow: 0 -1px 4px #dadada;
+    box-shadow: 0px -1px 4px #d6d6d6;
   }
   .icons{
     width: 20%;
     text-align: center;
     .inner_icon{
+      display: block;
+      position: relative;
       img{
-        height: 25px;
+        height: 20px;
+      }
+      .tool_alert{
+        position: absolute;
+        top: -7px;
+        left: 50%;
+        background: rgb(250, 78, 54);
+        height: 16px;
+        width: 16px;
+        border-radius: 25px;
+        line-height: 16px;
+        color: #fff;
+        font-size: 10px;
+        transform: translate(-50% ,0%);
       }
       span{
         display: block;
-        font-size: 13px;
+        font-size: 11px;
         font-weight: 600;
         color: #191919;
+        margin-top: 0px;
       }
       &:hover{
         text-decoration: none;
+        background: none;
+        color: none;
       }
     }
   }
@@ -2481,13 +2499,22 @@ figure.fluidratio {
       a{
         display: block;
         padding: 10px 25px;
-        font-size: 17px;
+        font-size: 15px;
         font-weight: 600;
         font-family: open sans,sans-serif;
+        .custom_notification{
+          background: rgb(250, 78, 54);
+          padding: 1px 5px;
+          border-radius: 25px;
+          color: #fff;
+          font-size: 11px;
+          display: inline-block;
+          margin-left: 5px;
+        }
       }
       .cross{
         padding: 0 12px;
-        font-size: 26px;
+        font-size: 12px;
         position: absolute;
         right: 5px;
         font-weight: 100;
@@ -2500,4 +2527,7 @@ figure.fluidratio {
       text-decoration: none;
     }
   }
+}
+.mobile_image{
+  border-radius: 0px;
 }

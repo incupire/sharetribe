@@ -283,7 +283,7 @@ $listing-author-avatar-height: 108;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    padding: 0.75em 0;
+    padding: 0.75em 0.50em;
   }
   .custom_parent{
       width: 54%;
@@ -307,7 +307,7 @@ $listing-author-avatar-height: 108;
     color: #ff2600;
     font-weight: bold;
     top: 6px;
-    padding: 0.3em 0;
+    padding: 0.3em 0.50em;
     .fluid-thumbnail-grid-image-quantity {
       font-size: 12px;
     }
