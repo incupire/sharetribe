@@ -91,6 +91,8 @@ Rails.application.routes.draw do
   get '/s' => 'homepage#index', as: :search_without_locale, constraints: ->(request) {
     CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
   }
+  
+  get '/:locale/explore' => 'homepage#explore', as: :explore
 
   # Default routes for homepage, these are matched if custom landing page is not in use
   # Inside this constraits are the routes that are used when request has subdomain other than www

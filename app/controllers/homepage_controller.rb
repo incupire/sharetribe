@@ -140,6 +140,13 @@ class HomepageController < ApplicationController
       }
     end
   end
+
+  def explore
+    @categories = @current_community.categories.includes(:children)
+    @main_categories = @categories.select { |c| c.parent_id == nil }
+    @show_categories = @categories.size > 1
+    @category_menu_enabled = @show_categories || @show_custom_fields 
+  end
   # rubocop:enable AbcSize
   # rubocop:enable MethodLength
 
