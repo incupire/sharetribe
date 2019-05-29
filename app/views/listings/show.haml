@@ -215,7 +215,7 @@
               = link_to PersonViewUtils.person_display_name(@listing.author, @current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{PersonViewUtils.person_display_name(@listing.author, @current_community)}"
             - if @listing.author != @current_user
               .listing-author-contact
-                %a#listing-contact{href: contact_to_listing_path(:listing_id => @listing.id.to_s), :class => "listing-author-contact-buttonx custom_contact button"}
+                %a#listing-contact{href: new_person_person_message_path(person_id: @listing.author, listing_id: @listing.id), :class => "listing-author-contact-buttonx custom_contact button"}
                   .content
                     = t(".ask_seller")
 

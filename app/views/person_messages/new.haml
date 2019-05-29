@@ -8,5 +8,6 @@
     = fields_for "conversation[message_attributes]", Message.new do |message_form|
       = message_form.label :content, t('conversations.new.message')
       = message_form.text_area :content, :class => "text_area"
-
+      
+    = form.hidden_field :listing_id, value: params[:listing_id]
     = form.button t("conversations.new.send_message"), :class => "send_button"
