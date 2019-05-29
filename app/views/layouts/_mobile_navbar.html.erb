@@ -4,8 +4,10 @@
       <a href="javascript:void(0);" class="cross">&#10060;</a>
       <%= link_to 'Profile', logged_in? ? person_path(@current_user) : login_path%>
       <%= link_to logged_in? ? transactions_person_messages_path(@current_user) : login_path do%>
-        Transaction 
-        <span class="custom_notification"><%=topbar_props[:unReadTransactionalMessagesCount]%></span>
+        Transaction
+        <%if topbar_props[:unReadTransactionalMessagesCount].present? && topbar_props[:unReadTransactionalMessagesCount] > 0%> 
+          <span class="custom_notification"><%=topbar_props[:unReadTransactionalMessagesCount]%></span>
+        <%end%>
       <%end%>
       <%= link_to 'Favorite', logged_in? ? person_favorite_listings_path(@current_user) : login_path%>
       <%= link_to 'Settings', logged_in? ? person_settings_path(@current_user) : login_path%>
