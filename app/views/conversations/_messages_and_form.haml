@@ -3,6 +3,10 @@
     initialize_reply_form('#{I18n.locale}');
 
   #reply_form.message-avatar-padding.message-reply-form
+    - if message_form&.conversation&.tx.blank? && message_form&.conversation&.listing_id.present?
+      %h2
+        = link_to message_form&.conversation&.listing&.title, listing_path(id: message_form.conversation&.listing&.id)
+
     = form_for message_form, :url => message_form_action do |f|
       = f.label :content, t("conversations.show.write_a_reply")
       = f.text_area :content, :class => "reply_form_text_area"
