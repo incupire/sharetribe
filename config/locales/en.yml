@@ -1107,7 +1107,7 @@ en:
     new_message:
       view_message: "Reply Now"
       has_sent_you_a_message_in_kassi: "%{receiver} , you have a new message from %{sender}."
-      you_have_a_new_message: "%{person_name} , you have a new message in %{service_name} from %{sender_name}"
+      you_have_a_new_message: "%{person_name} , you have a new message from %{sender_name}"
       has_sent_you_a_message_in_kass: "has created a new offer"
     unread_message_reminder:
       you_have_an_unread_message: "You have an unread message!"
