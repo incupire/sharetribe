@@ -114,7 +114,10 @@ class ListingsController < ApplicationController
         per_page: search[:per_page]
       ))
     }.data
+
     @other_listings = author_listings.reject{|listing| listing.id == @listing.id}
+    @other_listings = @listing if @other_listings.count == 0
+    
     record_event(
       flash.now,
       "ListingViewed",

@@ -219,6 +219,25 @@
                   .content
                     = t(".ask_seller")
 
+    .row-with-divider
+      .col-12
+        .parent
+          %span
+            = t(".profile_info")
+          .profile-about-me.custom_padding
+            .name_text.author_description
+              - if @listing.author.description && !@listing.author.description.blank?
+                - if @listing.author.description.length > 250
+                  = truncate(markdown(@listing.author.description), length: 250, escape: false)
+                  .more_btn
+                    = link_to 'Read More', '', class: "read-more"
+                - else
+                  = markdown(@listing.author.description)   
+
+            -#    
+              .profile_img
+                = huge_avatar_thumb(@listing.author)                   
+
     - if @listing_presenter.received_testimonials.size > 0
       .row-with-divider.listing-author-activity
         .col-12
@@ -252,17 +271,6 @@
           .padding_left
             = render :partial => 'author_other_listings', :locals => {person: @listing.author, listings: @other_listings}
 
-      .parent
-        %span
-          = t(".profile_info")
-        .profile-about-me.custom_padding
-          .name_text
-            - if @listing.author.description && !@listing.author.description.blank?
-              = markdown(@listing.author.description)
-          .profile_img
-            = huge_avatar_thumb(@listing.author)
-
-
     .col-4
 
 - content_for :extra_javascript do
@@ -276,3 +284,8 @@
       if (window.focus) {newwindow.focus()}
       return false;
     }
+
+    $(".read-more").on('click', function(e){
+      e.preventDefault()
+      $('.author_description').html("#{escape_javascript markdown(@listing.author.description)}");
+    })

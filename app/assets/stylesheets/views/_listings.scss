@@ -520,7 +520,7 @@ $listing-author-avatar-height: 108;
     margin-top: 16px;
   }
   .custom_padding{
-    padding: 15px 0 0px 50px;
+    padding: 15px 0 0px 20px;
     display: flex;
     flex-direction: row;
     @media screen and (max-width: 768px){
@@ -555,4 +555,11 @@ $listing-author-avatar-height: 108;
   .home-fluid-thumbnail-grid-narrow .home-fluid-thumbnail-grid {
       margin-right:-0.75em;
   } 
+}
+.more_btn{
+  display: block;
+  padding: 5px 0;
+  a{
+
+  }
 }
