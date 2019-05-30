@@ -1730,6 +1730,7 @@ en:
       description:
         detailed_description: "Detailed description"
         youtube_info: "If your description contains YouTube links, the videos will be shown below the description."
+        listing_description_placeholder: "Please describe your offer in Detail"
       destination:
         destination: Destination
       form_content:
@@ -1785,6 +1786,7 @@ en:
         pickup: Pickup
       origin:
         location: Location
+        listing_description_placeholder: "Please enter your Location"
         origin: Origin
       send_button:
         save_listing: "Post offer"
@@ -1808,6 +1810,7 @@ en:
         tags: Tags
       title:
         listing_title: "Offer title"
+        listing_title_placeholder: "Please enter Title of your Offer"
       valid_until:
         valid_until: "Expiration date"
       valid_until_radio_buttons:

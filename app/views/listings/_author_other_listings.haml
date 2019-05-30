@@ -1,7 +1,7 @@
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-listings-list
     %h2.people-header
-      = "#{listings.count} Open Listings"
+      = listings.count == 1 ? "#{listings.count} Open Listing" : "#{listings.count} Open Listings"
     - listings.each do |listing|
       .people-fluid-thumbnail-grid-item
         %div
