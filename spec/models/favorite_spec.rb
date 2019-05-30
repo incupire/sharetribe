@@ -2,7 +2,7 @@
 #
 # Table name: favorites
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  listing_id :integer
 #  person_id  :string(255)
 #  created_at :datetime         not null
