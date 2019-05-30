@@ -2,7 +2,7 @@
 #
 # Table name: avon_bucks_histories
 #
-#  id                      :integer          not null, primary key
+#  id                      :bigint           not null, primary key
 #  amount_cents            :integer
 #  operation               :string(255)
 #  remaining_balance_cents :integer

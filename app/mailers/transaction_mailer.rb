@@ -163,6 +163,18 @@ class TransactionMailer < ActionMailer::Base
     end
   end
 
+  def avon_voucher(receiver)
+    @community = Community.last
+    premailer_mail(
+      :to => receiver,
+      :from => community_specific_sender(@community),
+      :subject => 'New Voucher details') do |format|
+        format.html {
+          render "avon_voucher"
+        }
+    end
+  end
+
   private
 
   def premailer_mail(opts, &block)
