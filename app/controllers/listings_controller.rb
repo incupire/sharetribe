@@ -115,8 +115,11 @@ class ListingsController < ApplicationController
       ))
     }.data
 
-    @other_listings = author_listings.reject{|listing| listing.id == @listing.id}
-    @other_listings = @listing if @other_listings.count == 0
+    if author_listings.count == 1
+      @other_listings = author_listings
+    else
+      @other_listings = author_listings.reject{|listing| listing.id == @listing.id}
+    end
     
     record_event(
       flash.now,
