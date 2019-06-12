@@ -17,7 +17,23 @@ class ConfirmReminderJob < Struct.new(:conversation_id, :recipient_id, :communit
     community = Community.find(community_id)
     if transaction.status.eql?("paid")
       MailCarrier.deliver_now(PersonMailer.send("confirm_reminder", transaction, transaction.buyer, community, days_to_cancel))
+      if transaction.buyer.should_receive_sms?("sms_remainder_to_mark_complete")
+        SMSNotification.sms_service(transaction.buyer.mobile_number, sms_body(transaction, community))
+      end
     end
+  end
+
+  private
+
+  def sms_body(conversation, community)
+    conversation_url = Rails.application.routes.url_helpers.person_message_url(person_id: conversation.buyer, id: conversation.id, :host => Rails.env.eql?("development") ? "localhost:3000" : "avontage.com" )
+    message = I18n.t("sms.confirm_reminder.you_have_not_yet_confirmed_or_canceled_request",
+              :date => ApplicationController.helpers.time_ago(conversation.created_at.to_date),
+              :other_party_full_name => conversation.seller.name(conversation.community),
+              :other_party_given_name => conversation.seller.name_or_username
+              ).html_safe
+
+    return "#{message} \n #{conversation_url}"
   end
 
 end

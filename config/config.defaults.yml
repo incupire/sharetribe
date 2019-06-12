@@ -6,6 +6,11 @@ default: &default_settings
   # NOTE: Do not include http(s) here, or subdomains, just the top level domain, like "sharetribe.com" for example
   domain: "lvh.me:3000"
 
+  # Twilio Key
+  twilio_account_sid: xxxxxxxxxxxxx
+  twilio_auth_token: xxxxxxxxxxxxx
+  twilio_mobile_number: xxxxxxxxxxxxx
+
   # A comma separated string of trusted proxies. If you host your
   # application behind proxies this configuration allows
   # Rack::RemoteIP to correctly infer the client ip by removing

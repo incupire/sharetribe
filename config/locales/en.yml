@@ -1011,6 +1011,9 @@ en:
       email_not_allowed: "This email is not allowed in %{service_name}."
       email_not_available: "The email you gave is already in use."
       consent_not_given: "The terms were not accepted."
+  sms:
+    confirm_reminder:
+      you_have_not_yet_confirmed_or_canceled_request: "You have not yet completed or canceled an order. If the order has been completed, you should confirm that. After that you can give feedback to %{other_party_given_name}."
   emails:
     accept_reminder:
       remember_to_accept_offer: "Remember to accept or reject an offer from %{sender_name}"
@@ -2238,6 +2241,7 @@ en:
     notifications:
       email_from_admins: "I accept to receive occasional emails from the %{service_name} team"
       i_want_to_get_email_notification_when: "I want to get an email notification when..."
+      i_want_to_get_sms_notification_when: "I want to get an SMS/Text notification on mobile #___-___-___ when..."
       newsletters: "Emails from administrators"
       community_updates: Newsletters
       email_about_confirm_reminders: "...I have forgotten to confirm an order as completed"
@@ -2259,6 +2263,10 @@ en:
       homepage_link: homepage
       unsubscribe_unsuccesful: "Error in unsubscribing"
       unsuccessful_unsubscribe_info_text: "The unsubscribe link has expired. Log in to change your email subscription settings."
+      sms_about_new_messages_or_request: "...A buyer sends me a message or a request"
+      sms_about_selling_offer: "...I sell my Offers"
+      sms_remainder_to_mark_complete: "...I have forgotten to confirm an order as completed/redeemed"
+      sms_from_admins: "...A system wide important announcement is sent by %{service_name} team"
     profile:
       about_you: "About you"
       city: City
