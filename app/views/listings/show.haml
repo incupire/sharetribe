@@ -39,6 +39,9 @@
           - if reason == :images_ok
             .listing-image-carousel
               #listing-image-frame
+                -# Mark favorite/ Remove favorite
+                %div.custom-favorite.custom_position{id: "favorite_#{@listing.id}"}
+                  = render :partial => 'favorites/favorite_select_unselect', :locals => {:listing_id => @listing.id}
 
               - if @listing_presenter.prev_image_id && @listing_presenter.next_image_id
                 = link_to params.permit(:id, :locale).merge(image: @listing_presenter.prev_image_id), class: "listing-image-navi listing-image-navi-left", id: "listing-image-navi-left" do
