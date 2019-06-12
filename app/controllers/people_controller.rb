@@ -440,7 +440,11 @@ class PeopleController < Devise::RegistrationsController
           :email_about_completed_transactions,
           :email_about_new_payments,
           :email_about_new_listings_by_followed_people,
-          :empty_notification
+          :empty_notification,
+          :sms_about_selling_offer,
+          :sms_about_new_messages_or_request,
+          :sms_remainder_to_mark_complete,
+          :sms_from_admins
         ],
         custom_field_values_attributes: [
           :id,
