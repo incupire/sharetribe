@@ -2531,3 +2531,9 @@ figure.fluidratio {
 .mobile_image{
   border-radius: 0px;
 }
+@media (min-width: 47em){
+  .custom_padding{
+    padding-right: 0.75em !important;
+    margin-bottom: 1.5em;
+  }
+}

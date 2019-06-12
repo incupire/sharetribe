@@ -66,7 +66,11 @@
                         = t("listings.show.processing_uploaded_image")
                       - else
                         = t(".no_description")
-
+    -# Listing Title                        
+    .row
+      .col-12
+        %h1=@listing&.title
+    -# Listing Description
     .row
       .col-12
         - if @listing.description && !@listing.description.blank?
@@ -76,13 +80,14 @@
             - @listing_presenter.youtube_link_ids.each do |youtube_id|
               .listing-description-youtube-wrapper
                 %iframe.listing-description-youtube-iframe{ title: t("listings.show.youtube_video_player"), width: 640, height:390, src: "//www.youtube.com/embed/#{ youtube_id }", frameborder: 0, allowfullscreen: true}
-
+    %br
+    -# Listing Custom Field Information
     - @listing.custom_field_values.each do |custom_field_value|
       .row
         .col-12
           - custom_field_value.with_type do |question_type|
             = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value }
-
+    -# Listing Publish Date
     - if @current_community.show_listing_publishing_date?
       .row
         .col-12
@@ -223,7 +228,7 @@
       .col-12
         .parent
           %span
-            = t(".profile_info")
+            %h2= t(".profile_info")
           .profile-about-me.custom_padding
             .name_text.author_description
               - if @listing.author.description && !@listing.author.description.blank?
@@ -264,15 +269,25 @@
   -# Author other listing           
   - unless @other_listings.blank?
     .row-with-dynamiv-divider
-    .col-8.other-offers
+    .col-9.other-offers
       .row.mr-0
         #profile-listings-list.custom_styling
           %span
-            = t(".other_offers")
+            %h2= t(".other_offers", author_name: PersonViewUtils.person_display_name(@listing.author, @current_community))
           .padding_left
             = render :partial => 'author_other_listings', :locals => {person: @listing.author, listings: @other_listings}
 
-    .col-4
+  -# Category Recommended listing           
+  - unless @recommended_listings.blank?
+    .row-with-dynamiv-divider
+    .col-9.other-offers
+      .row.mr-0
+        #profile-listings-list.custom_styling
+          %span
+            %h2= t(".recommended_for_you_in_current_category", category_name: @listing.category.display_name(I18n.locale))
+          .padding_left
+            = render :partial => 'recommended_offers_in_current_category', :locals => {person: @listing.author, listings: @recommended_listings}          
+
 
 - content_for :extra_javascript do
   :javascript
