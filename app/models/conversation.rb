@@ -116,6 +116,9 @@ class Conversation < ApplicationRecord
       if recipient.should_receive?("email_about_new_messages")
         MailCarrier.deliver_now(PersonMailer.new_message_notification(messages.last, community))
       end
+      if recipient.should_receive_sms?("sms_about_new_messages_or_request")
+        SMSNotification.sms_service(recipient.mobile_number, "You have a new message from #{recipient.given_name} - #{messages.last.content}")
+      end
     end
   end
 
