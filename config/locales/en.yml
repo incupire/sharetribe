@@ -1927,7 +1927,8 @@ en:
       times_viewed: Viewed
       processing_uploaded_image: "(Processing uploaded image...)"
       listing_created_at: "Offer created"
-      other_offers: "Member's other offers:"
+      other_offers: "Other Offers By %{author_name}: "
+      recommended_for_you_in_current_category: "Recommended for you in %{category_name}: "
       profile_info: "Member's profile info:"
       price:
         per_quantity_unit: "per %{quantity_unit}"

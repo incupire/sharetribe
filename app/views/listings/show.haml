@@ -66,7 +66,11 @@
                         = t("listings.show.processing_uploaded_image")
                       - else
                         = t(".no_description")
-
+    -# Listing Title                        
+    .row
+      .col-12
+        %h1=@listing&.title
+    -# Listing Description
     .row
       .col-12
         - if @listing.description && !@listing.description.blank?
@@ -76,13 +80,14 @@
             - @listing_presenter.youtube_link_ids.each do |youtube_id|
               .listing-description-youtube-wrapper
                 %iframe.listing-description-youtube-iframe{ title: t("listings.show.youtube_video_player"), width: 640, height:390, src: "//www.youtube.com/embed/#{ youtube_id }", frameborder: 0, allowfullscreen: true}
-
+    %br
+    -# Listing Custom Field Information
     - @listing.custom_field_values.each do |custom_field_value|
       .row
         .col-12
           - custom_field_value.with_type do |question_type|
             = render :partial => "listings/custom_field_partials/#{question_type}", :locals => { :custom_field_value => custom_field_value }
-
+    -# Listing Publish Date
     - if @current_community.show_listing_publishing_date?
       .row
         .col-12
@@ -189,55 +194,7 @@
           #comment-form
             = render :partial => "comment_form"
 
-  %aside.col-4
-    .row-with-divider
-      .col-12
-        .listing-author
-          .listing-author-avatar
-            = medium_avatar_thumb(@listing.author, {:class => "listing-author-avatar-image"})
-          .listing-author-details
-            .listing-author-name
-              = link_to PersonViewUtils.person_display_name(@listing.author, @current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{PersonViewUtils.person_display_name(@listing.author, @current_community)}"
-            - if @listing.author != @current_user
-              .listing-author-contact
-                %a#listing-contact{href: new_person_person_message_path(person_id: @listing.author, listing_id: @listing.id), :class => "listing-author-contact-buttonx custom_contact button"}
-                  .content
-                    = t(".ask_seller")
-
-    .row-with-divider
-      .col-12
-        .parent
-          %span
-            = t(".profile_info")
-          .profile-about-me.custom_padding
-            .name_text.author_description
-              - if @listing.author.description && !@listing.author.description.blank?
-                - if @listing.author.description.length > 250
-                  = truncate(markdown(@listing.author.description), length: 250, escape: false)
-                  .more_btn
-                    = link_to 'Read More', '', class: "read-more"
-                - else
-                  = markdown(@listing.author.description)   
-
-            -#    
-              .profile_img
-                = huge_avatar_thumb(@listing.author)                   
-
-    - if @listing_presenter.received_testimonials.size > 0
-      .row-with-divider.listing-author-activity
-        .col-12
-          %i.listing-author-activity-icon{:class => icon_class("testimonial")}
-          .listing-author-activity-item
-            .listing-author-activity-value
-              - if @listing_presenter.received_testimonials.size > 0
-                = @listing_presenter.feedback_positive_percentage.to_s + "%"
-                = t("people.show.positive")
-                = "(#{@listing_presenter.received_positive_testimonials.size}/#{@listing_presenter.received_testimonials.size})"
-              - else
-                = t(".no_reviews")
-            .listing-author-activity-description
-              = t(".feedback")
-              
+  %aside.col-4                     
     - if @listing.price
       .row
         .col-12
@@ -252,8 +209,56 @@
       .col-12
         #listing-message-links
           = render :partial => "listing_actions"
+    -# Ask Seller
+    .row-with-divider
+      .col-12
+        .listing-author
+          .listing-author-avatar
+            = medium_avatar_thumb(@listing.author, {:class => "listing-author-avatar-image"})
+          .listing-author-details
+            .listing-author-name
+              = link_to PersonViewUtils.person_display_name(@listing.author, @current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{PersonViewUtils.person_display_name(@listing.author, @current_community)}"
+            - if @listing.author != @current_user
+              .listing-author-contact
+                %a#listing-contact{href: new_person_person_message_path(person_id: @listing.author, listing_id: @listing.id), :class => "listing-author-contact-buttonx custom_contact button"}
+                  .content
+                    = t(".ask_seller")
+    -# Member Profile Info
+    .row-with-divider
+      .col-12
+        .parent
+          %span
+            %h2= t(".profile_info")
+          .profile-about-me.custom_padding
+            .name_text.author_description
+              - if @listing.author.description && !@listing.author.description.blank?
+                - if @listing.author.description.length > 250
+                  = truncate(markdown(@listing.author.description), length: 250, escape: false)
+                  .more_btn
+                    = link_to 'Read More', '', class: "read-more"
+                - else
+                  = markdown(@listing.author.description)   
 
+            -#    
+              .profile_img
+                = huge_avatar_thumb(@listing.author)                    
+    -# Reviews
+    - if @listing_presenter.received_testimonials.size > 0
+      .row-with-divider.listing-author-activity
+        .col-12
+          %i.listing-author-activity-icon{:class => icon_class("testimonial")}
+          .listing-author-activity-item
+            .listing-author-activity-value
+              - if @listing_presenter.received_testimonials.size > 0
+                = @listing_presenter.feedback_positive_percentage.to_s + "%"
+                = t("people.show.positive")
+                = "(#{@listing_presenter.received_positive_testimonials.size}/#{@listing_presenter.received_testimonials.size})"
+              - else
+                = t(".no_reviews")
+            .listing-author-activity-description
+              = t(".feedback")                         
 
+    -# Map
     - if @listing.origin_loc && @listing.origin_loc.address != ""
       .row
         .col-12
@@ -264,15 +269,25 @@
   -# Author other listing           
   - unless @other_listings.blank?
     .row-with-dynamiv-divider
-    .col-8.other-offers
+    .col-9.other-offers
       .row.mr-0
         #profile-listings-list.custom_styling
           %span
-            = t(".other_offers")
+            %h2= t(".other_offers", author_name: PersonViewUtils.person_display_name(@listing.author, @current_community))
           .padding_left
             = render :partial => 'author_other_listings', :locals => {person: @listing.author, listings: @other_listings}
 
-    .col-4
+  -# Category Recommended listing           
+  - unless @recommended_listings.blank?
+    .row-with-dynamiv-divider
+    .col-9.other-offers
+      .row.mr-0
+        #profile-listings-list.custom_styling
+          %span
+            %h2= t(".recommended_for_you_in_current_category", category_name: @listing.category.display_name(I18n.locale))
+          .padding_left
+            = render :partial => 'recommended_offers_in_current_category', :locals => {person: @listing.author, listings: @recommended_listings}          
+
 
 - content_for :extra_javascript do
   :javascript
