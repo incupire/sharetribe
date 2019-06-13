@@ -2534,3 +2534,14 @@ figure.fluidratio {
     margin-bottom: 1.5em;
   }
 }
+.custom_position{
+  float: right;
+  z-index: 2;
+  position: relative;
+  top: 12px;
+  right: 12px;
+  svg{
+    height: 30px !important;
+    width: 31px !important;
+  }
+}

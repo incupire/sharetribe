@@ -492,3 +492,27 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
   padding: 8px !important;
   width: 100%;
 }
+.custom_top_title{
+  display: flex;
+  align-items: center;
+  margin-top: -18px;
+  margin-bottom: 7px;
+  .top_sm_img{
+    img{
+      height: 55px;
+      width: auto;
+      border-radius: 50%;
+    }
+  }
+  .top_sm_name{
+    a{
+      font-size: 15px;
+      font-weight: 600;
+      padding-left: 15px;
+    }
+  }
+  .top_review{
+    padding-left: 15px;
+    font-size: 14px;
+  }
+}
