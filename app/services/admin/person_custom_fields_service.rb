@@ -87,7 +87,7 @@ class Admin::PersonCustomFieldsService
 
   def custom_field_params
     permitted = params.require(:custom_field)
-      .permit(:required, :min, :max, :allow_decimals, :public,
+      .permit(:required, :min, :max, :hint, :allow_decimals, :public,
               name_attributes: {},
               option_attributes: [:id, :sort_priority, title_attributes: {}])
     [:min, :max].each do |key|

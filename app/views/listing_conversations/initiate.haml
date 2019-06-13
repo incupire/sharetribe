@@ -42,7 +42,7 @@
 
       .row
         .col-12
-          = text_area_tag :message, nil, :class => "text_area"
+          = text_area_tag :message, nil, :class => "text_area", placeholder: t("conversations.new.placeholder")
 
       - if @current_community.transaction_agreement_in_use
         = render :partial => "listing_conversations/transaction_agreement_checkbox"

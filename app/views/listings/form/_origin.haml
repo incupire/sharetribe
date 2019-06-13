@@ -3,7 +3,8 @@
 - required_class = (required ? "required" : "")
 - origin_loc = @listing.origin_loc
 
-= form.label :origin, title, :class => "input"
+= form.label :location, t("listings.form.origin.location_label"), :class => "input"
+= render partial: "layouts/location_info_text", locals: { text: t("listings.form.origin.text") }
 = form.text_field :origin, :class => "text_field #{required_class}", placeholder: "#{t(".listing_description_placeholder")}", :onkeyup => "timed_input(this)", :value => (origin_loc ? origin_loc.address : nil)
 = form.fields_for :origin_loc, include_id: false do |loc|
   = loc.hidden_field :address, :value => origin_loc.address

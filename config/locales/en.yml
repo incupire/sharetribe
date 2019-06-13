@@ -461,6 +461,7 @@ en:
         save: Save
         field_title: "Field title"
         field_type: "Field type"
+        field_hint: "Field Hint"
         categories: "Offer categories where the field is used"
         select_all: "Select all"
         clear_all: "Clear all"
@@ -895,9 +896,9 @@ en:
         held_payment: "Accepted the request. Payment for %{sum} is being held by %{service_name} until the order is marked as completed."
         confirmed_request: "Marked the order as completed. The payment has now been transferred to %{author_name} bank account or will be transferred soon."
     new:
-      message: Message
       message_to: "Message to %{author_name}"
       optional_message_to: "Optional message to %{author_name}"
+      placeholder: "Write a friendly message, introduce yourself, ask questions regarding this Offer, and build that relationship. Collaboration begins with connection first"
       send_message: "Send message"
       send: Send
       this_message_is_private: "This message is private between you and %{person}. %{person} will be notified of this message by email."
@@ -1399,6 +1400,18 @@ en:
       are: are
       what_do_you_need: "What are you looking for?"
       post_new_listing: "Post a new offer"
+      success_tips: "Succes Tips:"
+      tip1: Remember , to be visible on Avontage Marketplace you must have at least one Offer Posted and active.
+      tip2: Your Offers are the megnet to attract your ideal clients, post several of your most popular services to see which one works best.
+      tip3: You can change, add, or remove your Offers at any time.
+      tip4: You may post many Offers, as long as they're not the same one copied over and over.
+      tip5: Curate your Offers to fill your slow days, unbooked hours, and empty seats to gain new clients, and earn Avontage-Bucks.
+      tip6: Price your Offers competively, for a fair trade value, as well as to sell them online accepting credit card and payments.
+      tip7: You can trade your offers using our international currency called Avontage Bucks AAAAA, or sell via credit card payments.
+      tip8: 1 Avontage Bucks AAAAA is equal to 1 USD$.
+      tip9: You can limit the number of Offers available for trade per month. Start at your comfort level and change it later.
+      tip10: Using beautiful and high quality images tend to get the most attention.
+      tip11: Provide the best pre-sales and post-sales customer service and turn the Avontage community members into your long term clients and repear customers.
       are_offering: offer
       add_news_item: "Add an article"
       lend_rent_help_carpool: "Sell, lend, help, share rides"
@@ -1729,6 +1742,7 @@ en:
         repeated: "Repeated (add times and days in the field 'detailed description')"
       description:
         detailed_description: "Detailed description"
+        placeholder: "Enter the details of your Offer and a little about your business i.e \nThis Offer includes 3 months of Gold Membership which includes the following: \n-Full Gym access from 6 AM until 11 PM, 7 days per week \n-Full access to all yoga and fitness classes \n-Good at Scottdale location only \n \n ABOUT US: \nCorebody gym is locally owned fitness gym that provide an alternative option to the large chain gyms, we believe our customer service and our individual attention is what sets us apart... "
         youtube_info: "If your description contains YouTube links, the videos will be shown below the description."
         listing_description_placeholder: "Please describe your offer in Detail"
       destination:
@@ -1751,7 +1765,7 @@ en:
         best_result: "For best results, use JPG, GIF or PNG images that are %{width} by %{height} pixels"
         no_file_selected: "No file selected"
         remove_image: "Remove image"
-        select_file: "Select file"
+        select_file: "Upload image"
         add_more: "+ Add more"
         removing: Removing...
         processing: Processing...
@@ -1769,6 +1783,9 @@ en:
         location: Location
       price:
         price: Price
+        price_label: "Price"
+        placeholder: "120"
+        text: "(enter the fair market value in $ USD and Avontage Bucks, one Avontage Bucks = 1$ USD)"
         per: per
         per_day: "per day"
         mass: "piece, kg, l, m2, ..."
@@ -1786,10 +1803,12 @@ en:
         pickup: Pickup
       origin:
         location: Location
+        location_label: "Location"
         listing_description_placeholder: "Please enter your Location"
+        text: "(enter the physical address for your business or the city you're based in)"
         origin: Origin
       send_button:
-        save_listing: "Post offer"
+        save_listing: "Save and Post offer"
       share_type:
         select: Select
         borrow: Borrowing
@@ -1810,6 +1829,8 @@ en:
         tags: Tags
       title:
         listing_title: "Offer title"
+        text: "(enter a catchy and descriptive title in your Offer)"
+        placeholder: "i.e. 3-Months of Gym Membership"
         listing_title_placeholder: "Please enter Title of your Offer"
       valid_until:
         valid_until: "Expiration date"

@@ -1,2 +1,3 @@
 = form.label :title, t(".listing_title") + "*", :class => "input"
-= form.text_field(:title, :class => "title_text_field", placeholder: "#{t(".listing_title_placeholder")}", :maxlength => "60")
+= render partial: "layouts/title_info_text", locals: { text: t("listings.form.title.text") }
+= form.text_field(:title, :class => "title_text_field", placeholder: t("listings.form.title.placeholder"), :maxlength => "60")
