@@ -389,6 +389,7 @@ class TransactionsController < ApplicationController
         per_hour: booking_per_hour,
         start_time: booking_per_hour ? tx.booking.start_time : nil,
         end_time: booking_per_hour ? tx.booking.end_time : nil,
+        auto_accept_transaction: tx.auto_accept_transaction
       })
     end
   end

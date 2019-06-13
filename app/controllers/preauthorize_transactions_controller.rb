@@ -291,7 +291,8 @@ class PreauthorizeTransactionsController < ApplicationController
           payment_process: :preauthorize,
           booking_fields: opts[:booking_fields],
           delivery_method: opts[:delivery_method] || :none,
-          avon_commission: opts[:avon_commission]
+          avon_commission: opts[:avon_commission],
+          auto_accept_transaction: opts[:listing].auto_accept_transaction,
     }
 
     if(opts[:delivery_method] == :shipping)
