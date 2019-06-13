@@ -508,9 +508,10 @@ en:
         edit_user_field: "Edit user field '%{field_name}'"
     emails:
       new:
-        send_email_to_members: "Email users"
+        send_email_to_members: "Message users"
         send_email_to_members_title: "Send email to your users"
         send_email: "Send the email"
+        send_sms: "Send the SMS"
         send_email_or: or
         send_test_email: "Send a test email to yourself"
         test_sent: "Test email was sent to your inbox"
@@ -531,6 +532,7 @@ en:
         any_language: "Any language"
         message_will_be_sent_only_to_people_with_this_language: "The email will be sent only to the users who are using %{service_name} in the language you choose."
         email_sent: "Email sent."
+        sms_sent: "SMS sent."
         to_improve_email_deliverability: "To improve email deliverability the email subject is generated automatically and cannot be changed."
         email_subject_text: "A new message from the %{service_name} team"
         firstname_cannot_be_removed: "\"Firstname\" cannot be removed and will be replaced by the actual first name of each recipient."

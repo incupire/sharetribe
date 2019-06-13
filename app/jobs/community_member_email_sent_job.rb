@@ -1,4 +1,4 @@
-class CommunityMemberEmailSentJob < Struct.new(:sender_id, :recipient_id, :community_id, :content, :locale, :test_to_yourself)
+class CommunityMemberEmailSentJob < Struct.new(:sender_id, :recipient_id, :community_id, :content, :locale, :test_to_yourself, :notification_type)
 
   include DelayedAirbrakeNotification
 
@@ -14,10 +14,11 @@ class CommunityMemberEmailSentJob < Struct.new(:sender_id, :recipient_id, :commu
     sender = Person.where(id: sender_id).first
     recipient = Person.where(id: recipient_id).first
     community = Community.where(id: community_id).first
-    if recipient.should_receive_sms?("sms_from_admins")
+    if notification_type.present? && notification_type == "sms_button" && recipient.should_receive_sms?("sms_from_admins")
       SMSNotification.sms_service(recipient.mobile_number, "Hello #{recipient.name(community)} \n #{content}")
+    elsif notification_type != "sms_button"
+      PersonMailer.community_member_email_from_admin(sender, recipient, community, content, locale, test_to_yourself)
     end
-    PersonMailer.community_member_email_from_admin(sender, recipient, community, content, locale, test_to_yourself)
   end
 
 end
