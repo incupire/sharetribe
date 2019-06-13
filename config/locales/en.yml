@@ -508,9 +508,10 @@ en:
         edit_user_field: "Edit user field '%{field_name}'"
     emails:
       new:
-        send_email_to_members: "Email users"
+        send_email_to_members: "Message users"
         send_email_to_members_title: "Send email to your users"
         send_email: "Send the email"
+        send_sms: "Send the SMS"
         send_email_or: or
         send_test_email: "Send a test email to yourself"
         test_sent: "Test email was sent to your inbox"
