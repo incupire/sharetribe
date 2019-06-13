@@ -509,9 +509,10 @@ en:
         edit_user_field: "Edit user field '%{field_name}'"
     emails:
       new:
-        send_email_to_members: "Email users"
+        send_email_to_members: "Message users"
         send_email_to_members_title: "Send email to your users"
         send_email: "Send the email"
+        send_sms: "Send the SMS"
         send_email_or: or
         send_test_email: "Send a test email to yourself"
         test_sent: "Test email was sent to your inbox"
@@ -532,6 +533,7 @@ en:
         any_language: "Any language"
         message_will_be_sent_only_to_people_with_this_language: "The email will be sent only to the users who are using %{service_name} in the language you choose."
         email_sent: "Email sent."
+        sms_sent: "SMS sent."
         to_improve_email_deliverability: "To improve email deliverability the email subject is generated automatically and cannot be changed."
         email_subject_text: "A new message from the %{service_name} team"
         firstname_cannot_be_removed: "\"Firstname\" cannot be removed and will be replaced by the actual first name of each recipient."
@@ -1012,6 +1014,9 @@ en:
       email_not_allowed: "This email is not allowed in %{service_name}."
       email_not_available: "The email you gave is already in use."
       consent_not_given: "The terms were not accepted."
+  sms:
+    confirm_reminder:
+      you_have_not_yet_confirmed_or_canceled_request: "You have not yet completed or canceled an order. If the order has been completed, you should confirm that. After that you can give feedback to %{other_party_given_name}."
   emails:
     accept_reminder:
       remember_to_accept_offer: "Remember to accept or reject an offer from %{sender_name}"
@@ -1945,7 +1950,8 @@ en:
       times_viewed: Viewed
       processing_uploaded_image: "(Processing uploaded image...)"
       listing_created_at: "Offer created"
-      other_offers: "Member's other offers:"
+      other_offers: "Other Offers By %{author_name}: "
+      recommended_for_you_in_current_category: "Recommended for you in %{category_name}: "
       profile_info: "Member's profile info:"
       price:
         per_quantity_unit: "per %{quantity_unit}"
@@ -2258,6 +2264,7 @@ en:
     notifications:
       email_from_admins: "I accept to receive occasional emails from the %{service_name} team"
       i_want_to_get_email_notification_when: "I want to get an email notification when..."
+      i_want_to_get_sms_notification_when: "I want to get an SMS/Text notification on mobile #___-___-___ when..."
       newsletters: "Emails from administrators"
       community_updates: Newsletters
       email_about_confirm_reminders: "...I have forgotten to confirm an order as completed"
@@ -2279,6 +2286,10 @@ en:
       homepage_link: homepage
       unsubscribe_unsuccesful: "Error in unsubscribing"
       unsuccessful_unsubscribe_info_text: "The unsubscribe link has expired. Log in to change your email subscription settings."
+      sms_about_new_messages_or_request: "...A buyer sends me a message or a request"
+      sms_about_selling_offer: "...I sell my Offers"
+      sms_remainder_to_mark_complete: "...I have forgotten to confirm an order as completed/redeemed"
+      sms_from_admins: "...A system wide important announcement is sent by %{service_name} team"
     profile:
       about_you: "About you"
       city: City

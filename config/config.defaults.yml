@@ -6,6 +6,11 @@ default: &default_settings
   # NOTE: Do not include http(s) here, or subdomains, just the top level domain, like "sharetribe.com" for example
   domain: "lvh.me:3000"
 
+  # Twilio Key
+  twilio_account_sid: xxxxxxxxxxxxx
+  twilio_auth_token: xxxxxxxxxxxxx
+  twilio_mobile_number: xxxxxxxxxxxxx
+
   # A comma separated string of trusted proxies. If you host your
   # application behind proxies this configuration allows
   # Rack::RemoteIP to correctly infer the client ip by removing
@@ -156,6 +161,13 @@ default: &default_settings
   # If you want to use Facebook connect, enter the credentials here
   fb_connect_id:
   fb_connect_secret:
+
+  # Linkedin Registration
+  # If you want to setup linkedin registration, enter the credentials here
+  # Get your API key at: https://dev.twitter.com/apps. Note the Api Key and the Api Secret.
+  linkedin_client_key: #'816h9cdy2cnrhh'
+  linkedin_client_secret: #'QNxvMpsDdJLepujd'
+
 
   # You can use Airbrake to track errors if you want.
   # You need to register an account and get an API key from airbrake.io

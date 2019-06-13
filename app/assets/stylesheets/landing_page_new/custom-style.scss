@@ -294,9 +294,11 @@
       text-align: center;
       font-family: avenir-lt-w01_35-light1475496,sans-serif;
       color: #FC1C54;
-     /* text-decoration: underline; */
+      text-decoration: underline;
       cursor: pointer;
       font-weight: 600;
+      display: block;
+      padding: 15px 0px 40px;
     }
     @media(min-width: 320px) and (max-width: 480px) {
       line-height: 30px;
@@ -388,12 +390,14 @@
         padding-right: 15px;
       }
       .discover-heading {
-        font-family: 'Source Sans Pro',helvetica,sans-serif;
+        //font-family: 'Source Sans Pro',helvetica,sans-serif;
         color: #171717;
-        font-size: 22px;
+        font-size: 20px;
         line-height: 1.09091em;
         font-weight: 500;
+        margin-top: 20px;
         margin-bottom: 20px;
+        font-weight: 600;
       }
       .left-side {
         .discover-details {
@@ -446,14 +450,18 @@
         padding: 30px 40px 20px 40px;
         float: left;
         width: 100%;
+        margin-top: 20px;
+        @media screen and (max-width: 768px){
+          padding: 30px 0px 30px 0px;
+        }
         .our-members {
-          font-size: 28px;
+          font-size: 20px;
           line-height: 1.25em;
           text-align: center;
           color: #181818;
-          font-weight: bold;
+          font-weight: 600;
           margin-bottom: 30px;
-          font-family: open sans,sans-serif;
+          //font-family: open sans,sans-serif;
         }
 
         .member-section {
@@ -520,14 +528,18 @@
         padding: 30px;
         float: left;
         width: 100%;
+        @media screen and (max-width: 768px){
+          padding: 30px 20px;
+        }
         .heading-work {
           text-align: left;
-          font-size: 28px;
+          font-size: 20px;
           line-height: 1.25em;
           color: #000;
-          font-weight: bold;
-          margin-bottom: 30px;
-          font-family: open sans,sans-serif;
+          font-weight: 600;
+          margin-bottom: 35px;
+          margin-top: 15px;
+          //font-family: open sans,sans-serif;
         }
 
         .inner-work {
@@ -535,7 +547,9 @@
           background: #f8f8f8;
           float: left;
           width: 100%;
-
+          @media screen and (max-width: 768px){
+            padding: 50px 0px 20px 0px;
+          }
           .left-side-text {
             text-align: left;
             .heading-left {
@@ -641,20 +655,15 @@
           }
         }
       }
-
     }
-
-
-
-
   }
   .main_wrapper_second {
     max-width: 982px;
     margin: 0 auto;
   }
   .main_frame_business {
-    padding-top: 75px;
-    padding-bottom: 40px;
+    padding-top: 90px;
+    padding-bottom: 60px;
     .listing_image {
       height: 285px;
       img {
@@ -682,11 +691,11 @@
       }
     }
     .heading_market {
-      font-size: 28px;
+      font-size: 20px;
       line-height: 1.25em;
       text-align: center;
       color: #181818;
-      font-weight: bold;
+      font-weight: 600;
       margin-bottom: 30px;
     }
     .below_heading_market {

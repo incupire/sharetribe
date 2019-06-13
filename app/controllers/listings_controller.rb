@@ -89,37 +89,11 @@ class ListingsController < ApplicationController
 
     make_listing_presenter
     @listing_presenter.form_path = new_transaction_path(listing_id: @listing.id)
-    search = {
-      author_id: @listing.author.id,
-      include_closed: false,
-      page: 1,
-      per_page: 1000
-    }
 
-    author_listings =
-      ListingIndexService::API::Api
-      .listings
-      .search(
-        community_id: @current_community.id,
-        search: search,
-        engine: FeatureFlagHelper.search_engine,
-        raise_errors: Rails.env.development?,
-        includes: [:author, :listing_images]
-      ).and_then { |res|
-      Result::Success.new(
-        ListingIndexViewUtils.to_struct(
-        result: res,
-        includes: [:author, :listing_images],
-        page: search[:page],
-        per_page: search[:per_page]
-      ))
-    }.data
-
-    if author_listings.count == 1
-      @other_listings = author_listings
-    else
-      @other_listings = author_listings.reject{|listing| listing.id == @listing.id}
-    end
+    # Recommended and person other listings
+    author_listings = @listing.author.listings.currently_open
+    @recommended_listings = @listing.category.listings.currently_open.sample(6)
+    @other_listings = author_listings.count == 1 ? author_listings : author_listings.where.not(id: @listing.id)
     
     record_event(
       flash.now,

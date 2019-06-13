@@ -160,6 +160,14 @@ class Person < ApplicationRecord
     # "email_when_new_feedback_on_transaction",
     # "email_when_new_listing_from_friend"
   ]
+
+  SMS_NOTIFICATION_TYPES = [
+    "sms_about_selling_offer",
+    "sms_about_new_messages_or_request",
+    "sms_remainder_to_mark_complete",
+    "sms_from_admins"
+  ]
+
   EMAIL_NEWSLETTER_TYPES = [
     "email_from_admins"
   ]
@@ -389,6 +397,7 @@ class Person < ApplicationRecord
   def set_default_preferences
     self.preferences = {}
     EMAIL_NOTIFICATION_TYPES.each { |t| self.preferences[t] = true }
+    SMS_NOTIFICATION_TYPES.each { |t| self.preferences[t] = true }
     EMAIL_NEWSLETTER_TYPES.each { |t| self.preferences[t] = true }
     save
   end
@@ -460,6 +469,10 @@ class Person < ApplicationRecord
       return confirmed_email && min_days_between_community_updates < 100000
     end
     confirmed_email && preferences && preferences[email_type]
+  end
+
+  def should_receive_sms?(sms_type)
+    preferences && preferences[sms_type] && self.mobile_number.present?
   end
 
   def profile_info_empty?
