@@ -59,7 +59,7 @@
         .row-with-dynamiv-divider
         .row
           .col-12
-            %h2
+            %h2.underline
               = t("listing_conversations.stripe_payment.payment")
         = render :partial => "listing_conversations/stripe_payment", locals: {  publishable_key: stripe_publishable_key, stripe_shipping_required: stripe_shipping_required, paypal_in_use: paypal_in_use, stripe_in_use: stripe_in_use}
 

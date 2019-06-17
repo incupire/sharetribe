@@ -3,11 +3,18 @@
   .pay_with_coupan
     - if @current_user.has_coupon_balance? 
       .payment-button-wrapper.paypal-button-wrapper.left
-        = button_tag "Pay with Avon-BUCKS", id: "coupon-pay", class: 'checkout-with-coupon-pay',style:'margin: 0px;'
+        %button{class: 'checkout-with-coupon-pay customiz_btn', id: 'coupon-pay', style: 'margin: 0px;'}
+          = "Pay with Avon-BUCKS"
+          %span
+            = "test span"
+          = image_tag "A_Buck_Currency_white.png"
+        =# button_tag "Pay with Avon-BUCKS", id: "coupon-pay", class: 'checkout-with-coupon-pay customiz_btn',style:'margin: 0px;'
     .coupan_balances.for_booking
       %span.people-custom-fields-title.coupan_title Your Available Avon-BUCKS balance:
       %span.price
-        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
+        = image_tag "black_a_img.png"
+        = (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
+        =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
     %p.left
       Once you've purchased this Offer using your Avon-BUCKS Credits, and the Seller has Accepted, contact the Seller to Redeem your offer. See REDEEM INSTRUCTIONS on the Offer page.Avon-BUCKS credits will be charged only if
       = link_to(PersonViewUtils.person_display_name(@listing.author, @current_community), person_path(username: @listing.author.username))
@@ -68,8 +75,12 @@
 
   .row.stripe-payment
     - if stripe_in_use
-      .col-6.payment-button-wrapper.paypal-button-wrapper
-        = button_tag t("stripe_accounts.add_and_pay"), id: "send-add-card", class: 'checkout-with-stripe-button'
+      .col-12.payment-button-wrapper.paypal-button-wrapper
+        =# button_tag t("stripe_accounts.add_and_pay"), id: "send-add-card", class: 'checkout-with-stripe-button full_butn'
+        %button{class: 'checkout-with-stripe-button full_butn', id: 'send-add-card' }
+          = t("stripe_accounts.add_and_pay")
+          = image_tag "usd.png"
+          
     
 
   - if stripe_in_use

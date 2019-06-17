@@ -1416,6 +1416,12 @@ $noscript-height: lines(4);
   margin-left: lines(0.25);
   display: inline;
   @include big-type;
+  color: #4f4f4f;
+  .a_with_price{
+    height: 20px;
+    margin-right: -5px;
+    margin-bottom: -1px;
+  }
 }
 
 .quantity-field {
@@ -1685,6 +1691,11 @@ input[type=text].delivery-price-field {
 .initiate-transaction-total-value {
     float: right;
     margin-right: lines(0.25);
+    img{
+      height: 14px;
+      margin-bottom: -1px;
+      margin-right: -2px;
+    }
 }
 
 .initiate-transaction-total-wrapper {
@@ -2570,11 +2581,18 @@ figure.fluidratio {
 .prnt{
   display: flex;
   .logo_listing{
-    height: 31px;
+    height: 27px;
   }
   .paymnt_img{
-    height: 52px;
-    margin-left: -32px;
-    margin-top: 5px;
+    height: 55px;
+    margin-left: -31px;
+    margin-top: 1px;
+  }
+}
+.listing-price-amount{
+  .black_a{
+    height: 36px;
+    margin-right: -10px;
+    margin-bottom: -2px;
   }
 }
