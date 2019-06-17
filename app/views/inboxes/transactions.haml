@@ -6,7 +6,8 @@
     .row.coupan_balances
       %span.people-custom-fields-title.coupan_title Your Available Avon-BUCKS:
       %span.price
-        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
+        = image_tag "black_a_img.png"
+        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
     %br
 
   - if result_rows.present?
