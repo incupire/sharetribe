@@ -900,6 +900,7 @@ en:
     new:
       message_to: "Message to %{author_name}"
       optional_message_to: "Optional message to %{author_name}"
+      message: "Write a reply:"
       placeholder: "Write a friendly message, introduce yourself, ask questions regarding this Offer, and build that relationship. Collaboration begins with connection first"
       send_message: "Send message"
       send: Send
