@@ -2596,3 +2596,24 @@ figure.fluidratio {
     margin-bottom: -2px;
   }
 }
+.status-links{
+  display: block !important;
+}
+.full_width_btn{
+  display: block !important;
+  .admin_full_refund{
+    width: 100%;
+    background: #fa1b55;
+    display: flex;
+    justify-content: center;
+    padding: 20px 0;
+    height: auto;
+    color: #efefef;
+    font-size: 18px;
+    &:hover{
+      background: #f11850;
+      color: #efefef;
+    }
+  }
+}
+  
