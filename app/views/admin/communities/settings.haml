@@ -69,6 +69,10 @@
               - help_text = t('.automatically_confirmed_no_escrow_stripe_info', learn_more: learn_more).html_safe
               = render partial: 'layouts/info_text', locals: { text: help_text }
               .info-text-container
+          .checkbox-container
+            .settings-checkbox-label.label
+              = form.check_box :auto_accept_orders
+              = form.label :auto_accept_orders, t(".auto_accept_orders"), :class => "settings-checkbox-label"             
 
     .row
       .col-12

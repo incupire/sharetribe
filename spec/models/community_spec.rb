@@ -94,6 +94,7 @@
 #  unread_message_reminder_enabled            :boolean          default(FALSE)
 #  send_unread_message_reminder_day           :string(255)
 #  new_offer_reminder_to_admins               :boolean          default(FALSE)
+#  auto_accept_orders                         :boolean          default(FALSE)
 #
 # Indexes
 #

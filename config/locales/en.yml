@@ -220,6 +220,7 @@ en:
         show_listing_publishing_date: "Display publishing date of the offer on the offer page"
         show_category_in_listing_list: "Display offer type in list view"
         listing_comments_in_use: "Allow users to post comments to offers (viewable to all other users)"
+        auto_accept_orders: "Auto-Accept orders - simplify the transaction process, eliminate the Accept/Decline step"
         email_preferences: "Email preferences"
         automatic_newsletters: "Send automatic daily / weekly newsletters to all users (unless they opt out)"
         email_admins_about_new_members: "Send admins an email whenever a new user signs up"
