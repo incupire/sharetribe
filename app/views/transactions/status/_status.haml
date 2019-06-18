@@ -1,12 +1,12 @@
 .conversation-status
   - if @current_user.has_admin_rights?(@current_community) && __transaction_model.payment_gateway.eql?(:coupon_pay) && __transaction_model.coupon_bal_refunded == false
-    .status-links
-      .inbox-horizontally-aligned-link
-        %a{:href => "/en/#{__transaction_model.starter.to_param}/messages/#{__transaction_model.id}/cancel_coupon_pay", :class => "cancel"}
+    .status-links.links_custom
+      .inbox-horizontally-aligned-link.full_width_btn
+        %a{:href => "/en/#{__transaction_model.starter.to_param}/messages/#{__transaction_model.id}/cancel_coupon_pay", :class => "cancel admin_full_refund"}
           .content
             .icon-with-text{:class => "ss-delete"}
             .text-with-icon
-              Click if you'd like to Cancel and refund Avon-BUCKS balance
+              Click to Cancel for full refund
               
   - get_conversation_statuses(__transaction_model, is_author).each do |status|
     - if status[:type] == :status_info

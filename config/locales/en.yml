@@ -915,7 +915,7 @@ en:
       in_response_to_listing: "about offer"
       message_sent_by: "Message sent by"
       message_sent_to: "Message sent to"
-      send_reply: "Send reply"
+      send_reply: "Send message"
       write_a_reply: "Write a reply:"
       conversation_about_listing: "With %{person} about %{listing}"
       conversation_with_user: "With %{person}"

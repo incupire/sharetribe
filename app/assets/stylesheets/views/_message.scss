@@ -45,12 +45,12 @@ $message-time-margin: lines(0.25);
 
 .message-avatar-left {
   @extend .message-avatar;
-  left: 0;
+  left: -18px;
 }
 
 .message-avatar-right  {
   @extend .message-avatar;
-  right: 0;
+  right: -18px;
 }
 
 .message-content-container-left {
@@ -58,12 +58,24 @@ $message-time-margin: lines(0.25);
   @include media(large-mobile) {
     padding-right: $avatar-size + lines(0.5);
   }
+  padding-right: 5.75em !important;
+  padding-left: 2.75em;
+  @media screen and (max-width: 767px){
+    padding-left: 2.75em;
+    padding-right: 0em !important;
+  }
 }
 
 .message-content-container-right {
   padding-right: $avatar-size + lines(0.5);
   @include media(large-mobile) {
     padding-left: $avatar-size + lines(0.5);
+  }
+  padding-left: 5.75em;
+  padding-right: 2.75em;
+  @media screen and (max-width: 767px){
+    padding-left: 0em;
+    padding-right: 2.75em;
   }
 }
 
@@ -124,28 +136,33 @@ $message-time-margin: lines(0.25);
 
 .message-bubble-arrow-to-left {
   @extend .message-bubble;
-
+  background: #fff;
+  border: 1px solid #757373;
   &:after {
     right: 100%;
-    border-right-color: $highlight;
+    border-right-color: #757373;//$highlight;
     margin-top: lines(-0.25);
   }
 
   &.message-mood-positive {
-    color: $green;
-    background: lighten($green, 40%);
+    //color: $green;
+    //background: lighten($green, 40%);
+    color: #fff;
+    background: #545454;
 
     &:after {
-      border-right-color: lighten($green, 40%);
+      border-right-color: #545454;//lighten($green, 40%);
     }
   }
 
   &.message-mood-negative {
-    color: $red;
-    background: lighten($red, 40%);
+    //color: $red;
+    //background: lighten($red, 40%);
+    color: #fff;
+    background: #545454;
 
     &:after {
-      border-right-color: lighten($red, 40%);
+      border-right-color: #545454;//lighten($red, 40%);
     }
   }
 }
@@ -160,11 +177,11 @@ $message-time-margin: lines(0.25);
   }
 
   &.message-mood-positive {
-    color: $green;
-    background: lighten($green, 40%);
+    color: #fff;//$green;
+    background: #545454;//lighten($green, 40%);
 
     &:after {
-      border-left-color: lighten($green, 40%);
+      border-left-color: #545454;//lighten($green, 40%);
     }
   }
 
@@ -174,6 +191,12 @@ $message-time-margin: lines(0.25);
 
     &:after {
       border-left-color: lighten($red, 40%);
+    }
+  }
+  &.message-mood-neutral{
+    border: 1px solid #a9a9a9;
+    &:after {
+      border-left-color: #a9a9a9; //lighten($red, 40%);
     }
   }
 }
@@ -194,4 +217,20 @@ $message-time-margin: lines(0.25);
 
 .message-price-vat {
   @include small-type
+}
+.transaction_heading{
+  margin-left: 3.75em;
+  margin-right: 3.75em;
+  @media screen and (max-width: 479px){
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .transaction_top_line{
+    height: 2px;
+    width: 100%;
+    background: #353434;
+  }
+  .transaction_heading_custom{
+    margin-top: 10px;
+  }
 }
