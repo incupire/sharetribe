@@ -849,7 +849,7 @@ en:
       cancel_description: "If your order was not fulfilled, you can mark it as 'disputed'. You can still give feedback to the other party and describe what happened."
       cancel_payed_description: "If your request was accepted but you're having second thoughts, you can still cancel the request before the payment."
       canceling_payed_transaction: "Cancel transaction"
-      confirm: "Mark completed"
+      confirm: "Mark as Redeemed"
       cancel: Dispute
       continue: Continue
       give_feedback_to: "Give feedback to %{person_link}"
@@ -989,7 +989,7 @@ en:
       accept_preauthorized_request: "Click to Accept request"
       reject_preauthorized_offer: "Not this time"
       reject_preauthorized_request: "Click to Decline request"
-      confirm: "Click to Mark Complete"
+      confirm: "Click to Mark as Redeem"
       cancel: "Click to Dispute"
   feedback:
     feedback_subject: "New feedback from %{service_name}"
