@@ -253,6 +253,10 @@ hr {
   text-align: center;
   margin-top: 15px;
   margin-bottom: 20px;
+  @media screen and (max-width: 767px){
+    margin-top: 8px;
+    border-top: 2px solid #000;
+  }
   .or {
     margin-top: -15px;
     display: block;
@@ -260,6 +264,10 @@ hr {
     width: 55px;
     margin: -11px auto;
     font-weight: 600;
+    @media screen and (max-width: 767px){
+      margin: -9px auto;
+      width: 42px;
+    }
   }
 }
 .ban_icon {
