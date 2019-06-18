@@ -1,3 +1,4 @@
-.checkbox-container
-  = form.check_box(:auto_accept_transaction)
-  = form.label(:auto_accept_transaction, class: "light")
+.row.checkbox-group-container
+  .checkbox-container
+    = form.check_box(:auto_accept_transaction)
+    = form.label :auto_accept_transaction, t("listings.form.auto_accept"), class: 'light'

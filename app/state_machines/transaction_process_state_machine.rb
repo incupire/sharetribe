@@ -20,6 +20,15 @@ class TransactionProcessStateMachine
   transition from: :pending_ext,               to: [:paid, :rejected]
   transition from: :paid,                      to: [:confirmed, :canceled]
 
+  after_transition(to: :preauthorized) do |transaction|
+    if transaction.payment_gateway.eql?(:coupon_pay) && transaction.community.auto_accept_orders? && transaction.auto_accept_transaction?
+      TransactionService::Transaction.complete_preauthorization(community_id: transaction.community_id,
+                                                              transaction_id: transaction.id,
+                                                              message: '',
+                                                              sender_id: transaction.listing_author_id)
+    end
+  end
+
   after_transition(to: :paid) do |transaction|
     payer = transaction.starter
     current_community = transaction.community

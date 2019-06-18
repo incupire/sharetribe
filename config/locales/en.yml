@@ -901,7 +901,7 @@ en:
     new:
       message_to: "Message to %{author_name}"
       optional_message_to: "Optional message to %{author_name}"
-      message: "Write a reply:"
+      message: "Write a direct message:"
       placeholder: "Write a friendly message, introduce yourself, ask questions regarding this Offer, and build that relationship. Collaboration begins with connection first"
       send_message: "Send message"
       send: Send
@@ -917,7 +917,7 @@ en:
       message_sent_by: "Message sent by"
       message_sent_to: "Message sent to"
       send_reply: "Send message"
-      write_a_reply: "Write a reply:"
+      write_a_reply: "Write a direct message:"
       conversation_about_listing: "With %{person} about %{listing}"
       conversation_with_user: "With %{person}"
       conversation_with: "Conversation with %{person}"
@@ -965,6 +965,7 @@ en:
       waiting_for_listing_author_to_accept_offer: "Waiting for %{listing_author_name} to accept the offer"
       waiting_for_listing_author_to_accept_request: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you will be charged."
       waiting_for_listing_author_to_accept_request_coupon: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you can follow Redeem instructions to receive your Offer"
+      check_your_email_for_redeem_instruction: "Check your email for Redeem Instructions"
       waiting_for_you_to_accept_request: "Waiting for you to accept the request"
       waiting_confirmation_from_requester: "Waiting for %{requester_name} to mark the order completed"
       waiting_confirmation_from_you: "Waiting for you to mark the order completed"
@@ -1847,6 +1848,7 @@ en:
         privacy: Privacy
         private: "Private (only users who are logged in can see)"
         public: "Public (visible to users who are not logged in)"
+      auto_accept: "Auto-Accept, to eliminate Accept or Decline step"  
     help_texts:
       help_share_type_title: "Type of the offer or request"
       help_tags_title: Tags

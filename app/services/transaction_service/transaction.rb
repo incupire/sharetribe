@@ -133,7 +133,7 @@ module TransactionService::Transaction
         create_avon_bucks_history(order_total, renter, "deducted", transaction)
       end
     end
-    tx.reload    
+    tx.reload   
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)

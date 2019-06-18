@@ -58,7 +58,11 @@
       %span.initiate-transaction-sum-label
         = t("transactions.initiate.subtotal")
       %span.initiate-transaction-sum-value
-        = MoneyViewUtils.to_humanized(subtotal)
+        - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
+          = image_tag "black_a_img.png"
+          = MoneyViewUtils.to_humanized(subtotal).split('$')[1]
+        - else
+          = MoneyViewUtils.to_humanized(subtotal)
 
   - if shipping_price.present?
     .initiate-transaction-shipping-price-wrapper
@@ -72,7 +76,11 @@
       %span.initiate-transaction-sum-label
         = t("transactions.total_to_pay")
       %span.initiate-transaction-sum-value
-        = MoneyViewUtils.to_humanized(total)
+        - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
+          = image_tag "black_a_img.png"
+          = MoneyViewUtils.to_humanized(total).split('$')[1]
+        - else
+          = MoneyViewUtils.to_humanized(total)
 
     - if fee.present? && fee > 0
       .initiate-transaction-sum-wrapper
@@ -103,8 +111,11 @@
         - else
           = t("transactions.total")
       %span.initiate-transaction-total-value
-        = image_tag "black_a_img.png"
-        = MoneyViewUtils.to_humanized(is_author ? seller_gets : total)
+        - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
+          = image_tag "black_a_img.png"
+          = MoneyViewUtils.to_humanized(is_author ? seller_gets : total).split('$')[1]        
+        - else
+          = MoneyViewUtils.to_humanized(is_author ? seller_gets : total)
 
   -#For Buyer
   - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay) && !is_author
@@ -122,7 +133,9 @@
         %span.initiate-transaction-total-label
           = t("transactions.offer_price_deducted_from_avon_bucks")
         %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(-seller_gets)
+          = "-"
+          = image_tag "black_a_img.png"
+          = "#{MoneyViewUtils.to_humanized(seller_gets).split('$')[1]}"
 
   - elsif @transaction.present? && @transaction.payment_gateway.eql?(:stripe) && !is_author
     - if @transaction.commission.present? && @transaction.commission > 0
