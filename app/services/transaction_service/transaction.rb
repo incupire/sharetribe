@@ -178,13 +178,13 @@ module TransactionService::Transaction
     }
   end
 
-  def reject(community_id:, transaction_id:, message: nil, sender_id: nil)
+  def reject(community_id:, transaction_id:, message: nil, sender_id: nil, auto_rejected: false)
     tx = find_tx_model(community_id: community_id, transaction_id: transaction_id)
 
     tx_process = tx_process(tx.payment_process)
     gw = gateway_adapter(tx.payment_gateway)
 
-    res = tx_process.reject(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
+    res = tx_process.reject(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw, auto_rejected: auto_rejected)
     #Return coupon balance to renter on reject
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
       transaction = Transaction.find(tx[:id])

@@ -1098,6 +1098,7 @@ en:
       your_offer_was_rejected: "Your offer was rejected"
       your_request_was_accepted: "Your request was accepted"
       your_request_was_rejected: "Your request was rejected"
+      your_request_was_auto_rejected: "The Seller has not responded, therefore, your Offer has been withdrawn"
       you_can_now_pay_to: "You can now pay the requested amount to %{payment_receiver}."
       pay_now: "Pay now"
       remember_to_confirm: "When the order is fulfilled, remember to mark it as completed. If the order is not fulfilled your have %{days_to_automatic_confirmation} days to cancel it. Otherwise it will be automatically marked as completed."
