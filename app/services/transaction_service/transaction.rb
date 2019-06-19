@@ -45,7 +45,7 @@ module TransactionService::Transaction
     when :stripe
       APP_CONFIG.stripe_expiration_period.to_i
     when :coupon_pay
-      3
+      APP_CONFIG.avon_pay_expiration_period.to_i
     else
       raise ArgumentError.new("Unknown payment_type: '#{payment_type}'")
     end
