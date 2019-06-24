@@ -163,16 +163,25 @@ class TransactionMailer < ActionMailer::Base
     end
   end
 
-  def avon_voucher(receiver)
-    @community = Community.last
-    premailer_mail(
-      :to => receiver,
-      :from => community_specific_sender(@community),
-      :subject => 'New Voucher details') do |format|
-        format.html {
-          render "avon_voucher"
-        }
+  def avon_voucher(transaction)
+    @community = transaction.community
+    @transaction = transaction
+    @listing = transaction.listing
+    @buyer = transaction.buyer
+    @seller = transaction.seller
+
+    cusotm_field = CustomFieldName.find_by(value: 'INSTRUCTIONS (enter redeem instructions, any restrictions, or other details the Buyer needs to be aware)')
+    if cusotm_field.present?
+      value = @listing.answer_for(cusotm_field)
+      @instructions = value.display_value
+    else
+      @instructions = nil
     end
+    premailer_mail(
+      :to => @transaction.buyer.confirmed_notification_emails_to,
+      :from => community_specific_sender(@community),
+      :subject => t("emails.avon_voucher.subject", buyer_name: PersonViewUtils.person_display_name_for_type(@buyer, @community), listing_title: @listing.title)
+    )
   end
 
   private

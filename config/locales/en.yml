@@ -1182,6 +1182,19 @@ en:
       listing_per_unit_title: "%{title}, per %{unit_type}"
       stripe:
         you_have_made_new_payment: "You have paid <b>%{payment_sum}</b> for <b>%{listing_title}</b>. The money is being held by %{service_name} and will be released to %{recipient_full_name} once you mark the order as completed. Here is a receipt of the payment."
+    avon_voucher:
+      subject: "%{buyer_name}, Here’s your %{service_name} voucher and redeem instructions for %{listing_title}"
+      use_this_voucher_for_redeem_instruction: "Dear %{buyer_name}, Below is your redeem instructions. Please use this voucher to redeem your offer."
+      skip_the_paper_and_redeem: "Skip the paper and redeem your Avontage right from our mobile app"
+      how_to_use: "How to use"
+      pull_up_voucher_with_mobile_app: "1. Pull up voucher with our mobile app (or print it out)"
+      appointment_required: "2. Appointment required, call (480-219-7990) and mention your voucher."
+      present_voucher_upon_arrival: "Present voucher upon arrival."
+      enjoy: Enjoy!
+      redeem_at: "Redeem At"
+      instruction_redeem_instruction_buyer_needs_to_aware: "INSTRUCTIONS (redeem instructions any restrictions or other details the buyer needs to be aware):"
+      rules: "THE RULES" 
+      rules_details: "These are restrictions that apply to every Avontage voucher (unless the Fine Print Specifies an exception)"     
     new_testimonial:
       has_given_you_feedback_in_kassi: "%{name} has given you feedback in %{service_name}"
       you_can_give_feedback_to: "You haven't yet given feedback to %{name}."
