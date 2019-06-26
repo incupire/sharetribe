@@ -59,6 +59,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'voucher_show' => 'avontage_vouchers#voucher_show'
+
   # Harmony Proxy
   # This endpoint proxies the requests to Harmony and does authorization
   match '/harmony_proxy/*harmony_path' => 'harmony_proxy#proxy', via: :all
