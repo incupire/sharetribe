@@ -25,7 +25,7 @@
 
       %td{:style => "padding: 10px; background: #f0f1f4;"}
         - if @listing.listing_images.present?
-          - image_url = @listing.listing_images.first.url(:medium)
+          - image_url = @listing.listing_images.first.image.url(:medium)
           %img{:src => "#{image_url}", :alt => "",  :style => "width: 100%;"}/
         %p{:style => "margin: 7px 0; font-size: 15px; color: #000;"}
           = @listing.title
