@@ -452,12 +452,16 @@ module TransactionHelper
 
   def waiting_for_author_to_accept_preauthorized(transaction)
     if transaction.payment_gateway == :coupon_pay
-      text = t("conversations.status.waiting_for_listing_author_to_accept_request_coupon",
-        :listing_author_name => link_to(
-          PersonViewUtils.person_display_name_for_type(transaction.author, "first_name_only"),
-          transaction.author
-        )
-      ).html_safe
+      unless transaction.auto_accept_transaction?
+        text = t("conversations.status.waiting_for_listing_author_to_accept_request_coupon",
+          :listing_author_name => link_to(
+            PersonViewUtils.person_display_name_for_type(transaction.author, "first_name_only"),
+            transaction.author
+          )
+        ).html_safe
+      else
+        text = t("conversations.status.check_your_email_for_redeem_instruction")
+      end   
     else
       text = t("conversations.status.waiting_for_listing_author_to_accept_request",
         :listing_author_name => link_to(

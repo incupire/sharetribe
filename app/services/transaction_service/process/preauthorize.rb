@@ -102,10 +102,15 @@ module TransactionService::Process
       }
     end
 
-    def reject(tx:, message:, sender_id:, gateway_adapter:)
+    def reject(tx:, message:, sender_id:, gateway_adapter:, auto_rejected: false)
       res = Gateway.unwrap_completion(
         gateway_adapter.reject_payment(tx: tx, reason: "")) do
-
+        # Auto Rejected preauthorize transaction
+        if auto_rejected
+          transaction = Transaction.find(tx.id)
+          transaction.update_attribute(:auto_rejected, true)
+        end
+        
         TransactionService::StateMachine.transition_to(tx.id, :rejected)
       end
 

@@ -24,9 +24,15 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @transaction = transaction
 
+      if transaction.status.eql?('rejected') && transaction.auto_rejected?
+        subject = t("emails.conversation_status_changed.your_request_was_auto_rejected")
+      else
+        subject = t("emails.conversation_status_changed.your_request_was_#{transaction.status}")
+      end
+
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
                      :from => community_specific_sender(community),
-                     :subject => t("emails.conversation_status_changed.your_request_was_#{transaction.status}"))
+                     :subject => subject)
     end
   end
 

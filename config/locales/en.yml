@@ -849,7 +849,7 @@ en:
       cancel_description: "If your order was not fulfilled, you can mark it as 'disputed'. You can still give feedback to the other party and describe what happened."
       cancel_payed_description: "If your request was accepted but you're having second thoughts, you can still cancel the request before the payment."
       canceling_payed_transaction: "Cancel transaction"
-      confirm: "Mark completed"
+      confirm: "Mark as Redeemed"
       cancel: Dispute
       continue: Continue
       give_feedback_to: "Give feedback to %{person_link}"
@@ -901,7 +901,7 @@ en:
     new:
       message_to: "Message to %{author_name}"
       optional_message_to: "Optional message to %{author_name}"
-      message: "Write a reply:"
+      message: "Write a direct message:"
       placeholder: "Write a friendly message, introduce yourself, ask questions regarding this Offer, and build that relationship. Collaboration begins with connection first"
       send_message: "Send message"
       send: Send
@@ -917,7 +917,7 @@ en:
       message_sent_by: "Message sent by"
       message_sent_to: "Message sent to"
       send_reply: "Send message"
-      write_a_reply: "Write a reply:"
+      write_a_reply: "Write a direct message:"
       conversation_about_listing: "With %{person} about %{listing}"
       conversation_with_user: "With %{person}"
       conversation_with: "Conversation with %{person}"
@@ -965,6 +965,7 @@ en:
       waiting_for_listing_author_to_accept_offer: "Waiting for %{listing_author_name} to accept the offer"
       waiting_for_listing_author_to_accept_request: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you will be charged."
       waiting_for_listing_author_to_accept_request_coupon: "Waiting for %{listing_author_name} to accept the request. As soon as %{listing_author_name} accepts, you can follow Redeem instructions to receive your Offer"
+      check_your_email_for_redeem_instruction: "Check your email for Redeem Instructions"
       waiting_for_you_to_accept_request: "Waiting for you to accept the request"
       waiting_confirmation_from_requester: "Waiting for %{requester_name} to mark the order completed"
       waiting_confirmation_from_you: "Waiting for you to mark the order completed"
@@ -988,7 +989,7 @@ en:
       accept_preauthorized_request: "Click to Accept request"
       reject_preauthorized_offer: "Not this time"
       reject_preauthorized_request: "Click to Decline request"
-      confirm: "Click to Mark Complete"
+      confirm: "Click to Mark as Redeem"
       cancel: "Click to Dispute"
   feedback:
     feedback_subject: "New feedback from %{service_name}"
@@ -1097,6 +1098,7 @@ en:
       your_offer_was_rejected: "Your offer was rejected"
       your_request_was_accepted: "Your request was accepted"
       your_request_was_rejected: "Your request was rejected"
+      your_request_was_auto_rejected: "The Seller has not responded, therefore, your Offer has been withdrawn"
       you_can_now_pay_to: "You can now pay the requested amount to %{payment_receiver}."
       pay_now: "Pay now"
       remember_to_confirm: "When the order is fulfilled, remember to mark it as completed. If the order is not fulfilled your have %{days_to_automatic_confirmation} days to cancel it. Otherwise it will be automatically marked as completed."
@@ -1180,6 +1182,19 @@ en:
       listing_per_unit_title: "%{title}, per %{unit_type}"
       stripe:
         you_have_made_new_payment: "You have paid <b>%{payment_sum}</b> for <b>%{listing_title}</b>. The money is being held by %{service_name} and will be released to %{recipient_full_name} once you mark the order as completed. Here is a receipt of the payment."
+    avon_voucher:
+      subject: "%{buyer_name}, Here’s your %{service_name} voucher and redeem instructions for %{listing_title}"
+      use_this_voucher_for_redeem_instruction: "Dear %{buyer_name}, Below is your redeem instructions. Please use this voucher to redeem your offer."
+      skip_the_paper_and_redeem: "Skip the paper and redeem your Avontage right from our mobile app"
+      how_to_use: "How to use"
+      pull_up_voucher_with_mobile_app: "1. Pull up voucher with our mobile app (or print it out)"
+      appointment_required: "2. Appointment required, call (480-219-7990) and mention your voucher."
+      present_voucher_upon_arrival: "Present voucher upon arrival."
+      enjoy: Enjoy!
+      redeem_at: "Redeem At"
+      instruction_redeem_instruction_buyer_needs_to_aware: "INSTRUCTIONS (redeem instructions any restrictions or other details the buyer needs to be aware):"
+      rules: "THE RULES" 
+      rules_details: "These are restrictions that apply to every Avontage voucher (unless the Fine Print Specifies an exception)"     
     new_testimonial:
       has_given_you_feedback_in_kassi: "%{name} has given you feedback in %{service_name}"
       you_can_give_feedback_to: "You haven't yet given feedback to %{name}."
@@ -1847,6 +1862,7 @@ en:
         privacy: Privacy
         private: "Private (only users who are logged in can see)"
         public: "Public (visible to users who are not logged in)"
+      auto_accept: "Auto-Accept, to eliminate Accept or Decline step"  
     help_texts:
       help_share_type_title: "Type of the offer or request"
       help_tags_title: Tags

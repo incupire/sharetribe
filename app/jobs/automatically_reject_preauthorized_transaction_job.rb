@@ -17,7 +17,7 @@ class AutomaticallyRejectPreauthorizedTransactionJob < Struct.new(:conversation_
 
     if(transaction.current_state == "preauthorized")
       TransactionService::Transaction.reject(community_id: transaction.community_id,
-                                             transaction_id: transaction.id)
+                                             transaction_id: transaction.id, auto_rejected: true)
     end
   end
 
