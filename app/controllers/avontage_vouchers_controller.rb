@@ -6,11 +6,10 @@ class AvontageVouchersController < ApplicationController
 
   before_action :fetch_transaction
 
- 	before_action :ensure_is_starter
+ 	# before_action :ensure_is_starter
 
 
 	def voucher_show
-		binding.pry
 		custom_field = CustomFieldName.find_by(value: 'INSTRUCTIONS (enter redeem instructions, any restrictions, or other details the Buyer needs to be aware)')
     if custom_field.present? && @transaction.listing.answer_for(custom_field)
       @instructions = @transaction.listing.answer_for(custom_field).display_value
