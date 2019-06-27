@@ -57,7 +57,7 @@ class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :expor
      transactions.each do |transaction|
        yielder << [
          transaction.id,
-         transaction.listing ? transaction.listing.id : "N/A",
+         transaction.listing_id.present? ? transaction.listing_id : "N/A",
          transaction.listing_title || "N/A",
          transaction.status,
          transaction.payment_total.is_a?(Money) ? transaction.payment_total.currency : "N/A",
