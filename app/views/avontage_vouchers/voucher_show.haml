@@ -1,23 +1,21 @@
+- binding.pry
 .voucher
   .voucher_top_section
     = image_tag "logo.png", class: "voucher_logo_image"
     %p
-      Dear Buyer_Name, Below is your redeem instruction. Please use this voucher to redeem your Offer.
+      = "Dear #{@transaction.starter.given_name} #{@transaction.starter.family_name}, Below is your redeem instruction. Please use this voucher to redeem your Offer."
   .voucher_inner_content
     .text_voucher_item
       .text_section_logo
-        = image_tag "https://cdn.pixabay.com/photo/2016/06/09/18/36/logo-1446293__340.png"
-        %a{:href => "#"}
-          Laura @TrueREST Float Spa
+        - if @transaction.listing.author.image_file_name.present?
+          = image_tag @transaction.listing.author.image.url
+        %a{:href => "en/#{@transaction.listing.author.username}"}
+          = "#{@transaction.listing.author.given_name} #{@transaction.listing.author.family_name}"
       .text_section
         %h2
-          60 Min of Blissful Floating
+          = @transaction.listing.title
         %p
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa ducimus tempora eligendi cupiditate neque maiores ipsam atque fugit.
-        %p
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Culpa ducimus tempora eligendi cupiditate neque maiores ipsam atque fugit.
-        %p
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi ipsum commodi ut mollitia ea sapiente esse officia a, incidunt quod rerum dolorem pariatur dolorum vero cum qui, cumque, unde quam?
+          = @transaction.listing.description
         .bar_code
           = image_tag "https://www.alliant.edu/wp-content/uploads/2018/04/14_mybarcode.png"
           %p.code
@@ -25,7 +23,8 @@
 
     .image_voucher_item
       .voucher_card
-        = image_tag "BeautySpas.png", class: "voucher_card_img"
+        - if @transaction.listing.listing_images.present?
+          = image_tag @transaction.listing.listing_images.first.image.url, class: "voucher_card_img"
         %h2.card_name
           Save a Tree
         %p
@@ -40,31 +39,40 @@
       %h2
         How To Use
       %p
-        1. Lorem ipsum dolor sit amet dolor sit amet
+        1. Pull up voucher with our mobile app (or print it out).
       %p
-        2. Lorem ipsum dolor sit amet dolor sit amet
+        2. Appointment required, call 480-219-7990 and mention your voucher.
       %p
-        3. Lorem ipsum dolor sit amet 
+        3. Present voucher upon arrival.
       %p
-        4. Lorem ipsum dolor sit amet
+        4. Enjoy!
       
       %h2
         Redeem At
       %p
-        voluptatibus harum illum libero! Assumenda dignissimos tempore impedit temporibus, at. Perspiciatis voluptate quas, esse. Repellat perferendis 
+        - if @transaction.listing.location.present?
+          = @transaction.listing.location.address
 
     .voucher_grid_items
       %h3
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit,
+        INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):
       %p
-        voluptatibus harum illum libero! Assumenda dignissimos tempore impedit temporibus, at. Perspiciatis voluptate quas, esse. Repellat perferendis veniam blanditiis vero repudiandae, cupiditate.
+        - if @instructions.present?
+          = @instructions
     .voucher_grid_items
       .bird
         .color_heading
           %h3
-            THE RESULT
+            THE RULES
           %p
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima delectus voluptatibus repellendus,
+            These are the restrictions that apply to every Avontage voucher (unless the Fine Print specifies an exception)
         .pd
-          %p
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat aspernatur, corporis asperiores harum dolorem molestias commodi dicta quasi ducimus necessitatibus facere,
+          %h3
+            WE'RE HERE TO HELP
+          %a{:href => "javascript:void(0)"}
+            Visit Avontage.com
+          %a{:href => "javascript:void(0)"}
+            Call 415-944-9067
+          %a{:href => "javascript:void(0)"}
+            Email: VIPDesk@Avontage.com
+%a{:href => "#{voucher_show_avontage_voucher_path(format: :pdf)}", :target => "_blank"} Print

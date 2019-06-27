@@ -2752,6 +2752,12 @@ figure.fluidratio {
       }
       .pd{
         padding: 10px;
+        a{
+          display: block;
+          font-weight: 600;
+          line-height: 1.5;
+          font-size: 15px;
+        }
       }
       .bird{
         border: 0.5px solid #f1f1f1;
