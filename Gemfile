@@ -25,6 +25,8 @@ gem 'rack-attack', '~> 5.0.1'
 gem 'rest-client', '~> 2.0.2'
 
 gem 'paperclip', '~> 5.2.1'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 gem 'delayed_paperclip', '~> 3.0.1'
 gem 'daemons'
 gem 'aws-sdk', '~> 2.9.25'
