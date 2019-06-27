@@ -1,0 +1,38 @@
+- content_for :title_header do
+  %h1= t("layouts.no_tribe.favorite")
+
+- if @current_user.favorite_listings.present?
+  .people-fluid-thumbnail-grid-container
+    #profile-listings-list.cstm_container
+      - @current_user.favorite_listings.each do |listing|
+        .people-fluid-thumbnail-grid-item.custom_pd
+          %div
+            %div.custom-favorite{id: "favorite_#{listing.id}"}
+              = render :partial => 'favorites/favorite_select_unselect', :locals => {:listing_id => listing.id}
+            = link_to(listing_path(listing.id), :class => "fluid-thumbnail-grid-image-item-link") do
+              .fluid-thumbnail-grid-image-image-container
+                - first_image_url = (listing.listing_images.present? && listing.listing_images.first.image.present?) ? listing.listing_images.first.image.url(:medium) : ""
+                = image_tag first_image_url, {:alt => listed_listing_title(listing), :class => "fluid-thumbnail-grid-image-image"}
+                .fluid-thumbnail-grid-image-overlay
+                .fluid-thumbnail-grid-image-title
+                  = listing.title
+          .home-fluid-thumbnail-grid-author.custom_grid_author
+            .fluid-thumbnail-grid-image-price-container.modify_price
+              - if listing.price
+                %span.fluid-thumbnail-grid-image-price
+                  = MoneyViewUtils.to_humanized(listing.price)
+                  - price_unit = price_quantity_slash_unit(listing)
+                - if !price_unit.blank?
+                  - price_text = " " + price_unit
+                  %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
+                    = price_text
+              - else
+                %span.fluid-thumbnail-grid-image-type
+                  = shape_name(listing)
+            .home-fluid-thumbnail-grid-author-avatar.left
+              = link_to(person_path(username: listing.author.username)) do
+                = image_tag(listing.author.image.url(:thumb) || missing_avatar(:thumb), :class => "home-fluid-thumbnail-grid-author-avatar-image")
+              = PersonViewUtils.person_display_name(listing.author, @current_community)
+- else
+  %p
+    No favorite listings to show

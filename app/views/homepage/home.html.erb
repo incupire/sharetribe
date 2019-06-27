@@ -1,4 +1,5 @@
 <% public_and_not_logged_in = (@current_community.public? && !logged_in?)%>
+
 <div class="main_head_coverphoto col-md-12 col-sm-12 col-xs-12 no_padding_default">
   <div class="cover_photo" style='background: url("<%= @current_community.cover_photo.present? ? @current_community.cover_photo.url(:original) : asset_url('main_cover.png')%>");'>
     <h1 class="main_cover_title">
@@ -13,7 +14,7 @@
   </div>
   <div class="main_wrapper">
     <div class="sub_wrapper">
-      <h3 class="under_cover_photo_title">Start trading your excess capacity with the services below & much more...collaborate & gain high-quality local clients</h3>
+      <h3 class="under_cover_photo_title">A local community of Arizona small business owners and freelancers selling special Offers online<br/> without the high fees. <br/>Collaborate to gain high quality clients, repeat customers, save money, and KEEP IT LOCAL.  </h3>
       <div class="col-md-12 col-sm-12 col-xs-12 categories no_padding_default">
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
           <%= link_to public_and_not_logged_in  ? "/s?category=marketing-and-advertising" : sign_up_path do %>
@@ -26,7 +27,7 @@
                 <%= link_to public_and_not_logged_in  ? "/s?category=marketing-and-advertising" : sign_up_path do %>
                   <%= button_tag 'Explore Now',class:'explore_button' %>
                 <% end %>
-                <div class="description">Trade your services for marketing and advertising to promote your business</div>
+                <div class="description">On Avontage, local businesses connect with marketers, advertiser, & influencers</div>
               </div>
             </div>
           <%end%>
@@ -42,7 +43,7 @@
                 <%= link_to public_and_not_logged_in  ? "/s?category=beauty-and-spas" : sign_up_path do %>
                   <%= button_tag 'Explore Now',class:'explore_button' %>
                 <% end %>
-                <div class="description">Need skincare, massage, or a stylist? Pay for it with your services
+                <div class="description">Promote your services, find high quality clients, and book your slow time slots
                 </div>
               </div>
             </div>
@@ -59,7 +60,7 @@
                 <%= link_to public_and_not_logged_in  ? "/s?category=health-and-fitness" : sign_up_path do %>
                   <%= button_tag 'Explore Now',class:'explore_button' %>
                 <% end %>
-                <div class="description">Need a yoga/fitness/nutrition coach? Trade it with your services</div>
+                <div class="description">Find quality clients and fill your slow times without any extra marketing cost</div>
               </div>
             </div>
           <%end%>
@@ -75,7 +76,7 @@
                 <%= link_to public_and_not_logged_in ? "s?category=photography-and-video" : sign_up_path do %>
                   <%= button_tag 'Explore Now',class:'explore_button' %>
                 <% end %>
-                <div class="description">Need a new look for your website or a family photo shoot? Trade for it.</div>
+                <div class="description">A platform for photographers and creatives to collaborate and grow </div>
               </div>
             </div>
           <%end%>
@@ -91,9 +92,9 @@
                 <%= link_to public_and_not_logged_in ? "/s?category=food-and-drink" : sign_up_path do %>
                   <%= button_tag 'Explore Now',class:'explore_button' %>
                 <% end %>
-                <div class="description">Wanna take the family out to a nice dinner? Be smart and trade for it.</div>
+                <div class="description">Promote and market your establishment without spending any money</div>
               </div>
-            </div>
+            </div> 
           <%end%>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
@@ -107,7 +108,7 @@
                 <%= link_to public_and_not_logged_in ? "/s?category=events-and-things-to-do" : sign_up_path do %>
                   <%= button_tag 'Explore Now',class:'explore_button' %>
                 <% end %>
-                <div class="description">Discover many fun experiences and events around town & save your cash</div>
+                <div class="description">Promote your events & activities and gain exposure at no cost to you</div>
               </div>
             </div>
           <%end%>
@@ -115,20 +116,173 @@
       </div>
       <div class="under_categories col-md-12 col-sm-12 col-xs-12">
         <%= link_to 'Explore many more services in the marketplace', public_and_not_logged_in  ? '/s' : sign_up_path ,class:'more_services'%>
+
+
+
+        <div class="explore_services">
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/new_customer.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">New Customers</h1>
+              <p class="service-details">Gain high-quality, like-minded clients, and repeat customers. Business owners like you are more loyal than customers looking for deep discounts.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/cash_flow.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Better Cash Flow</h1>
+              <p class="service-details">Keep cash in your business by reducing where you spend it. Use your slow times, empty seats, and unbooked hours to pay for things you need.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/local_community.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Local Community</h1>
+              <p class="service-details">Become part of a growing network of local businesess to build the next sharing-economy platform similar to Airbnb & Lyft.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/line_of_credit.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Line of Credit</h1>
+              <p class="service-details">Get the funds you need to grow your business and pay it back from new customers gained in Avontage. It's the smartest way to increase your spending power without spending your cash.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/employe_perks.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Employee Perks</h1>
+              <p class="service-details">Give a gift or an incentive to your employees without spending your cash. Our employee incentive program allows you to offer bonuses and higher salaries in trade dollars.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 col-xs-12">
+            <div class="explore-service-box">
+              <%= image_tag 'homepage/charities.png', class: 'explore-service-icon' %>
+              <h1 class="service-heading">Charities</h1>
+              <p class="service-details">Donate your extra trade-dollars to your favorite non-profits and receive tax benefits. Non-profits join Avontage to gain access to services in our marketplace.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="discover-community">
+          <h4 class="discover-heading">Discover Our Community...</h4>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="left-side">
+              <p class="discover-details">Avontage is more than just a marketplace, it's a <b>vibrant community powered by local business owners, entrepreneurs, influencers, and marketers,</b> who collaborate, build long-lasting connections, and help one another to grow their businesses.</p>
+              <p class="discover-details top-p">Join us to see who's here!</p>
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-6 col-xs-12">
+            <div class="right-side">
+              <%= image_tag 'business_group.png', class: 'comminity-pic' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="quotes-section">
+          <div class="members_wrapper ipad">
+            <h1 class="our-members">Our members believe in us ...</h1>
+            <div class="member-section custom_container">
+              <%=link_to "https://www.avontage.com/en/jessica" do%>
+                <div class="member-box">
+                  <div class="inner-box">
+                    <div class="testimonial-headshot text-center">
+                      <% jessica = Person.find_by(username: "jessica")%>
+                      <% avatar = jessica.present? && jessica.image.present? ? jessica.image.url(:medium) : missing_avatar(:thumb) %>
+                      <%= image_tag avatar%>
+                    </div>
+                    <div class="member-detail text-center">
+                      <p class="name">Jessica K.</p>
+                      <p class="work">High Priority Massage</p>
+                      <p class="type">Phoenix,AZ</p>
+                    </div>
+                    <p class="card-detail">The ability to meet others and get services traded into a community of like-minded professionals that in turn drive more business to you!</p>
+                  </div>
+                </div>
+              <%end%>
+              
+              <%=link_to 'https://www.avontage.com/en/jessedeanclark' do%>  
+                <div class="member-box">
+                  <div class="inner-box">
+                    <div class="testimonial-headshot text-center">
+                      <% jessedeanclark = Person.find_by(username: "jessedeanclark")%>
+                      <% avatar = jessedeanclark.present? && jessedeanclark.image.present? ? jessedeanclark.image.url(:medium) : missing_avatar(:thumb) %>
+                      <%= image_tag avatar%>
+                    </div>                    
+                    <div class="member-detail text-center">
+                      <p class="name">Jesse C.</p>
+                      <p class="work">Easy-Click Web Design</p>
+                      <p class="type">Peoria,AZ</p>
+                    </div>
+                    <p class="card-detail">I am excited for this community and see what it can do for my business and look forward to helping other small businesses.</p>
+                  </div>
+                </div>
+              <%end%>
+              
+              <%= link_to 'https://www.avontage.com/en/thegannonedit' do%>  
+                <div class="member-box">
+                  <div class="inner-box">
+                    <div class="testimonial-headshot text-center">
+                      <% thegannonedit = Person.find_by(username: "thegannonedit")%>
+                      <% avatar = thegannonedit.present? && thegannonedit.image.present? ? thegannonedit.image.url(:medium) : missing_avatar(:thumb) %>
+                      <%= image_tag avatar%>
+                    </div>
+                    <div class=" member-detail text-center">
+                      <p class="name">Kelly G.</p>
+                      <p class="work">The Gannon Edit</p>
+                      <p class="type">Scottsdale,AZ</p>
+                    </div>
+                    <p class="card-detail">Kelly embodies the spirit of collaboration that is in the Avontage DNA. She's had many collaborations to promote and share member stories with an authentic voice.</p>
+                  </div>
+                </div>
+              <%end%>
+            </div>
+          </div>
+
+          <div class="How-it-Works-wrapper">
+            <h1 class="heading-work">How It Works</h1>
+            <div class="inner-work">
+              <div class="col-sm-7 col-md-7 col-xs-12">
+                <div class="left-side-text">
+                   <h1 class="heading-left">Post Your Offers to Sell or Trade</h1>
+                   <p class="left-text">Craft and post your special Offers to book your slow times, empty seats, and extra capacities. Post as many Offers as you like, change them any time. Cap the limit on the amount of trade you'd like to offer each month.</p>
+
+                   <h1 class="heading-left heading-left2">Explore Offers from Other Members</h1>
+                   <p class="left-text">Explore offers from other local businesses in every service category such as marketing & advertising, healthcare, fitness, beauty, photography, legal, accounting, repairs, web development, restaurants, events, and entertainment. Use them for your personal or business needs.</p>
+
+                   <h1 class="heading-left heading-left3">Sell or Buy using Trade Credits or Credit Card</h1>
+                   <p class="left-text">Earn & spend trade-credits to buy offers from Avontage community members. Members of the public pay you with credit card. Use our site messaging to communicate directly with others. Submit your request, payment, and receive confirmation in a few clicks. Arrange to redeem the offers and rate your experience.</p>
+
+                   <div>
+                      <%= link_to new_listing_path do %>
+                        <button class="get-started">GET STARTED</button>
+                      <% end %>
+                   </div>
+                </div>
+              </div>
+              <div class="col-sm-5 col-md-5 col-xs-12">
+                <div class="right-side-img">
+                  <%= image_tag 'homepage/iPhoneHand.png', class: 'iphone-hand' %>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
   <div class="main_wrapper_second">
     <div class="col-md-12 col-sm-12 col-xs-12 no_padding_default main_frame_business">
-      <h2 class="heading_market">BENEFITS</h2>
-      <p class="below_heading_market">work & live like an owner!</p>
+      <h2 class="heading_market">The Advantages of Avontage</h2>
+      <!-- <p class="below_heading_market">work & live like an owner!</p> -->
       <div class="col-md-4 col-sm-4 col-xs-12">
         <div class="listing_frame">
           <div class="listing_image">
             <%= image_tag 'EarnQualityLocalCustomers.png' ,class: 'earn_quality' %>
           </div>
           <div class="listing_description">
-            <h2>Earn Quality Local Customers</h2>
+            <h2>Gain Quality Local Customers</h2>
             <p>Build loyalty and long-term relationships with like-minded business owners in your community</p>
           </div>
         </div>
@@ -157,24 +311,24 @@
       </div>
     </div>
   </div>
-  <div class="main_wrapper">
+  <!-- <div class="main_wrapper">
     <div class="sub_wrapper">
       <div class="col-md-7 col-sm-12 col-xs-12 no_padding_default">
         <div class="business_group">
-          <%= image_tag 'business_group.png',class: 'business_image' %>
+          <%#= image_tag 'business_group.png',class: 'business_image' %>
         </div>
       </div>
       <div class="col-md-5 col-sm-12 col-xs-12 no_padding_default">
         <div class="business_details">
           <h2>A MUST HAVE APP</h2>
           <p>We are creating a magical experience to connect local business owners, entrepreneurs, freelancers, influencers, makers, and doers to help grow your business</p>
-          <%= link_to about_infos_path,class: 'anchor_web' do %>
-            <%=  button_tag 'Read More',class:'read_more_tab'%>
-          <% end %>  
+          <%#= link_to about_infos_path,class: 'anchor_web' do %>
+            <%#=  button_tag 'Read More',class:'read_more_tab'%>
+          <%# end %>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <div class="footer_bottom">
     <div class="footer_wrapper">
       <ul class="social_icons_list">
@@ -226,7 +380,15 @@
         </div>
       </div>
       <h1 class="copyright">14747 N. Northsight Blvd Scottsdale, AZ 85260 <br>415.944.9067</h1>
-      <span class="color_15">©2018 by Avontage, LLC</span>  
+      <span class="color_15">©2018 by Avontage, LLC</span>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $('.home-categories-main').click(function(e){
+    var x = $(this).attr("data-url");
+    $(this).attr('href', x);
+    $('#search_val').val("");
+  });
+</script>

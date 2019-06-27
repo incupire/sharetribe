@@ -37,13 +37,29 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @message = message
       sending_params = {:to => recipient.confirmed_notification_emails_to,
-                        :subject => t("emails.new_message.you_have_a_new_message", :sender_name => PersonViewUtils.person_display_name(message.sender, community)),
+                        :subject => t("emails.new_message.you_have_a_new_message", :sender_name => PersonViewUtils.person_display_name(message.sender, community), :person_name => recipient[:given_name]),
                         :from => community_specific_sender(community)}
 
       premailer_mail(sending_params)
     end
   end
+  
+  def new_offer_reminder_notification_to_admins(listing, community, admin)
+    @listing = listing
+    @email_type =  "email_about_new_messages"
+    @recipient = admin 
+    set_up_layout_variables(@recipient, community, @email_type)
+    with_locale(@recipient.locale, community.locales.map(&:to_sym), community.id) do
+      @message = message
+      sending_params = {:to => @recipient.confirmed_notification_emails_to,
+                        :subject => t("emails.new_offer_notication_to_admin.subject"),
+                        :from => community_specific_sender(community)
+                      }
 
+      premailer_mail(sending_params)
+    end
+  end
+  
   def transaction_confirmed(conversation, community)
     @email_type =  "email_about_completed_transactions"
     @conversation = conversation

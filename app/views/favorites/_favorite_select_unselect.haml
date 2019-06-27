@@ -1,0 +1,11 @@
+- if @current_user&.is_favorite?(listing_id) 
+  = link_to unselect_listing_favorites_path(listing_id), class: "select_unselect", remote: true, method: :delete do
+    %svg{"aria-hidden" => "true", :fill => "#f34424", "fill-opacity" => "1", :role => "presentation", :stroke => "#f34424", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "1.5", :style => "height: 26px; width: 26.5px;", :viewbox => "0 0 32 32"}
+      %path{:d => "m23.99 2.75c-.3 0-.6.02-.9.05-1.14.13-2.29.51-3.41 1.14-1.23.68-2.41 1.62-3.69 2.94-1.28-1.32-2.46-2.25-3.69-2.94-1.12-.62-2.27-1-3.41-1.14a7.96 7.96 0 0 0 -.9-.05c-1.88 0-7.26 1.54-7.26 8.38 0 7.86 12.24 16.33 14.69 17.95a1 1 0 0 0 1.11 0c2.45-1.62 14.69-10.09 14.69-17.95 0-6.84-5.37-8.38-7.26-8.38"}
+
+
+- else
+  = link_to select_listing_favorites_path(listing_id), class: "select_unselect", remote: true, method: :post do
+    %svg{"aria-label" => "Add to wishlist", :fill => "#ffffff", "fill-opacity" => "0.5", :role => "img", :stroke => "grey", "stroke-linecap" => "round", "stroke-linejoin" => "round", "stroke-width" => "2.5", :style => "height: 26px; width: 26.5px;", :viewbox => "0 0 32 32"}
+      %path{:d => "m23.99 2.75c-.3 0-.6.02-.9.05-1.14.13-2.29.51-3.41 1.14-1.23.68-2.41 1.62-3.69 2.94-1.28-1.32-2.46-2.25-3.69-2.94-1.12-.62-2.27-1-3.41-1.14a7.96 7.96 0 0 0 -.9-.05c-1.88 0-7.26 1.54-7.26 8.38 0 7.86 12.24 16.33 14.69 17.95a1 1 0 0 0 1.11 0c2.45-1.62 14.69-10.09 14.69-17.95 0-6.84-5.37-8.38-7.26-8.38"}
+

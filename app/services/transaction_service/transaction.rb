@@ -129,7 +129,9 @@ module TransactionService::Transaction
       order_total = order_total(tx)
       renter = transaction.starter
       renter.coupon_balance = renter.coupon_balance - order_total
-      renter.save
+      if renter.save
+        create_avon_bucks_history(order_total, renter, "deducted", transaction)
+      end
     end
     tx.reload    
     res.maybe()
@@ -193,7 +195,9 @@ module TransactionService::Transaction
       else
         renter.coupon_balance = order_total
       end
-      renter.save      
+      if renter.save
+        create_avon_bucks_history(order_total, renter, "added", transaction)
+      end
     end
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
@@ -230,7 +234,9 @@ module TransactionService::Transaction
       else
         seller.coupon_balance = seller_gets
       end
-      seller.save      
+      if seller.save
+        create_avon_bucks_history(seller_gets, seller, "added", transaction)
+      end     
       transaction.toggle!(:coupon_bal_refunded)
     end      
     res.maybe()
@@ -325,4 +331,14 @@ module TransactionService::Transaction
                                             completed: proc_token[:op_completed],
                                             result: proc_token[:op_output]}))
   end
+
+  def create_avon_bucks_history(amount, person, operation, transaction)
+    AvonBucksHistory.create(
+      amount: amount,
+      operation: operation,
+      remaining_balance: person.coupon_balance,
+      person_id: person.id,
+      transaction_id: transaction.id
+    )
+  end  
 end

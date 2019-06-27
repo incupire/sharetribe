@@ -326,6 +326,9 @@ ul {
   .text-part {
     padding-left: em(23);
     min-height: em(30);
+    &.redesign-text-part {
+      padding-left: 0;
+    }
   }
 }
 
@@ -1497,6 +1500,57 @@ input[type=text].delivery-price-field {
 
   .status-links {
     display: inline-block;
+
+    &.redesign_status_links {
+      display: inline-flex;
+      width: 100%;
+      @media screen and (max-width: 767px) {
+        display: block;
+      }
+      .inbox-horizontally-aligned-link {
+        width: 48%;
+        @media screen and (max-width: 767px) {
+          width: 100%;
+        }
+        .accept_preauthorized, .reject_preauthorized, .confirm  {
+          padding-left: 6px;
+          padding-right: 6px;
+          padding-bottom: 0;
+          margin-right: 0;
+          width: 100%;
+          .icon-with-text {
+            display: block;
+            padding-right: 0;
+          }
+        }
+        .cancel {
+          padding-left: 6px;
+          padding-right: 6px;
+          padding-bottom: 0;
+          margin-right: 0;
+          width: 100%;
+          &.cancel_order {
+            @media screen and (min-width: 768px) {
+              margin-left: 8%;
+            }
+          }
+          .icon-with-text {
+            display: block;
+            padding-right: 0;
+          }
+        }
+      }
+      .mid-or {
+        width: 4%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @media screen and (max-width: 767px) {
+          width: 100%;
+        }
+      }
+    }
+
   }
 
   .inbox-horizontally-aligned-status {
@@ -1940,7 +1994,7 @@ $network-green: #00a26c;
   margin-left: auto;
   margin-right: auto;
   @media (min-width: 320px) and (max-width: 480px) {
-    padding: 10px 10px 0px;
+    //padding: 10px 10px 0px;
   }
 }
 
@@ -2214,6 +2268,131 @@ figure.fluidratio {
       margin-top: 0;
       @include mega-type;
       line-height: em(15);
+    }
+  }
+}
+
+
+.custom_react_navbar {
+  .Topbar__topbar__7GUWt {
+    border-bottom: 0px;
+    .SearchBar__root__2hIPj {
+      visibility: hidden;
+    }
+
+    .ProfileDropdown__profileAction__1H9nm {
+      width: 5.72em;
+      height: 5.72em;
+      padding: 0 0.10em;
+    }
+    .ProfileDropdown__profileActionLabel__2lW8j {
+      -webkit-flex-basis: 25%;
+      flex-basis: 25%;
+      font-size: 12px;
+    }
+  }
+}
+
+
+.sub-header {
+  border-bottom: 1px solid #e6e6eb;
+  margin-bottom: 10px;
+  .custom-search-bar {
+    @media screen and (max-width: 767px) {
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    .search-form {
+      width: 1000px;
+      margin-left: 20px;
+      height: 40px;
+      border: 2px solid #e6e6e6;
+      border-radius: 10px;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      @media screen and (max-width: 1024px) {
+        width: 100%;
+        margin-left: 0;
+        border-radius: 5px;
+      }
+      .style-for-input {
+        width: 886px;
+        float: left;
+        border: none;
+        min-height: 36px;
+        font-size: 18px;
+        font-weight: 600;
+        padding: 0px;
+        padding-left: 15px;
+        &:focus {
+          border: none;
+          outline: none;
+        }
+        &::-webkit-input-placeholder {
+          color: #000;
+        }
+        &::-moz-placeholder {
+          color: #000;
+        }
+        &:-ms-input-placeholder {
+          color: #000;
+        }
+        &:-moz-placeholder {
+          color: #000;
+        }
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 88%;
+        }
+        @media screen and (max-width: 767px) {
+          width: 85%;
+          font-size: 12px;
+        }
+      }
+      .search-btn {
+       //  background: #3483de;
+        color: #fff;
+        float: left;
+        width: 110px;
+        font-size: 18px;
+        height: 40px;
+        position: relative;
+        bottom: 2px;
+        left: 2px;
+        border-radius: 10px;
+        padding: 0px;
+        margin: 0;
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          width: 12%;
+        }
+
+        @media screen and (max-width: 767px) {
+          position: relative;
+          display: inline-block;
+          margin: 0;
+          padding: 0;
+          width: 15%;
+          height: 40px;
+          border: none;
+          stroke: #fff;
+          cursor: pointer;
+        }
+        svg {
+          display: none;
+          @media screen and (max-width: 767px) {
+            width: 16px;
+            height: 16px;
+            margin-top: 10px;
+            display: inline-block;
+          }
+        }
+        .text {
+          display: block;
+          @media screen and (max-width: 767px) {
+            display: none;
+          }
+        }
+      }
     }
   }
 }

@@ -69,7 +69,7 @@ class AvatarDropdown extends Component {
     const openOnHoverClass = this.state.isMounted ? '' : css.openOnHover;
     const transitionDelayClass = this.state.isMounted ? '' : css.transitionDelay;
     const openClass = this.state.isOpen ? css.openDropdown : '';
-    const notificationsClass = this.props.notificationCount > 0 ? css.hasNotifications : null;
+    const notificationsClass = this.props.unReadDirectMessageCount > 0 ? css.hasNotifications : null;
     const notificationBadgeInArray = this.props.notificationCount > 0 ?
       [r(NotificationBadge, { className: css.notificationBadge }, this.props.notificationCount)] :
       [];
@@ -90,6 +90,8 @@ class AvatarDropdown extends Component {
         actions: this.props.actions,
         isAdmin: this.props.isAdmin,
         notificationCount: this.props.notificationCount,
+        unReadTransactionalMessagesCount: this.props.unReadTransactionalMessagesCount,
+        unReadDirectMessageCount: this.props.unReadDirectMessageCount,
         translations: this.props.translations,
         profileDropdownRef: (c) => {
           this.profileDropdown = c;

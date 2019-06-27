@@ -1,0 +1,21 @@
+- content_for :title_header do
+  %h1= t("layouts.no_tribe.transaction_history")
+
+.undo-mobile-wrapper-margin#conversations
+  - if @current_user.present?    
+    .row.coupan_balances
+      %span.people-custom-fields-title.coupan_title Your Available Avon-BUCKS:
+      %span.price
+        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
+    %br
+
+  - if result_rows.present?
+
+    = render :partial => "transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
+
+    = will_paginate(transactional_inbox_rows)
+    = pageless(transactional_inbox_rows.total_pages, '#conversations', request.path, t('conversations.index.loading_more_messages'))
+
+  - else
+    #no_conversations
+      = t("conversations.index.no_received_messages")

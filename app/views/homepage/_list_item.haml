@@ -1,5 +1,5 @@
 - frontpage_fragment_cache("list_item", listing) do
-  .home-list-item
+  .home-list-item.custom_container
     - if listing.listing_images.size > 0
       = link_to listing_path(listing.url), :class => "home-list-image-container-desktop" do
         = image_tag listing.listing_images.first[:small_3x2], {:alt => listed_listing_title(listing), :class => "home-list-image"}
@@ -24,7 +24,7 @@
           .home-list-listing-shape-value
             = shape_name(listing)
 
-    %div{:class => (listing.listing_images.size > 0 ? "home-list-details-with-image" : "")}
+    %div.mr_lf{:class => (listing.listing_images.size > 0 ? "home-list-details-with-image" : "")}
       %h2.home-list-title
         = link_to listing_path(listing.url) do
           = listing.title
@@ -49,7 +49,7 @@
             = shape_name(listing)
 
 
-    .home-list-author{:class => (listing.listing_images.size > 0 ? "home-list-author-with-listing-image" : "home-list-author-without-listing-image")}
+    .home-list-author.mr_lft{:class => (listing.listing_images.size > 0 ? "home-list-author-with-listing-image" : "home-list-author-without-listing-image")}
       .home-list-avatar
         = link_to(person_path(username: listing.author.username), :class => "home-fluid-thumbnail-grid-author-avatar-image") do
           = image_tag(listing.author.avatar.thumb || missing_avatar(:thumb))

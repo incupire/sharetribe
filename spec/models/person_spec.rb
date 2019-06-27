@@ -44,6 +44,8 @@
 #  cloned_from                        :string(22)
 #  coupon_balance_cents               :integer          default(0)
 #  stripe_customer_id                 :string(255)
+#  referral_code                      :string(255)
+#  favorites_count                    :integer          default(0)
 #
 # Indexes
 #

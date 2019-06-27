@@ -22,7 +22,6 @@ module TopbarHelper
     })
 
     given_name, family_name = *PersonViewUtils.person_display_names(user, community)
-
     {
       logo: {
         href: PathHelpers.landing_page_path(
@@ -67,7 +66,9 @@ module TopbarHelper
         loggedInUsername: user&.username,
         isAdmin: user&.has_admin_rights?(community) || false,
       },
-      unReadMessagesCount: InboxService.notification_count(user&.id, community.id)
+      unReadMessagesCount: InboxService.notification_count(user&.id, community.id),
+      unReadTransactionalMessagesCount: InboxService.transactional_notification_count(user&.id, community.id),
+      unReadDirectMessageCount: InboxService.direct_conversations_notification_count(user&.id, community.id)
     }
   end
 
@@ -94,12 +95,12 @@ module TopbarHelper
           locale_param: locale_param
         ),
         title: I18n.t("header.home"),
-        priority: -1
+        priority: 0
       },
       {
         link: paths.about_infos_path(locale: locale_param),
         title: I18n.t("header.about"),
-        priority: 0
+        priority: -1
       },
       {
         link: paths.new_user_feedback_path(locale: locale_param),

@@ -276,7 +276,8 @@ class PeopleController < Devise::RegistrationsController
       flash[:error] = t("layouts.notifications.update_error")
     end
 
-    redirect_back(fallback_location: homepage_url)
+    #redirect_back(fallback_location: homepage_url)
+    redirect_to person_path(target_user)
   end
 
   def destroy
@@ -422,6 +423,7 @@ class PeopleController < Devise::RegistrationsController
         :description,
         :password,
         :password2,
+        :referral_code,
         :min_days_between_community_updates,
         location: [:address, :google_address, :latitude, :longitude],
         send_notifications: [],

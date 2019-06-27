@@ -98,7 +98,13 @@
           = MoneyViewUtils.to_humanized(sum)
       .conversation-service-fee-wrapper
         %span.conversation-service-fee-label
-          = t("conversations.accept.service_fee_label")
+          - if service_name == "Avontage"
+            - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
+              = t("conversations.accept.avontage_service_fee_label_coupon_pay")
+            - else
+              = t("conversations.accept.avontage_service_fee_label_credit_card_pay")
+          - else
+            = t("conversations.accept.service_fee_label")
         %span.conversation-service-fee-value
           = "-#{MoneyViewUtils.to_humanized(fee)}"
 

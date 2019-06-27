@@ -89,7 +89,32 @@ class ListingsController < ApplicationController
 
     make_listing_presenter
     @listing_presenter.form_path = new_transaction_path(listing_id: @listing.id)
+    search = {
+      author_id: @listing.author.id,
+      include_closed: false,
+      page: 1,
+      per_page: 1000
+    }
 
+    author_listings =
+      ListingIndexService::API::Api
+      .listings
+      .search(
+        community_id: @current_community.id,
+        search: search,
+        engine: FeatureFlagHelper.search_engine,
+        raise_errors: Rails.env.development?,
+        includes: [:author, :listing_images]
+      ).and_then { |res|
+      Result::Success.new(
+        ListingIndexViewUtils.to_struct(
+        result: res,
+        includes: [:author, :listing_images],
+        page: search[:page],
+        per_page: search[:per_page]
+      ))
+    }.data
+    @other_listings = author_listings.reject{|listing| listing.id == @listing.id}
     record_event(
       flash.now,
       "ListingViewed",
@@ -471,6 +496,7 @@ class ListingsController < ApplicationController
     if @current_community.follow_in_use?
       Delayed::Job.enqueue(NotifyFollowersJob.new(@listing.id, @current_community.id), :run_at => NotifyFollowersJob::DELAY.from_now)
     end
+    Delayed::Job.enqueue(NewOfferReminderToAdminsJob.new(@listing.id, @current_community.id))
 
     flash[:notice] = t(
       "layouts.notifications.listing_created_successfully",

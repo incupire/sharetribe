@@ -12,6 +12,7 @@ class PreauthorizeTransactionsController < ApplicationController
   before_action :ensure_can_receive_payment
 
   def initiate
+    @stripe_service = stripe_settings
     params_validator = params_per_hour? ? TransactionService::Validation::NewPerHourTransactionParams : TransactionService::Validation::NewTransactionParams
     validation_result = params_validator.validate(params).and_then { |params_entity|
       tx_params = add_defaults(
@@ -409,7 +410,6 @@ class PreauthorizeTransactionsController < ApplicationController
     logger.error(error_msg, :transaction_initiate_error, data)
     redirect_to listing_path(listing.id)
   end
-
   def initiated_success(tx_params)
     is_booking = is_booking?(listing)
     
@@ -417,7 +417,6 @@ class PreauthorizeTransactionsController < ApplicationController
     shipping_total = calculate_shipping_from_listing(tx_params: tx_params, listing: listing, quantity: quantity)
     
     avon_commission = params[:payment_type].eql?('coupon_pay') ? order_commission(tx_params, listing) : Money.new(0, @current_community.currency)
-    
     tx_response = create_preauth_transaction(
       payment_type: params[:payment_type].to_sym,
       community: @current_community,
@@ -460,11 +459,15 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def ensure_user_has_stripe_customer_account
-    stripe_service = TransactionService::API::Api.settings.get(community_id: @current_community.id, payment_gateway: "stripe", payment_process: "preauthorize")[:data]
+    stripe_service = stripe_settings
     if stripe_service[:commission_from_seller] > 0 && (params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?)
       flash[:error] = "#{stripe_service[:commission_from_seller]}% (pulled from settings screen) transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your credit card information, then proceed with your purchase."
       xhr_json_redirect person_stripe_customber_settings_path(@current_user)
       return
     end
+  end
+
+  def stripe_settings
+    TransactionService::API::Api.settings.get(community_id: @current_community.id, payment_gateway: "stripe", payment_process: "preauthorize")[:data]
   end
 end
