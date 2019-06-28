@@ -1,19 +1,108 @@
 <style>
-	.pfd_main_container{
-		width: 100%;
-	}
-	.top_bar{
+*{
+	box-sizing: border-box;
+}
+.pfd_main_container{
+	width: 100%;
+}
+.top_bar .logo{
+	height: 30px;
+}
+.border-container{
+	border: 2px solid #e1e1e1;
+	width: 100%;
+	float: left;
+}
+.row{
+	margin-right: -15px;
+	margin-left: -15px;
+}
+.row:before {
+  display: table;
+  content: " ";
+}
+.inner_text_items{
+	float: left;
+	width: 68.3%;
+}
+.content{
+	padding: 15px 30px;
+}
+.inner_img_items{
+	width: 30%;
+	float: left;
+	background: #f6f7f8;
+}
+.img-text-container{
+	padding: 15px;
+}
 
-	}
-	.top_bar .logo{
-		height: 30px;
-	}
 </style>
 <div class="pfd_main_container">
 	<div class="top_bar">
-		<img src="/html/images/logo.png" alt="logo image" class="logo">
-		<p>
+		<%= wicked_pdf_image_tag 'logo.png', style: 'height: 28px; margin-left: -3px;'%>
+		<p style="margin-top: 4px; font-size: 16px; font-weight: 600;">
 			Dear Madhav Sharma, Below is your redeem instruction. Please use this voucher to redeem your Offer.
 		</p>
 	</div>
+	<div class="border-container">
+		<div class="row">
+			<div class="inner_text_items">
+				<div class="content">
+					<%= wicked_pdf_image_tag 'SaveYourCash.png', style: 'height: 50px; width: 50px; border-radius: 50%;'%>
+					<a href="#" style="text-decoration: none; position: relative; top: -18px; font-size: 16px; margin-left: 7px; display: inline-block;">User Name </a>
+					<h2 style="font-size: 24px; font-weight: normal;">Test Listing 3</h2>
+					<p style="font-size: 15px; color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione aspernatur quos odit explicabo ea magnam, quae veniam aliquam ad hic perferendis </p>
+					<p style="font-size: 15px; color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore maxime quibusdam sapiente voluptas totam dignissimos fuga, consequuntur.</p>
+					<p style="font-size: 15px; color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia esse, natus magni</p>
+				</div>
+			</div>
+			<div class="inner_img_items">
+				<div class="img-text-container">
+					<%= wicked_pdf_image_tag 'EventsThingsToDo.png', style: 'width: 100%; display: block;'%>
+					<h2 style="font-weight: normal; color: #4d4d4d; font-size: 22px;">Save a Tree</h2>
+					<p style="color: #979393; font-size: 15px;">
+						Skip the paper and redeem your Avontage right from our mobile app.
+					</p>
+					<div style="padding-top: 5px;">
+						<span>
+							<%= wicked_pdf_image_tag 'google_play.png', style: 'height: 36px;'%>
+						</span>
+						<span>
+							<%= wicked_pdf_image_tag 'google_play_2.png', style: 'height: 36px; margin-left: 10px;'%>
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<table style="width: 100%; margin: 0; padding:0; padding-top: 25px;">
+		<tbody>
+			<tr style=" margin: 0; padding:0; vertical-align: top;">
+				<td style="width: 33.33%;">
+					<h3 style=" color: #6c6c6c; font-weight: normal; ">How To Use</h3>
+					<p style="margin-bottom: 1px; color: #666666; ">1. Pull up voucher with our mobile app (or print it out).</p>
+					<p style="margin-bottom: 1px; color: #666666; ">2. Appointment required, call 480-219-7990 and mention your voucher.</p>
+					<p style="margin-bottom: 1px; color: #666666; ">3. Present voucher upon arrival.</p>
+					<p style="margin-bottom: 1px; color: #666666; ">4. Enjoy!</p>
+					<h3 style=" color: #6c6c6c; font-weight: normal; ">Redeem At</h3>
+				</td>
+				<td style="width: 35%;">
+					<h3 style=" color: #6c6c6c;">INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):</h3>
+				</td>
+				<td style="width: 35%; border-right: 1px solid #f1f1f1; border-left: 1px solid #f1f1f1;">
+					<div style=" color: #6c6c6c; font-weight: normal; padding: 1px 15px; background: #f6f7f8;">
+						<h3 style="padding:0; margin-top: 10px; margin-bottom: 0px; font-weight: normal;">THE RULES</h3>
+						<p style="font-size: 14px;">These are the restrictions that apply to every Avontage voucher (unless the Fine Print specifies an exception)</p>
+					</div>
+					<div style="margin-top: 70px;padding: 0 15px;">
+						<h3 style="padding:0; margin-top: 10px; margin-bottom: 0px; font-weight: normal; font-size: 16px;color: #6c6c6c;">WE'RE HERE TO HELP</h3>
+						<a href="#" style="display: block; text-decoration: none;">Visit Avontage.com</a>
+						<a href="#" style="display: block; text-decoration: none;">Call 415-944-9067</a>
+						<a href="#" style="display: block; text-decoration: none;">Email: VIPDesk@Avontage.com</a>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </div>
