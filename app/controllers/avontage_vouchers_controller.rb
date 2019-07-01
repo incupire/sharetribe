@@ -6,7 +6,7 @@ class AvontageVouchersController < ApplicationController
 
   before_action :fetch_transaction
 
- 	# before_action :ensure_is_starter
+ 	before_action :ensure_is_starter
 
 
 	def voucher_show
@@ -36,7 +36,7 @@ class AvontageVouchersController < ApplicationController
   end
 
   def fetch_transaction
-  	@transaction ||= Transaction.last
+  	@transaction ||= Transaction.find(params[:id])
     @community ||= Community.find(@transaction.community_id)
   end
 
