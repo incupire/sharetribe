@@ -37,6 +37,7 @@ class AvontageVouchersController < ApplicationController
 
   def fetch_transaction
   	@transaction ||= Transaction.last
+    @community ||= Community.find(@transaction.community_id)
   end
 
 end

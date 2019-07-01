@@ -8,8 +8,8 @@
       .text_section_logo
         - if @transaction.listing.author.image.present?
           = image_tag @transaction.listing.author.image.url
-        %a{:href => "en/#{@transaction.listing.author.username}"}
-          = "#{@transaction.listing.author.given_name} #{@transaction.listing.author.family_name}"
+        %a{:href => person_path(username: @transaction.listing.author.username)}
+          = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
       .text_section
         %h2
           = @transaction.listing.title
@@ -68,10 +68,12 @@
         .pd
           %h3
             WE'RE HERE TO HELP
-          %a{:href => "javascript:void(0)"}
+          %a{:href => "https://www.avontage.com"}
             Visit Avontage.com
           %a{:href => "javascript:void(0)"}
             Call 415-944-9067
           %a{:href => "javascript:void(0)"}
             Email: VIPDesk@Avontage.com
-%a{:href => "#{voucher_show_avontage_voucher_path(format: :pdf)}", :target => "_blank"} Print
+.print{:style => "text-align: center;"}
+  %a.button.print_btn{:href => "#{voucher_show_avontage_voucher_path(format: :pdf)}", :target => "_blank"} Print
+

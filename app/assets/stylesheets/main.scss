@@ -2649,9 +2649,12 @@ figure.fluidratio {
         align-items: center;
         padding-bottom: 15px;
         img{
-          height: 26px;
+          height: 40px;
+          width: 40px;
+          object-fit: cover;
           margin-right: 15px;
           margin-left: -2px;
+          border-radius: 50%;
         }
       }
       .text_section{
@@ -2776,4 +2779,7 @@ figure.fluidratio {
   height: 14px;
   margin-right: -2px;
   margin-bottom: -1px;
+}
+.print_btn{
+  display: inline-block;
 }
