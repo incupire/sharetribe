@@ -95,7 +95,6 @@ class ListingsController < ApplicationController
     @recommended_listings = @listing.category.listings.currently_open.sample(6)
     @other_listings = author_listings.count == 1 ? author_listings : author_listings.where.not(id: @listing.id)
     
-    binding.pry
     unless params[:record_event].present?
       record_event(
         flash.now,
@@ -239,7 +238,6 @@ class ListingsController < ApplicationController
         location_params = ListingFormViewUtils.permit_location_params(params)
         @listing.location.update_attributes(location_params)
       end
-      binding.pry
       flash[:notice] = update_flash(old_availability: old_availability, new_availability: shape[:availability])
       Delayed::Job.enqueue(ListingUpdatedJob.new(@listing.id, @current_community.id))
       reprocess_missing_image_styles(@listing) if @listing.closed?
