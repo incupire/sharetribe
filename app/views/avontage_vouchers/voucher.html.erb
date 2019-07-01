@@ -20,6 +20,7 @@
 .row:before {
   display: table;
   content: " ";
+  clear: both;
 }
 .inner_text_items{
 	float: left;
@@ -42,24 +43,30 @@
 	<div class="top_bar">
 		<%= wicked_pdf_image_tag 'logo.png', style: 'height: 28px; margin-left: -3px;'%>
 		<p style="margin-top: 4px; font-size: 16px; font-weight: 600;">
-			Dear Madhav Sharma, Below is your redeem instruction. Please use this voucher to redeem your Offer.
+			<%= "Dear #{transaction.starter.given_name} #{transaction.starter.family_name}, Below is your redeem instruction. Please use this voucher to redeem your Offer." %>
 		</p>
 	</div>
 	<div class="border-container">
 		<div class="row">
 			<div class="inner_text_items">
 				<div class="content">
-					<%= wicked_pdf_image_tag 'SaveYourCash.png', style: 'height: 50px; width: 50px; border-radius: 50%;'%>
-					<a href="#" style="text-decoration: none; position: relative; top: -18px; font-size: 16px; margin-left: 7px; display: inline-block;">User Name </a>
-					<h2 style="font-size: 24px; font-weight: normal;">Test Listing 3</h2>
-					<p style="font-size: 15px; color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione aspernatur quos odit explicabo ea magnam, quae veniam aliquam ad hic perferendis </p>
-					<p style="font-size: 15px; color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore maxime quibusdam sapiente voluptas totam dignissimos fuga, consequuntur.</p>
-					<p style="font-size: 15px; color: #6e6e6e;">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia esse, natus magni</p>
+					<% if transaction.listing.author.image.present? %>
+						<%= wicked_pdf_image_tag transaction.listing.author.image.url, style: 'height: 50px; width: 50px; border-radius: 50%;'%>
+					<% end %>
+					<a href="en/#{@transaction.listing.author.username}" style="text-decoration: none; position: relative; top: -18px; font-size: 16px; margin-left: 7px; display: inline-block;"> <%= "#{transaction.listing.author.given_name} #{transaction.listing.author.family_name}" %> </a>
+					<h2 style="font-size: 24px; font-weight: normal;"><%= transaction.listing.title %></h2>
+					<p style="font-size: 15px; color: #6e6e6e;"> <%= transaction.listing.description %></p>
+					<div>
+						<%= wicked_pdf_image_tag 'https://www.alliant.edu/wp-content/uploads/2018/04/14_mybarcode.png', style: 'height: 40px;'%>
+						<p style="margin: 0; margin-top: 3px; margin-left: 40px; font-size: 15px; color: #6e6e6e;">123054</p>
+					</div>
 				</div>
 			</div>
 			<div class="inner_img_items">
 				<div class="img-text-container">
-					<%= wicked_pdf_image_tag 'EventsThingsToDo.png', style: 'width: 100%; display: block;'%>
+					<% if transaction.listing.listing_images.present? %>
+						<%= wicked_pdf_image_tag image_tag @transaction.listing.listing_images.first.image.url, style: 'width: 100%; display: block;'%>
+					<% end %>
 					<h2 style="font-weight: normal; color: #4d4d4d; font-size: 22px;">Save a Tree</h2>
 					<p style="color: #979393; font-size: 15px;">
 						Skip the paper and redeem your Avontage right from our mobile app.
@@ -80,15 +87,25 @@
 		<tbody>
 			<tr style=" margin: 0; padding:0; vertical-align: top;">
 				<td style="width: 33.33%;">
-					<h3 style=" color: #6c6c6c; font-weight: normal; ">How To Use</h3>
+					<h3 style=" color: #383838; font-weight: normal; font-size: 22px; ">How To Use</h3>
 					<p style="margin-bottom: 1px; color: #666666; ">1. Pull up voucher with our mobile app (or print it out).</p>
 					<p style="margin-bottom: 1px; color: #666666; ">2. Appointment required, call 480-219-7990 and mention your voucher.</p>
 					<p style="margin-bottom: 1px; color: #666666; ">3. Present voucher upon arrival.</p>
 					<p style="margin-bottom: 1px; color: #666666; ">4. Enjoy!</p>
-					<h3 style=" color: #6c6c6c; font-weight: normal; ">Redeem At</h3>
+					<h3 style=" color: #383838; font-weight: normal; font-size: 22px; ">Redeem At</h3>
+					<p style="margin: 0; color: #666666; ">
+						<% if transaction.listing.location.present? %>
+							<%= transaction.listing.location.address %>
+						<% end %>
+					</p>
 				</td>
 				<td style="width: 35%;">
 					<h3 style=" color: #6c6c6c;">INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):</h3>
+					<p>
+						<% if instructions.present? %>
+							<%= instructions %>
+						<% end %>
+					</p>
 				</td>
 				<td style="width: 35%; border-right: 1px solid #f1f1f1; border-left: 1px solid #f1f1f1;">
 					<div style=" color: #6c6c6c; font-weight: normal; padding: 1px 15px; background: #f6f7f8;">

@@ -6,7 +6,7 @@
   .voucher_inner_content
     .text_voucher_item
       .text_section_logo
-        - if @transaction.listing.author.image_file_name.present?
+        - if @transaction.listing.author.image.present?
           = image_tag @transaction.listing.author.image.url
         %a{:href => "en/#{@transaction.listing.author.username}"}
           = "#{@transaction.listing.author.given_name} #{@transaction.listing.author.family_name}"

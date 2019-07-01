@@ -20,6 +20,7 @@ module Analytics
   LOGOUT_KEY = :_analytics_logout
 
   def record_event(flash_or_now, event_name, props = {}, alternative_event_name = nil)
+    binding.pry
     flash_or_now[EVENT_KEY] ||= []
     flash_or_now[EVENT_KEY].push(
       {event: event_name, props: props}
