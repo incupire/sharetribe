@@ -131,6 +131,7 @@ module TransactionService::Transaction
       renter.coupon_balance = renter.coupon_balance - order_total
       if renter.save
         create_avon_bucks_history(order_total, renter, "deducted", transaction)
+        notify_renter_about_avon_voucher_redeem_instructions(transaction)
       end
     end
     tx.reload   
@@ -340,5 +341,9 @@ module TransactionService::Transaction
       person_id: person.id,
       transaction_id: transaction.id
     )
-  end  
+  end
+
+  def notify_renter_about_avon_voucher_redeem_instructions(transaction)
+    Delayed::Job.enqueue(AvonVoucherNotificationJob.new(transaction.id, transaction.community_id))
+  end
 end

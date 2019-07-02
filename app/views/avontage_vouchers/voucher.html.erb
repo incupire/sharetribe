@@ -85,6 +85,7 @@
 					<p style="margin-bottom: 1px; color: #666666; ">3. Present voucher upon arrival.</p>
 					<p style="margin-bottom: 1px; color: #666666; ">4. Enjoy!</p>
 					<h3 style=" color: #383838; font-weight: normal; font-size: 22px; ">Redeem At</h3>
+					<p style="margin: 0; color: #666666; "><%= PersonViewUtils.person_display_name_for_type(transaction.listing.author, @community)%></p>
 					<p style="margin: 0; color: #666666; ">
 						<% if transaction.listing.location.present? %>
 							<%= transaction.listing.location.google_address %>

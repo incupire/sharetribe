@@ -2,7 +2,7 @@
   .voucher_top_section
     = image_tag "logo.png", class: "voucher_logo_image"
     %p
-      = "Dear #{@transaction.starter.given_name} #{@transaction.starter.family_name}, Below is your redeem instruction. Please use this voucher to redeem your Offer."
+      = "Dear #{PersonViewUtils.person_display_name_for_type(@transaction.buyer, @community)}, Below is your redeem instruction. Please use this voucher to redeem your Offer."
   .voucher_inner_content
     .text_voucher_item
       .text_section_logo
@@ -48,6 +48,8 @@
       
       %h2
         Redeem At
+      %p
+        = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
       %p
         - if @transaction.listing.location.present?
           = @transaction.listing.location.address
