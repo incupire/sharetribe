@@ -16,7 +16,7 @@ class AvontageVouchersController < ApplicationController
     else
       @instructions = nil
     end
-    voucher_name = "#{@transaction.id}_voucher"
+    voucher_name = "voucher_#{@transaction.id}"
     respond_to do |format|
       format.html
       format.pdf do
