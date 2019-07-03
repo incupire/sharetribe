@@ -95,7 +95,7 @@ class ListingsController < ApplicationController
     @recommended_listings = @listing.category.listings.currently_open.sample(6)
     @other_listings = author_listings.count == 1 ? author_listings : author_listings.where.not(id: @listing.id)
     
-    unless params[:record_event].present?
+    unless flash[:record_event].present?
       record_event(
         flash.now,
         "ListingViewed",
@@ -238,10 +238,11 @@ class ListingsController < ApplicationController
         location_params = ListingFormViewUtils.permit_location_params(params)
         @listing.location.update_attributes(location_params)
       end
+      flash[:record_event] = "Don't record event for update action!"
       flash[:notice] = update_flash(old_availability: old_availability, new_availability: shape[:availability])
       Delayed::Job.enqueue(ListingUpdatedJob.new(@listing.id, @current_community.id))
       reprocess_missing_image_styles(@listing) if @listing.closed?
-      redirect_to listing_path(id: @listing.to_param, record_event: "false")
+      redirect_to listing_path(id: @listing.to_param)
     else
       logger.error("Errors in editing listing: #{@listing.errors.full_messages.inspect}")
       flash[:error] = t("layouts.notifications.listing_could_not_be_saved", :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")).html_safe
