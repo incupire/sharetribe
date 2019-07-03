@@ -13,7 +13,9 @@
   %tbody{:style => ""}
     %tr{:style => "height: 272px; vertical-align: top;"}
       %td{:style => "padding: 15px; width: 71.66%;"}
-
+        - if @seller.image.present?
+          - image_url = @seller.image.url(:medium)
+          %img{:src => "#{image_url}", :alt => "",  :style => "width: 100%;"}/
         %p{:style => "margin: 0; font-size: 13px;"}
           = PersonViewUtils.person_display_name_for_type(@seller, @community)
 
