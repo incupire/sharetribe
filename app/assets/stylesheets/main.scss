@@ -2416,6 +2416,9 @@ figure.fluidratio {
   .home-toolbar{
     display: none;
   }
+  .disply_b{
+    display: block;
+  }
 }
 
 // mobile_navbar_bottom
@@ -2782,4 +2785,15 @@ figure.fluidratio {
 }
 .print_btn{
   display: inline-block;
+}
+.subcategory {
+  padding-left: 10px;
+  margin: 2px 0 !important;
+}
+.explore_category{
+  margin-top: 5px;
+}
+.custom_all_categories{
+  display: inline-block !important;
+  margin-top: 0;
 }

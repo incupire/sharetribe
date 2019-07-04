@@ -3,11 +3,12 @@
   .col-2
     .conversation-details-container
       - avatar = person.image.present? ? person.image.url(:thumb) : missing_avatar(:thumb)
-      = link_to person_path(person) do
-        = image_tag avatar, :class => "conversation-avatar"
+      =# link_to person_path(person) do
+      = image_tag avatar, :class => "conversation-avatar"
       .conversation-details
         .conversation-other-party-name
-          = link_to_unless person.deleted, PersonViewUtils.person_display_name(person, @current_community), person_path(person)
+          - unless person.deleted
+            = PersonViewUtils.person_display_name(person, @current_community)
         .conversation-last-message-at
           = "#{time_ago_in_words(last_transition_at)} ago"
 
@@ -28,6 +29,6 @@
       = t("conversations.avon_bucks_history.deducted")
 
   .col-2
-    = link_to '#' do
-      %button.get-started{disabled: true}
-        = t("conversations.avon_bucks_history.view_details")        
+    =# link_to '#' do
+    %button.get-started{disabled: true}
+      = t("conversations.avon_bucks_history.view_details")      

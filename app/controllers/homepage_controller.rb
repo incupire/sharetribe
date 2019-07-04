@@ -142,10 +142,62 @@ class HomepageController < ApplicationController
   end
 
   def explore
-    @categories = @current_community.categories.includes(:children)
-    @main_categories = @categories.select { |c| c.parent_id == nil }
-    @show_categories = @categories.size > 1
-    @category_menu_enabled = @show_categories || @show_custom_fields 
+    params = unsafe_params_hash.select{|k, v| v.present? }
+
+    all_shapes = @current_community.shapes
+    shape_name_map = all_shapes.map { |s| [s[:id], s[:name]]}.to_h
+
+    filter_params = {}
+
+    m_selected_category = Maybe(@current_community.categories.find_by_url_or_id(params[:category]))
+    filter_params[:categories] = m_selected_category.own_and_subcategory_ids.or_nil
+    selected_category = m_selected_category.or_nil
+    relevant_filters = select_relevant_filters(m_selected_category.own_and_subcategory_ids.or_nil)
+
+    if FeatureFlagHelper.feature_enabled?(:searchpage_v1)
+      @view_type = "grid"
+    else
+      @view_type = SearchPageHelper.selected_view_type(params[:view], @current_community.default_browse_view, APP_DEFAULT_VIEW_TYPE, VIEW_TYPES)
+      @big_cover_photo = !(@current_user || CustomLandingPage::LandingPageStore.enabled?(@current_community.id)) || params[:big_cover_photo]
+
+      @categories = @current_community.categories.includes(:children)
+      @main_categories = @categories.select { |c| c.parent_id == nil }
+
+      # This assumes that we don't never ever have communities with only 1 main share type and
+      # only 1 sub share type, as that would make the listing type menu visible and it would look bit silly
+      listing_shape_menu_enabled = all_shapes.size > 1
+      @show_categories = @categories.size > 1
+      show_price_filter = @current_community.show_price_filter && all_shapes.any? { |s| s[:price_enabled] }
+
+      @show_custom_fields = relevant_filters.present? || show_price_filter
+      @category_menu_enabled = @show_categories || @show_custom_fields
+    end
+
+    listing_shape_param = params[:transaction_type]
+
+    selected_shape = all_shapes.find { |s| s[:name] == listing_shape_param }
+
+    filter_params[:listing_shape] = Maybe(selected_shape)[:id].or_else(nil)
+
+    relevant_search_fields = parse_relevant_search_fields(params, relevant_filters)
+
+    if @view_type == 'map'
+      viewport = viewport_geometry(params[:boundingbox], params[:lc], @current_community.location)
+    end
+
+    locals = {
+      shapes: all_shapes,
+      filters: relevant_filters,
+      show_price_filter: show_price_filter,
+      selected_category: selected_category,
+      selected_shape: selected_shape,
+      shape_name_map: shape_name_map,
+      listing_shape_menu_enabled: listing_shape_menu_enabled,
+      current_search_path_without_page: search_path(params.except(:page)),
+      viewport: viewport,
+      search_params: CustomFieldSearchParams.remove_irrelevant_search_params(params, relevant_search_fields),
+    }
+    render locals: locals
   end
   # rubocop:enable AbcSize
   # rubocop:enable MethodLength

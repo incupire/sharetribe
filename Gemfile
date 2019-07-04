@@ -178,3 +178,4 @@ gem 'memoist'
 gem 'biz'
 gem 'rails-jquery-autocomplete'
 gem 'twilio-ruby', '~> 5.23.1'
+gem "browser"
