@@ -3,6 +3,6 @@
   .row
     - if available_locales.size > 1
       .col-2
-        = label_tag "custom_field[hint][#{locale_value}]"
+        = label_tag "custom_field[hint][#{locale_value}]", locale_name + ": ", :class => "new-field-name-locale-label"
     .col-8
-      = text_field_tag "custom_field[hint]"
+      = text_field_tag "custom_field[hint]", @custom_field.hint, :class => "new-field-name-locale-text-field required"
