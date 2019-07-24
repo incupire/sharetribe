@@ -20,6 +20,9 @@ class ConfirmReminderJob < Struct.new(:conversation_id, :recipient_id, :communit
       if transaction.buyer.should_receive_sms?("sms_remainder_to_mark_complete")
         SMSNotification.sms_service(transaction.buyer.mobile_number, sms_body(transaction, community))
       end
+      if transaction.buyer.android_device_token.present?
+        PushNotification.send_notification(transaction.buyer, sms_body(transaction, community))
+      end
     end
   end
 

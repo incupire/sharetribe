@@ -11,7 +11,11 @@
       <%end%>
       <%= link_to 'Favorite', logged_in? ? person_favorite_listings_path(@current_user) : login_path%>
       <%= link_to 'Settings', logged_in? ? person_settings_path(@current_user) : login_path%>
-      <%= link_to 'Log out', logout_path%>
+      <% if logged_in? %>
+        <%= link_to 'Log out', logout_path%>
+      <% else %>
+        <%= link_to 'Log In', login_path%>
+      <% end %>
       <a href="#"></a>
     </div>
     <div class="row-with-dynamiv-divider"></div>

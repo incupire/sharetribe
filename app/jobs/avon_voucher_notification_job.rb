@@ -17,5 +17,8 @@ class AvonVoucherNotificationJob < Struct.new(:transaction_id, :community_id)
     if transaction.buyer.mobile_number.present?
       SMSNotification.sms_service(transaction.buyer.mobile_number, "Hi #{transaction.buyer.given_name} click the #{voucher_url} link to see your Avontage voucher and redeem instructions")
     end
+    if transaction.buyer.android_device_token.present?
+      PushNotification.send_notification(transaction.buyer, "Hi #{transaction.buyer.given_name}. You have a new voucher")
+    end
   end
 end

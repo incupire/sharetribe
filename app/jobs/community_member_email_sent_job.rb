@@ -16,8 +16,12 @@ class CommunityMemberEmailSentJob < Struct.new(:sender_id, :recipient_id, :commu
     community = Community.where(id: community_id).first
     if notification_type.present? && notification_type == "sms_button" && recipient.should_receive_sms?("sms_from_admins")
       SMSNotification.sms_service(recipient.mobile_number, "Hello #{recipient.name(community)} \n #{content}")
-    elsif notification_type != "sms_button"
+    elsif notification_type != "sms_button" && notification_type != "push_notification_button"
       PersonMailer.community_member_email_from_admin(sender, recipient, community, content, locale, test_to_yourself)
+    elsif notification_type == "push_notification_button"
+      if recipient.android_device_token.present?
+        PushNotification.send_notification(recipient, "Hello #{recipient.name(community)} \n #{content}")
+      end
     end
   end
 
