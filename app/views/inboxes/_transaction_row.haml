@@ -31,7 +31,8 @@
               = "Offer price (Added to your Avon-Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"      
           - else  
             .conversation-context
-              = "Avontage Fee (charged to your credit card): #{MoneyViewUtils.to_humanized(-txn&.avon_commission)}"
+              - avon_commission_charged_to_buyer = txn&.avon_commission.nil? ? Money.new(0, @current_community.currency) : txn&.avon_commission
+              = "Avontage Fee (charged to your credit card): #{MoneyViewUtils.to_humanized(-avon_commission_charged_to_buyer)}"
               %br
               = "Offer price (deducted from your Avon-Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"
           -# Owner Point of view   
