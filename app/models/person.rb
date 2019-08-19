@@ -49,6 +49,7 @@
 #  linkedin_id                        :string(255)
 #  mobile_number                      :string(255)
 #  android_device_token               :string(255)
+#  ios_device_token                   :string(255)
 #
 # Indexes
 #

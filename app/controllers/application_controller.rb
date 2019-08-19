@@ -133,6 +133,9 @@ class ApplicationController < ActionController::Base
     if @current_user.present? && params[:android_device_token].present? && params[:android_device_token] != "null"
       @current_user.update_column(:android_device_token, params[:android_device_token])
     end
+    if @current_user.present? && params[:ios_device_token].present? && params[:ios_device_token] != "null"
+      @current_user.update_column(:ios_device_token, params[:ios_device_token])
+    end
   end
 
   # If URL contains locale parameter that doesn't match with the selected locale,
