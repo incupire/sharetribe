@@ -4,21 +4,21 @@
     - if @current_user.has_coupon_balance? 
       .payment-button-wrapper.paypal-button-wrapper.left
         %button{class: 'checkout-with-coupon-pay customiz_btn', id: 'coupon-pay', style: 'margin: 0px;'}
-          = "Pay with Avon-BUCKS"
+          = "Pay with Avontage Bucks"
           = image_tag "A_Buck_Currency_white.png"
         =# button_tag "Pay with Avon-BUCKS", id: "coupon-pay", class: 'checkout-with-coupon-pay customiz_btn',style:'margin: 0px;'
     .coupan_balances.for_booking
-      %span.people-custom-fields-title.coupan_title Your Available Avon-BUCKS balance:
+      %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks balance:
       %span.price
         = image_tag "black_a_img.png"
         = (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
         =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
     %p.left
-      Once you've purchased this Offer using your Avon-BUCKS Credits, and the Seller has Accepted, contact the Seller to Redeem your offer. See REDEEM INSTRUCTIONS on the Offer page.Avon-BUCKS credits will be charged only if
+      Once you've purchased this Offer using your Avontage Bucks Credits, and the Seller has Accepted, contact the Seller to Redeem your offer. See REDEEM INSTRUCTIONS on the Offer page. Avontage Bucks credits will be charged only if
       = link_to(PersonViewUtils.person_display_name(@listing.author, @current_community), person_path(username: @listing.author.username))
       accepts this transaction. If 
       = link_to(PersonViewUtils.person_display_name(@listing.author, @current_community), person_path(username: @listing.author.username)) 
-      declines, no charge is applied to your Avon-BUCKS balance.
+      declines, no charge is applied to your Avontage Bucks balance.
 - if stripe_in_use   
   %span.devide 
     %span.or OR

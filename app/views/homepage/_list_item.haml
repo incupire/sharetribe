@@ -13,7 +13,9 @@
       .home-list-price
         - if listing.price
           .home-list-item-price-value
-            = MoneyViewUtils.to_humanized(listing.price)
+            =# MoneyViewUtils.to_humanized(listing.price)
+            = image_tag "black_a_img.png", class: "avon_icon_img"
+            = MoneyViewUtils.to_humanized(listing.price).split('$')[1]              
           - price_text = nil
           - if listing.quantity.present?
             - price_text = t("listings.form.price.per") + " " + listing.quantity
