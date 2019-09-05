@@ -134,12 +134,12 @@
         add_bal_form_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/add_coupon_balance";
         $('#coupon_balance_form').attr('action', add_bal_form_url);
         $('.add_deduct_btn').text('Add');
-        $('.label_add_deduct').text('Add Avon-BUCKS');
+        $('.label_add_deduct').text('Add Avontage Bucks');
       }else if(action == "deduct"){
         deduct_bal_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/deduct_coupon_balance";
         $('#coupon_balance_form').attr('action', deduct_bal_url);
         $('.add_deduct_btn').text('Deduct');
-        $('.label_add_deduct').text('Deduct Avon-BUCKS');      
+        $('.label_add_deduct').text('Deduct Avontage Bucks');      
       }
       $('.coupon-balance-popup').lightbox_me({centered: true, zIndex: 1000000})
     });        
