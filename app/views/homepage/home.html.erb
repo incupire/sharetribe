@@ -6,7 +6,7 @@
       <%= community_slogan.html_safe %>
     </h1>
     <%= link_to sign_up_path do %>
-      <%= button_tag 'JOIN OUR COMMUNITY FOR FREE',class: 'community_tab' %>
+      <%= button_tag 'JOIN OUR COMMUNITY',class: 'community_tab' %>
     <% end %>
     <p class="under_main_title">
       <%= community_description.html_safe %>
@@ -14,7 +14,10 @@
   </div>
   <div class="main_wrapper">
     <div class="sub_wrapper">
-      <h3 class="under_cover_photo_title">A local community of Arizona small business owners and freelancers selling special Offers online<br/> without the high fees. <br/>Collaborate to gain high quality clients, repeat customers, save money, and KEEP IT LOCAL.  </h3>
+      <h3 class="under_cover_photo_title">
+        Discover local businesses near you
+        <!-- A local community of Arizona small business owners and freelancers selling special Offers online<br/> without the high fees. <br/>Collaborate to gain high quality clients, repeat customers, save money, and KEEP IT LOCAL. -->  
+      </h3>
       <div class="col-md-12 col-sm-12 col-xs-12 categories no_padding_default">
         <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
           <%= link_to public_and_not_logged_in  ? "/s?category=marketing-and-advertising" : sign_up_path do %>
@@ -115,7 +118,7 @@
         </div>
       </div>
       <div class="under_categories col-md-12 col-sm-12 col-xs-12">
-        <%= link_to 'Explore many more services in the marketplace', public_and_not_logged_in  ? '/s' : sign_up_path ,class:'more_services'%>
+        <%= link_to 'Explore these services and more in our marketplace', public_and_not_logged_in  ? '/s' : sign_up_path ,class:'more_services'%>
 
 
 
@@ -145,7 +148,7 @@
             <div class="explore-service-box">
               <%= image_tag 'homepage/line_of_credit.png', class: 'explore-service-icon' %>
               <h1 class="service-heading">Line of Credit</h1>
-              <p class="service-details">Get the funds you need to grow your business and pay it back from new customers gained in Avontage. It's the smartest way to increase your spending power without spending your cash.</p>
+              <p class="service-details">Get the funds you need to grow your business and pay it back from new customers gained in the Avontage community. It's the smartest way to increase your spending power without spending your cash..</p>
             </div>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-12">
@@ -168,7 +171,7 @@
           <h4 class="discover-heading">Discover Our Community...</h4>
           <div class="col-md-6 col-sm-6 col-xs-12">
             <div class="left-side">
-              <p class="discover-details">Avontage is more than just a marketplace, it's a <b>vibrant community powered by local business owners, entrepreneurs, influencers, and marketers,</b> who collaborate, build long-lasting connections, and help one another to grow their businesses.</p>
+              <p class="discover-details">Avontage is more than just a marketplace, it's a vibrant community powered by local business owners, freelancers, entrepreneurs, creatives, digital marketers, influencers, and bloggers who collaborate, build long-lasting connections, and help one another to grow their businesses.</p>
               <p class="discover-details top-p">Join us to see who's here!</p>
             </div>
           </div>
@@ -192,11 +195,11 @@
                       <%= image_tag avatar%>
                     </div>
                     <div class="member-detail text-center">
-                      <p class="name">Jessica K.</p>
+                      <p class="name">Mike C.</p>
                       <p class="work">High Priority Massage</p>
                       <p class="type">Phoenix,AZ</p>
                     </div>
-                    <p class="card-detail">The ability to meet others and get services traded into a community of like-minded professionals that in turn drive more business to you!</p>
+                    <p class="card-detail">Avontage is truly a one-of-a-kind platform that is focused to help local businesses collaborate through bartering. I see huge value in this for business owners who want to meet other businesses and learn how we can collaborate and grow. There are other online bartering platforms like this, but I don't know of any that does this as well as Avontage. The platform has already started to help my business in many ways and it's creating connections that I wouldn't have imagined possible without it. Thank you for putting this in place and looking forward to the growth of the platform.</p>
                   </div>
                 </div>
               <%end%>
@@ -210,11 +213,11 @@
                       <%= image_tag avatar%>
                     </div>                    
                     <div class="member-detail text-center">
-                      <p class="name">Jesse C.</p>
+                      <p class="name">Rebecca L.</p>
                       <p class="work">Easy-Click Web Design</p>
                       <p class="type">Peoria,AZ</p>
                     </div>
-                    <p class="card-detail">I am excited for this community and see what it can do for my business and look forward to helping other small businesses.</p>
+                    <p class="card-detail">Love this place and getting all the beauty things done! <span class="right_icon">✅</span></p>
                   </div>
                 </div>
               <%end%>
@@ -228,11 +231,11 @@
                       <%= image_tag avatar%>
                     </div>
                     <div class=" member-detail text-center">
-                      <p class="name">Kelly G.</p>
+                      <p class="name">Clifford S.</p>
                       <p class="work">The Gannon Edit</p>
                       <p class="type">Scottsdale,AZ</p>
                     </div>
-                    <p class="card-detail">Kelly embodies the spirit of collaboration that is in the Avontage DNA. She's had many collaborations to promote and share member stories with an authentic voice.</p>
+                    <p class="card-detail">I am extremely impressed with avontage and what they have to offer. It is a space where entrepreneurs can get together to help one another expand on their business. I even had the opportunity to meet the owner, and I love his authenticity. Avontage is already amazing, but he is constantly looking to improve the platform for those who are on it. Make sure to check it out, you will be glad that you did!</p>
                   </div>
                 </div>
               <%end%>
@@ -245,13 +248,13 @@
               <div class="col-sm-7 col-md-7 col-xs-12">
                 <div class="left-side-text">
                    <h1 class="heading-left">Post Your Offers to Sell or Trade</h1>
-                   <p class="left-text">Craft and post your special Offers to book your slow times, empty seats, and extra capacities. Post as many Offers as you like, change them any time. Cap the limit on the amount of trades you'd like to offer each month.</p>
+                   <p class="left-text">Craft and post your offers to book your slow times, empty seats, unbooked hours, and excess capacities. Post as manyoffers as you'd like, change them any time, set your own limit on the number of trades you accept per month. Earn tradecredits (Avontage Bucks). Your offers will also be promoted to the members of the public to purchase using a credit card.</p>
 
-                   <h1 class="heading-left heading-left2">Explore Offers from Other Members</h1>
-                   <p class="left-text">Explore offers from other local businesses in every service category such as marketing & advertising, healthcare, fitness, beauty, photography, legal, accounting, repairs, web development, restaurants, events, and entertainment. Use them for your personal or business needs.</p>
+                   <h1 class="heading-left heading-left2">Find Offers from Other Members</h1>
+                   <p class="left-text">Once you have earned enough trade credits (Avontage Bucks), explore offers from other local businesses in every servicecategory such as marketing & advertising, healthcare, fitness, beauty, photography, legal, accounting, repairs, webdevelopment, restaurants, events, entertainment, and more! Use your trade credits to buy any offer to fulfill your personalor business needs.</p>
 
-                   <h1 class="heading-left heading-left3">Sell or Buy using Trade Credits or Credit Card</h1>
-                   <p class="left-text">Earn & spend trade-credits to buy offers from Avontage community members. Members of the public pay you with credit card. Use our site messaging to communicate directly with others. Submit your request, payment, and receive confirmation in a few clicks. Arrange to redeem the offers and rate your experience.</p>
+                   <h1 class="heading-left heading-left3">3- Become a Part of the Avontage Community</h1>
+                   <p class="left-text">Join a growing local network of business owners, freelancers, entrepreneurs, creatives, digital marketers, influencers, andbloggers to connect, collaborate, and grow your business. Participate in Meetup groups to learn new skills, meetlike-minded friends who understand the challenges of running your business and can help you.</p>
 
                    <div>
                       <%= link_to new_listing_path do %>
@@ -282,7 +285,7 @@
             <%= image_tag 'EarnQualityLocalCustomers.png' ,class: 'earn_quality' %>
           </div>
           <div class="listing_description">
-            <h2>Gain Quality Local Customers</h2>
+            <h2>Gain Local Customers</h2>
             <p>Build loyalty and long-term relationships with like-minded business owners in your community</p>
           </div>
         </div>
@@ -294,7 +297,7 @@
           </div>
           <div class="listing_description">
             <h2>Save Your Cash </h2>
-            <p>Discover many service offerings for your business or personal needs, delightful perks and experiences to trade with</p>
+            <p>Use your trade dollars to buy any of the amazing offerings in our marketplace, from spa packages to SEO services.</p>
           </div>
         </div>
       </div>
@@ -304,8 +307,8 @@
             <%= image_tag 'GrowYourBusiness.png' ,class: 'earn_quality' %>
           </div>
           <div class="listing_description">
-            <h2>Grow Your Business</h2>
-            <p>Offer your excess capacity at your own schedule to fill up those slow times, and collaborate to earn high-quality clients</p>
+            <h2>Grow Your Network</h2>
+            <p>NetworkConnect with like-minded local business owners to find help with growing your business, offer your skills to help others,and become each other’s customers.</p>
           </div>
         </div>
       </div>

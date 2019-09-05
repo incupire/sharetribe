@@ -180,13 +180,14 @@
   }
   .under_cover_photo_title {
     font-family: avenir-lt-w01_35-light1475496,sans-serif;
-    font-size: 16px;
+    font-size: 24px;
     line-height: 1.5em;
     text-align: center;
     max-width: 680px;
     margin: 0 auto;
-    margin-top: 20px;
-    margin-bottom: 0px;
+    margin-top: 45px;
+    margin-bottom: 10px;
+    font-weight: 600;
 
     @media (max-width: 767px) {
       padding-left: 5px;
@@ -392,12 +393,12 @@
       .discover-heading {
         //font-family: 'Source Sans Pro',helvetica,sans-serif;
         color: #171717;
-        font-size: 20px;
+        font-size: 28px;
         line-height: 1.09091em;
         font-weight: 500;
         margin-top: 20px;
         margin-bottom: 20px;
-        font-weight: 600;
+        font-weight: 900;
       }
       .left-side {
         .discover-details {
@@ -455,11 +456,11 @@
           padding: 30px 0px 30px 0px;
         }
         .our-members {
-          font-size: 20px;
+          font-size: 28px;
           line-height: 1.25em;
           text-align: center;
           color: #181818;
-          font-weight: 600;
+          font-weight: 900;
           margin-bottom: 30px;
           //font-family: open sans,sans-serif;
         }
@@ -517,6 +518,15 @@
                 font-family: avenir-lt-w01_35-light1475496,sans-serif;
                 padding-left: 5px;
                 padding-right: 5px;
+                //height: 140px;
+                //overflow: hidden;
+                .right_icon{
+                  background: #0ca90c;
+                  color: #fff;
+                  font-weight: 600;
+                  padding: 0 3px;
+                  border-radius: 3px;
+                }
               }
             }
           }
@@ -532,8 +542,8 @@
           padding: 30px 20px;
         }
         .heading-work {
-          text-align: left;
-          font-size: 20px;
+          text-align: center;
+          font-size: 28px;
           line-height: 1.25em;
           color: #000;
           font-weight: 600;
@@ -595,7 +605,8 @@
               padding-left: 33px;
               font-weight: 600;
               margin-bottom: 20px;
-              font-size: 16px;
+              //font-size: 16px;
+              font-size: 14px;
             }
             .get-started {
               margin-left: 33px;
@@ -691,11 +702,11 @@
       }
     }
     .heading_market {
-      font-size: 20px;
+      font-size: 26px;
       line-height: 1.25em;
       text-align: center;
       color: #181818;
-      font-weight: 600;
+      font-weight: 900;
       margin-bottom: 30px;
     }
     .below_heading_market {
@@ -796,6 +807,7 @@
         font-weight: bold;
         font: normal normal normal 18px avenir-lt-w01_85-heavy1475544,sans-serif;
         color: #181818;
+        text-transform: capitalize;
       }
       .top_categoris {
         padding: 0px;
@@ -812,6 +824,7 @@
         font-family: avenir-lt-w01_35-light1475496,sans-serif;
         font-size: 14px;
         margin-top: 13px;
+        text-transform: capitalize;
         &:hover {
           text-decoration: none;
           color: #181818;
