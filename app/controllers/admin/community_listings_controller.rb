@@ -93,7 +93,7 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
     unless all_listings.blank?
       all_listings.each do |listing|
         expired = listing.valid_until && listing.valid_until < DateTime.current
-        custom_field_name = listing.custom_field_values.select{|value| value.question.name.eql?("MAX. NUMBER OF OFFERS AVAILABLE FOR TRADE-CREDITS (Avon-BUCKS) PER MONTH. (enter a number between 1 to 100)?")}.first
+        custom_field_name = listing.custom_field_values.select{|value| value.question.name.eql?("MAX. NUMBER OF OFFERS AVAILABLE FOR TRADE-CREDITS (Avontage Bucks) PER MONTH. (enter a number between 1 to 100)?")}.first
         value = custom_field_name.display_value if custom_field_name.present?
         listing_data = {
           title: listing.title,

@@ -82,7 +82,7 @@ class PaymentSettingsController < ApplicationController
         end
         @current_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
         flash[:success] = "Card saved successfully!"
-        redirect_to '/s'
+        redirect_to listing_path(id: params[:listing_id])
         return                         
       rescue Stripe::CardError => e
         flash[:error] = "Stripe could not finalize your request as: #{e.message}"

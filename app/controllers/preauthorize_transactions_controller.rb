@@ -40,7 +40,7 @@ class PreauthorizeTransactionsController < ApplicationController
     end
   end
 
-  def initiated  
+  def initiated
     params_validator = params_per_hour? ? TransactionService::Validation::NewPerHourTransactionParams : TransactionService::Validation::NewTransactionParams
     validation_result = params_validator.validate(params).and_then { |params_entity|
       tx_params = add_defaults(
@@ -60,7 +60,7 @@ class PreauthorizeTransactionsController < ApplicationController
       if params[:payment_type].eql?('coupon_pay')
         price_break_down = price_break_down_locals(validation_result.data, listing)
         if price_break_down[:total]  > @current_user.coupon_balance
-          error_msg = "Insufficient  Avon-BUCKS! Please contact Avontage to learn how you can earn more Avon-BUCKS."
+          error_msg = "Insufficient  Avontage Bucks! Please contact Avontage to learn how you can earn more Avontage Bucks."
           render_error_response(request.xhr?, error_msg, listing_path(listing))
         else
           initiated_success(validation_result.data)
@@ -462,8 +462,8 @@ class PreauthorizeTransactionsController < ApplicationController
   def ensure_user_has_stripe_customer_account
     stripe_service = stripe_settings
     if stripe_service[:commission_from_seller] > 0 && (params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?)
-      flash[:error] = "#{stripe_service[:commission_from_seller]}% (pulled from settings screen) transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your credit card information, then proceed with your purchase."
-      xhr_json_redirect person_stripe_customber_settings_path(@current_user)
+      flash[:error] = ("#{stripe_service[:commission_from_seller]}%" + " transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your payment information, then proceed with your purchase.")
+      xhr_json_redirect person_stripe_customber_settings_path(@current_user, listing_id: params[:listing_id])
       return
     end
   end

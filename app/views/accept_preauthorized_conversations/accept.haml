@@ -185,9 +185,9 @@
           $('#paypal_fee_info_link').click(function() { $('#paypal_fee_info_content').lightbox_me({centered: true, zIndex: 1000000}); });
   - if @transaction.payment_gateway == :coupon_pay
     .amount_paid
-      * Amount paid in Avon-BUCKS Credits
+      * Amount paid in Avontage Bucks Credits
     .click_acceipt{style: "padding-left: 10px;margin-bottom: 10px;"}
-      Please click to Accept payment in Avon-BUCKS Credits
+      Please click to Accept payment in Avontage Bucks Credits
   = render partial: "transactions/shipping_address", locals: { shipping_address: @transaction.shipping_address }
 
   = form_for form, :url => form_action, :html => { id: "accept-reject-form", :method => "put" } do |form|

@@ -11,6 +11,8 @@
         .row
           .col-12
 
+        = hidden_field_tag :listing_id , params[:listing_id]
+
         .row.stripe-payment
           .col-6.payment-button-wrapper.paypal-button-wrapper
             = button_tag t("payment_settings.stripe_customer.save_card"), id: "send-add-card", class: 'checkout-with-stripe-button'
@@ -18,7 +20,10 @@
           .row
             .col-12
               %p= t("stripe_accounts.card_not_stored").html_safe
-                
+          .row
+            .col-12
+              %p= t("stripe_accounts.deduction_notice", percentage: @stripe_service[:commission_from_seller] ).html_safe
+
 - content_for :extra_javascript do
   :javascript
     var stripe = Stripe("#{stripe_publishable_key}");

@@ -24,7 +24,7 @@
             .ss.text-part= t(".add_description")
     - if @current_user.present? && @current_user == @person     
       .row.coupan_balances
-        %span.people-custom-fields-title.coupan_title Your Available Avon-BUCKS:
+        %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
         %span.price
           = image_tag "black_a_img.png"
           = MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe

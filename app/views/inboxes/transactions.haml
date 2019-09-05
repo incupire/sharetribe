@@ -4,7 +4,7 @@
 .undo-mobile-wrapper-margin#conversations
   - if @current_user.present?    
     .row.coupan_balances
-      %span.people-custom-fields-title.coupan_title Your Available Avon-BUCKS:
+      %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
       %span.price
         = image_tag "black_a_img.png"
         = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe

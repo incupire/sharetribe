@@ -242,15 +242,17 @@
                 %a#listing-contact{href: new_person_person_message_path(person_id: @listing.author, listing_id: @listing.id), :class => "listing-author-contact-buttonx custom_contact button"}
                   .content
                     = t(".ask_seller")
+                    
     -# Member Profile Info
-    .row-with-divider
-      .col-12
-        .parent
-          %span
-            %h2= t(".profile_info")
-          .profile-about-me.custom_padding
-            .name_text.author_description
-              - if @listing.author.description && !@listing.author.description.blank?
+    - if @listing.author.description && !@listing.author.description.blank?
+      .row-with-divider
+        .col-12
+          .parent
+            %span
+              %h2= t(".profile_info")
+            .profile-about-me.custom_padding
+              .name_text.author_description
+                -# if @listing.author.description && !@listing.author.description.blank?
                 - if @listing.author.description.length > 250
                   = truncate(markdown(@listing.author.description), length: 250, escape: false)
                   .more_btn

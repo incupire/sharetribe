@@ -30,16 +30,16 @@
             - if txn.buyer.eql?(@current_user)
               - if txn.status.eql?('rejected')
                 .conversation-context
-                  = "Offer price (Added to your Avon-Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"      
+                  = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"      
               - else  
                 .conversation-context
                   = "Avontage Fee (charged to your credit card): #{MoneyViewUtils.to_humanized(-txn&.avon_commission)}"
                   %br
-                  = "Offer price (deducted from your Avon-Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"
+                  = "Offer price (deducted from your Avontage Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"
               -# Owner Point of view   
             - elsif txn.author.eql?(@current_user) && txn.status.eql?('confirmed')
               .conversation-context
-                = "Offer price (Added to your Avon-Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"     
+                = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"     
 
           .conversation-context
             - if conversation[:listing_url].present?
@@ -100,16 +100,16 @@
           - if txn.buyer.eql?(@current_user)
             - if txn.status.eql?('rejected')
               .conversation-context
-                = "Offer price (Added to your Avon-Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"      
+                = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"      
             - else  
               .conversation-context
                 = "Avontage Fee (charged to your credit card): #{MoneyViewUtils.to_humanized(-txn&.avon_commission)}"
                 %br
-                = "Offer price (deducted from your Avon-Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"
+                = "Offer price (deducted from your Avontage Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"
             -# Owner Point of view   
           - elsif txn.author.eql?(@current_user) && txn.status.eql?('confirmed')
             .conversation-context
-              = "Offer price (Added to your Avon-Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"     
+              = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"     
 
         .conversation-context
           - if conversation[:listing_url].present?
