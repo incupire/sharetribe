@@ -1424,13 +1424,13 @@ en:
       what_do_you_need: "What are you looking for?"
       post_new_listing: "Post a new offer"
       success_tips: "Succes Tips:"
-      tip1: Remember , to be visible on Avontage Marketplace you must have at least one Offer Posted and active.
-      tip2: Your Offers are the megnet to attract your ideal clients, post several of your most popular services to see which one works best.
+      tip1: Remember, to be visible on Avontage Marketplace you must have at least one Offer posted and active.
+      tip2: Your Offers are the magnet to attract your ideal clients, post several of your most popular services to see which one works best.
       tip3: You can change, add, or remove your Offers at any time.
       tip4: You may post many Offers, as long as they're not the same one copied over and over.
-      tip5: Curate your Offers to fill your slow days, unbooked hours, and empty seats to gain new clients, and earn Avontage-Bucks.
-      tip6: Price your Offers competively, for a fair trade value, as well as to sell them online accepting credit card and payments.
-      tip7: You can trade your offers using our international currency called Avontage Bucks AAAAA, or sell via credit card payments.
+      tip5: Create your Offers to fill your slow days, unbooked hours, and empty seats to gain new clients, and earn Avontage-Bucks.
+      tip6: Price your Offers competively, for a fair trade value, as well as to sell them online accepting credit card payments.
+      tip7: You can trade your offers using our internal currency called Avontage-Bucks AAAAA, or sell via credit card payments.
       tip8: 1 Avontage Bucks AAAAA is equal to 1 USD$.
       tip9: You can limit the number of Offers available for trade per month. Start at your comfort level and change it later.
       tip10: Using beautiful and high quality images tend to get the most attention.
@@ -1808,7 +1808,7 @@ en:
         price: Price
         price_label: "Price"
         placeholder: "120"
-        text: "(enter the fair market value in $ USD and Avontage Bucks, one Avontage Bucks = 1$ USD)"
+        text: "(enter the fair market value in $ USD/Avontage Bucks, one Avontage Bucks = 1$ USD)"
         per: per
         per_day: "per day"
         mass: "piece, kg, l, m2, ..."
@@ -1852,7 +1852,7 @@ en:
         tags: Tags
       title:
         listing_title: "Offer title"
-        text: "(enter a catchy and descriptive title in your Offer)"
+        text: "(enter a catchy and descriptive title for your Offer)"
         placeholder: "i.e. 3-Months of Gym Membership"
         listing_title_placeholder: "Please enter Title of your Offer"
       valid_until:
