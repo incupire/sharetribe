@@ -218,7 +218,8 @@ module TransactionHelper
           status_info = if is_coupon_pay && current_user?(conversation.author)
             status_info(t("conversations.status.great_you_accepted_offer"), icon_classes: icon_for("paid"))
           elsif is_coupon_pay && current_user?(conversation.starter)
-            status_info(t("conversations.status.request_paid_and_available_coupon_balance", avl_ducat_bal: MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe).html_safe, icon_classes: icon_for("paid"))
+            #status_info(t("conversations.status.request_paid_and_available_coupon_balance", avl_ducat_bal: MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe).html_safe, icon_classes: icon_for("paid"))
+            status_info(t("conversations.status.next_steps_you_will_receive_an_email_voucher_and_redeem_instruction").html_safe, icon_classes: icon_for("paid"))
           else
             status_info(t("conversations.status.request_paid"), icon_classes: icon_for("paid"))
           end
@@ -343,13 +344,13 @@ module TransactionHelper
         icon_classes: "ss-clockwise"
       )
     else
-      status_info(
-        t("conversations.status.waiting_for_listing_author_to_deliver_listing",
-          :listing_title => link_to(conversation.listing.title, conversation.listing),
-          :listing_author_name => link_to(PersonViewUtils.person_display_name(conversation.author, conversation.community))
-        ).html_safe,
-        icon_classes: "ss-clockwise"
-      )
+      # status_info(
+      #   t("conversations.status.waiting_for_listing_author_to_deliver_listing",
+      #     :listing_title => link_to(conversation.listing.title, conversation.listing),
+      #     :listing_author_name => link_to(PersonViewUtils.person_display_name(conversation.author, conversation.community))
+      #   ).html_safe,
+      #   icon_classes: "ss-clockwise"
+      # )
     end
   end
 

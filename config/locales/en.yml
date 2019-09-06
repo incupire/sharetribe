@@ -846,7 +846,8 @@ en:
       shipping_price_label: "Shipping:"
       stripe-fee_label: "Payment processing fee"
     confirm:
-      confirm_description: "If your order has been fulfilled you should confirm it as done. Then you can give feedback to the other party."
+      #confirm_description: "If your order has been fulfilled you should confirm it as done. Then you can give feedback to the other party."
+      confirm_description: "If your order has been fulfilled you should confirm it as redeemed. <br> if you are having trouble redeeming your offer, click the Dispute button and contact us to help you resolve this matter. <br> Leave feedback about your experience with the other member. Reviews are extremely valuable in our community."
       cancel_description: "If your order was not fulfilled, you can mark it as 'disputed'. You can still give feedback to the other party and describe what happened."
       cancel_payed_description: "If your request was accepted but you're having second thoughts, you can still cancel the request before the payment."
       canceling_payed_transaction: "Cancel transaction"
@@ -886,7 +887,8 @@ en:
       no_history: "No Avontage Bucks Transaction History"
     message:
       accepted_request: "accepted the request"
-      received_payment: "accepted the request, received payment for %{sum}"
+      #received_payment: "accepted the request, received payment for %{sum}"
+      received_payment: "accepted the request"
       accepted_offer: "accepted the offer"
       rejected_request: "rejected the request, canceled the payment"
       rejected_offer: "rejected the offer"
@@ -960,6 +962,7 @@ en:
       request_canceled: Canceled
       request_paid: "Payment successful"
       request_paid_and_available_coupon_balance: "Payment successful <b>in Avontage Bucks Credits</b> <element>Your remaining Avontage Bucks Credit balance %{avl_ducat_bal}</element>"
+      next_steps_you_will_receive_an_email_voucher_and_redeem_instruction: "Congratulations! The offer is yours. <br> <br> Payment successful <b>in Avontage Bucks Credits</b> <br><br> Next steps: <br> You will receive an email voucher with instructions on how to redeem. <br> Once your offer has been fulfilled, click the button below to mark it as redeemed."
       great_you_accepted_offer: "Great! You have Accepted this offer"
       request_preauthorized: "Payment authorized"
       paid_with_coupon: "Paid with your Avontage Bucks Credits"
@@ -992,7 +995,7 @@ en:
       reject_preauthorized_offer: "Not this time"
       reject_preauthorized_request: "Click to Decline request"
       confirm: "Click to Mark as Redeem"
-      cancel: "Click to Dispute"
+      cancel: "Click to Cancel"
   feedback:
     feedback_subject: "New feedback from %{service_name}"
     feedback_body: "%{author_name_and_email} has sent the following feedback from %{service_name}"

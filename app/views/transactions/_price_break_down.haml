@@ -84,14 +84,11 @@
         - else
           = MoneyViewUtils.to_humanized(total)
 
-    - if fee.present? && fee > 0
+    - if fee.present? && fee > 0 && @transaction.present? && @transaction.payment_gateway.eql?(:stripe)
       .initiate-transaction-sum-wrapper
         %span.initiate-transaction-sum-label
           - if service_name == "Avontage"
-            - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
-              = t("conversations.accept.avontage_service_fee_label_coupon_pay")
-            - else
-              = t("conversations.accept.avontage_service_fee_label_credit_card_pay")
+            = t("conversations.accept.avontage_service_fee_label_credit_card_pay")
           - else
             = t("conversations.accept.service_fee_label")
         %span.initiate-transaction-sum-value
@@ -124,7 +121,7 @@
           = MoneyViewUtils.to_humanized(is_author ? seller_gets : total).split('$')[1]
 
   -#For Buyer
-  - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay) && !is_author
+  - if (@transaction.present? && !@transaction.auto_accept_transaction) && (@transaction.payment_gateway.eql?(:coupon_pay) && !is_author)
     %br
     .row-with-dynamiv-divider
     - if avon_commission.present? && avon_commission > 0
@@ -143,19 +140,20 @@
           = image_tag "black_a_img.png"
           = "#{MoneyViewUtils.to_humanized(seller_gets).split('$')[1]}"
 
-  - elsif @transaction.present? && @transaction.payment_gateway.eql?(:stripe) && !is_author
-    - if @transaction.commission.present? && @transaction.commission > 0
-      .initiate-transaction-total-wrapper
-        %span.initiate-transaction-total-label
-          = t("transactions.avontage_fee_deducted_from_seller")
-        %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(-@transaction.commission)
+  -# Not in use
+    - elsif @transaction.present? && @transaction.payment_gateway.eql?(:stripe) && !is_author
+      - if @transaction.commission.present? && @transaction.commission > 0
+        .initiate-transaction-total-wrapper
+          %span.initiate-transaction-total-label
+            = t("transactions.avontage_fee_deducted_from_seller")
+          %span.initiate-transaction-total-value
+            = MoneyViewUtils.to_humanized(-@transaction.commission)
 
-    - if seller_gets.present? 
-      .initiate-transaction-total-wrapper
-        %span.initiate-transaction-total-label
-          = t("transactions.total_to_seller")
-        %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(seller_gets)  
+      - if seller_gets.present? 
+        .initiate-transaction-total-wrapper
+          %span.initiate-transaction-total-label
+            = t("transactions.total_to_seller")
+          %span.initiate-transaction-total-value
+            = MoneyViewUtils.to_humanized(seller_gets)  
 
 
