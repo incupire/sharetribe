@@ -59,7 +59,9 @@ class PreauthorizeTransactionsController < ApplicationController
     if validation_result.success
       if params[:payment_type].eql?('coupon_pay')
         price_break_down = price_break_down_locals(validation_result.data, listing)
-        if price_break_down[:total]  > @current_user.coupon_balance
+        avon_commission = order_commission(validation_result.data, listing)
+        total_payble = price_break_down[:total] - avon_commission
+        if total_payble > @current_user.coupon_balance
           error_msg = "Insufficient  Avontage Bucks! Please contact Avontage to learn how you can earn more Avontage Bucks."
           render_error_response(request.xhr?, error_msg, listing_path(listing))
         else
