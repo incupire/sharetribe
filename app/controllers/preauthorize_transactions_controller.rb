@@ -465,7 +465,7 @@ class PreauthorizeTransactionsController < ApplicationController
     stripe_service = stripe_settings
     if stripe_service[:commission_from_seller] > 0 && (params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?)
       flash[:error] = ("#{stripe_service[:commission_from_seller]}%" + " transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your payment information, then proceed with your purchase.")
-      xhr_json_redirect person_stripe_customber_settings_path(@current_user, listing_id: params[:listing_id])
+      xhr_json_redirect person_stripe_customber_settings_path(@current_user, redir_url: request.referer)
       return
     end
   end

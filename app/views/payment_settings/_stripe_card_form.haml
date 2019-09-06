@@ -1,5 +1,5 @@
 = form_tag person_update_stripe_customer_settings_path(@current_user), method: :put, id: "card-form" do
-  .preauthorize-section
+  .preauthorize-section.mr_0
     .row
       = javascript_include_tag "#{STRIPE_JS_HOST}/v3/"
       %p.or Enter Your Credit card information to be used for Avontage Marketplaces fees
@@ -11,15 +11,15 @@
         .row
           .col-12
 
-        = hidden_field_tag :listing_id , params[:listing_id]
+        = hidden_field_tag :redir_url , params[:redir_url]
 
-        .row.stripe-payment
+        .row.stripe-payment.mr_0
           .col-6.payment-button-wrapper.paypal-button-wrapper
             = button_tag t("payment_settings.stripe_customer.save_card"), id: "send-add-card", class: 'checkout-with-stripe-button'
 
           .row
             .col-12
-              %p= t("stripe_accounts.card_not_stored").html_safe
+              %p.mr_top= t("stripe_accounts.card_not_stored").html_safe
           .row
             .col-12
               %p= t("stripe_accounts.deduction_notice", percentage: @stripe_service[:commission_from_seller] ).html_safe
