@@ -94,7 +94,7 @@ class ListingsController < ApplicationController
     author_listings = @listing.author.listings.currently_open
     @recommended_listings = @listing.category.listings.currently_open.sample(6)
     @other_listings = author_listings.count == 1 ? author_listings : author_listings.where.not(id: @listing.id)
-    
+    @commission_from_seller = TransactionService::API::Api.settings.get(community_id: @current_community.id, payment_gateway: "stripe", payment_process: "preauthorize")[:data][:commission_from_seller]
     unless flash[:record_event].present?
       record_event(
         flash.now,
