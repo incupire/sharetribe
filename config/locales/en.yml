@@ -903,7 +903,8 @@ en:
       message_to: "Message to %{author_name}"
       optional_message_to: "Optional message to %{author_name}"
       message: "Write a direct message:"
-      placeholder: "Write a friendly message, introduce yourself, ask questions regarding this Offer, and build that relationship. Collaboration begins with connection first"
+      #placeholder: "Write a friendly message, introduce yourself, ask questions regarding this Offer, and build that relationship. Collaboration begins with connection first"
+      placeholder: "Say hi! write a friendly message to build a connection."
       send_message: "Send message"
       send: Send
       this_message_is_private: "This message is private between you and %{person}. %{person} will be notified of this message by email."
@@ -2000,6 +2001,7 @@ en:
       payment: Payment
       exp: "Exp:"
       you_will_be_charged: "You will be charged only if %{author} accepts the transaction. %{author} needs to accept the transaction within %{expiration_period} days. If %{author} declines or does not respond, no charge is made."
+      you_will_receive_email_voucher: "After purchasing this offer, you'll receive an email voucher with redeem instructions."
       day: day
       days: days
       night: night
@@ -2501,6 +2503,7 @@ en:
     total: "Total:"
     total_to_pay: "Payment total:"
     avon_commission: "Avontage Fee (%{commission_from_seller} %): "
+    avon_commission_estimation: "Avontage fee (charged in USD$)"
     avontage_fee_charged_from_card: "Avontage Fee(charged to your credit card): "
     offer_price_deducted_from_avon_bucks: "Offer price (deducted from your Avontage Bucks): "
     total_to_seller: "Total (To Seller): "
@@ -2616,7 +2619,7 @@ en:
     pay_with_stripe: "Pay with Stripe using %{card}"
     add_and_pay: "Pay with Credit Card"
     pay_with_cupon: "Coupon pay"
-    card_not_stored: "Your payment is securely processed by Stripe. %{service_name} does not store your credit/debit card information."
+    card_not_stored: "Your credit card payment is securely processed by Stripe. %{service_name} does not store your credit/debit card information."
     missing_payment: "You have open offers but your account is not set up to receive money. To configure your payment preferences, visit %{settings_link}"
     stripe_bank_connected: "Bank account details configured successfully!"
     stripe_can_accept: "You are now all set to receive money to your bank account"

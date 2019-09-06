@@ -332,6 +332,7 @@ class PreauthorizeTransactionsController < ApplicationController
       item_total: item_total,
       shipping_total: shipping_total
     )
+    avon_commission = order_commission(tx_params, listing)
 
     TransactionViewUtils.price_break_down_locals(
                  booking:  is_booking,
@@ -344,7 +345,8 @@ class PreauthorizeTransactionsController < ApplicationController
                  localized_selector_label: translate_selector_label_from_listing(listing),
                  subtotal: subtotal_to_show(order_total),
                  shipping_price: shipping_price_to_show(tx_params[:delivery], shipping_total),
-                 total: order_total.total,
+                 avon_commission: avon_commission,
+                 total: order_total.total + avon_commission,
                  unit_type: listing.unit_type,
                  start_time: tx_params[:start_time],
                  end_time:   tx_params[:end_time],
