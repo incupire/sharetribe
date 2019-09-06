@@ -28,8 +28,9 @@
   @extend .radio-button;
 
   &.radio-button-selected {
-    color: $green;
-    background: lighten($green, 40%);
+    //color: $green;
+    //background: lighten($green, 40%);
+    background: #53c5cd;
     &:hover { background: lighten($green, 40%); }
   }
 }
@@ -38,8 +39,15 @@
   @extend .radio-button;
 
   &.radio-button-selected {
-    color: $red;
-    background: lighten($red, 40%);
-    &:hover { background: lighten($red, 40%); }
+    //color: $red;
+    //background: lighten($red, 40%);
+    color: #fff;
+    background: #ee4a34;
+    border-color: #ee4a34;
+    &:hover { 
+      //background: lighten($red, 40%); 
+      color: #fff;
+      background: #ee4a34;
+    }
   }
 }

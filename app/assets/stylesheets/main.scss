@@ -1572,11 +1572,14 @@ input[type=text].delivery-price-field {
   .accept, .confirm, .accept_preauthorized {
     @include button(lighten($green, 40%));
     margin-right: lines(0.5);
-    color: $green;
+    //color: $green;
+    color: #ffffff;
+    background: #53c5cd;
     &:hover {
-      color: lighten($green, 10%);
-      background: lighten($green, 50%);
-      border-color: lighten($green, 10%);
+      //color: lighten($green, 10%);
+      //background: lighten($green, 50%);
+      //border-color: lighten($green, 10%);
+      background: #53c5cd;
     }
   }
 
@@ -2816,3 +2819,32 @@ figure.fluidratio {
   margin-top: 16px;
   margin-bottom: 0px !important;
 }
+
+// button color changes
+
+.confirm{
+  //background: #53c5cd !important;
+  //color: #ffffff !important;
+}
+.cancel_order, .reject_preauthorized{
+  background: #ee4a34 !important;
+  color: #ffffff !important;
+}
+
+  .radio-button-positive {
+    color: #fff;
+    &:hover { 
+      background: #53c5cd !important; 
+      border-color: #53c5cd !important;
+      color: #fff !important;
+    }
+  }
+  .radio-button-negative{
+    &:hover{
+
+    }
+  }
+
+
+
+//end of color changes
