@@ -12,7 +12,10 @@
           = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
         .review_str
           %i.icon-star
-          0% positive (0/1) Feedback 
+          - if received_testimonials.size > 0
+            = "(#{feedback_positive_percentage.to_s}% #{t("people.show.positive")}, #{received_positive_testimonials.size}/#{received_testimonials.size}) Feedback"
+          - else
+            = t(".no_reviews")
       .listings_image
         - if @transaction.listing.listing_images.present?
           = image_tag @transaction.listing.listing_images.first.image.url, class: "voucher_card_img"
@@ -21,11 +24,11 @@
           = @transaction.listing.title
         %p
           = @transaction.listing.description
-      .instraction_text
-        %h3
-          INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):
-        %p
-          - if @instructions.present?
+      - if @instructions.present?
+        .instraction_text
+          %h3
+            INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):
+          %p
             = @instructions
 
     .image_voucher_item
@@ -37,18 +40,21 @@
           .name_btn
             %a{:href => person_path(username: @transaction.listing.author.username)}
               = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
-            %button.ask_btn
-              Ask Seller
-
-        .member_info
-          %h2
-            Member's profile info: 
-          %p
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore amet perferendis quos recusandae in rem eius doloremque iusto debitis laboriosam optio non.
+            = link_to "Ask Seller", new_person_person_message_path(person_id: @transaction.listing.author, listing_id: @transaction.listing.id), class: "ask_btn"
+        
+        - if @transaction.listing.author.description.present?
+          .member_info
+            %h2
+              Member's profile info: 
+            %p
+              = @transaction.listing.author.description
         .feed_back
           %i.icon-star
           %span
-            0% positive (0/1)
+            - if received_testimonials.size > 0
+              = "(#{feedback_positive_percentage.to_s}% #{t("people.show.positive")}, #{received_positive_testimonials.size}/#{received_testimonials.size})"
+            - else
+              = t(".no_reviews")
             %small
               Feedback  
         .map_
@@ -81,6 +87,10 @@
         .color_heading
           %h3
             THE RULES
+          %p
+            Gratuity and any applicable taxes are not included
+          %p
+            This offer must be redeem within 90 days of purchase
           %p
             These are the restrictions that apply to every Avontage voucher (unless the Fine Print specifies an exception)
         .pd

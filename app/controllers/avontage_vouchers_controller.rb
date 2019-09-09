@@ -17,8 +17,11 @@ class AvontageVouchersController < ApplicationController
       @instructions = nil
     end
     voucher_name = "voucher_#{@transaction.id}"
+    received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@transaction.listing.author, @current_community)
+    received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@transaction.listing.author, @current_community)
+    feedback_positive_percentage = @transaction.listing.author.feedback_positive_percentage_in_community(@current_community)
     respond_to do |format|
-      format.html
+      format.html { render :locals => {received_testimonials: received_testimonials, received_positive_testimonials: received_positive_testimonials, feedback_positive_percentage: feedback_positive_percentage} }
       format.pdf do
         @pdf = render_to_string(pdf: voucher_name, default_header: false, template: "avontage_vouchers/voucher.html.erb", :locals => {transaction: @transaction, instructions: @instructions})
         send_data(@pdf, :filename => voucher_name, :type=>"application/pdf", disposition: "inline")
