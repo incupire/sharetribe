@@ -169,18 +169,23 @@ class TransactionMailer < ActionMailer::Base
     @listing = transaction.listing
     @buyer = transaction.buyer
     @seller = transaction.seller
-
+    prepare_template(@community, @buyer)
     cusotm_field = CustomFieldName.find_by(value: 'INSTRUCTIONS (enter redeem instructions, any restrictions, or other details the Buyer needs to be aware)')
     if cusotm_field.present? && @listing.answer_for(cusotm_field)
       @instructions = @listing.answer_for(cusotm_field).display_value
     else
       @instructions = nil
     end
-    premailer_mail(
-      :to => @transaction.buyer.confirmed_notification_emails_to,
-      :from => community_specific_sender(@community),
-      :subject => t("emails.avon_voucher.subject", buyer_name: PersonViewUtils.person_display_name_for_type(@buyer, @community), listing_title: @listing.title)
-    )
+
+    with_locale(@buyer.locale, @community.locales.map(&:to_sym), @community.id) do
+      premailer_mail(
+        mail_params(
+          @buyer,
+          @community,
+          t("emails.avon_voucher.subject", buyer_name: PersonViewUtils.person_display_name_for_type(@buyer, @community), listing_title: @listing.title)
+        )
+      )
+    end
   end
 
   private
