@@ -219,7 +219,7 @@
           .listing-price
             %span.listing-price-amount
               = image_tag "black_a_img.png", class: 'black_a'
-              = MoneyViewUtils.to_humanized(@listing.price)
+              = MoneyViewUtils.to_humanized(@listing.price).split('$')[1]
             - with_quantity_text(@current_community, @listing) do |text|
               %span.listing-price-quantity
                 = text
@@ -242,7 +242,7 @@
                 %a#listing-contact{href: new_person_person_message_path(person_id: @listing.author, listing_id: @listing.id), :class => "listing-author-contact-buttonx custom_contact button"}
                   .content
                     = t(".ask_seller")
-                    
+
     -# Member Profile Info
     - if @listing.author.description && !@listing.author.description.blank?
       .row-with-divider

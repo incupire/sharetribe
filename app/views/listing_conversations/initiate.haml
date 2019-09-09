@@ -57,7 +57,7 @@
 
       - if stripe_in_use || @current_user.has_coupon_balance?
         .row-with-dynamiv-divider
-        .row
+        .row.mr-0
           .col-12
             %h2.underline
               = t("listing_conversations.stripe_payment.payment")
@@ -83,7 +83,8 @@
         .row
           .col-12
             %p
-              = t("listing_conversations.preauthorize.you_will_be_charged", author: author_link, expiration_period: paypal_expiration_period).html_safe
+              = t("listing_conversations.preauthorize.you_will_receive_email_voucher", author: author_link, expiration_period: paypal_expiration_period).html_safe
+              =# t("listing_conversations.preauthorize.you_will_be_charged", author: author_link, expiration_period: paypal_expiration_period).html_safe
 
   %noscript
     = "For security reasons JavaScript has to be enabled"

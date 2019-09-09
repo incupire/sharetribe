@@ -59,7 +59,9 @@ class PreauthorizeTransactionsController < ApplicationController
     if validation_result.success
       if params[:payment_type].eql?('coupon_pay')
         price_break_down = price_break_down_locals(validation_result.data, listing)
-        if price_break_down[:total]  > @current_user.coupon_balance
+        avon_commission = order_commission(validation_result.data, listing)
+        total_payble = price_break_down[:total] - avon_commission
+        if total_payble > @current_user.coupon_balance
           error_msg = "Insufficient  Avontage Bucks! Please contact Avontage to learn how you can earn more Avontage Bucks."
           render_error_response(request.xhr?, error_msg, listing_path(listing))
         else
@@ -332,6 +334,7 @@ class PreauthorizeTransactionsController < ApplicationController
       item_total: item_total,
       shipping_total: shipping_total
     )
+    avon_commission = order_commission(tx_params, listing)
 
     TransactionViewUtils.price_break_down_locals(
                  booking:  is_booking,
@@ -344,7 +347,8 @@ class PreauthorizeTransactionsController < ApplicationController
                  localized_selector_label: translate_selector_label_from_listing(listing),
                  subtotal: subtotal_to_show(order_total),
                  shipping_price: shipping_price_to_show(tx_params[:delivery], shipping_total),
-                 total: order_total.total,
+                 avon_commission: avon_commission,
+                 total: order_total.total + avon_commission,
                  unit_type: listing.unit_type,
                  start_time: tx_params[:start_time],
                  end_time:   tx_params[:end_time],
@@ -463,7 +467,7 @@ class PreauthorizeTransactionsController < ApplicationController
     stripe_service = stripe_settings
     if stripe_service[:commission_from_seller] > 0 && (params[:payment_type].eql?('coupon_pay') && @current_user.stripe_customer_id.blank?)
       flash[:error] = ("#{stripe_service[:commission_from_seller]}%" + " transaction processing fee is due upon the purchase of this Offer. Please complete the setup for your payment information, then proceed with your purchase.")
-      xhr_json_redirect person_stripe_customber_settings_path(@current_user, listing_id: params[:listing_id])
+      xhr_json_redirect person_stripe_customber_settings_path(@current_user, redir_url: request.referer)
       return
     end
   end

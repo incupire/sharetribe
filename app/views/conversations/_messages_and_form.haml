@@ -13,8 +13,8 @@
       = f.hidden_field :conversation_id
       = f.button t("conversations.show.send_reply")
 .transaction_heading
-  %hr.transaction_top_line
+  / %hr.transaction_top_line
   %h2.transaction_heading_custom
-    Transaction History
+    = "Transaction History" if message_form&.conversation&.tx.present?
 #messages
   = render :partial => "conversations/message", :collection => messages, as: :message_or_action
