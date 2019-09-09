@@ -2645,10 +2645,10 @@ figure.fluidratio {
   .voucher_inner_content{
     display: flex;
     flex-wrap: wrap;
-    border: 2px solid #e1e1e1;
+    //border: 2px solid #e1e1e1;
     .text_voucher_item{
       width: 70%;
-      padding: 10px 15px;
+      padding: 10px;
       @media screen and (max-width: 769px){
         width: 100%;
       }
@@ -2661,12 +2661,28 @@ figure.fluidratio {
           height: 40px;
           width: 40px;
           object-fit: cover;
-          margin-right: 15px;
+          margin-right: 10px;
           margin-left: -2px;
           border-radius: 50%;
         }
+        .review_str{
+          font-size: 14px;
+          margin-left: 20px;
+          margin-top: 2px;
+        }
+      }
+      .listings_image{
+        img{
+          width: 100%;
+          height: 350px;
+          object-fit: cover;
+          @media screen and (max-width: 767px){
+            height: auto;
+          }
+        }
       }
       .text_section{
+        padding-top: 25px;
         h2{
           font-size: 24px;
           font-weight: normal;
@@ -2676,51 +2692,81 @@ figure.fluidratio {
           font-size: 15px;
           color: #6e6e6e;
         }
-        .bar_code{
-          padding: 15px 0;
-          opacity: 0.7;
-          img{
-            height: 50px;
-          }
-          .code{
-            padding-left: 46px;
-            padding-top: 8px;
-            margin: 0;
-          }
+        
+      }
+      .instraction_text{
+        padding-top: 20px;
+        h3{
+          color: #3d3d3d;
+          font-size: 17px;
         }
       }
     }
     .image_voucher_item{
       width: 30%;
-      background: #f6f7f8;
+      //background: #f6f7f8;
       @media screen and (max-width: 769px){
         width: 100%;
       }
       .voucher_card{
         padding: 10px;
-        .voucher_card_img{
-          width: 100%;
+        padding-top: 240px;
+        @media screen and (max-width: 769px){
+          padding-top: 20px;
         }
-        .card_name{
-          margin: 4px 0 10px;
-          color: #4d4d4d;
-        }
-        p{
-          font-size: 15px;
-          color: #979393;
-        }
-        .google_play{
+        .profile_container{
           display: flex;
           flex-direction: row;
-          margin-top: 24px;
-          a{
+          padding: 10px 0;
+          border-top: 1px solid #b8b8b8;
+          border-bottom: 1px solid #b8b8b8;
+          .img_profile{
             img{
-              height: 38px;
+              height: 80px;
+              width: 80px;
+              object-fit: cover;
               border-radius: 5px;
             }
           }
-          .marg{
-            margin-left: 15px;
+          .name_btn{
+            padding-left: 14px;
+            a{
+              font-size: 18px;
+              display: block;
+              text-transform: capitalize;
+              margin-top: 10px;
+            }
+            .ask_btn{
+              margin: 0;
+              margin-top: 12px;
+              padding: 6px 55px;
+            }
+          }
+        }
+        .member_info{
+          padding: 25px 0;
+          p{
+            margin: 0;
+            padding-left: 14px;
+            font-size: 15px;
+          }
+        }
+        .feed_back{
+          border-top: 1px solid #b8b8b8;
+          border-bottom: 1px solid #b8b8b8;
+          padding: 10px 0;
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          i{
+            font-size: 24px;
+            margin-right: 12px;
+          }
+          span{
+            font-size: 14px;
+            small{
+              color: #939393;
+            }
           }
         }
       }
@@ -2731,11 +2777,11 @@ figure.fluidratio {
     display: flex;
     flex-wrap: wrap;
     padding-top: 15px;
-    //margin: 0 -15px;
+    padding: 10px;
     color: #666666;
 
     .voucher_grid_items{
-      width: 33.33%;
+      width: 50%;
       padding: 0 15px;
       @media screen and (max-width: 767px){
         width: 100%;
@@ -2747,19 +2793,29 @@ figure.fluidratio {
       }
       p{
         margin:0;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        font-size: 15px;
       }
       .color_heading{
         background: #f6f7f8;
         padding: 10px;
-        margin-bottom: 120px;
-        h3{
-          margin: 0;
-          font-weight: 600;
-          margin-bottom: 5px;
-        }
+       // margin-bottom: 120px;
         p{
           font-size: 13px;
+        }
+      }
+      .google_play_store_links{
+        display: flex;
+        align-items: center;
+        padding: 15px 0;
+        .img_1{
+          height: 50px;
+          margin-left: -3px;
+        }
+        .img_2{
+          height: 48px;
+          margin-left: 12px;
+          margin-top: -2px;
         }
       }
       .pd{
@@ -2784,6 +2840,8 @@ figure.fluidratio {
     }
   }
 }
+// voucher page scss End
+
 .price_small_a_icon{
   height: 14px;
   margin-right: -2px;

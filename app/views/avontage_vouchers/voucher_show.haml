@@ -10,29 +10,49 @@
           = image_tag @transaction.listing.author.image.url
         %a{:href => person_path(username: @transaction.listing.author.username)}
           = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
+        .review_str
+          %i.icon-star
+          0% positive (0/1) Feedback 
+      .listings_image
+        - if @transaction.listing.listing_images.present?
+          = image_tag @transaction.listing.listing_images.first.image.url, class: "voucher_card_img"
       .text_section
         %h2
           = @transaction.listing.title
         %p
           = @transaction.listing.description
-        .bar_code
-          = image_tag "https://www.alliant.edu/wp-content/uploads/2018/04/14_mybarcode.png"
-          %p.code
-            123458
+      .instraction_text
+        %h3
+          INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):
+        %p
+          - if @instructions.present?
+            = @instructions
 
     .image_voucher_item
       .voucher_card
-        - if @transaction.listing.listing_images.present?
-          = image_tag @transaction.listing.listing_images.first.image.url, class: "voucher_card_img"
-        %h2.card_name
-          Save a Tree
-        %p
-          Skip the paper and redeem your Avontage right from our mobile app.
-        .google_play
-          %a{:href => "#"}
-            = image_tag "google_play.png"
-          %a.marg{:href => "#"}
-            = image_tag "google_play_2.png"
+        .profile_container
+          .img_profile
+            - if @transaction.listing.author.image.present?
+              = image_tag @transaction.listing.author.image.url
+          .name_btn
+            %a{:href => person_path(username: @transaction.listing.author.username)}
+              = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
+            %button.ask_btn
+              Ask Seller
+
+        .member_info
+          %h2
+            Member's profile info: 
+          %p
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore amet perferendis quos recusandae in rem eius doloremque iusto debitis laboriosam optio non.
+        .feed_back
+          %i.icon-star
+          %span
+            0% positive (0/1)
+            %small
+              Feedback  
+        .map_
+
   .voucher_grid
     .voucher_grid_items
       %h2
@@ -40,26 +60,22 @@
       %p
         1. Pull up voucher with our mobile app (or print it out).
       %p
-        2. Appointment required, call (480-219-7990) and mention your voucher.
+        2. Follow instructions on the voucher to redeem offer
       %p
-        3. Present voucher upon arrival.
+        3. Appointment required, call (480-219-7990) and mention your voucher.
       %p
         4. Enjoy!
-      
-      %h2
-        Redeem At
-      %p
-        = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
-      %p
-        - if @transaction.listing.location.present?
-          = @transaction.listing.location.address
+      .google_play_store_links
+        = image_tag "https://merseyburns.com/appstore.png", class: "img_1"
+        = image_tag "https://www.bayalarmmedical.com/wp-content/uploads/2017/02/google-play-button.png", class: "img_2"
 
-    .voucher_grid_items
-      %h3
-        INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):
-      %p
-        - if @instructions.present?
-          = @instructions
+      / %h2
+      /   Redeem At
+      / %p
+      /   = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
+      / %p
+      /   - if @transaction.listing.location.present?
+      /     = @transaction.listing.location.address
     .voucher_grid_items
       .bird
         .color_heading
