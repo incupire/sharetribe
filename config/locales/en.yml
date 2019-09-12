@@ -1199,7 +1199,7 @@ en:
       redeem_at: "Redeem At"
       instruction_redeem_instruction_buyer_needs_to_aware: "INSTRUCTIONS (redeem instructions any restrictions or other details the buyer needs to be aware):"
       rules: "THE RULES" 
-      rules_details: "These are restrictions that apply to every Avontage voucher (unless the Fine Print Specifies an exception)"     
+      rules_details: "Gratuity and any applicable taxes not included <br> This offer must be redeem within 90 days of purchase."     
     new_testimonial:
       has_given_you_feedback_in_kassi: "%{name} has given you feedback in %{service_name}"
       you_can_give_feedback_to: "You haven't yet given feedback to %{name}."

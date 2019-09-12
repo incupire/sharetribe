@@ -1,48 +1,115 @@
 -#MailCarrier.deliver_now(TransactionMailer.avon_voucher("abc@example_user.com"))
-%table{:style => "width: 750px; padding: 0 15px;"}
+-received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@seller, @community)
+-received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@seller, @community)
+
+-feedback_positive_percentage = @seller.feedback_positive_percentage_in_community(@community)
+
+- listing_url = listing_url(@listing, @url_params.merge({}))
+- ask_seller_url = new_person_person_message_url(@seller, @url_params.merge({listing_id: @listing.id}))
+
+- if Rails.env == "staging"
+  - host = 'http://52.8.132.212'
+- elsif Rails.env == "production"
+  - host = 'https://www.avontage.com'
+- else
+  - host = 'http://lvh.me:3000' 
+
+
+%table{:style => "width: 870px; padding: 0 15px;"}
   %tbody
     %tr
       %td
-        = image_tag 'http://localhost:3000/assets/logo.png' , style: "height: 26px;"
+        = image_tag "#{host}/assets/logo.png" , style: "height: 26px;"
     %tr
       %td
         %span{body_font}
         = t("emails.avon_voucher.use_this_voucher_for_redeem_instruction", buyer_name: PersonViewUtils.person_display_name_for_type(@buyer, @community)).html_safe    
 
-%table{:style => "text-align: left; width: 750px; border: 2px solid #e3e3e3; margin-top: 10px; padding: 0px;"}
+%table{:style => "text-align: left; width: 870px; margin-top: 10px; padding: 0px; font-family: open sans,sans-serif;"}
   %tbody{:style => ""}
     %tr{:style => "height: 272px; vertical-align: top;"}
-      %td{:style => "padding: 15px; width: 71.66%;"}
+      %td{:style => "padding: 15px; width: 71.66%; color: #616161;"}
+        -# Seller profile logo
         - if @seller.image.present?
           - image_url = @seller.image.url(:medium)
-          %img{:src => "#{image_url}", :alt => "",  :style => "width: 100%;"}/
-        %p{:style => "margin: 0; font-size: 13px;"}
+          %img{:src => "#{image_url}", :alt => "",  :style => "border-radius: 50%; height: 52px;"}
+        -# Seller profile username  
+        %span{:style => "margin: 0; color: #03c4cc; display: inline-block; position: relative; top: -26px; left: 10px; font-size: 18px;"}
           = PersonViewUtils.person_display_name_for_type(@seller, @community)
 
-        %p{:style => "font-size: 17px; font-weight: 300; margin: 14px 0;"}
-          = @listing.title
-        - if @listing.description.present?  
-          %p{:style => "font-size: 13px; margin:0; line-height: 1.4;"}
-            = @listing.description
-
-      %td{:style => "padding: 10px; background: #f0f1f4;"}
+        -# Feedback for seller's listing
+        - if received_testimonials.size > 0
+          %span{:style => "display: inline-block; position: relative; top: -26px; left: 20px; font-size: 18px;"}
+            %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 15px;"}
+            = "#{feedback_positive_percentage.to_s}%"+ "positive (#{received_positive_testimonials.size}/#{received_testimonials.size}) Feedback"
+        - else          
+          %span{:style => "position: relative; top: -26px; left: 20px; font-size: 18px;"}
+            %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 15px;"}
+            No reviews received
+        
+        -# Listing image
         - if @listing.listing_images.present?
           - image_url = @listing.listing_images.first.image.url(:medium)
-          %img{:src => "#{image_url}", :alt => "",  :style => "width: 100%;"}/
-        %p{:style => "margin: 7px 0; font-size: 15px; color: #000;"}
-          = @listing.title
-        %p{:style => "margin: 0; font-size: 12px; color: grey; margin: 0 0px 7px;"}
-          = t("emails.avon_voucher.skip_the_paper_and_redeem")
-        %table{:style => "width: 100%; margin-top: 12px;"}
-          %tr
-            %td{:style => "width: 50%;"}
-              %a{:href => "https://www.avontage.com/"}
-                %img{:src => "https://merseyburns.com/appstore.png", :alt => "" , :style => "width: 100%;"}/
-            %td{:style => "width: 50%;"}
-              %a{:href => "https://www.avontage.com/"}
-                %img{:src => "https://www.bayalarmmedical.com/wp-content/uploads/2017/02/google-play-button.png", :alt => "" , :style => "width: 100%;"}/
+          %img{:src => "#{image_url}", :alt => "",  :style => " display: block; width: 100%; height: 320px; object-fit: cover;"}
 
-%table{:style => "margin-top: 20px; line-height: 0; text-align: left; width: 750px;"}
+        - if @listing.present?
+          -# Listing Title
+          %p{:style => "font-size: 24px; font-weight: 600; margin: 24px 0px 14px;"}
+            = @listing.title
+
+          -# Listing's description
+          - if @listing.description.present? && !@listing.description.blank?  
+            %p{:style => "font-size: 16px; margin:0; line-height: 1.4;"}
+              - text_with_line_breaks do
+                = @listing.description
+
+          -# Listing's Description    
+          - if @instructions.present?
+            %p{:style => "    font-size: 20px; font-weight: 500; margin: 0; padding: 36px 0 0px;"}
+              = "INSTRUCTIONS (any redeem instructions, any restrictions, or other details the Buyer needs to be aware of):"
+            %p{:style => "font-size: 14px;"}
+              = @instructions
+
+      %td{:style => "padding: 10px; padding-top: 200px; color: #616161;"}
+        %div{:style => "border-bottom: 1px solid #dadada; border-top: 1px solid #dadada; padding: 10px 0;"}
+          %div{:style => "width: 40%; float: left;"}
+            - if @seller.image.present?
+              - image_url = @seller.image.url(:medium)
+              %img{:src => "#{image_url}", :alt => "",  :style => "border-radius: 10px; height: 78px;"}/
+          %div{:style => "width: 60%; float: right;"}
+            %span{:style => "color: #03c4cc; font-size: 20px; text-transform: capitalize; margin-top: 3px; display: block;"}
+              = PersonViewUtils.person_display_name_for_type(@seller, @community)
+            %a{:href => "#{ask_seller_url}", :style => " display: block; color: #fff; text-decoration: none; background: #03c4cc; padding: 10px 14px; text-align: center; margin-top: 14px; border-radius: 5px;"}
+              Ask Seller
+          %div{:style => "clear: both;"}
+
+        -# Seller's profile description
+        - if @seller.description && !@seller.description.blank?  
+          %div
+            %h2{:style => "font-size: 18px; font-weight: 600; margin-top: 20px;"}
+              Member's profile info
+
+            %p{:style => " font-size: 15px; margin: 12px 0px 0px 12px;"}
+              - if @seller.description.length > 250
+                = truncate(@seller.description, length: 250, escape: false)
+                .more_btn
+                  = link_to 'Read More', listing_url, class: "read-more"
+              - else
+                = @seller.description
+
+        -# seller testimonial
+        - if received_testimonials.size > 0
+          %div{:style => " border-top: 1px solid #dadada; border-bottom: 1px solid #dadada; margin: 30px 0px 0px; position: relative; padding: 10px 0;"}
+            %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 24px; position: absolute; top: 10px;"}/
+            %span{:style => "padding-left: 38px; display: block; margin-top: -2px; font-size: 16px;"}
+              = "#{feedback_positive_percentage.to_s}%"+ "positive (#{received_positive_testimonials.size}/#{received_testimonials.size}) Feedback"
+        - else
+          %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 24px; position: absolute; top: 10px;"}/
+          %span{:style => "padding-left: 38px; display: block; margin-top: -2px; font-size: 16px;"}
+            = No reviews received    
+             
+
+%table{:style => "margin-top: 20px; line-height: 0; text-align: left; width: 870px; padding: 15px; font-family: open sans,sans-serif;"}
   %tbody
     %tr{:style => "color: #878787;"}
       %td{:style => " vertical-align: top; width: 34.22%; padding-right: 15px;"}
@@ -53,37 +120,45 @@
         %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
           = t("emails.avon_voucher.appointment_required")
         %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
-          = t("emails.avon_voucher.present_voucher_upon_arrival")
+          =# t("emails.avon_voucher.present_voucher_upon_arrival")
+          Follow instruction on the voucher to redeem offer
         %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
           = t("emails.avon_voucher.enjoy")
-        %P{:style => "font-size: 17px; font-weight: 300; color: #2a2a2a;     margin: 20px 0;"}
-          = t("emails.avon_voucher.redeem_at")
-        %P{:style => "font-size: 11px; margin: 5px 0; line-height: 1;"}
-          = PersonViewUtils.person_display_name_for_type(@seller, @community)
+        %div{:style => " padding-top: 5px; margin-left: -4px;"}
+          %div{:style => "float: left;"}
+            %a{:href => "https://www.avontage.com/", :style => "display: block;"}
+              %img{:src => "https://merseyburns.com/appstore.png", :alt => "" , :style => "height: 56px;"}/
+          %div{:style => "float: left; "}
+            %a{:href => "https://www.avontage.com/", :style => "display: block;"}
+              %img{:src => "https://www.bayalarmmedical.com/wp-content/uploads/2017/02/google-play-button.png", :alt => "" , :style => " height: 51px; margin-top: 1px;"}/
+      /   %P{:style => "font-size: 17px; font-weight: 300; color: #2a2a2a;     margin: 20px 0;"}
+      /     = t("emails.avon_voucher.redeem_at")
+      /   %P{:style => "font-size: 11px; margin: 5px 0; line-height: 1;"}
+      /     = PersonViewUtils.person_display_name_for_type(@seller, @community)
 
-        - if @listing.location.present? && @listing.location.address.present?
-          %P{:style => "font-size: 11px; margin: 5px 0; line-height: 1;"}
-            = @listing.location.address
+      /   - if @listing.location.present? && @listing.location.address.present?
+      /     %P{:style => "font-size: 11px; margin: 5px 0; line-height: 1;"}
+      /       = @listing.location.address
 
-        - unless @seller.mobile_number.present?    
-          %P{:style => "font-size: 11px; margin: 5px 0; line-height: 1;"}
-            = @seller.mobile_number
+      /   - unless @seller.mobile_number.present?    
+      /     %P{:style => "font-size: 11px; margin: 5px 0; line-height: 1;"}
+      /       = @seller.mobile_number
 
-      - if @instructions.present?
-        %td{:style => " vertical-align: top; width: 34.22%; padding-right: 15px;"}
-          %p{:style => "font-size: 17px; font-weight: 300; color: #2a2a2a; line-height: 1.0;"}
-            = t("emails.avon_voucher.instruction_redeem_instruction_buyer_needs_to_aware")
-          %p{:style => "font-size: 11px; line-height: 1.4;"}
-            = @instructions
+      / - if @instructions.present?
+      /   %td{:style => " vertical-align: top; width: 34.22%; padding-right: 15px;"}
+      /     %p{:style => "font-size: 17px; font-weight: 300; color: #2a2a2a; line-height: 1.0;"}
+      /       = t("emails.avon_voucher.instruction_redeem_instruction_buyer_needs_to_aware")
+      /     %p{:style => "font-size: 11px; line-height: 1.4;"}
+      /       = @instructions
 
       %td{:style => "width: 27.55%;"}
         %span{:style => "background: #edeff1; padding: 10px; color: #878787; vertical-align: top; display: block;"}
           %p{:style => "font-size: 12px; font-weight: 500;"}
             = t("emails.avon_voucher.rules")
+          / %p{:style => "font-size: 11px; line-height: 1.4;"}
+          /   = t("emails.avon_voucher.rules")
           %p{:style => "font-size: 11px; line-height: 1.4;"}
-            = t("emails.avon_voucher.rules")
-          %p{:style => "font-size: 11px; line-height: 1.4;"}
-            = t("emails.avon_voucher.rules_details")
+            = t("emails.avon_voucher.rules_details").html_safe
 
         %p{:style => "font-size: 12px; font-weight: 500; margin: 18px 0px; color: #000; padding: 0 10px;"}
           WE 'RE HERE TO HELP
