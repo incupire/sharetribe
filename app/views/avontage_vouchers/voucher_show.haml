@@ -40,7 +40,7 @@
           .name_btn
             %a{:href => person_path(username: @transaction.listing.author.username)}
               = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
-            = link_to "Ask Seller", new_person_person_message_path(person_id: @transaction.listing.author, listing_id: @transaction.listing.id), class: "ask_btn"
+            = link_to "Ask Seller", new_person_person_message_path(person_id: @transaction.listing.author, listing_id: @transaction.listing.id), class: "ask_btn button"
         
         - if @transaction.listing.author.description.present?
           .member_info
