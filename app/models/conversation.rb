@@ -113,11 +113,12 @@ class Conversation < ApplicationRecord
   # TODO This should be removed. It's not model's resp to send emails.
   def send_email_to_participants(community)
     recipients(messages.last.sender).each do |recipient|
+      conversation_url = Rails.application.routes.url_helpers.person_message_url(person_id: recipient.id, :id => messages.last.conversation.id.to_s, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "staging.avontage.com" end)
       if recipient.should_receive?("email_about_new_messages")
         MailCarrier.deliver_now(PersonMailer.new_message_notification(messages.last, community))
       end
       if recipient.should_receive_sms?("sms_about_new_messages_or_request")
-        SMSNotification.sms_service(recipient.mobile_number, "You have a new message from #{recipient.given_name} - #{messages.last.content}")
+        SMSNotification.sms_service(recipient.mobile_number, "#{PersonViewUtils.person_display_name(recipient, community)}, you have a new message from #{PersonViewUtils.person_display_name(messages.last.sender, community)} - #{messages.last.content} on Avontage. Click here to Reply Now #{conversation_url}.")
       end
       if recipient.android_device_token.present?
         PushNotification.send_notification(recipient, "You have a new message from #{recipient.given_name} - #{messages.last.content}")
