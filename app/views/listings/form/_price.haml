@@ -34,25 +34,32 @@
 
 - if payment_gateway.present?
   = render layout: "layouts/lightbox", locals: { id: "payment_fee_info_content"} do
-    %h2= t("common.payment_fee_info.title")
+    %h2= t("common.payment_fee_info.title1")
 
-    %p= t("common.payment_fee_info.info")
+    %p= t("common.payment_fee_info.info1")
 
-    - if payment_gateway == :stripe || payment_gateway == [:paypal, :stripe]
-      %h4= t("common.payment_fee_info.stripe")
-      - text_with_line_breaks_html_safe do
-        - link_to_stripe = link_to(t("common.stripe_fee_info.link_to_stripe_text"), @listing_presenter.stripe_fees_url, target: "_blank")
-        = t("common.stripe_fee_info.body_text", link_to_stripe: link_to_stripe,
-          stripe_commission: @listing_presenter.commission[:stripe_commission],
-          minimum_transaction_fee: MoneyViewUtils.to_humanized(@listing_presenter.commission[:stripe_minimum_transaction_fee])).html_safe
+    %p= t("common.payment_fee_info.info2", stripe_commission: @listing_presenter.commission[:stripe_commission])
 
-    - if payment_gateway == :paypal || payment_gateway == [:paypal, :stripe]
-      %h4= t("common.payment_fee_info.paypal")
-      - text_with_line_breaks_html_safe do
-        - link_to_paypal = link_to(t("common.paypal_fee_info.link_to_paypal_text"), @listing_presenter.paypal_fees_url, target: "_blank")
-        = t("common.paypal_fee_info.body_text", link_to_paypal: link_to_paypal,
-          paypal_commission: @listing_presenter.commission[:paypal_commission],
-          minimum_transaction_fee: MoneyViewUtils.to_humanized(@listing_presenter.commission[:paypal_minimum_transaction_fee])).html_safe
+    %p= t("common.payment_fee_info.info3", stripe_commission: @listing_presenter.commission[:stripe_commission])
+
+    %p= t("common.payment_fee_info.info4")
+
+    -#
+      - if payment_gateway == :stripe || payment_gateway == [:paypal, :stripe]
+        %h4= t("common.payment_fee_info.stripe")
+        - text_with_line_breaks_html_safe do
+          - link_to_stripe = link_to(t("common.stripe_fee_info.link_to_stripe_text"), @listing_presenter.stripe_fees_url, target: "_blank")
+          = t("common.stripe_fee_info.body_text", link_to_stripe: link_to_stripe,
+            stripe_commission: @listing_presenter.commission[:stripe_commission],
+            minimum_transaction_fee: MoneyViewUtils.to_humanized(@listing_presenter.commission[:stripe_minimum_transaction_fee])).html_safe
+
+      - if payment_gateway == :paypal || payment_gateway == [:paypal, :stripe]
+        %h4= t("common.payment_fee_info.paypal")
+        - text_with_line_breaks_html_safe do
+          - link_to_paypal = link_to(t("common.paypal_fee_info.link_to_paypal_text"), @listing_presenter.paypal_fees_url, target: "_blank")
+          = t("common.paypal_fee_info.body_text", link_to_paypal: link_to_paypal,
+            paypal_commission: @listing_presenter.commission[:paypal_commission],
+            minimum_transaction_fee: MoneyViewUtils.to_humanized(@listing_presenter.commission[:paypal_minimum_transaction_fee])).html_safe
 
 
   - if run_js_immediately

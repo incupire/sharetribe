@@ -751,6 +751,9 @@ en:
         request: Offer
         offer: Request
         inquiry: Contact
+  avontage_vouchers:
+    voucher_show:
+      no_reviews: "No reviews"
   common:
     edit_page: "Edit page"
     default_community_slogan: "Community marketplace"
@@ -801,9 +804,14 @@ en:
     removed_user: "Removed user"
     payment_fee_info:
       title: "Commission and Payment processing fee"
+      title1: "Avontage Fee Structure:"
       stripe: Stripe
       paypal: PayPal
       info: "Payments in %{service_name} are processed by the payment gateway listed below. %{service_name} will charge a commission depending on the payment gateway. The payment gateway may also charge a fee for each payment, as described below."
+      info1: "There is zero transaction fee for any offers you SELL in exchange for Avontage Bucks."
+      info2: "A Transaction Fee of %{stripe_commission}% will be charged to you when you BUY an Offer using your Avontage Bucks credits."
+      info3: "A transaction of %{stripe_commission}% will be deducted from offers you SELL, but only when accepting card payments."
+      info4: "All credit card and banking information and credit card fees are processed by Stripe.com. Avontage does not store any credit card info on our servers."
     paypal_fee_info:
       title: "PayPal's payment processing fee"
       body_text: |-
@@ -1438,7 +1446,7 @@ en:
       tip8: 1 Avontage Bucks AAAAA is equal to 1 USD$.
       tip9: You can limit the number of Offers available for trade per month. Start at your comfort level and change it later.
       tip10: Using beautiful and high quality images tend to get the most attention.
-      tip11: Provide the best pre-sales and post-sales customer service and turn the Avontage community members into your long term clients and repear customers.
+      tip11: Provide the best pre-sales and post-sales customer service and turn the Avontage community members into your long term clients and repeat customers.
       are_offering: offer
       add_news_item: "Add an article"
       lend_rent_help_carpool: "Sell, lend, help, share rides"
