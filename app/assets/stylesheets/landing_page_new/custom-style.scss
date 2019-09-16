@@ -420,6 +420,17 @@
             font-size: 16px;
           }
         }
+        .movement_btn{
+          text-align: center;
+          margin: 15px 0;
+          button{
+            display: inline-block;
+            border-radius: 25px;
+            font-size: 15px;
+            padding: 8px 26px;
+            font-weight: 600;
+          }
+        }
       }
       .right-side {
         text-align: left;
@@ -506,6 +517,14 @@
                   margin-top: 8px;
                   font-size: 12px;
                   font-weight: 600;
+                }
+                .star_container{
+                  line-height: 1;
+                  img{
+                    display: inline-block;
+                    height: 15px;
+                    margin-top: 10px
+                  }
                 }
               }
               .card-detail {
@@ -607,6 +626,7 @@
               margin-bottom: 20px;
               //font-size: 16px;
               font-size: 14px;
+              text-align: justify;
             }
             .get-started {
               margin-left: 33px;
