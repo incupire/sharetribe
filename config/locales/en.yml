@@ -1202,8 +1202,9 @@ en:
       how_to_use: "How to use"
       pull_up_voucher_with_mobile_app: "1. Pull up voucher with our mobile app (or print it out)"
       appointment_required: "2. Appointment required, call (480-219-7990) and mention your voucher."
+      follow_the_instructions_on_voucher: "2. Follow instruction on the voucher to redeem offer"
       present_voucher_upon_arrival: "Present voucher upon arrival."
-      enjoy: Enjoy!
+      enjoy: "3. Enjoy!"
       redeem_at: "Redeem At"
       instruction_redeem_instruction_buyer_needs_to_aware: "INSTRUCTIONS (redeem instructions any restrictions or other details the buyer needs to be aware):"
       rules: "THE RULES" 

@@ -68,9 +68,7 @@
       %p
         2. Follow instructions on the voucher to redeem offer
       %p
-        3. Appointment required, call (480-219-7990) and mention your voucher.
-      %p
-        4. Enjoy!
+        3. Enjoy!
       .google_play_store_links
         = image_tag "https://merseyburns.com/appstore.png", class: "img_1"
         = image_tag "https://www.bayalarmmedical.com/wp-content/uploads/2017/02/google-play-button.png", class: "img_2"
@@ -104,4 +102,4 @@
             Email: VIPDesk@Avontage.com
 
 .print{:style => "text-align: center;"}
-  %a.button.print_btn{:href => "#{voucher_show_avontage_voucher_path(format: :pdf)}", :target => "_blank"} Print
+  %a.button.print_btn{:href => "#{voucher_show_avontage_voucher_path(id: @transaction.id, format: :pdf)}", :target => "_blank"} Print

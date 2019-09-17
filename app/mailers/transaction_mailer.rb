@@ -170,7 +170,7 @@ class TransactionMailer < ActionMailer::Base
     @buyer = transaction.buyer
     @seller = transaction.seller
     prepare_template(@community, @buyer)
-    cusotm_field = CustomFieldName.find_by(value: 'INSTRUCTIONS (enter redeem instructions, any restrictions, or other details the Buyer needs to be aware)')
+    cusotm_field = CustomFieldName.find_by(value: 'INSTRUCTIONS (any redeem instructions, restrictions, or other details the Buyer needs to be aware of)')
     if cusotm_field.present? && @listing.answer_for(cusotm_field)
       @instructions = @listing.answer_for(cusotm_field).display_value
     else

@@ -6,6 +6,7 @@
 
 - listing_url = listing_url(@listing, @url_params.merge({}))
 - ask_seller_url = new_person_person_message_url(@seller, @url_params.merge({listing_id: @listing.id}))
+- print_voucher_url = voucher_show_avontage_voucher_url(@transaction, @url_params.merge({format: :pdf}))
 
 - if Rails.env == "staging"
   - host = 'http://52.8.132.212'
@@ -66,7 +67,7 @@
           -# Listing's Description    
           - if @instructions.present?
             %p{:style => "    font-size: 20px; font-weight: 500; margin: 0; padding: 36px 0 0px;"}
-              = "INSTRUCTIONS (any redeem instructions, any restrictions, or other details the Buyer needs to be aware of):"
+              = "INSTRUCTIONS (any redeem instructions, restrictions, or other details the Buyer needs to be aware of):"
             %p{:style => "font-size: 14px;"}
               = @instructions
 
@@ -118,10 +119,7 @@
         %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
           = t("emails.avon_voucher.pull_up_voucher_with_mobile_app")
         %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
-          = t("emails.avon_voucher.appointment_required")
-        %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
-          =# t("emails.avon_voucher.present_voucher_upon_arrival")
-          Follow instruction on the voucher to redeem offer
+          = t("emails.avon_voucher.follow_the_instructions_on_voucher")
         %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
           = t("emails.avon_voucher.enjoy")
         %div{:style => " padding-top: 5px; margin-left: -4px;"}
@@ -177,3 +175,5 @@
                 Call 415-944-9067
               %p{:style => "font-size: 11px;"}
                 Email:  VIPDesk@avontage.com
+
+          = render :partial => "person_mailer/action_button", :locals => { :text => "Print", :url => print_voucher_url}                
