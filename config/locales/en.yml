@@ -1247,6 +1247,8 @@ en:
       if_you_do_accept_stripe: "If you accept the request within this timeframe, the payment will go through. You will receive the money directly to your bank account after you have delivered %{listing_title} to %{requester}."
       if_you_do_not_accept: "If you reject the request or don't accept it within this timeframe, the transaction will be automatically cancelled, %{requester} will not be charged and you will not get paid."
       click_here_to_reply: "Click here to respond to the request"
+      buyer_will_follow_the_redeem_instruction: "The %{requester} will follow the redeem instructions you provided on your offer to contact you and redeem this offer."
+      once_services_are_rendered_and_buyer_marks_redeemed: "Once the services are rendered and the %{requester} marks this offer as redeemed, the amount of the offer will be credited to your account."
     transaction_preauthorized_reminder:
       subject: "Remember to accept the request from %{requester} about offer %{listing_title}"
       remember_to_accept: "Remember to accept the request from %{requester} about offer \"%{listing_title}\". %{requester} has already paid for the offer. You have to accept the request in order to receive the payment."
