@@ -73,7 +73,7 @@
       %span.initiate-transaction-shipping-price-value
         = MoneyViewUtils.to_humanized(shipping_price)
 
-  - if is_author
+  - if @transaction.present? && @transaction.author == @current_user
     .initiate-transaction-sum-wrapper
       %span.initiate-transaction-sum-label
         = t("transactions.total_to_pay")
@@ -94,7 +94,7 @@
         %span.initiate-transaction-sum-value
           = "-#{MoneyViewUtils.to_humanized(fee)}"
   
-  - if !is_author #For Buyer
+  - if !is_author || (@transaction.present? && @current_user == @transaction.starter)#For Buyer
     - if avon_commission.present? && avon_commission > 0
       .initiate-transaction-total-wrapper
         %span.initiate-transaction-total-label
@@ -115,10 +115,9 @@
       %span.initiate-transaction-total-value
         - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
           = image_tag "black_a_img.png"
-          = MoneyViewUtils.to_humanized(is_author ? seller_gets : total).split('$')[1]      
+          = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total).split('$')[1]      
         - else
-          = image_tag "black_a_img.png"
-          = MoneyViewUtils.to_humanized(is_author ? seller_gets : total).split('$')[1]
+          = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total)
 
   -#For Buyer
   - if (@transaction.present? && !@transaction.auto_accept_transaction) && (@transaction.payment_gateway.eql?(:coupon_pay) && !is_author)

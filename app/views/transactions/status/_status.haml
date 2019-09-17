@@ -1,8 +1,8 @@
 .conversation-status
-  - if @current_user.has_admin_rights?(@current_community) && __transaction_model.payment_gateway.eql?(:coupon_pay) && __transaction_model.coupon_bal_refunded == false
+  - if @current_user.has_admin_rights?(@current_community) && __transaction_model.payment_gateway.eql?(:coupon_pay) && __transaction_model.coupon_bal_refunded == false && __transaction_model.status != "canceled"
     .status-links.links_custom
       .inbox-horizontally-aligned-link.full_width_btn
-        %a{:href => "/en/#{__transaction_model.starter.to_param}/messages/#{__transaction_model.id}/cancel_coupon_pay", :class => "cancel admin_full_refund"}
+        = link_to confirmation_person_message_path(person_id: __transaction_model.starter.id, id: __transaction_model.id, 'transaction[status]' => 'canceled', give_feedback: true, full_refund: true), method: :put, class: 'cancel admin_full_refund' do
           .content
             .icon-with-text{:class => "ss-delete"}
             .text-with-icon

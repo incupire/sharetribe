@@ -7,8 +7,8 @@ class ConfirmConversationsController < ApplicationController
   before_action :fetch_conversation
   before_action :fetch_listing
 
-  before_action :ensure_is_starter, except: [:cancel_coupon_pay]
-  before_action :ensure_current_is_admin, only: [:cancel_coupon_pay]
+  before_action :ensure_is_starter, except: [:confirmation]
+  before_action :ensure_is_starter_or_admin, only: [:confirmation]
 
   def confirm
     return redirect_to person_transaction_path(person_id: @current_user.id, message_id: @listing_transaction.id) unless in_valid_pre_state?
@@ -63,6 +63,8 @@ class ConfirmConversationsController < ApplicationController
 
     confirmation = ConfirmConversation.new(@listing_transaction, @current_user, @current_community)
     confirmation.update_participation(give_feedback)
+    
+    refund_coupon_balance if params[:full_refund] == 'true'
 
     flash[:notice] = t("layouts.notifications.offer_#{status}")
 
@@ -76,28 +78,24 @@ class ConfirmConversationsController < ApplicationController
     redirect_to redirect_path
   end
 
-  def cancel_coupon_pay
-    tx = Transaction.find(params[:id])
-    buyer_gets = order_total(tx)
-    buyer = tx.starter
+  private
+
+  def refund_coupon_balance
+    buyer_gets = order_total(@listing_transaction)
+    buyer = @listing_transaction.starter
     buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
+    
     if buyer.update_attribute(:coupon_balance, buyer_coupon_bal)
       AvonBucksHistory.create(
         amount: buyer_gets,
         operation: "added",
         remaining_balance: buyer.coupon_balance,
         person_id: buyer.id,
-        transaction_id: tx.id
+        transaction_id: @listing_transaction.id
       )      
-      tx.toggle!(:coupon_bal_refunded)
-      flash[:notice] = "Coupon balance refunded successfully!"
-    else
-      flash[:notice] = "Something went wrong please try later!"
-    end
-    redirect_to person_transaction_path(:person_id => @current_user.id, :id => tx.id)    
-  end
-
-  private
+      @listing_transaction.toggle!(:coupon_bal_refunded)
+    end     
+  end  
 
   def order_total(tx)
     shipping_total = Maybe(tx.shipping_price).or_else(0)
@@ -123,6 +121,13 @@ class ConfirmConversationsController < ApplicationController
 
   def ensure_is_starter
     unless @listing_transaction.starter == @current_user
+      flash[:error] = "Only listing starter can perform the requested action"
+      redirect_to (session[:return_to_content] || root)
+    end
+  end
+
+  def ensure_is_starter_or_admin
+    unless (@current_user.has_admin_rights?(@current_community) || @listing_transaction.starter == @current_user)
       flash[:error] = "Only listing starter can perform the requested action"
       redirect_to (session[:return_to_content] || root)
     end
