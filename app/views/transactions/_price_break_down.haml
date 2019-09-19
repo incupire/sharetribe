@@ -73,7 +73,7 @@
       %span.initiate-transaction-shipping-price-value
         = MoneyViewUtils.to_humanized(shipping_price)
 
-  - if @transaction.present? && @transaction.author == @current_user
+  - if @transaction.present? && @transaction.author == @current_user && !@transaction.payment_gateway.eql?(:coupon_pay)
     .initiate-transaction-sum-wrapper
       %span.initiate-transaction-sum-label
         = t("transactions.total_to_pay")
