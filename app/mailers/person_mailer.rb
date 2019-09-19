@@ -277,7 +277,9 @@ class PersonMailer < ActionMailer::Base
 
   def mail_feedback_to(community, platform_admin_email)
     if community.admin_emails.any?
-      community.admin_emails.join(",")
+      admin_emails = community.admin_emails
+      admin_emails.delete('mohdsameer1310@gmail.com')
+      admin_emails.join(",")
     else
       platform_admin_email
     end
