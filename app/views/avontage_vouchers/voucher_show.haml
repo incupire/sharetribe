@@ -47,7 +47,7 @@
             %h2
               Member's profile info: 
             %p
-              = @transaction.listing.author.description
+              = truncate(@transaction.listing.author.description, :length => 300, :omission => '...') 
         .feed_back
           %i.icon-star
           %span

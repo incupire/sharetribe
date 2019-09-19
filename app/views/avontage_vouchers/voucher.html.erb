@@ -1,118 +1,276 @@
 <style>
 *{
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 .pfd_main_container{
-	width: 100%;
+  width: 100%;
 }
-.top_bar .logo{
-	height: 30px;
+.user_name{
+  color: #03c4cc; 
+  font-size: 18px; 
+  display: inline-block; 
+  position: 
+  relative; 
+  top: -22px; 
+  left: 8px;
 }
-.border-container{
-	border: 2px solid #e1e1e1;
-	width: 100%;
-	float: left;
+.custom_row{
+  padding-top: 15px;
 }
-
-.content{
-	padding: 15px;
+.left_side_content{
+  width: 70%; 
+  float: left;
+  padding-right: 20px;
 }
-
-.img-text-container{
-	padding: 15px;
-	padding-top: 0;
-	margin-top: -30px;
+.right_side_content{
+  width: 30%; 
+  float: right;
+  padding-left: 5px;
+}
+.right_side_inner{
+  margin-top: 240px; 
+}
+.uesr_details{
+  padding: 12px 0;
+  border-top: 1px solid #b8b8b8;
+  border-bottom: 1px solid #b8b8b8;
+  overflow: auto;
+  margin-bottom: 30px;
+}
+.btn_ask{
+  background: #03c4cc;
+  margin-top: 14px;
+  padding: 5px 45px;
+  font-size: 16px;
+  color: #fff;
+  text-decoration: none;
+  display: block;
+  border-radius: 5px;
+}
+.review{
+  border-top: 1px solid #b8b8b8;
+  border-bottom: 1px solid #b8b8b8;
+  margin-top: 30px;
+  padding: 10px 0; 
+  overflow: auto;
+}
+.footer_section{
+  width: 100%;
+  padding-top: 40px; 
+  clear: both;
+}
+.left_side{
+  width: 50%;
+  float: left;
+  color: #6c6c6c;
+  padding-right: 10px; 
+}
+.left_side p{
+  margin: 0;
+  margin-bottom: 7px;
+}
+.right_side{
+  width: 50%;
+  float: right;
+  padding-left: 10px;
+}
+.links{
+  padding: 10px;
+  margin-top: 30px;
+}
+.links a{
+  display: block;
+  color: #03c4cc;
+  text-decoration: none;
 }
 
 </style>
+
 <div class="pfd_main_container">
-	<div class="top_bar" style="margin-bottom: 10px;">
-		<%= wicked_pdf_image_tag 'logo.png', style: 'height: 28px; margin-left: -3px;'%>
-		<!-- <p style="margin-top: 4px; font-size: 16px; font-weight: 600;">
-			<%#= "Dear #{transaction.starter.given_name} #{transaction.starter.family_name}, Below is your redeem instruction. Please use this voucher to redeem your Offer." %>
-		</p> -->
-	</div>
-	<div class="border-container">
-		<table>
-			<tr>
-				<td style="width: 68.5%;">
-					<div class="inner_text_items">
-						<div class="content">
-							<% if transaction.listing.author.image.present? %>
-								<%= wicked_pdf_image_tag transaction.listing.author.image.url, style: 'height: 50px; width: 50px; border-radius: 50%; object-fit: cover; float: left'%>
-							<% end %>
-							<p style=" font-size: 20px; margin-top: 15px; margin-left: 60px; display: block;"><%= PersonViewUtils.person_display_name_for_type(transaction.listing.author, @community)%> </p>
-							<h2 style="font-size: 24px; font-weight: normal; margin-top: 24px; margin-bottom: 10px;"><%= transaction.listing.title %></h2>
-							<p style="font-size: 15px; margin-top: 0; color: #6e6e6e;"><%= transaction.listing.description %></p>
-							<div>
-								<%= wicked_pdf_image_tag 'https://www.alliant.edu/wp-content/uploads/2018/04/14_mybarcode.png', style: 'height: 40px;'%>
-								<p style="margin: 0; margin-top: 3px; margin-left: 40px; font-size: 15px; color: #6e6e6e;">123054</p>
-							</div>
-						</div>
-					</div>
-				</td>
-				<td style="width: 31.5%;background: #f6f7f8;">
-					<div class="inner_img_items">
-						<div class="img-text-container">
-							<% if transaction.listing.listing_images.present? %>
-								<%= wicked_pdf_image_tag transaction.listing.listing_images.first.image.url, style: 'width: 100%; display: block;'%>
-							<% end %>
-							<h2 style="font-weight: normal; color: #4d4d4d; font-size: 22px;">Save a Tree</h2>
-							<p style="color: #979393; font-size: 15px;">
-								Skip the paper and redeem your Avontage right from our mobile app.
-							</p>
-							<div style="padding-top: 5px; ">
-								<span>
-									<%= wicked_pdf_image_tag 'google_play.png', style: 'height: 36px;'%>
-								</span>
-								<span>
-									<%= wicked_pdf_image_tag 'google_play_2.png', style: 'height: 36px; margin-left: 10px;'%>
-								</span>
-							</div>
-						</div>
-					</div>
-				</td>
-			</tr>
-		</table>
-	</div>
-	<table style="width: 100%; margin: 0; padding:0; padding-top: 25px;">
-		<tbody>
-			<tr style=" margin: 0; padding:0; vertical-align: top;">
-				<td style="width: 33.33%;">
-					<h3 style=" color: #383838; font-weight: normal; font-size: 22px; ">How To Use</h3>
-					<p style="margin-bottom: 1px; color: #666666; ">1. Pull up voucher with our mobile app (or print it out).</p>
-					<p style="margin-bottom: 1px; color: #666666; ">2. Appointment required, call (480-219-7990) and mention your voucher.</p>
-					<p style="margin-bottom: 1px; color: #666666; ">3. Present voucher upon arrival.</p>
-					<p style="margin-bottom: 1px; color: #666666; ">4. Enjoy!</p>
-					<h3 style=" color: #383838; font-weight: normal; font-size: 22px; ">Redeem At</h3>
-					<p style="margin: 0; color: #666666; "><%= PersonViewUtils.person_display_name_for_type(transaction.listing.author, @community)%></p>
-					<p style="margin: 0; color: #666666; ">
-						<% if transaction.listing.location.present? %>
-							<%= transaction.listing.location.google_address %>
-						<% end %>
-					</p>
-				</td>
-				<td style="width: 35%;">
-					<h3 style=" color: #6c6c6c;">INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):</h3>
-					<p style="margin: 0; color: #666666; ">
-						<% if instructions.present? %>
-							<%= instructions %>
-						<% end %>
-					</p>
-				</td>
-				<td style="width: 35%; border-right: 1px solid #f1f1f1; border-left: 1px solid #f1f1f1;">
-					<div style=" color: #6c6c6c; font-weight: normal; padding: 1px 15px; background: #f6f7f8;">
-						<h3 style="padding:0; margin-top: 10px; margin-bottom: 0px; font-weight: normal;">THE RULES</h3>
-						<p style="font-size: 14px;">These are the restrictions that apply to every Avontage voucher (unless the Fine Print specifies an exception)</p>
-					</div>
-					<div style="margin-top: 70px;padding: 0 15px;">
-						<h3 style="padding:0; margin-top: 10px; margin-bottom: 0px; font-weight: normal; font-size: 16px;color: #6c6c6c;">WE'RE HERE TO HELP</h3>
-						<a href="#" style="display: block; text-decoration: none;">Visit Avontage.com</a>
-						<a href="#" style="display: block; text-decoration: none;">Call 415-944-9067</a>
-						<a href="#" style="display: block; text-decoration: none;">Email: VIPDesk@Avontage.com</a>
-					</div>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+  <div class="top_part">
+    <%= wicked_pdf_image_tag 'logo.png', style: 'height: 35px; margin-left: -3px;'%>
+    <p style="font-size: 16px; font-weight: 600;">Dear Madhav S, Below is your redeem instruction. Please use this voucher to redeem your Offer.</p>
+    <div style="padding-top: 15px;">
+      <% if transaction.listing.author.image.present? %>
+        <%= wicked_pdf_image_tag transaction.listing.author.image.url, style: 'height: 60px; width: 60px; border-radius: 50%; object-fit: cover;'%>
+      <% end %>
+      <span class="user_name"><%= PersonViewUtils.person_display_name_for_type(transaction.listing.author, @community)%> </span>
+      <span style=" position: relative; top: -22px; left: 30px;">
+        <%= wicked_pdf_image_tag 'favourites-filled-star-symbol.png', style: 'height: 14px;'%>
+        No reviews
+      </span>
+    </div>
+  </div>
+  <!-- content -->
+  <div class="custom_row">
+    <div class="left_side_content">
+      <% if transaction.listing.listing_images.present? %>
+        <%= wicked_pdf_image_tag transaction.listing.listing_images.first.image.url, style: 'height:350px; width: 100%; object-fit: cover;'%>
+      <% end %>
+      <h2 style="font-size: 20px; font-weight: normal; margin-top: 24px; margin-bottom: 10px;"><%= transaction.listing.title %></h2>
+      <p style="font-size: 15px; margin-top: 0; color: #6e6e6e; text-align: justify;"><%= transaction.listing.description %></p>
+    </div>
+
+    <div class="right_side_content">
+      <div class="right_side_inner">
+        
+        <div class="uesr_details">
+          <div style="float: left;">
+            <% if transaction.listing.author.image.present? %>
+            <%= wicked_pdf_image_tag transaction.listing.author.image.url, style: 'height: 80px; width: 80px; border-radius: 5px; object-fit: cover;'%>
+          <% end %>
+          </div>
+          <div style="float: left; margin-left: 10px;">
+            <span style="color: #03c4cc; font-size: 18px; display: block; margin-top: 8px;"><%= PersonViewUtils.person_display_name_for_type(transaction.listing.author, @community)%> </span>
+            <%= link_to "Ask Seller", new_person_person_message_path(person_id: @transaction.listing.author, listing_id: @transaction.listing.id), class: "btn_ask" %>
+          </div>
+        </div>
+
+        <% if @transaction.listing.author.description.present? %>
+          <div class="member_info">
+            <h2 style="font-size: 20px; margin: 10px 0; padding: 0;">Member's profile info: </h2>
+            <p style="margin: 0; padding: 0; color: #3c3c3c; padding-left: 15px;"><%= truncate(@transaction.listing.author.description, :length => 300, :omission => '...') %></p>
+          </div>
+        <% end %>
+        <div class="review">
+          <%= wicked_pdf_image_tag 'favourites-filled-star-symbol.png', style: 'height: 30px; float: left; margin-left: 2px;'%> 
+          <div style="float: left; margin-left: 15px;">
+            <span>No reviews</span>
+            <span style="color: #939393; font-size: 13px;">Feedback</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--End content -->
+  <div class="footer_section">
+    <div class="left_side">
+      <h2 style="font-size: 18px; font-weight: normal;">How To Use</h2>
+      <p>1. Pull up voucher with our mobile app (or print it out).</p>
+      <p>2. Follow instructions on the voucher to redeem offer</p>
+      <p>3. Enjoy!</p>
+      <div style="padding-top: 10px;">
+        <%= wicked_pdf_image_tag 'https://merseyburns.com/appstore.png', style: 'height: 50px;'%>
+        <%= wicked_pdf_image_tag 'https://www.bayalarmmedical.com/wp-content/uploads/2017/02/google-play-button.png', style: 'height: 46px; margin-left: 8px; position: relative; top: -3px; '%>
+        
+      </div>
+    </div>
+    <div class="right_side">
+      <div style="border: 1px solid #f1f1f1;">
+        <div style="background: #f6f7f8; padding: 10px; ">
+          <h3 style="color: #6c6c6c; margin: 15px 0; font-size: 16px;">THE RULES</h3>
+          <p style="font-size: 14px;">Gratuity and any applicable taxes are not included</p>
+          <p style="font-size: 14px;">This offer must be redeem within 90 days of purchase</p>
+          <p style="font-size: 14px;">These are the restrictions that apply to every Avontage voucher (unless the Fine Print specifies an exception)</p>
+        </div>
+        <div class="links">
+          <h3 style="color: #6c6c6c; margin: 15px 0; font-size: 16px;">WE'RE HERE TO HELP</h3>
+          <a href="https://www.avontage.com">
+            Visit Avontage.com
+          </a>
+          <a href="javascript:void(0)">
+            Call 415-944-9067
+          </a>
+          <a href="javascript:void(0)">
+            Email: VIPDesk@Avontage.com
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
+
+
+
+
+<!-- <div class="pfd_main_container">
+  <div class="top_bar" style="margin-bottom: 10px;">
+    <%= wicked_pdf_image_tag 'logo.png', style: 'height: 28px; margin-left: -3px;'%>
+  </div>
+  <div class="border-container">
+    <table>
+      <tr>
+        <td style="width: 68.5%;">
+          <div class="inner_text_items">
+            <div class="content">
+              <% if transaction.listing.author.image.present? %>
+                <%= wicked_pdf_image_tag transaction.listing.author.image.url, style: 'height: 50px; width: 50px; border-radius: 50%; object-fit: cover; float: left'%>
+              <% end %>
+              <p style=" font-size: 20px; margin-top: 15px; margin-left: 60px; display: block;"><%= PersonViewUtils.person_display_name_for_type(transaction.listing.author, @community)%> </p>
+              <h2 style="font-size: 24px; font-weight: normal; margin-top: 24px; margin-bottom: 10px;"><%= transaction.listing.title %></h2>
+              <p style="font-size: 15px; margin-top: 0; color: #6e6e6e;"><%= transaction.listing.description %></p>
+              <div>
+                <%= wicked_pdf_image_tag 'https://www.alliant.edu/wp-content/uploads/2018/04/14_mybarcode.png', style: 'height: 40px;'%>
+                <p style="margin: 0; margin-top: 3px; margin-left: 40px; font-size: 15px; color: #6e6e6e;">123054</p>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td style="width: 31.5%;background: #f6f7f8;">
+          <div class="inner_img_items">
+            <div class="img-text-container">
+              <% if transaction.listing.listing_images.present? %>
+                <%= wicked_pdf_image_tag transaction.listing.listing_images.first.image.url, style: 'width: 100%; display: block;'%>
+              <% end %>
+              <h2 style="font-weight: normal; color: #4d4d4d; font-size: 22px;">Save a Tree</h2>
+              <p style="color: #979393; font-size: 15px;">
+                Skip the paper and redeem your Avontage right from our mobile app.
+              </p>
+              <div style="padding-top: 5px; ">
+                <span>
+                  <%= wicked_pdf_image_tag 'google_play.png', style: 'height: 36px;'%>
+                </span>
+                <span>
+                  <%= wicked_pdf_image_tag 'google_play_2.png', style: 'height: 36px; margin-left: 10px;'%>
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <table style="width: 100%; margin: 0; padding:0; padding-top: 25px;">
+    <tbody>
+      <tr style=" margin: 0; padding:0; vertical-align: top;">
+        <td style="width: 33.33%;">
+          <h3 style=" color: #383838; font-weight: normal; font-size: 22px; ">How To Use</h3>
+          <p style="margin-bottom: 1px; color: #666666; ">1. Pull up voucher with our mobile app (or print it out).</p>
+          <p style="margin-bottom: 1px; color: #666666; ">2. Appointment required, call (480-219-7990) and mention your voucher.</p>
+          <p style="margin-bottom: 1px; color: #666666; ">3. Present voucher upon arrival.</p>
+          <p style="margin-bottom: 1px; color: #666666; ">4. Enjoy!</p>
+          <h3 style=" color: #383838; font-weight: normal; font-size: 22px; ">Redeem At</h3>
+          <p style="margin: 0; color: #666666; "><%= PersonViewUtils.person_display_name_for_type(transaction.listing.author, @community)%></p>
+          <p style="margin: 0; color: #666666; ">
+            <% if transaction.listing.location.present? %>
+              <%= transaction.listing.location.google_address %>
+            <% end %>
+          </p>
+        </td>
+        <td style="width: 35%;">
+          <h3 style=" color: #6c6c6c;">INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):</h3>
+          <p style="margin: 0; color: #666666; ">
+            <% if instructions.present? %>
+              <%= instructions %>
+            <% end %>
+          </p>
+        </td>
+        <td style="width: 35%; border-right: 1px solid #f1f1f1; border-left: 1px solid #f1f1f1;">
+          <div style=" color: #6c6c6c; font-weight: normal; padding: 1px 15px; background: #f6f7f8;">
+            <h3 style="padding:0; margin-top: 10px; margin-bottom: 0px; font-weight: normal;">THE RULES</h3>
+            <p style="font-size: 14px;">These are the restrictions that apply to every Avontage voucher (unless the Fine Print specifies an exception)</p>
+          </div>
+          <div style="margin-top: 70px;padding: 0 15px;">
+            <h3 style="padding:0; margin-top: 10px; margin-bottom: 0px; font-weight: normal; font-size: 16px;color: #6c6c6c;">WE'RE HERE TO HELP</h3>
+            <a href="#" style="display: block; text-decoration: none;">Visit Avontage.com</a>
+            <a href="#" style="display: block; text-decoration: none;">Call 415-944-9067</a>
+            <a href="#" style="display: block; text-decoration: none;">Email: VIPDesk@Avontage.com</a>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
