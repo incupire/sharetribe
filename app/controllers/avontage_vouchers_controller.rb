@@ -23,7 +23,13 @@ class AvontageVouchersController < ApplicationController
     respond_to do |format|
       format.html { render :locals => {received_testimonials: received_testimonials, received_positive_testimonials: received_positive_testimonials, feedback_positive_percentage: feedback_positive_percentage} }
       format.pdf do
-        @pdf = render_to_string(pdf: voucher_name, default_header: false, template: "avontage_vouchers/voucher.html.erb", :locals => {transaction: @transaction, instructions: @instructions})
+        @pdf = render_to_string(pdf: voucher_name, default_header: false, template: "avontage_vouchers/voucher.html.erb", :locals => {
+          transaction: @transaction, 
+          instructions: @instructions, 
+          received_testimonials: received_testimonials,
+          received_positive_testimonials: received_positive_testimonials, 
+          feedback_positive_percentage: feedback_positive_percentage
+        })
         send_data(@pdf, :filename => voucher_name, :type=>"application/pdf", disposition: "inline")
       end
     end
