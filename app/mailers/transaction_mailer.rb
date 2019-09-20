@@ -135,7 +135,7 @@ class TransactionMailer < ActionMailer::Base
       else
         transaction.listing_title
       end
-
+      
       premailer_mail(:to => buyer_model.confirmed_notification_emails_to,
                      :from => community_specific_sender(community),
                      :subject => t("emails.receipt_to_payer.receipt_of_payment")) { |format|
@@ -157,6 +157,8 @@ class TransactionMailer < ActionMailer::Base
                    show_money_will_be_transferred_note: false,
                    gateway: transaction.payment_gateway,
                    community_name: community.name_with_separator(buyer_model.locale),
+                   avon_commission: MoneyViewUtils.to_humanized(transaction.avon_commission),
+                   commission_percentage: transaction.commission_from_seller,
                  }
         }
       }

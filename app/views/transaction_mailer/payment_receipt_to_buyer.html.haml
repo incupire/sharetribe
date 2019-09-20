@@ -39,6 +39,13 @@
           %td
             = subtotal
 
+        - if avon_commission.present? && gateway.to_s == "coupon_pay"
+          %tr
+            %td{:width => "250"}
+              = t("emails.receipt_to_payer.avon_commission_from_buyer", :percentage_commission => commission_percentage)
+            %td
+              = "+#{avon_commission}"            
+
         - if shipping_total.present?
           %tr
             %td

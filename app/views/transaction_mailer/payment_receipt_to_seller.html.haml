@@ -38,10 +38,12 @@
             %b= t("emails.payment_receipt_to_seller.price_payer_paid", :payer_full_name => payer_given_name)
           %td
             %b= subtotal
-        %tr
-          %td
-            = t("emails.payment_receipt_to_seller.service_fee")
-          %td= "#{payment_service_fee}"
+            
+        - if gateway.to_s != 'coupon_pay'
+          %tr
+            %td
+              = t("emails.payment_receipt_to_seller.service_fee")
+            %td= "#{payment_service_fee}"
 
         - if shipping_total.present?
           %tr
