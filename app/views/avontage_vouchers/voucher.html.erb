@@ -89,7 +89,8 @@
 <div class="pfd_main_container">
   <div class="top_part">
     <%= wicked_pdf_image_tag 'logo.png', style: 'height: 35px; margin-left: -3px;'%>
-    <p style="font-size: 16px; font-weight: 600;">Dear Madhav S, Below is your redeem instruction. Please use this voucher to redeem your Offer.</p>
+    <p style="font-size: 16px; font-weight: 600;">
+      <%= "Dear #{PersonViewUtils.person_display_name_for_type(transaction.buyer, @community)}, Below is your redeem instruction. Please use this voucher to redeem your Offer."%></p>
     <div style="padding-top: 15px;">
       <% if transaction.listing.author.image.present? %>
         <%= wicked_pdf_image_tag transaction.listing.author.image.url, style: 'height: 60px; width: 60px; border-radius: 50%; object-fit: cover;'%>
