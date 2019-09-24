@@ -1,11 +1,9 @@
 .people-fluid-thumbnail-grid-container
   .people-fluid-thumbnail-grid#profile-listings-list
-    %h2.people-header
-      = "#{listings.count} Open Listings"
     - listings.each do |listing|
-      .people-fluid-thumbnail-grid-item
+      .people-fluid-thumbnail-grid-item.custom_padding
         %div
-          = render :partial => "layouts/grid_item_listing_image", :locals => {:listing => listing, :modifier_class => "people-listings"}
+          = render :partial => "listings/grid_listing_image", :locals => {:listing => listing, :modifier_class => "people-listings"}
 
         .home-fluid-thumbnail-grid-author.custom_grid_author
           .fluid-thumbnail-grid-image-title.custom_title.custom_parent
@@ -21,4 +19,4 @@
                   = price_text
             - else
               %span.fluid-thumbnail-grid-image-type
-                = shape_name(listing)  
+                = shape_name(listing)

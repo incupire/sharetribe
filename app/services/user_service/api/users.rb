@@ -78,7 +78,7 @@ module UserService::API
       return UserService::API::DataTypes.create_user(hash)
     end
 
-    def username_from_fb_data(username:, given_name:, family_name:, community_id:)
+    def username_from_omniauth_data(username:, given_name:, family_name:, community_id:)
       base = Maybe(
           Maybe(username)
           .or_else(Maybe(given_name).strip.or_else("") + Maybe(family_name).strip()[0].or_else(""))

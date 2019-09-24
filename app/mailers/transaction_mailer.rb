@@ -135,7 +135,7 @@ class TransactionMailer < ActionMailer::Base
       else
         transaction.listing_title
       end
-
+      
       premailer_mail(:to => buyer_model.confirmed_notification_emails_to,
                      :from => community_specific_sender(community),
                      :subject => t("emails.receipt_to_payer.receipt_of_payment")) { |format|
@@ -157,9 +157,36 @@ class TransactionMailer < ActionMailer::Base
                    show_money_will_be_transferred_note: false,
                    gateway: transaction.payment_gateway,
                    community_name: community.name_with_separator(buyer_model.locale),
+                   avon_commission: MoneyViewUtils.to_humanized(transaction.avon_commission),
+                   commission_percentage: transaction.commission_from_seller,
                  }
         }
       }
+    end
+  end
+
+  def avon_voucher(transaction)
+    @community = transaction.community
+    @transaction = transaction
+    @listing = transaction.listing
+    @buyer = transaction.buyer
+    @seller = transaction.seller
+    prepare_template(@community, @buyer)
+    cusotm_field = CustomFieldName.find_by(value: 'INSTRUCTIONS (any redeem instructions, restrictions, or other details the Buyer needs to be aware of)')
+    if cusotm_field.present? && @listing.answer_for(cusotm_field)
+      @instructions = @listing.answer_for(cusotm_field).display_value
+    else
+      @instructions = nil
+    end
+
+    with_locale(@buyer.locale, @community.locales.map(&:to_sym), @community.id) do
+      premailer_mail(
+        mail_params(
+          @buyer,
+          @community,
+          t("emails.avon_voucher.subject", buyer_name: PersonViewUtils.person_display_name_for_type(@buyer, @community), listing_title: @listing.title)
+        )
+      )
     end
   end
 

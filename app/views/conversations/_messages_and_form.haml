@@ -3,11 +3,18 @@
     initialize_reply_form('#{I18n.locale}');
 
   #reply_form.message-avatar-padding.message-reply-form
+    - if message_form&.conversation&.tx.blank? && message_form&.conversation&.listing_id.present?
+      %h2
+        = link_to message_form&.conversation&.listing&.title, listing_path(id: message_form.conversation&.listing&.id)
+
     = form_for message_form, :url => message_form_action do |f|
       = f.label :content, t("conversations.show.write_a_reply")
-      = f.text_area :content, :class => "reply_form_text_area"
+      = f.text_area :content, :class => "reply_form_text_area", placeholder: t("conversations.new.placeholder")
       = f.hidden_field :conversation_id
       = f.button t("conversations.show.send_reply")
-
+.transaction_heading
+  / %hr.transaction_top_line
+  %h2.transaction_heading_custom
+    = "Transaction History" if message_form&.conversation&.tx.present?
 #messages
   = render :partial => "conversations/message", :collection => messages, as: :message_or_action

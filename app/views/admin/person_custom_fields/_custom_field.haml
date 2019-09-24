@@ -1,11 +1,15 @@
 .row.custom-field-list-row{:data => {:"field-id" => custom_field.id}}
-  .col-5
+  .col-4
     %span.custom-fields-mobile-list-title.hidden-tablet
       = t("admin.custom_fields.index.field_title")
     = custom_field.name(I18n.locale)
-  .col-5.custom-field-title
+  .col-3.custom-field-title
     %span.custom-fields-mobile-list-title.hidden-tablet
       = t("admin.custom_fields.index.field_type")
+  .col-3.custom-field-title
+    %span.custom-fields-mobile-list-title.hidden-tablet
+      = t("admin.custom_fields.index.hint")
+
     %div
       = field_type_translation(custom_field.type)
     %div.custom-fields-details

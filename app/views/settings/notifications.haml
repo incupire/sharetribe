@@ -8,8 +8,11 @@
 
 #person_settings_form.left-navi-section.settings-section.notification-settings
   = form_for target_user do |form|
+  
+    %h2= target_user.mobile_number.present? ? t(".i_want_to_get_sms_on_mobile_notification_when", mobile: target_user.mobile_number) : t(".i_want_to_get_sms_notification_when")
+    = render :partial => "notification_checkbox", :collection => Person::SMS_NOTIFICATION_TYPES, :as => :notification_type, locals: {target_user: target_user}
 
-    %h2= t(".community_updates")
+    %h2.lower= t(".community_updates")
     = render :partial => "community_updates_radiobutton", :collection => [["email_daily_community_updates", 1], ["email_weekly_community_updates", 7], ["do_not_email_community_updates", 100000]], :as => :options, locals: {target_user: target_user}
 
     %h2.lower= t(".newsletters")

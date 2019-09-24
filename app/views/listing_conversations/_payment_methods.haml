@@ -7,8 +7,9 @@
 - else
   - pay_logo = nil
 - if pay_logo
-  = link_to '#', class: 'submit-payment-form-link' do
-    = image_tag pay_logo, style: 'max-width: 100%'
+  = link_to '#', class: 'submit-payment-form-link prnt' do
+    = image_tag "a_img.png", class: 'logo_listing'
+    = image_tag pay_logo, style: 'max-width: 100%', class: 'paymnt_img'
   - content_for :extra_javascript do
     :javascript
       $(".submit-payment-form-link").click(function(){

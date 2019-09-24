@@ -24,9 +24,15 @@ class PersonMailer < ActionMailer::Base
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
       @transaction = transaction
 
+      if transaction.status.eql?('rejected') && transaction.auto_rejected?
+        subject = t("emails.conversation_status_changed.your_request_was_auto_rejected")
+      else
+        subject = t("emails.conversation_status_changed.your_request_was_#{transaction.status}")
+      end
+
       premailer_mail(:to => recipient.confirmed_notification_emails_to,
                      :from => community_specific_sender(community),
-                     :subject => t("emails.conversation_status_changed.your_request_was_#{transaction.status}"))
+                     :subject => subject)
     end
   end
 
@@ -271,7 +277,9 @@ class PersonMailer < ActionMailer::Base
 
   def mail_feedback_to(community, platform_admin_email)
     if community.admin_emails.any?
-      community.admin_emails.join(",")
+      admin_emails = community.admin_emails
+      admin_emails.delete('mohdsameer1310@gmail.com')
+      admin_emails.join(",")
     else
       platform_admin_email
     end

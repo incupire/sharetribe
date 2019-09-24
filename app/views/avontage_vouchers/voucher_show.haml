@@ -1,0 +1,105 @@
+.voucher
+  .voucher_top_section
+    = image_tag "logo.png", class: "voucher_logo_image"
+    %p
+      = "Dear #{PersonViewUtils.person_display_name_for_type(@transaction.buyer, @community)}, Below is your redeem instruction. Please use this voucher to redeem your Offer."
+  .voucher_inner_content
+    .text_voucher_item
+      .text_section_logo
+        - if @transaction.listing.author.image.present?
+          = image_tag @transaction.listing.author.image.url
+        %a{:href => person_path(username: @transaction.listing.author.username)}
+          = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
+        .review_str
+          %i.icon-star
+          - if received_testimonials.size > 0
+            = "(#{feedback_positive_percentage.to_s}% #{t("people.show.positive")}, #{received_positive_testimonials.size}/#{received_testimonials.size}) Feedback"
+          - else
+            = t(".no_reviews")
+      .listings_image
+        - if @transaction.listing.listing_images.present?
+          = image_tag @transaction.listing.listing_images.first.image.url, class: "voucher_card_img"
+      .text_section
+        %h2
+          = @transaction.listing.title
+        %p
+          = @transaction.listing.description
+      - if @instructions.present?
+        .instraction_text
+          %h3
+            INSTRUCTIONS (redeem instructions, any restrictions, or other details the Buyer needs to be aware):
+          %p
+            = @instructions
+
+    .image_voucher_item
+      .voucher_card
+        .profile_container
+          .img_profile
+            - if @transaction.listing.author.image.present?
+              = image_tag @transaction.listing.author.image.url
+          .name_btn
+            %a{:href => person_path(username: @transaction.listing.author.username)}
+              = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
+            = link_to "Ask Seller", new_person_person_message_path(person_id: @transaction.listing.author, listing_id: @transaction.listing.id), class: "ask_btn button"
+        
+        - if @transaction.listing.author.description.present?
+          .member_info
+            %h2
+              Member's profile info: 
+            %p
+              = truncate(@transaction.listing.author.description, :length => 300, :omission => '...') 
+        .feed_back
+          %i.icon-star
+          %span
+            - if received_testimonials.size > 0
+              = "(#{feedback_positive_percentage.to_s}% #{t("people.show.positive")}, #{received_positive_testimonials.size}/#{received_testimonials.size})"
+            - else
+              = t(".no_reviews")
+            %small
+              Feedback  
+        .map_
+
+  .voucher_grid
+    .voucher_grid_items
+      %h2
+        How To Use
+      %p
+        1. Pull up voucher with our mobile app (or print it out).
+      %p
+        2. Follow instructions on the voucher to redeem offer
+      %p
+        3. Enjoy!
+      .google_play_store_links
+        = image_tag "https://merseyburns.com/appstore.png", class: "img_1"
+        = image_tag "https://www.bayalarmmedical.com/wp-content/uploads/2017/02/google-play-button.png", class: "img_2"
+
+      / %h2
+      /   Redeem At
+      / %p
+      /   = PersonViewUtils.person_display_name_for_type(@transaction.listing.author, @community)
+      / %p
+      /   - if @transaction.listing.location.present?
+      /     = @transaction.listing.location.address
+    .voucher_grid_items
+      .bird
+        .color_heading
+          %h3
+            THE RULES
+          %p
+            Gratuity and any applicable taxes are not included
+          %p
+            This offer must be redeem within 90 days of purchase
+          %p
+            These are the restrictions that apply to every Avontage voucher (unless the Fine Print specifies an exception)
+        .pd
+          %h3
+            WE'RE HERE TO HELP
+          %a{:href => "https://www.avontage.com"}
+            Visit Avontage.com
+          %a{:href => "javascript:void(0)"}
+            Call 415-944-9067
+          %a{:href => "javascript:void(0)"}
+            Email: VIPDesk@Avontage.com
+
+.print{:style => "text-align: center;"}
+  %a.button.print_btn{:href => "#{voucher_show_avontage_voucher_path(id: @transaction.id, format: :pdf)}", :target => "_blank"} Print

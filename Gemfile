@@ -17,7 +17,7 @@ gem 'jquery-ui-rails'
 
 # gem 'heroku' install the Heroku toolbelt (https://toolbelt.heroku.com/) instead (as gem had some problems)
 gem "passenger", '~> 5.1.4'
-
+gem "pry-rails"
 gem "mysql2", '~> 0.4.6'
 gem 'haml', '~> 5.0.1'
 gem 'sass', '~> 3.4.24'
@@ -25,6 +25,8 @@ gem 'rack-attack', '~> 5.0.1'
 gem 'rest-client', '~> 2.0.2'
 
 gem 'paperclip', '~> 5.2.1'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 gem 'delayed_paperclip', '~> 3.0.1'
 gem 'daemons'
 gem 'aws-sdk', '~> 2.9.25'
@@ -51,6 +53,7 @@ gem 'rails-i18n', '~> 5.0.4'
 gem 'devise', '~> 4.3.0'
 gem 'devise-encryptable', '~> 0.2.0'
 gem "omniauth-facebook", '~> 4.0.0'
+gem 'omniauth-linkedin-oauth2'
 
 # Dynamic form adds helpers that are needed, e.g. error_messages
 gem 'dynamic_form', '~> 1.1.4'
@@ -174,3 +177,6 @@ gem 'twitter_cldr'
 gem 'memoist'
 gem 'biz'
 gem 'rails-jquery-autocomplete'
+gem 'twilio-ruby', '~> 5.23.1'
+gem "browser"
+gem 'fcm'

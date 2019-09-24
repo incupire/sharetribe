@@ -73,6 +73,13 @@
           = t('settings.profile.invisible')
       = form.text_field :phone_number, :class => "text_field", :maxlength => "25"
 
+    -# Mobile number
+    .inline-label-container
+      = form.label :mobile_number, t("settings.profile.mobile_number"), :class => "inline"
+      %small
+        = t('settings.profile.invisible')
+    = form.text_field :mobile_number, :class => "text_field", :maxlength => "25"
+
     -# Profile picture
     .inline-label-container
       = form.label :image, t("settings.profile.profile_picture")

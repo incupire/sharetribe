@@ -40,7 +40,11 @@
             %span.conversation-per-unit-label
               = t("transactions.initiate.price_per_hour")
             %span.conversation-per-unit-value
-              = MoneyViewUtils.to_humanized(listing.price)
+              -if @transaction.payment_gateway.eql?(:coupon_pay)
+                = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+                = MoneyViewUtils.to_humanized(listing.price).split('$')[1]
+              - else
+                = MoneyViewUtils.to_humanized(listing.price)
 
           .conversation-booking-wrapper
             %span.conversation-booking-label
@@ -61,7 +65,11 @@
               - else
                 = t("transactions.initiate.price_per_night")
             %span.conversation-per-unit-value
-              = MoneyViewUtils.to_humanized(listing.price)
+              -if @transaction.payment_gateway.eql?(:coupon_pay)
+                = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+                = MoneyViewUtils.to_humanized(listing.price)
+              - else
+                = MoneyViewUtils.to_humanized(listing.price)
 
           .conversation-booking-wrapper
             %span.conversation-booking-label
@@ -84,7 +92,11 @@
           %span.conversation-per-unit-label
             = t("transactions.price_per_quantity", unit_type: ListingViewUtils.translate_unit(listing.unit_type, listing.unit_tr_key))
           %span.conversation-per-unit-value
-            = MoneyViewUtils.to_humanized(listing.price)
+            - if @transaction.payment_gateway.eql?(:coupon_pay)
+              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+              = MoneyViewUtils.to_humanized(listing.price).split('$')[1]
+            - else
+              = MoneyViewUtils.to_humanized(listing.price)
         .conversation-quantity-wrapper
           %span.conversation-quantity-label
             = ListingViewUtils.translate_quantity(listing.unit_type, listing.unit_selector_tr_key) || t("conversations.accept.quantity_label")
@@ -95,7 +107,11 @@
         %span.conversation-sum-label
           = t("conversations.accept.sum_label")
         %span.conversation-sum-value
-          = MoneyViewUtils.to_humanized(sum)
+          - if @transaction.payment_gateway.eql?(:coupon_pay)
+            = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+            = MoneyViewUtils.to_humanized(sum).split('$')[1]
+          - else
+            = MoneyViewUtils.to_humanized(sum)
       .conversation-service-fee-wrapper
         %span.conversation-service-fee-label
           - if service_name == "Avontage"
@@ -113,7 +129,12 @@
           %span.conversation-shipping-price-label
             = t("conversations.accept.shipping_price_label")
           %span.conversation-shipping-price-value
-            = MoneyViewUtils.to_humanized(@transaction.shipping_price)
+            - if @transaction.payment_gateway.eql?(:coupon_pay)
+              = "-"
+              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+              = MoneyViewUtils.to_humanized(@transaction.shipping_price).split('$')[1]        
+            - else
+              = MoneyViewUtils.to_humanized(@transaction.shipping_price)
 
       - if @transaction.payment_gateway == :paypal || @transaction.payment_gateway == :stripe
         - if gateway_fee.present? && gateway_fee > 0
@@ -121,20 +142,33 @@
             %span.conversation-stripe-fee-label
               = t("conversations.accept.stripe-fee_label")
             %span.conversation-stripe-fee-value
-              = "-#{MoneyViewUtils.to_humanized(gateway_fee)}"
+              - if @transaction.payment_gateway.eql?(:coupon_pay)
+                = "-"
+                = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+                = MoneyViewUtils.to_humanized(gateway_fee).split('$')[1]            
+              - else
+                = "-#{MoneyViewUtils.to_humanized(gateway_fee)}"
 
         .conversation-total-wrapper
           %span.conversation-total-label
             = t("conversations.accept.total_label")
           %span.conversation-total-paypal-value
-            = t("conversations.accept.total_value_#{@transaction.payment_gateway}", seller_gets: MoneyViewUtils.to_humanized(seller_gets))
+            - if @transaction.payment_gateway.eql?(:coupon_pay)
+              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+              = t("conversations.accept.total_value_#{@transaction.payment_gateway}", seller_gets: MoneyViewUtils.to_humanized(seller_gets).split('$')[1])
+            - else
+              = t("conversations.accept.total_value_#{@transaction.payment_gateway}", seller_gets: MoneyViewUtils.to_humanized(seller_gets))
 
       - else
         .conversation-total-wrapper
           %span.conversation-total-label
             = t("conversations.accept.you_will_get_label")
           %span.conversation-total-value
-            = MoneyViewUtils.to_humanized(seller_gets)
+            - if @transaction.payment_gateway.eql?(:coupon_pay)
+              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+              = MoneyViewUtils.to_humanized(seller_gets).split('$')[1]
+            - else
+              = MoneyViewUtils.to_humanized(seller_gets)
 
     - if @transaction.payment_gateway == :paypal
       %p
@@ -151,9 +185,9 @@
           $('#paypal_fee_info_link').click(function() { $('#paypal_fee_info_content').lightbox_me({centered: true, zIndex: 1000000}); });
   - if @transaction.payment_gateway == :coupon_pay
     .amount_paid
-      * Amount paid in Avon-BUCKS Credits
+      * Amount paid in Avontage Bucks Credits
     .click_acceipt{style: "padding-left: 10px;margin-bottom: 10px;"}
-      Please click to Accept payment in Avon-BUCKS Credits
+      Please click to Accept payment in Avontage Bucks Credits
   = render partial: "transactions/shipping_address", locals: { shipping_address: @transaction.shipping_address }
 
   = form_for form, :url => form_action, :html => { id: "accept-reject-form", :method => "put" } do |form|
@@ -170,7 +204,7 @@
     %div
       = fields_for "transaction[message_attributes]", Message.new do |message_form|
         = message_form.label :content, t("conversations.new.message"), :class => "input"
-        = message_form.text_area :content, :class => "text_area", :placeholder => t("conversations.accept.optional_message")
+        = message_form.text_area :content, :class => "text_area", placeholder: t("conversations.new.placeholder")
         = message_form.hidden_field :sender_id, :value => @current_user.id
 
       - initial_send_label = preselected_action == "accept" ? t('conversations.accept.accept') : t('conversations.accept.decline')

@@ -46,6 +46,10 @@
 #  stripe_customer_id                 :string(255)
 #  referral_code                      :string(255)
 #  favorites_count                    :integer          default(0)
+#  linkedin_id                        :string(255)
+#  mobile_number                      :string(255)
+#  android_device_token               :string(255)
+#  ios_device_token                   :string(255)
 #
 # Indexes
 #
@@ -79,7 +83,7 @@ class Person < ApplicationRecord
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :omniauthable
+         :omniauthable, omniauth_providers: [:facebook, :linkedin]
 
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,
@@ -158,6 +162,14 @@ class Person < ApplicationRecord
     # "email_when_new_feedback_on_transaction",
     # "email_when_new_listing_from_friend"
   ]
+
+  SMS_NOTIFICATION_TYPES = [
+    "sms_about_selling_offer",
+    "sms_about_new_messages_or_request",
+    "sms_remainder_to_mark_complete",
+    "sms_from_admins"
+  ]
+
   EMAIL_NEWSLETTER_TYPES = [
     "email_from_admins"
   ]
@@ -387,6 +399,7 @@ class Person < ApplicationRecord
   def set_default_preferences
     self.preferences = {}
     EMAIL_NOTIFICATION_TYPES.each { |t| self.preferences[t] = true }
+    SMS_NOTIFICATION_TYPES.each { |t| self.preferences[t] = true }
     EMAIL_NEWSLETTER_TYPES.each { |t| self.preferences[t] = true }
     save
   end
@@ -458,6 +471,10 @@ class Person < ApplicationRecord
       return confirmed_email && min_days_between_community_updates < 100000
     end
     confirmed_email && preferences && preferences[email_type]
+  end
+
+  def should_receive_sms?(sms_type)
+    preferences && preferences[sms_type] && self.mobile_number.present?
   end
 
   def profile_info_empty?
@@ -537,6 +554,15 @@ class Person < ApplicationRecord
       end
     end
   end
+
+  def update_linkedin_data(linkedin_id, image_url=nil)
+    self.update_attribute(:linkedin_id, linkedin_id)
+    self.store_picture_from_linkedin!(image_url) if self.image_file_size.nil? && image_url.present?
+  end
+
+  def store_picture_from_linkedin!(image_url=nil)
+    self.picture_from_url(image_url)
+  end  
 
   def self.find_by_email_address_and_community_id(email_address, community_id)
     Maybe(

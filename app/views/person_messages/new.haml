@@ -7,6 +7,7 @@
   = form_for @conversation, :url => person_person_messages_path(:person => @recipient) do |form|
     = fields_for "conversation[message_attributes]", Message.new do |message_form|
       = message_form.label :content, t('conversations.new.message')
-      = message_form.text_area :content, :class => "text_area"
-
+      = message_form.text_area :content, :class => "text_area",placeholder: t("conversations.new.placeholder")
+      
+    = form.hidden_field :listing_id, value: params[:listing_id]
     = form.button t("conversations.new.send_message"), :class => "send_button"

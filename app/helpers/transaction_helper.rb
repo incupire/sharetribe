@@ -218,7 +218,8 @@ module TransactionHelper
           status_info = if is_coupon_pay && current_user?(conversation.author)
             status_info(t("conversations.status.great_you_accepted_offer"), icon_classes: icon_for("paid"))
           elsif is_coupon_pay && current_user?(conversation.starter)
-            status_info(t("conversations.status.request_paid_and_available_coupon_balance", avl_ducat_bal: MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe).html_safe, icon_classes: icon_for("paid"))
+            #status_info(t("conversations.status.request_paid_and_available_coupon_balance", avl_ducat_bal: MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe).html_safe, icon_classes: icon_for("paid"))
+            status_info(t("conversations.status.next_steps_you_will_receive_an_email_voucher_and_redeem_instruction").html_safe, icon_classes: icon_for("paid"))
           else
             status_info(t("conversations.status.request_paid"), icon_classes: icon_for("paid"))
           end
@@ -343,13 +344,13 @@ module TransactionHelper
         icon_classes: "ss-clockwise"
       )
     else
-      status_info(
-        t("conversations.status.waiting_for_listing_author_to_deliver_listing",
-          :listing_title => link_to(conversation.listing.title, conversation.listing),
-          :listing_author_name => link_to(PersonViewUtils.person_display_name(conversation.author, conversation.community))
-        ).html_safe,
-        icon_classes: "ss-clockwise"
-      )
+      # status_info(
+      #   t("conversations.status.waiting_for_listing_author_to_deliver_listing",
+      #     :listing_title => link_to(conversation.listing.title, conversation.listing),
+      #     :listing_author_name => link_to(PersonViewUtils.person_display_name(conversation.author, conversation.community))
+      #   ).html_safe,
+      #   icon_classes: "ss-clockwise"
+      # )
     end
   end
 
@@ -452,12 +453,16 @@ module TransactionHelper
 
   def waiting_for_author_to_accept_preauthorized(transaction)
     if transaction.payment_gateway == :coupon_pay
-      text = t("conversations.status.waiting_for_listing_author_to_accept_request_coupon",
-        :listing_author_name => link_to(
-          PersonViewUtils.person_display_name_for_type(transaction.author, "first_name_only"),
-          transaction.author
-        )
-      ).html_safe
+      unless transaction.auto_accept_transaction?
+        text = t("conversations.status.waiting_for_listing_author_to_accept_request_coupon",
+          :listing_author_name => link_to(
+            PersonViewUtils.person_display_name_for_type(transaction.author, "first_name_only"),
+            transaction.author
+          )
+        ).html_safe
+      else
+        text = t("conversations.status.check_your_email_for_redeem_instruction")
+      end   
     else
       text = t("conversations.status.waiting_for_listing_author_to_accept_request",
         :listing_author_name => link_to(

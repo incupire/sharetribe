@@ -40,6 +40,8 @@
 #  avon_commission_cents             :integer
 #  avon_commission_currency          :string(255)
 #  avon_commission_charge_id         :string(255)
+#  auto_accept_transaction           :boolean          default(FALSE)
+#  auto_rejected                     :boolean          default(FALSE)
 #
 # Indexes
 #

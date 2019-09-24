@@ -25,16 +25,19 @@ class InboxesController < ApplicationController
       extended_inbox = inbox_row.merge(
         path: path_to_conversation_or_transaction(inbox_row),
         last_activity_ago: time_ago(inbox_row[:last_activity_at]),
-        title: inbox_title(inbox_row, inbox_payment(inbox_row))
+        title: inbox_title(inbox_row, inbox_payment(inbox_row)),
       )
 
-      if inbox_row[:type] == :transaction
+      conversation = Conversation.find(inbox_row[:conversation_id])
+      if conversation.listing_id.present?
         extended_inbox.merge(
-          listing_url: listing_path(id: inbox_row[:listing_id])
+          listing_deleted: conversation.listing.deleted,
+          listing_title: conversation&.listing&.title,
+          listing_url: listing_path(id: conversation.listing_id)
         )
       else
         extended_inbox
-      end    
+      end
     }
 
     paginated_inbox_rows = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], count) do |pager|

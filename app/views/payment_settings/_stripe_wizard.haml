@@ -112,6 +112,14 @@
               = t("stripe_accounts.form_new.tos_link", stripe_link: stripe_link ).html_safe
 
               = button_tag t('stripe_accounts.form_new.save_details')
+%p
+  %b= "Note: Your bank account information is NOT required on Avontage. This is an optional feature"
+
+%p= "If you wish to accept credit card payments for your offers in addition to Avontage Bucks trade credits, then you must setup your bank account information so the payment processing company can transfer any credit card sales to your account."
+
+%p= "Customary credit card processing fees apply. Please check Stripe.com for details."
+
+%p= "All banking information are encrypted and securely stored on Stripe.com servers. Avontage does not host any of the credit card or banking information."
 
 - stripe_data = stripe_default_data
 - stripe_data = stripe_data.merge(update: true) if stripe_seller_ready

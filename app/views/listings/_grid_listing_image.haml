@@ -1,0 +1,33 @@
+-#
+  Listing image for grid
+
+  Includes:
+  - Listing image
+  - Overlay (transparent gradient black)
+  - Listing price
+  - Adds `modifier_class` which can be used for view specific fine tunings
+
+-# Mark favotite/Unfavorite listing
+- if @current_user.present? && @current_user.id != listing.author.id
+  %div.custom-favorite.cust_fav{id: "favorite_#{listing.id}"}
+    = render :partial => 'favorites/favorite_select_unselect', :locals => {:listing_id => listing.id}
+= link_to(listing_path(listing.to_param), :class => "#{modifier_class} fluid-thumbnail-grid-image-item-link") do
+  .fluid-thumbnail-grid-image-image-container{:class => "#{modifier_class}"}
+    - first_image_url = (listing.listing_images.present? && listing.listing_images.first.image.present?) ? listing.listing_images.first.image.url(:medium) : ""
+    = image_tag first_image_url, {:alt => listing.title, :class => "#{modifier_class} fluid-thumbnail-grid-image-image mobile_image"}
+
+    //.fluid-thumbnail-grid-image-overlay{:class => "#{modifier_class}"}
+
+
+    // .fluid-thumbnail-grid-image-price-container
+    //   - if listing.price
+    //     %span.fluid-thumbnail-grid-image-price
+    //       =# MoneyViewUtils.to_humanized(listing.price)
+    //       - price_unit = price_quantity_slash_unit(listing)
+    //     - if !price_unit.blank?
+    //       - price_text = " " + price_unit
+    //       %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
+    //         =# price_text
+    //   - else
+    //     %span.fluid-thumbnail-grid-image-type{:class => "#{modifier_class}"}
+    //       =# shape_name(listing)

@@ -42,7 +42,7 @@
 
       .row
         .col-12
-          = text_area_tag :message, nil, :class => "text_area"
+          = text_area_tag :message, nil, :class => "text_area", placeholder: t("conversations.new.placeholder")
 
       - if @current_community.transaction_agreement_in_use
         = render :partial => "listing_conversations/transaction_agreement_checkbox"
@@ -57,9 +57,9 @@
 
       - if stripe_in_use || @current_user.has_coupon_balance?
         .row-with-dynamiv-divider
-        .row
+        .row.mr-0
           .col-12
-            %h2
+            %h2.underline
               = t("listing_conversations.stripe_payment.payment")
         = render :partial => "listing_conversations/stripe_payment", locals: {  publishable_key: stripe_publishable_key, stripe_shipping_required: stripe_shipping_required, paypal_in_use: paypal_in_use, stripe_in_use: stripe_in_use}
 
@@ -83,7 +83,8 @@
         .row
           .col-12
             %p
-              = t("listing_conversations.preauthorize.you_will_be_charged", author: author_link, expiration_period: paypal_expiration_period).html_safe
+              = t("listing_conversations.preauthorize.you_will_receive_email_voucher", author: author_link, expiration_period: paypal_expiration_period).html_safe
+              =# t("listing_conversations.preauthorize.you_will_be_charged", author: author_link, expiration_period: paypal_expiration_period).html_safe
 
   %noscript
     = "For security reasons JavaScript has to be enabled"

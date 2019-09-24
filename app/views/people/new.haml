@@ -16,8 +16,11 @@
             :allowed_emails => @current_community.allowed_emails,
             :count => (@current_community.allowed_emails.split(",").count))
 
-  - unless !facebook_connect_in_use? || params[:no_fb]
-    = render :partial => "layouts/facebook_connect_button", :locals => { :button_text => t(".create_account_with_facebook") }
+  - if (facebook_connect_in_use? || !params[:no_fb]) || linkedin_connect_in_use?
+    - if facebook_connect_in_use?
+      = render :partial => "layouts/facebook_connect_button", :locals => { :button_text => t(".create_account_with_facebook") }
+    - if linkedin_connect_in_use?
+      = render :partial => "layouts/linkedin_connect_button", :locals => { :button_text => t(".create_account_with_linkedin") } 
 
     .signup-horizontal-line
       .signup-horizontal-line-text=t(".OR")

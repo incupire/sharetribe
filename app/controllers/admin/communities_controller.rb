@@ -351,7 +351,8 @@ class Admin::CommunitiesController < Admin::AdminBaseController
       :email_admins_about_new_members,
       :unread_message_reminder_enabled,
       :send_unread_message_reminder_day,
-      :new_offer_reminder_to_admins
+      :new_offer_reminder_to_admins,
+      :auto_accept_orders
     ]
     settings_params = params.require(:community).permit(*permitted_params)
 

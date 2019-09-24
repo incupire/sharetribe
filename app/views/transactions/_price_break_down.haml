@@ -45,7 +45,9 @@
       %span.initiate-transaction-per-unit-label
         = t("transactions.price_per_quantity", unit_type: localized_unit_type)
       %span.initiate-transaction-per-unit-value
-        = MoneyViewUtils.to_humanized(listing_price)
+        = image_tag "black_a_img.png"
+        = MoneyViewUtils.to_humanized(listing_price).split('$')[1] 
+        =# MoneyViewUtils.to_humanized(listing_price)
     - if quantity > 1
       .initiate-transaction-quantity-wrapper
         %span.initiate-transaction-quantity-label
@@ -58,7 +60,11 @@
       %span.initiate-transaction-sum-label
         = t("transactions.initiate.subtotal")
       %span.initiate-transaction-sum-value
-        = MoneyViewUtils.to_humanized(subtotal)
+        - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
+          = image_tag "black_a_img.png"
+          = MoneyViewUtils.to_humanized(subtotal).split('$')[1]
+        - else
+          = MoneyViewUtils.to_humanized(subtotal)
 
   - if shipping_price.present?
     .initiate-transaction-shipping-price-wrapper
@@ -67,33 +73,37 @@
       %span.initiate-transaction-shipping-price-value
         = MoneyViewUtils.to_humanized(shipping_price)
 
-  - if is_author
+  - if @transaction.present? && @transaction.author == @current_user && !@transaction.payment_gateway.eql?(:coupon_pay)
     .initiate-transaction-sum-wrapper
       %span.initiate-transaction-sum-label
         = t("transactions.total_to_pay")
       %span.initiate-transaction-sum-value
-        = MoneyViewUtils.to_humanized(total)
+        - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
+          = image_tag "black_a_img.png"
+          = MoneyViewUtils.to_humanized(total).split('$')[1]
+        - else
+          = MoneyViewUtils.to_humanized(total)
 
-    - if fee.present? && fee > 0
+    - if fee.present? && fee > 0 && @transaction.present? && @transaction.payment_gateway.eql?(:stripe)
       .initiate-transaction-sum-wrapper
         %span.initiate-transaction-sum-label
           - if service_name == "Avontage"
-            - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
-              = t("conversations.accept.avontage_service_fee_label_coupon_pay")
-            - else
-              = t("conversations.accept.avontage_service_fee_label_credit_card_pay")
+            = t("conversations.accept.avontage_service_fee_label_credit_card_pay")
           - else
             = t("conversations.accept.service_fee_label")
         %span.initiate-transaction-sum-value
           = "-#{MoneyViewUtils.to_humanized(fee)}"
-
-  - if !is_author #For Buyer
+  
+  - if !is_author || (@transaction.present? && @current_user == @transaction.starter)#For Buyer
     - if avon_commission.present? && avon_commission > 0
       .initiate-transaction-total-wrapper
         %span.initiate-transaction-total-label
-          = t("transactions.avon_commission", commission_from_seller: @stripe_service[:commission_from_seller])
+          - if params[:action].eql?('initiate')
+            = t("transactions.avon_commission_estimation")
+          - else
+            = t("transactions.avon_commission", commission_from_seller: @stripe_service[:commission_from_seller])
         %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(avon_commission)           
+          = MoneyViewUtils.to_humanized(avon_commission)          
 
   - if total.present?
     .initiate-transaction-total-wrapper
@@ -103,10 +113,14 @@
         - else
           = t("transactions.total")
       %span.initiate-transaction-total-value
-        = MoneyViewUtils.to_humanized(is_author ? seller_gets : total)
+        - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
+          = image_tag "black_a_img.png"
+          = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total).split('$')[1]      
+        - else
+          = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total)
 
   -#For Buyer
-  - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay) && !is_author
+  - if (@transaction.present? && !@transaction.auto_accept_transaction) && (@transaction.payment_gateway.eql?(:coupon_pay) && !is_author)
     %br
     .row-with-dynamiv-divider
     - if avon_commission.present? && avon_commission > 0
@@ -121,21 +135,24 @@
         %span.initiate-transaction-total-label
           = t("transactions.offer_price_deducted_from_avon_bucks")
         %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(-seller_gets)
+          = "-"
+          = image_tag "black_a_img.png"
+          = "#{MoneyViewUtils.to_humanized(seller_gets).split('$')[1]}"
 
-  - elsif @transaction.present? && @transaction.payment_gateway.eql?(:stripe) && !is_author
-    - if @transaction.commission.present? && @transaction.commission > 0
-      .initiate-transaction-total-wrapper
-        %span.initiate-transaction-total-label
-          = t("transactions.avontage_fee_deducted_from_seller")
-        %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(-@transaction.commission)
+  -# Not in use
+    - elsif @transaction.present? && @transaction.payment_gateway.eql?(:stripe) && !is_author
+      - if @transaction.commission.present? && @transaction.commission > 0
+        .initiate-transaction-total-wrapper
+          %span.initiate-transaction-total-label
+            = t("transactions.avontage_fee_deducted_from_seller")
+          %span.initiate-transaction-total-value
+            = MoneyViewUtils.to_humanized(-@transaction.commission)
 
-    - if seller_gets.present? 
-      .initiate-transaction-total-wrapper
-        %span.initiate-transaction-total-label
-          = t("transactions.total_to_seller")
-        %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(seller_gets)  
+      - if seller_gets.present? 
+        .initiate-transaction-total-wrapper
+          %span.initiate-transaction-total-label
+            = t("transactions.total_to_seller")
+          %span.initiate-transaction-total-value
+            = MoneyViewUtils.to_humanized(seller_gets)  
 
 

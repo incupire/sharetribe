@@ -21,7 +21,7 @@ module TransactionService::Gateway
           cust_id: tx.buyer.stripe_customer_id,
           amount: commission.cents,
           currency: commission.currency.iso_code,
-          description: "Avon-BUCKS commission for transaction - #{tx.id}",
+          description: "Avontage Bucks commission for transaction - #{tx.id}",
           is_captured: false,
           metadata: {
             buyer: "#{tx.buyer.primary_email.address}",

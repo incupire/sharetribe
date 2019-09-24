@@ -89,38 +89,20 @@ class ListingsController < ApplicationController
 
     make_listing_presenter
     @listing_presenter.form_path = new_transaction_path(listing_id: @listing.id)
-    search = {
-      author_id: @listing.author.id,
-      include_closed: false,
-      page: 1,
-      per_page: 1000
-    }
 
-    author_listings =
-      ListingIndexService::API::Api
-      .listings
-      .search(
-        community_id: @current_community.id,
-        search: search,
-        engine: FeatureFlagHelper.search_engine,
-        raise_errors: Rails.env.development?,
-        includes: [:author, :listing_images]
-      ).and_then { |res|
-      Result::Success.new(
-        ListingIndexViewUtils.to_struct(
-        result: res,
-        includes: [:author, :listing_images],
-        page: search[:page],
-        per_page: search[:per_page]
-      ))
-    }.data
-    @other_listings = author_listings.reject{|listing| listing.id == @listing.id}
-    record_event(
-      flash.now,
-      "ListingViewed",
-      { listing_id: @listing.id,
-        listing_uuid: @listing.uuid_object.to_s,
-        payment_process: @listing_presenter.process })
+    # Recommended and person other listings
+    author_listings = @listing.author.listings.currently_open
+    @recommended_listings = @listing.category.listings.currently_open.sample(6)
+    @other_listings = author_listings.count == 1 ? author_listings : author_listings.where.not(id: @listing.id)
+    @commission_from_seller = TransactionService::API::Api.settings.get(community_id: @current_community.id, payment_gateway: "stripe", payment_process: "preauthorize")[:data][:commission_from_seller]
+    unless flash[:record_event].present?
+      record_event(
+        flash.now,
+        "ListingViewed",
+        { listing_id: @listing.id,
+          listing_uuid: @listing.uuid_object.to_s,
+          payment_process: @listing_presenter.process })
+    end
   end
 
   def new
@@ -256,10 +238,11 @@ class ListingsController < ApplicationController
         location_params = ListingFormViewUtils.permit_location_params(params)
         @listing.location.update_attributes(location_params)
       end
+      flash[:record_event] = "Don't record event for update action!"
       flash[:notice] = update_flash(old_availability: old_availability, new_availability: shape[:availability])
       Delayed::Job.enqueue(ListingUpdatedJob.new(@listing.id, @current_community.id))
       reprocess_missing_image_styles(@listing) if @listing.closed?
-      redirect_to @listing
+      redirect_to listing_path(id: @listing.to_param)
     else
       logger.error("Errors in editing listing: #{@listing.errors.full_messages.inspect}")
       flash[:error] = t("layouts.notifications.listing_could_not_be_saved", :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")).html_safe

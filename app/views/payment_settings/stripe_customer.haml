@@ -4,7 +4,7 @@
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => left_hand_navigation_links }
 
 .left-navi-section.settings-section.payment-settings
-  %h2= t("payment_settings.stripe_customer.title")
+  %h2= t("payment_settings.stripe_customer.payment_information")
   .panel.panel-primary
     .panel-body
       - if card_info.present?
@@ -13,9 +13,7 @@
 
         = link_to "Edit", person_edit_stripe_customber_settings_path(@current_user)
       - else        
-        = render 'payment_settings/stripe_card_form', stripe_publishable_key: stripe_publishable_key  
-  %br
-  %br               
+        = render 'payment_settings/stripe_card_form', stripe_publishable_key: stripe_publishable_key              
   %h2= t("payment_settings.stripe_customer.avontage_fee_structure")
 
   = t("payment_settings.stripe_customer.content1")

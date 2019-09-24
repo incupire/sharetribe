@@ -36,6 +36,7 @@ class Admin::CustomFieldsController < Admin::AdminBaseController
 
   CUSTOM_FIELD_SPEC = [
     [:name_attributes, :hash, :mandatory],
+    [:hint, :string, :optional],
     [:category_attributes, collection: CategoryAttributeSpec],
     [:sort_priority, :fixnum, :optional],
     [:required, :bool, :optional, default: false, transform_with: CHECKBOX_TO_BOOLEAN],

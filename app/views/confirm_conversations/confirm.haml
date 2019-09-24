@@ -37,7 +37,7 @@
 
       .conversation-action-description
         %div{:class => "confirm-description #{action_type.eql?('confirm') ? '' : 'hidden'}"}
-          = t("conversations.confirm.confirm_description")
+          = t("conversations.confirm.confirm_description").html_safe
         %div{:class => "cancel-description #{action_type.eql?('cancel') ? '' : 'hidden'}"}
           = t("conversations.confirm.cancel_description")
 

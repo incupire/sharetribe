@@ -37,7 +37,8 @@ class ApplicationController < ActionController::Base
     :ensure_consent_given,
     :ensure_user_belongs_to_community,
     :set_display_expiration_notice,
-    :setup_intercom_user
+    :setup_intercom_user,
+    :setup_device_token
 
   # This updates translation files from WTI on every page load. Only useful in translation test servers.
   before_action :fetch_translations if APP_CONFIG.update_translations_on_every_page_load == "true"
@@ -128,6 +129,14 @@ class ApplicationController < ActionController::Base
       end
   end
 
+  def setup_device_token
+    if @current_user.present? && params[:android_device_token].present? && params[:android_device_token] != "null"
+      @current_user.update_column(:android_device_token, params[:android_device_token])
+    end
+    if @current_user.present? && params[:ios_device_token].present? && params[:ios_device_token] != "null"
+      @current_user.update_column(:ios_device_token, params[:ios_device_token])
+    end
+  end
 
   # If URL contains locale parameter that doesn't match with the selected locale,
   # redirect to the selected locale

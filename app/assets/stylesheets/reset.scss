@@ -169,19 +169,29 @@ hr {
   margin-left: 5px;
 }
 .coupan_balances {
+  display: flex;
+  padding-top: 18px;
+  align-items: center;
   .coupan_title {
-    font-size: 18px;
+    font-size: 17px;
     text-transform: capitalize;
   }
   span.price {
     background: #eee;
-    padding: 7px 30px;
-    font-weight: 800;
+    padding: 7px 32px;
+    font-weight: 600;
     border-radius: 4px;
-    font-size: 18px;
+    font-size: 16px;
     display: inline-block;
-    margin-top: 8px;
+    margin-left: 7px;
+    //margin-top: 8px;
+    display: flex;
+    flex-direction: row;
+    img{
+      height: 16px;
+    }
   }
+  /*
   &.for_booking {
     position: relative;
     top: 10px;
@@ -203,13 +213,14 @@ hr {
       margin-top: 10px;
     }
   }
+  */
 }
 .pay_with_coupan {
-  max-width: 670px;
-  float: left;
-  padding: 15px;
-  width: 670px;
-  padding-left: 0px;
+  //max-width: 670px;
+  //float: left;
+  //padding: 15px;
+  //width: 670px;
+  //padding-left: 0px;
   @media (min-width: 320px) and (max-width: 480px) {
     width: 100%;
   }
@@ -222,7 +233,8 @@ hr {
     margin-left: 0px;
     margin-top: 20px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 16px;
+    line-height: 1.5;
     width: 100%;
     @media (min-width: 320px) and (max-width: 480px) {
       max-width: 100%;
@@ -234,20 +246,28 @@ hr {
   }
 }
 .devide {
-  border-top: 2px solid #ccc;
+  border-top: 3px solid #000;
   display: block;
   float: left;
   width: 100%;
   text-align: center;
   margin-top: 15px;
   margin-bottom: 20px;
+  @media screen and (max-width: 767px){
+    margin-top: 8px;
+    border-top: 2px solid #000;
+  }
   .or {
     margin-top: -15px;
     display: block;
     background: #fff;
     width: 55px;
-    margin: -14px auto;
+    margin: -11px auto;
     font-weight: 600;
+    @media screen and (max-width: 767px){
+      margin: -9px auto;
+      width: 42px;
+    }
   }
 }
 .ban_icon {
@@ -430,4 +450,120 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
     cursor: default;
     background: #ccc;
   }  
+}
+.linkedin_connect{
+  color: white;
+  display: block;
+  text-shadow: 0px 0px 1px #aaaaaa;
+  background: #0077b5;
+  min-height: 42px;
+  -moz-border-radius: 0.3125em;
+  -webkit-border-radius: 0.3125em;
+  border-radius: 0.3125em;
+  padding: 0 10px;
+  width: 100%;
+  margin-bottom: 0.75em;
+  margin-top: 1.25em;
+  display: flex;
+  align-items: center;
+  img{
+    height: 21px;
+  }
+  .linkedin_text{
+    margin-left: 12px;
+    color: #fff;
+  }
+  &:hover{
+    background: #6f99bc;
+  }
+}
+
+.featured_conditionally{
+  padding: 10px 0;
+  .coverimage{
+    .fluidratio{
+      height: auto !important;
+    }
+  }
+  
+  .marketplace-title-header{
+    h1{
+      font-size: 1.625em !important;
+      color: #fff !important;
+      padding: 10px !important;
+      margin-top: 20px !important;
+    }
+  }
+  .title-container{
+    background: #fff;
+    .make_custom_cover_title{
+      h1{
+        margin: 0;
+        margin-top: 0 !important;
+        padding: 0 !important;
+        background: none;
+        color: #000 !important;
+      }
+    }
+  }
+  
+}
+.custom_butn{
+  padding: 8px !important;
+  width: 100%;
+}
+.custom_top_title{
+  display: flex;
+  align-items: center;
+  margin-top: -18px;
+  margin-bottom: 7px;
+  .top_sm_img{
+    img{
+      height: 55px;
+      width: auto;
+      border-radius: 50%;
+    }
+  }
+  .top_sm_name{
+    a{
+      font-size: 15px;
+      font-weight: 600;
+      padding-left: 15px;
+    }
+  }
+  .top_review{
+    padding-left: 15px;
+    font-size: 14px;
+  }
+}
+.underline{
+  text-decoration: underline;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.left{
+  float: none !important;
+  .customiz_btn{
+    width: 100%;
+    display: block;
+    font-weight: 600;
+    img{
+      height: 17px;
+      display: inline-block;
+      position: relative;
+      top: 3px;
+    }
+  }
+}
+.paypal-button-wrapper{
+  .full_butn{
+    width: 100%;
+    font-weight: 600;
+    img{
+      height: 23px;
+      margin-bottom: -5px;
+    }
+  }
 }

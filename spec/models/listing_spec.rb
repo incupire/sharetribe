@@ -49,6 +49,7 @@
 #  per_hour_ready                  :boolean          default(FALSE)
 #  featured                        :boolean          default(FALSE)
 #  favorites_count                 :integer          default(0)
+#  auto_accept_transaction         :boolean          default(FALSE)
 #
 # Indexes
 #

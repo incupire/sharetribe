@@ -45,7 +45,7 @@ module TransactionService::Transaction
     when :stripe
       APP_CONFIG.stripe_expiration_period.to_i
     when :coupon_pay
-      3
+      APP_CONFIG.avon_pay_expiration_period.to_i
     else
       raise ArgumentError.new("Unknown payment_type: '#{payment_type}'")
     end
@@ -131,9 +131,10 @@ module TransactionService::Transaction
       renter.coupon_balance = renter.coupon_balance - order_total
       if renter.save
         create_avon_bucks_history(order_total, renter, "deducted", transaction)
+        notify_renter_about_avon_voucher_redeem_instructions(transaction)
       end
     end
-    tx.reload    
+    tx.reload   
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -178,13 +179,13 @@ module TransactionService::Transaction
     }
   end
 
-  def reject(community_id:, transaction_id:, message: nil, sender_id: nil)
+  def reject(community_id:, transaction_id:, message: nil, sender_id: nil, auto_rejected: false)
     tx = find_tx_model(community_id: community_id, transaction_id: transaction_id)
 
     tx_process = tx_process(tx.payment_process)
     gw = gateway_adapter(tx.payment_gateway)
 
-    res = tx_process.reject(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
+    res = tx_process.reject(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw, auto_rejected: auto_rejected)
     #Return coupon balance to renter on reject
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
       transaction = Transaction.find(tx[:id])
@@ -340,5 +341,9 @@ module TransactionService::Transaction
       person_id: person.id,
       transaction_id: transaction.id
     )
-  end  
+  end
+
+  def notify_renter_about_avon_voucher_redeem_instructions(transaction)
+    Delayed::Job.enqueue(AvonVoucherNotificationJob.new(transaction.id, transaction.community_id))
+  end
 end

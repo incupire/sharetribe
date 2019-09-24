@@ -43,14 +43,14 @@
       = yield
     - else
       - content_for(:page_content) do
-        %section.marketplace-lander
+        %section.marketplace-lander{class: is_homepage ? '' : 'featured_conditionally'}
           - if @big_cover_photo
             .coverimage
               %figure.marketplace-cover.fluidratio
                 .lander-content.marketplace-lander-content
                   = yield :title_header
           - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
-            = link_to search_path(category: "featured") do
+            = link_to is_homepage ? search_path(category: "featured") : '' do
               .coverimage{class: on_admin? ? 'main_height' : ''}
                 - unless on_admin?
                   %figure.marketplace-cover-small.fluidratio.custom_small_cover
@@ -89,7 +89,7 @@
 
     -# load Facebook SDK for the whole page
     = render :partial => "layouts/facebook_sdk"
-
+    = render :partial => "layouts/mobile_navbar"
     -# Initialize global I18n variable and load translations there
     :javascript
       window.I18n = {};

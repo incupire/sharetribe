@@ -10,7 +10,7 @@ class SendPaymentReceipts < Struct.new(:transaction_id)
     receipts =
       case transaction.payment_gateway
 
-      when :paypal, :stripe
+      when :paypal, :stripe, :coupon_pay
         community = Community.find(transaction.community_id)
 
         receipts = []

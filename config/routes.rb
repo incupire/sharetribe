@@ -59,6 +59,12 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :avontage_vouchers, only: [] do
+    member do
+      get :voucher_show
+    end
+  end
+
   # Harmony Proxy
   # This endpoint proxies the requests to Harmony and does authorization
   match '/harmony_proxy/*harmony_path' => 'harmony_proxy#proxy', via: :all
@@ -91,6 +97,8 @@ Rails.application.routes.draw do
   get '/s' => 'homepage#index', as: :search_without_locale, constraints: ->(request) {
     CustomLandingPage::LandingPageStore.enabled?(request.env[:current_marketplace]&.id)
   }
+  
+  get '/:locale/explore' => 'homepage#explore', as: :explore
 
   # Default routes for homepage, these are matched if custom landing page is not in use
   # Inside this constraits are the routes that are used when request has subdomain other than www
@@ -450,6 +458,7 @@ Rails.application.routes.draw do
           get :check_email_availability_and_validity
           get :check_invitation_code
           get :create_facebook_based
+          get :create_omniauth_based
         end
       end
 
