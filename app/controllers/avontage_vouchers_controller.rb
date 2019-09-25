@@ -10,7 +10,7 @@ class AvontageVouchersController < ApplicationController
 
 
 	def voucher_show
-		custom_field = CustomFieldName.find_by(value: 'INSTRUCTIONS (any redeem instructions, restrictions, or other details the Buyer needs to be aware of)')
+		custom_field = CustomFieldName.find_by(value: 'REDEEM INSTRUCTIONS (detailed steps the Buyer needs to follow after purchasing this offer)')
     if custom_field.present? && @transaction.listing.answer_for(custom_field)
       @instructions = @transaction.listing.answer_for(custom_field).display_value
     else

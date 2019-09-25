@@ -29,7 +29,7 @@ class ConfirmReminderJob < Struct.new(:conversation_id, :recipient_id, :communit
   private
 
   def sms_body(conversation, community)
-    conversation_url = Rails.application.routes.url_helpers.person_message_url(person_id: conversation.buyer, id: conversation.id, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "staging.avontage.com" end )
+    conversation_url = Rails.application.routes.url_helpers.person_message_url(person_id: conversation.buyer, id: conversation.id, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "avontage.com" end )
     message = I18n.t("sms.confirm_reminder.you_have_not_yet_confirmed_or_canceled_request",
               :date => ApplicationController.helpers.time_ago(conversation.created_at.to_date),
               :other_party_full_name => conversation.seller.name(conversation.community),
