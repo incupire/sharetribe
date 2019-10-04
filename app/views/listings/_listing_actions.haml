@@ -149,28 +149,6 @@
               = icon_tag("mail", ["icon-part"])
               .text-part#add-to-updates-email-text{data: {:"action-loading" => t("listings.edit_links.show_in_updates_email_loading"), :"action-error" => t("listings.edit_links.show_in_updates_email_error"), :"action-success"=> t("listings.edit_links.show_in_updates_email_success")}}= t("listings.edit_links.show_in_updates_email")
 
-// fix bottom bar 
-.bottom_bar_phone_view
-  .inner_bar
-    .mobile_view_fixed
-      - if @listing.price
-        %span.listing-price-amount
-          = image_tag "black_a_img.png", class: 'black_a'
-          = MoneyViewUtils.to_humanized(@listing.price).split('$')[1]
-        - with_quantity_text(@current_community, @listing) do |text|
-          %span.listing-price-quantity
-            = text
-    .buy_part
-      %button.button.custom_buy_btn
-        BUY
 
-- content_for :extra_javascript do
-  :javascript
-    $(document).ready(function(){
-      $('.custom_buy_btn').click(function(){
-        $('.buyer_custom_modal').addClass('open');
-      });
-      $('.clos, .close_btn').click(function(){
-        $('.buyer_custom_modal').removeClass('open');
-      });
-    });
+- unless @listing_presenter.is_author
+  = render 'mobile_view_floating_checkout_button'

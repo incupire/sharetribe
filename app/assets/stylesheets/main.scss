@@ -2970,8 +2970,15 @@ figure.fluidratio {
     .buy_part{
       .custom_buy_btn{
         margin: 0;
-        padding: 6px 44px;
+        padding: 6px 4px;
         outline: none;
+        .custm_buy{
+          margin: 0;
+          padding: 4px 10px;
+          display: block;
+          font-size: 15px;
+          height: 30px;
+        }
       }
     }
   }
