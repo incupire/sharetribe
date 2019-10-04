@@ -65,7 +65,13 @@
     position: relative;
     top: 4px;
   }
+  &.selected{
+    .custom_svg{
+      fill: #fff;
+    }
+  }
 }
+
 
 .home-toolbar-button-text {
   display: none;
@@ -123,6 +129,14 @@
 
   @include media(tablet) {
     height: 30em;
+  }
+}
+.home-map{
+  @media screen and (max-width: 767px){
+    margin-bottom: -0.75em;
+    .map{
+      height: calc(100vh - 199px);
+    }
   }
 }
 
@@ -635,4 +649,3 @@ $home-list-avatar-padding: lines(0.25);
     }
   }
 }
-

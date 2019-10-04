@@ -43,7 +43,8 @@
       = yield
     - else
       - content_for(:page_content) do
-        %section.marketplace-lander{class: is_homepage ? '' : 'featured_conditionally'}
+        - is_map_view = params[:view].present? && params[:view] == "map"
+        %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
           - if @big_cover_photo
             .coverimage
               %figure.marketplace-cover.fluidratio

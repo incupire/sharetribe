@@ -2417,7 +2417,7 @@ figure.fluidratio {
     display: none;
   }
   .home-toolbar{
-    display: none;
+    //display: none;
   }
   .disply_b{
     display: block;
@@ -3061,5 +3061,18 @@ figure.fluidratio {
     position: relative;
     top: -1px;
     left: 3px;
+  }
+}
+.banner_for_map_view{
+  display: block;
+  @media screen and (max-width: 767px){
+    display: none;
+  }
+}
+
+.map_view_zero_listing_notification{
+  display: block;
+  @media screen and (max-width: 767px){
+    display: none;
   }
 }
