@@ -2549,6 +2549,10 @@ figure.fluidratio {
   color: #ff0000;
 }
 .text_messege{
+  display: block;
+  @media screen and (max-width: 767px){
+    display: none;
+  }
   h2{
     margin-bottom: 8px;
   }
@@ -2596,9 +2600,14 @@ figure.fluidratio {
     height: 27px;
   }
   .paymnt_img{
-    height: 55px;
+    height: 44px;
     margin-left: -31px;
-    margin-top: 1px;
+    margin-top: 3px;
+    @media screen and (max-width: 769px){
+      height: 34px;
+      margin-left: -23px;
+      margin-top: 9px;
+    }
   }
 }
 .listing-price-amount{
@@ -2854,12 +2863,23 @@ figure.fluidratio {
 .print_btn{
   display: inline-block;
 }
-.subcategory {
-  padding-left: 10px;
-  margin: 2px 0 !important;
+.explore_container{
+  padding: 15px 0;
+  border-bottom: 1px solid #e5e5e5;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
 }
-.explore_category{
-  margin-top: 5px;
+.subcategory {
+  margin-right: 10px;
+  font-size: 15px;
+  display: inline-flex !important;
+}
+.custom_categories{
+  width: 100%;
+  font-weight: 600;
+  font-size: 17px;
+  margin-bottom: 4px;
 }
 .custom_all_categories{
   display: inline-block !important;
@@ -2903,7 +2923,113 @@ figure.fluidratio {
 
     }
   }
-
-
-
 //end of color changes
+
+
+
+//listing show page on phone view 
+.cusotm_dipalyed{
+  display: block;
+  @media screen and (max-width: 767px){
+    display: none;
+  }
+}
+
+
+//fix bottom_bar
+.bottom_bar_phone_view{
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  z-index: 9;
+  background: #f1f1f1;
+  padding: 10px 15px;
+  display: none;
+  @media screen and (max-width: 767px){
+    display: block;
+  }
+  .inner_bar{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .mobile_view_fixed{
+      flex-grow: 1;
+      .listing-price-amount{
+        font-size: 22px;
+        .black_a {
+          height: 18px;
+          margin-right: -3px;
+          margin-bottom: 0px;
+        }
+      }
+      .listing-price-quantity{
+        top: 0;
+      }
+    }
+    .buy_part{
+      .custom_buy_btn{
+        margin: 0;
+        padding: 6px 44px;
+        outline: none;
+      }
+    }
+  }
+}
+//modal
+.close_btn{
+  display: none;
+}
+@media screen and (max-width: 767px){
+  .buyer_custom_modal{
+    position: fixed;
+    top: 110%;
+    bottom: 60px;
+    right: 0;
+    left: 0;
+    background: #ffffff00;
+    z-index: 11;
+    visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: flex-end;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+    &.open{
+      top: 0%;
+      visibility: visible;
+      -webkit-transition: all 0.7s linear;
+      -moz-transition: all 0.7s linear;
+      -o-transition: all 0.7s linear;
+      transition: all 0.7s linear;
+    }
+    .close_btn{
+      display: block;
+      position: absolute;
+      right: 4px;
+      top: 8px;
+      padding: 5px 7px;
+      img{
+        height: 15px;
+      }
+    }
+    .mobile_view{
+      .custm_buy{
+        height: 42px;
+        font-size: 20px;
+      }
+    }
+    .clos{
+      flex-grow: 1;
+    }
+    .custom_modal_inner{
+      position: relative;
+      padding: 44px 15px 20px;
+      background: #ededed;
+      z-index: 12;
+    }
+  }
+}

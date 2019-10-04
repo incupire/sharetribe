@@ -212,17 +212,18 @@
           #comment-form
             = render :partial => "comment_form"
 
-  %aside.col-4                     
-    - if @listing.price
-      .row
-        .col-12
-          .listing-price
-            %span.listing-price-amount
-              = image_tag "black_a_img.png", class: 'black_a'
-              = MoneyViewUtils.to_humanized(@listing.price).split('$')[1]
-            - with_quantity_text(@current_community, @listing) do |text|
-              %span.listing-price-quantity
-                = text
+  %aside.col-4 
+    .cusotm_dipalyed
+      - if @listing.price
+        .row
+          .col-12
+            .listing-price
+              %span.listing-price-amount
+                = image_tag "black_a_img.png", class: 'black_a'
+                = MoneyViewUtils.to_humanized(@listing.price).split('$')[1]
+              - with_quantity_text(@current_community, @listing) do |text|
+                %span.listing-price-quantity
+                  = text
 
     .row-with-divider
       .col-12

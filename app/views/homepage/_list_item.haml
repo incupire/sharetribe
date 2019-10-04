@@ -40,7 +40,8 @@
       .home-list-price-mobile{:class => (listing.listing_images.size > 0 ? "home-list-price-mobile-with-listing-image" : "home-list-price-mobile-without-listing-image")}
         - if listing.price
           .home-list-price-value-mobile
-            = MoneyViewUtils.to_humanized(listing.price)
+            = image_tag "black_a_img.png", class: "list_view_avon_icon"
+            = MoneyViewUtils.to_humanized(listing.price).split('$')[1]
           - price_text = nil
           - if listing.quantity.present?
             - price_text = t("listings.form.price.per") + " " + listing.quantity
