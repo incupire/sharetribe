@@ -10,9 +10,15 @@
       -# No-op
     - elsif @listing_presenter.unit_options.length == 1
       - unit_option = @listing_presenter.unit_options.first
-      .quantity-description
+      .quantity-description.new_avog_buck_container
         = t(".per")
         = unit_option[:display]
+        %span.new_avn_content
+          = image_tag "black_a_img.png", class: 'avon__buck'
+          = image_tag "equal.png", class: 'avon_equal'
+          %span.new_avon
+            Avontage Bucks
+        
       = hidden_field_tag("listing[unit]", unit_option[:value])
     - else
       .quantity-description
