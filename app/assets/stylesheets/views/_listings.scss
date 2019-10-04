@@ -329,7 +329,7 @@ $listing-author-avatar-height: 108;
   }
 }
 .reviews_grid {
-  float: left;
+  //float: left;
   position: relative;
   left: 5px;
   top: 5px;
@@ -583,4 +583,7 @@ $listing-author-avatar-height: 108;
   a{
 
   }
+}
+.custom_left{
+  float: left !important;
 }

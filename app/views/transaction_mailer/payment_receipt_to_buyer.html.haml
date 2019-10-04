@@ -1,8 +1,18 @@
+- if Rails.env == "development"
+  - host = 'http://lvh.me:3000'
+- elsif Rails.env == "staging"
+  - host = 'http://staging.avontage.com'
+- else
+  - host = 'https://www.avontage.com'
+
+
 %tr
   %td{:align => "left"}
     %font{body_font}
       - if gateway == :stripe
         = t("emails.receipt_to_payer.stripe.you_have_made_new_payment", :listing_title => listing_title, :payment_sum => payment_total, :recipient_full_name => recipient_given_name, :service_name => community_name).html_safe
+      - elsif gateway == :coupon_pay
+        = t("emails.receipt_to_payer.you_have_made_new_coupon_payment", listing_title: listing_title, payment_sum: payment_total.split('$')[1], recipient_full_name: recipient_given_name, currency: image_tag("#{host}/assets/black_a_img.png", style: "height: 15px; position: relative; top: 1px;")).html_safe
       - else
         = t("emails.receipt_to_payer.you_have_made_new_payment", :listing_title => listing_title, :payment_sum => payment_total, :recipient_full_name => recipient_given_name).html_safe
 
@@ -37,7 +47,11 @@
           %td{:width => "250"}
             = t("emails.receipt_to_payer.subtotal") #listing_title
           %td
-            = subtotal
+            - if gateway == :coupon_pay
+              = image_tag "#{host}/assets/black_a_img.png" , style: "height: 15px; position: relative; top: 1px;"
+              %b= subtotal.split('$')[1]
+            - else
+              %b= subtotal  
 
         - if avon_commission.present? && gateway.to_s == "coupon_pay"
           %tr
@@ -56,7 +70,12 @@
           %td
             %b=t("emails.receipt_to_payer.total")
           %td
-            %b= payment_total
+            - if gateway == :coupon_pay
+              = image_tag "#{host}/assets/black_a_img.png" , style: "height: 15px; position: relative; top: 1px;"
+              %b= payment_total.split('$')[1]
+            - else
+              %b= payment_total
+                     
 - if show_money_will_be_transferred_note
   %tr
     %td{:align => "left"}

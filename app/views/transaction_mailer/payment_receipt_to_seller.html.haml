@@ -1,8 +1,17 @@
+- if Rails.env == "development"
+  - host = 'http://lvh.me:3000'
+- elsif Rails.env == "staging"
+  - host = 'http://staging.avontage.com'
+- else
+  - host = 'https://www.avontage.com'
+
 %tr
   %td{:align => "left"}
     %font{body_font}
       - if gateway == :stripe
         = t("emails.payment_receipt_to_seller.stripe.you_have_received_new_payment", :listing_title => listing_title, :payment_sum => payment_total, :payer_full_name => payer_given_name, :service_name => community_name).html_safe
+      - elsif gateway == :coupon_pay
+        = t("emails.payment_receipt_to_seller.you_have_received_new_coupon_payment", listing_title: listing_title, payment_sum: payment_seller_gets.split('$')[1], payer_full_name: payer_given_name, currency: image_tag("#{host}/assets/black_a_img.png", style: "height: 15px; position: relative; top: 1px;")).html_safe
       - else
         = t("emails.payment_receipt_to_seller.you_have_received_new_payment", :listing_title => listing_title, :payment_sum => payment_total, :payer_full_name => payer_given_name).html_safe
 
@@ -33,11 +42,16 @@
               = quantity_selector_label || t("emails.new_payment.quantity")
             %td
               = listing_quantity
+
         %tr{:style => "border-top: 1px solid black"}
           %td
             %b= t("emails.payment_receipt_to_seller.price_payer_paid", :payer_full_name => payer_given_name)
           %td
-            %b= subtotal
+            - if gateway == :coupon_pay
+              = image_tag "#{host}/assets/black_a_img.png" , style: "height: 15px; position: relative; top: 1px;"
+              %b= subtotal.split('$')[1]
+            - else
+              %b= subtotal       
             
         - if gateway.to_s != 'coupon_pay'
           %tr
@@ -51,7 +65,7 @@
               = t("emails.payment_receipt_to_seller.shipping_total")
             %td= shipping_total
 
-        - if payment_gateway_fee.present? && gateway.to_s != 'stripe'
+        - if payment_gateway_fee.present? && (!['stripe', 'coupon_pay'].include?(gateway.to_s))
           %tr
             %td
               = t("emails.payment_receipt_to_seller.payment_gateway_fee")
@@ -61,6 +75,10 @@
           %td
             %b= t("emails.payment_receipt_to_seller.you_will_get")
           %td
-            %b= payment_seller_gets
+            - if gateway == :coupon_pay
+              = image_tag "#{host}/assets/black_a_img.png" , style: "height: 15px; position: relative; top: 1px;"
+              %b= payment_seller_gets.split('$')[1]
+            - else
+              %b= payment_seller_gets
 
 = render :partial => "person_mailer/action_button", :locals => { :text => t("emails.conversation_status_changed.view_thread"), :url => conversation_url}

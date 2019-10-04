@@ -89,7 +89,8 @@
 <div class="pfd_main_container">
   <div class="top_part">
     <%= wicked_pdf_image_tag 'logo.png', style: 'height: 35px; margin-left: -3px;'%>
-    <p style="font-size: 16px; font-weight: 600;">Dear Madhav S, Below is your redeem instruction. Please use this voucher to redeem your Offer.</p>
+    <p style="font-size: 16px; font-weight: 600;">
+      <%= "Dear #{PersonViewUtils.person_display_name_for_type(transaction.buyer, @community)}, Below is your redeem instruction. Please use this voucher to redeem your Offer."%></p>
     <div style="padding-top: 15px;">
       <% if transaction.listing.author.image.present? %>
         <%= wicked_pdf_image_tag transaction.listing.author.image.url, style: 'height: 60px; width: 60px; border-radius: 50%; object-fit: cover;'%>
@@ -144,13 +145,13 @@
         <% end %>
         <div class="review">
           <%if received_testimonials.size > 0%>
-            <%= wicked_pdf_image_tag 'favourites-filled-star-symbol.png', style: 'height: 30px; float: left; margin-left: 2px;'%> 
+            <%= wicked_pdf_image_tag 'favourites-filled-star-symbol.png', style: 'height: 14px; float: left; margin-left: 2px;'%> 
             <div style="float: left; margin-left: 15px;">
               <%= "(#{feedback_positive_percentage.to_s}% #{t("people.show.positive")}, #{received_positive_testimonials.size}/#{received_testimonials.size}) Feedback" %>
             </div>
           <%else%>
             <span>
-              <%= wicked_pdf_image_tag 'favourites-filled-star-symbol.png', style: 'height: 25px; float: left; margin-left: 2px;'%>
+              <%= wicked_pdf_image_tag 'favourites-filled-star-symbol.png', style: 'height: 14px; float: left; margin-left: 2px;'%>
               <span style="position: relative; top: 6px; margin-left: 10px;">No reviews</span>
             </span>
           <%end%>  
