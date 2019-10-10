@@ -12,13 +12,21 @@ class AvonVoucherNotificationJob < Struct.new(:transaction_id, :community_id)
 
   def perform
   	transaction = Transaction.find(transaction_id)
-    voucher_url = Rails.application.routes.url_helpers.voucher_show_avontage_voucher_url(id: transaction.id, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "staging.avontage.com" end)
+    voucher_url = Rails.application.routes.url_helpers.voucher_show_avontage_voucher_url(id: transaction.id, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "avontage.com" end)
     MailCarrier.deliver_now(TransactionMailer.avon_voucher(transaction))
+    
+    # SMS Notification
     if transaction.buyer.mobile_number.present?
-      SMSNotification.sms_service(transaction.buyer.mobile_number, "Hi #{transaction.buyer.given_name} click the #{voucher_url} link to see your Avontage voucher and redeem instructions")
+      SMSNotification.sms_service(
+        transaction.buyer.mobile_number, 
+        "Hi #{transaction.buyer.given_name} click the #{voucher_url} link to see your Avontage voucher and redeem instructions"
+      )
     end
-    if transaction.buyer.android_device_token.present?
-      PushNotification.send_notification(transaction.buyer, "Hi #{transaction.buyer.given_name}. You have a new voucher")
-    end
+    
+    # Push Notification
+    PushNotification.send_notification(
+      transaction.buyer, 
+      "Hi #{transaction.buyer.given_name}. You have a new voucher"
+    )
   end
 end
