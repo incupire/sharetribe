@@ -14,7 +14,6 @@ module ListingIndexService::Search
 
     def search(community_id:, search:, includes:)
       included_models = includes.map { |m| INCLUDE_MAP[m] }
-
       # rename listing_shape_ids to singular so that Sphinx understands it
       search = HashUtils.rename_keys({:listing_shape_ids => :listing_shape_id}, search)
 
@@ -78,17 +77,26 @@ module ListingIndexService::Search
           custom_checkbox_field_options: (grouped_by_operator[:and] || []).flat_map { |v| v[:value] },
         }
 
+        order = 'sort_date DESC'
+        if search[:latitude].present? && search[:longitude].present?
+          limit = (25 * 1.60934 * 1000)  # Within 25 miles    
+          @coordinates = [to_radians(search[:latitude]), to_radians(search[:longitude])]
+          with.merge!(geodist: 0.0..limit)
+          order = 'geodist ASC'
+        end        
+
         models = Listing.search(
           Riddle::Query.escape(search[:keywords] || ""),
           sql: {
             include: included_models
           },
+          geo: @coordinates,
           page: search[:page],
           per_page: search[:per_page],
           star: true,
           with: with,
           with_all: with_all,
-          order: 'sort_date DESC',
+          order: order,
           max_query_time: 1000 # Timeout and fail after 1s
         )
 
@@ -100,6 +108,10 @@ module ListingIndexService::Search
       end
 
     end
+
+    def to_radians(degrees)
+      degrees * (Math::PI/180)
+    end    
 
     def search_out_of_bounds?(per_page, page)
       pages = (SPHINX_MAX_MATCHES.to_f / per_page.to_f)
