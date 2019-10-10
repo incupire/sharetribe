@@ -131,7 +131,6 @@ module TransactionService::Transaction
       renter.coupon_balance = renter.coupon_balance - order_total
       if renter.save
         create_avon_bucks_history(order_total, renter, "deducted", transaction)
-        notify_renter_about_avon_voucher_redeem_instructions(transaction)
       end
     end
     tx.reload   
@@ -213,6 +212,11 @@ module TransactionService::Transaction
     gw = gateway_adapter(tx.payment_gateway)
 
     res = tx_process.complete_preauthorization(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
+    
+    if res.success && tx.payment_gateway.eql?(:coupon_pay)
+      notify_renter_about_avon_voucher_redeem_instructions(transaction_id, community_id)
+    end
+    
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -343,7 +347,7 @@ module TransactionService::Transaction
     )
   end
 
-  def notify_renter_about_avon_voucher_redeem_instructions(transaction)
-    Delayed::Job.enqueue(AvonVoucherNotificationJob.new(transaction.id, transaction.community_id))
+  def notify_renter_about_avon_voucher_redeem_instructions(transaction_id, community_id)
+    Delayed::Job.enqueue(AvonVoucherNotificationJob.new(transaction_id, community_id))
   end
 end
