@@ -403,7 +403,8 @@ class PersonMailer < ActionMailer::Base
     @email_type =  "email_about_new_messages"
     @conversation = conversation
     @community = conversation.community
-    recipient = recipient
+    @recipient = recipient
+    @other_user = conversation.other_party(@recipient)
     set_up_layout_variables(recipient, @community, @email_type)
     with_locale(recipient.locale, @community.locales.map(&:to_sym), @community.id) do
       @message = message
