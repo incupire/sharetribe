@@ -43,13 +43,13 @@ class Message < ApplicationRecord
 
   def push_unread_message_reminder
     community = conversation.community
-    if self.conversation.tx.present?
-      transaction = self.conversation.tx
-      transaction.push_unread_message_reminder
-    else
-      if community.unread_message_reminder_enabled? && community.send_unread_message_reminder_day.present?
-        Delayed::Job.enqueue(UnreadMessageReminderJob.new(self.id, conversation_id, conversation.community_id), priority: 9, :run_at => (Date.today + community.send_unread_message_reminder_day.to_i.days).beginning_of_day + 4.hours)
-      end
+    # if self.conversation.tx.present?
+    #   transaction = self.conversation.tx
+    #   transaction.push_unread_message_reminder
+    # else
+    if community.unread_message_reminder_enabled? && community.send_unread_message_reminder_day.present?
+      Delayed::Job.enqueue(UnreadMessageReminderJob.new(self.id, conversation_id, conversation.community_id), priority: 9, :run_at => (Date.today + community.send_unread_message_reminder_day.to_i.days).beginning_of_day + 4.hours)
     end
+    #end
   end
 end
