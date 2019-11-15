@@ -61,8 +61,11 @@
                 .title-header-wrapper
                   .marketplace-title-header.make_custom_cover_title
                     = yield :title_header
+        - if @current_user
+          = link_to :back,  class: 'my-class' do
+            = image_tag 'left-arrow_white.png'
 
-        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : ''}
+        %article.page-content.custom-page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : ''}
           %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
             = render :partial => "layouts/notifications"
             = yield
@@ -126,3 +129,4 @@
     = render :partial => 'analytics/bottom_scripts'
 
     = render :partial => "layouts/noscript"
+

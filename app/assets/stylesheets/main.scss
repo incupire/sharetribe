@@ -59,6 +59,12 @@ body {
     padding-top: lines(0.5);
   }
 
+  &.custom-page-content {
+    @media screen and (max-width: 767px) {
+      padding-top: 23px;
+    }
+  }
+
   p {
     margin-bottom: lines(0.5);
     -webkit-hyphens: auto;
@@ -3079,5 +3085,24 @@ figure.fluidratio {
 .marketplace-lander{
   @media screen and (max-width: 767px){
     display: none;
+  }
+}
+
+.my-class {
+  display: none;
+
+  @media screen and (max-width: 767px) {
+    display: flex;
+    height: 40px;
+    width: 40px;
+    justify-content: center;
+    align-items: center;
+    background: rgba(3, 196, 204, 0.5);
+   // position: fixed;
+   // z-index: 1050;
+    margin-left: 12px;
+    border-radius: 50%;
+   // top: 56px;
+    cursor: pointer;
   }
 }
