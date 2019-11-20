@@ -65,7 +65,7 @@
           = link_to :back,  class: 'my-class' do
             = image_tag 'left-arrow_white.png'
 
-        %article.page-content.custom-page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : ''}
+        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : 'custom-page-content'}
           %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
             = render :partial => "layouts/notifications"
             = yield
