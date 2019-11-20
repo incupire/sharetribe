@@ -61,7 +61,7 @@
                 .title-header-wrapper
                   .marketplace-title-header.make_custom_cover_title
                     = yield :title_header
-        - if @current_user
+        - if @current_user && params[:controller] != "homepage" 
           = link_to :back,  class: 'my-class' do
             = image_tag 'left-arrow_white.png'
 
