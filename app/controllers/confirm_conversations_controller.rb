@@ -63,8 +63,8 @@ class ConfirmConversationsController < ApplicationController
 
     confirmation = ConfirmConversation.new(@listing_transaction, @current_user, @current_community)
     confirmation.update_participation(give_feedback)
-    
-    refund_coupon_balance if params[:full_refund] == 'true'
+
+    refund_coupon_balance if @listing_transaction.payment_gateway == :coupon_pay
 
     flash[:notice] = t("layouts.notifications.offer_#{status}")
 
@@ -81,19 +81,22 @@ class ConfirmConversationsController < ApplicationController
   private
 
   def refund_coupon_balance
-    buyer_gets = order_total(@listing_transaction)
-    buyer = @listing_transaction.starter
-    buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
-    
-    if buyer.update_attribute(:coupon_balance, buyer_coupon_bal)
-      AvonBucksHistory.create(
-        amount: buyer_gets,
-        operation: "added",
-        remaining_balance: buyer.coupon_balance,
-        person_id: buyer.id,
-        transaction_id: @listing_transaction.id
-      )      
-      @listing_transaction.toggle!(:coupon_bal_refunded)
+    @listing_transaction.reload
+    if params[:full_refund] == 'true' || @listing_transaction.status.eql?('canceled')
+      buyer_gets = order_total(@listing_transaction)
+      buyer = @listing_transaction.starter
+      buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
+      
+      if buyer.update_attribute(:coupon_balance, buyer_coupon_bal)
+        AvonBucksHistory.create(
+          amount: buyer_gets,
+          operation: "added",
+          remaining_balance: buyer.coupon_balance,
+          person_id: buyer.id,
+          transaction_id: @listing_transaction.id
+        )      
+        @listing_transaction.toggle!(:coupon_bal_refunded)
+      end
     end     
   end  
 
