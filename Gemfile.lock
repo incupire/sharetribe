@@ -104,6 +104,7 @@ GEM
     biz (1.7.0)
       clavius (~> 1.0)
       tzinfo
+    browser (2.6.1)
     builder (3.2.3)
     byebug (9.0.6)
     callsite (0.0.11)
@@ -220,6 +221,8 @@ GEM
       faraday
     faraday_middleware (0.11.0.1)
       faraday (>= 0.7.4, < 1.0)
+    fcm (0.0.6)
+      httparty (~> 0.10, >= 0.10.0)
     ffi (1.9.18)
     flying-sphinx (1.2.0)
       faraday (>= 0.9)
@@ -228,6 +231,7 @@ GEM
       riddle (>= 1.5.6)
       thinking-sphinx
     formatador (0.2.5)
+    geocoder (1.5.2)
     gherkin (4.1.3)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -254,6 +258,9 @@ GEM
     htmlentities (4.3.4)
     http-cookie (1.0.3)
       domain_name (~> 0.5)
+    httparty (0.17.1)
+      mime-types (~> 3.0)
+      multi_xml (>= 0.5.2)
     i18n (0.8.4)
     i18n-js (3.0.0)
       i18n (~> 0.6, >= 0.6.6)
@@ -348,6 +355,8 @@ GEM
       rack (>= 1.6.2, < 3)
     omniauth-facebook (4.0.0)
       omniauth-oauth2 (~> 1.2)
+    omniauth-linkedin-oauth2 (1.0.0)
+      omniauth-oauth2
     omniauth-oauth2 (1.4.0)
       oauth2 (~> 1.0)
       omniauth (~> 1.2)
@@ -384,6 +393,8 @@ GEM
     pry-byebug (3.4.2)
       byebug (~> 9.0)
       pry (~> 0.10)
+    pry-rails (0.3.9)
+      pry (>= 0.10.4)
     public_suffix (2.0.5)
     pusher-client (0.6.2)
       json
@@ -549,6 +560,10 @@ GEM
       oj (~> 2.18)
     trollop (2.1.2)
     truncate_html (0.9.3)
+    twilio-ruby (5.23.1)
+      faraday (~> 0.9)
+      jwt (>= 1.5, <= 2.5)
+      nokogiri (>= 1.6, < 2.0)
     twitter_cldr (4.4.1)
       camertron-eprun
       cldr-plurals-runtime-rb (~> 1.0)
@@ -584,7 +599,10 @@ GEM
     websocket-extensions (0.1.2)
     whenever (0.10.0)
       chronic (>= 0.6.3)
+    wicked_pdf (1.4.0)
+      activesupport
     will_paginate (3.1.5)
+    wkhtmltopdf-binary (0.12.4)
     xml-simple (1.1.5)
     xpath (2.1.0)
       nokogiri (~> 1.3)
@@ -603,6 +621,7 @@ DEPENDENCIES
   better_errors (~> 2.1.1)
   binding_of_caller
   biz
+  browser
   capybara (~> 2.6.2)
   coffee-rails (~> 4.2.2)
   color (~> 1.8)
@@ -626,7 +645,9 @@ DEPENDENCIES
   faraday (~> 0.11.0)
   faraday-encoding (~> 0.0.4)
   faraday_middleware (~> 0.11.0)
+  fcm
   flying-sphinx (~> 1.2.0)
+  geocoder
   guard-rspec (~> 4.7.3)
   haml (~> 5.0.1)
   hiredis (~> 0.6.1)
@@ -651,6 +672,7 @@ DEPENDENCIES
   newrelic_rpm (~> 4.2.0.334)
   oauth2 (~> 1.3.1)
   omniauth-facebook (~> 4.0.0)
+  omniauth-linkedin-oauth2
   paperclip (~> 5.2.1)
   passenger (~> 5.1.4)
   paypal-sdk-merchant (~> 1.116.0)
@@ -658,6 +680,7 @@ DEPENDENCIES
   possibly (~> 1.0.1)
   premailer (~> 1.10.4)
   pry-byebug
+  pry-rails
   public_suffix (~> 2.0.5)
   rack-attack (~> 5.0.1)
   rack-test (~> 0.6.3)
@@ -688,13 +711,16 @@ DEPENDENCIES
   transit-ruby (~> 0.8.1)
   truncate_html (~> 0.9.3)
   ts-delayed-delta!
+  twilio-ruby (~> 5.23.1)
   twitter_cldr
   uglifier (~> 3.2.0)
   uuidtools (~> 2.1.5)
   web-console (~> 3.5.1)
   web_translate_it (~> 2.4.1)
   whenever
+  wicked_pdf
   will_paginate (~> 3.1.5)
+  wkhtmltopdf-binary
   zeus (~> 0.15.13)
 
 RUBY VERSION
