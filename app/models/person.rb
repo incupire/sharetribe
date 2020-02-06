@@ -138,6 +138,10 @@ class Person < ApplicationRecord
     username
   end
 
+  def coupon_balance_cents
+    read_attribute(:coupon_balance_cents) || 0
+  end
+
   def currency
     community.currency
   end  
