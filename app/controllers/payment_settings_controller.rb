@@ -63,9 +63,12 @@ class PaymentSettingsController < ApplicationController
   end
 
   def edit_stripe_customer
+    @stripe_service = stripe_settings
     @selected_left_navi_link = "new-stripe-customber"
-    render 'edit_stripe_customer', locals: {left_hand_navigation_links: settings_links_for(@target_user, @current_community),
-                                     stripe_publishable_key: StripeHelper.publishable_key(@current_community.id)}      
+    render 'edit_stripe_customer', locals: {
+                                            left_hand_navigation_links: settings_links_for(@target_user, @current_community),
+                                            stripe_publishable_key: StripeHelper.publishable_key(@current_community.id)
+                                          }
   end
 
   def update_stripe_customer

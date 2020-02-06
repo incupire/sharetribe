@@ -53,6 +53,23 @@ CREATE TABLE `auth_tokens` (
   UNIQUE KEY `index_auth_tokens_on_token` (`token`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `avon_bucks_histories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `avon_bucks_histories` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `amount_cents` int(11) DEFAULT NULL,
+  `operation` varchar(255) DEFAULT NULL,
+  `remaining_balance_cents` int(11) DEFAULT NULL,
+  `person_id` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `currency` varchar(255) DEFAULT NULL,
+  `transaction_id` int(11) DEFAULT NULL,
+  `operator_id` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `billing_agreements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -270,6 +287,7 @@ CREATE TABLE `communities` (
   `unread_message_reminder_enabled` tinyint(1) DEFAULT '0',
   `send_unread_message_reminder_day` varchar(255) DEFAULT NULL,
   `new_offer_reminder_to_admins` tinyint(1) DEFAULT '0',
+  `auto_accept_orders` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -469,6 +487,7 @@ CREATE TABLE `custom_fields` (
   `entity_type` int(11) DEFAULT '0',
   `public` tinyint(1) DEFAULT '0',
   `assignment` int(11) DEFAULT '0',
+  `hint` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_custom_fields_on_community_id` (`community_id`) USING BTREE,
   KEY `index_custom_fields_on_search_filter` (`search_filter`) USING BTREE
@@ -792,6 +811,8 @@ CREATE TABLE `listings` (
   `availability` varchar(32) DEFAULT 'none',
   `per_hour_ready` tinyint(1) DEFAULT '0',
   `featured` tinyint(1) DEFAULT '0',
+  `favorites_count` int(11) DEFAULT '0',
+  `auto_accept_transaction` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_listings_on_uuid` (`uuid`),
   KEY `index_listings_on_new_category_id` (`category_id`) USING BTREE,
@@ -1202,6 +1223,11 @@ CREATE TABLE `people` (
   `coupon_balance_cents` int(11) DEFAULT '0',
   `stripe_customer_id` varchar(255) DEFAULT NULL,
   `referral_code` varchar(255) DEFAULT NULL,
+  `favorites_count` int(11) DEFAULT '0',
+  `linkedin_id` varchar(255) DEFAULT NULL,
+  `mobile_number` varchar(255) DEFAULT NULL,
+  `android_device_token` varchar(255) DEFAULT NULL,
+  `ios_device_token` varchar(255) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -1420,6 +1446,8 @@ CREATE TABLE `transactions` (
   `avon_commission_cents` int(11) DEFAULT NULL,
   `avon_commission_currency` varchar(255) DEFAULT NULL,
   `avon_commission_charge_id` varchar(255) DEFAULT NULL,
+  `auto_accept_transaction` tinyint(1) DEFAULT '0',
+  `auto_rejected` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index_transactions_on_listing_id` (`listing_id`) USING BTREE,
   KEY `index_transactions_on_conversation_id` (`conversation_id`) USING BTREE,
@@ -2302,9 +2330,23 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20181226103538'),
 ('20181228120306'),
 ('20190102101555'),
-('20190225131833'),
 ('20190225133031'),
 ('20190227132821'),
-('20190305113658');
+('20190305113658'),
+('20190307052353'),
+('20190307060749'),
+('20190307070502'),
+('20190307071204'),
+('20190307092538'),
+('20190427105911'),
+('20190528091254'),
+('20190529043038'),
+('20190530070132'),
+('20190612071434'),
+('20190613090009'),
+('20190618065100'),
+('20190618122749'),
+('20190720104946'),
+('20190819130848');
 
 
