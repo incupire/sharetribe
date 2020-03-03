@@ -133,7 +133,7 @@ module TransactionService::Transaction
         create_avon_bucks_history(order_total, renter, "deducted", transaction)
       end
     end
-    tx.reload   
+    tx.reload
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -230,20 +230,20 @@ module TransactionService::Transaction
 
     res = tx_process.complete(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
     # Add coupon balance to seller account on marked complete  
-    if res.success && tx.payment_gateway.eql?(:coupon_pay)
-      transaction = Transaction.find(tx[:id])
-      seller_gets = order_total(tx) #- order_commission(tx)
-      seller = transaction.author
-      if seller.coupon_balance_cents.present?
-        seller.coupon_balance += seller_gets   
-      else
-        seller.coupon_balance = seller_gets
-      end
-      if seller.save
-        create_avon_bucks_history(seller_gets, seller, "added", transaction)
-      end     
-      transaction.toggle!(:coupon_bal_refunded)
-    end      
+    # if res.success && tx.payment_gateway.eql?(:coupon_pay)
+    #   transaction = Transaction.find(tx[:id])
+    #   seller_gets = order_total(tx) #- order_commission(tx)
+    #   seller = transaction.author
+    #   if seller.coupon_balance_cents.present?
+    #     seller.coupon_balance += seller_gets   
+    #   else
+    #     seller.coupon_balance = seller_gets
+    #   end
+    #   if seller.save
+    #     create_avon_bucks_history(seller_gets, seller, "added", transaction)
+    #   end     
+    #   transaction.toggle!(:coupon_bal_refunded)
+    # end
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
