@@ -317,7 +317,7 @@ class HomepageController < ApplicationController
 
   def current_cordinates(remote_ip)
     begin
-      result = Geocoder.search(current_ip).first
+      result = Geocoder.search(remote_ip).first
       if result.present? && result.coordinates.present?
         return { latitude: result.coordinates[0], longitude: result.coordinates[1] }
       else
@@ -325,18 +325,7 @@ class HomepageController < ApplicationController
       end
     rescue Exception => e
       return { latitude: nil, longitude: nil }
-    end
-  end
-
-  def current_ip
-    begin
-      response = open('https://jsonip.com/').read
-      data = JSON.parse(response)
-      ip_address = data['ip']
-    rescue
-      ip_address = request.remote_ip
-    end
-    ip_address
+    end    
   end
 
   # Filter search params if their values equal min/max
