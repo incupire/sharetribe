@@ -64,6 +64,7 @@ class ConfirmConversation
 
   def add_amount_to_seller(transaction_id)
     transaction = Transaction.find(transaction_id)
+    return unless transaction.payment_gateway == :coupon_pay
     seller_gets = order_total(transaction)
     seller = transaction.author
     if seller.coupon_balance_cents.present?
