@@ -33,7 +33,7 @@ class TransactionProcessStateMachine
     payer = transaction.starter
     current_community = transaction.community
     confirmation = ConfirmConversation.new(transaction, payer, current_community)
-    if transaction.community.auto_complete_orders? && transaction.auto_complete_transaction?
+    if transaction.auto_complete_transaction?
       TransactionService::Transaction.complete(community_id: current_community.id, transaction_id: transaction.id, message: '', sender_id: payer.id)
       confirmation.update_participation(false)
     else
