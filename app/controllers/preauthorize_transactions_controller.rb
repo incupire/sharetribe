@@ -295,6 +295,7 @@ class PreauthorizeTransactionsController < ApplicationController
           delivery_method: opts[:delivery_method] || :none,
           avon_commission: opts[:avon_commission],
           auto_accept_transaction: opts[:listing].auto_accept_transaction,
+          auto_complete_transaction: opts[:listing].auto_complete_transaction,
     }
 
     if(opts[:delivery_method] == :shipping)

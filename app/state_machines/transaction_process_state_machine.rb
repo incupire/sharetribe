@@ -21,7 +21,7 @@ class TransactionProcessStateMachine
   transition from: :paid,                      to: [:confirmed, :canceled]
 
   after_transition(to: :preauthorized) do |transaction|
-    if transaction.payment_gateway.eql?(:coupon_pay) && transaction.community.auto_accept_orders? && transaction.auto_accept_transaction?
+    if transaction.community.auto_accept_orders? && transaction.auto_accept_transaction?
       TransactionService::Transaction.complete_preauthorization(community_id: transaction.community_id,
                                                               transaction_id: transaction.id,
                                                               message: '',
@@ -32,13 +32,18 @@ class TransactionProcessStateMachine
   after_transition(to: :paid) do |transaction|
     payer = transaction.starter
     current_community = transaction.community
-
-    if transaction.booking.present?
-      booking = transaction.booking
-      automatic_booking_confirmation_at = booking.final_end + 2.days
-      ConfirmConversation.new(transaction, payer, current_community).activate_automatic_booking_confirmation_at!(automatic_booking_confirmation_at)
+    confirmation = ConfirmConversation.new(transaction, payer, current_community)
+    if transaction.community.auto_complete_orders? && transaction.auto_complete_transaction?
+      TransactionService::Transaction.complete(community_id: current_community.id, transaction_id: transaction.id, message: '', sender_id: payer.id)
+      confirmation.update_participation(false)
     else
-      ConfirmConversation.new(transaction, payer, current_community).activate_automatic_confirmation!
+      if transaction.booking.present?
+        booking = transaction.booking
+        automatic_booking_confirmation_at = booking.final_end + 2.days
+        confirmation.activate_automatic_booking_confirmation_at!(automatic_booking_confirmation_at)
+      else
+        confirmation.activate_automatic_confirmation!
+      end
     end
 
     Delayed::Job.enqueue(SendPaymentReceipts.new(transaction.id))
