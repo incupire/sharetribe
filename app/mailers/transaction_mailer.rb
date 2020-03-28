@@ -71,6 +71,7 @@ class TransactionMailer < ActionMailer::Base
     seller_model ||= Person.find(transaction.listing_author_id)
     buyer_model ||= Person.find(transaction.starter_id)
     community ||= Community.find(transaction.community_id)
+    transaction_model ||= Transaction.find(transaction.id)
 
     payment = TransactionService::Transaction.payment_details(transaction)
     payment_total = payment[:payment_total]
@@ -112,6 +113,7 @@ class TransactionMailer < ActionMailer::Base
                    payer_given_name: PersonViewUtils.person_display_name_for_type(buyer_model, "first_name_only"),
                    gateway: transaction.payment_gateway,
                    community_name: community.name_with_separator(seller_model.locale),
+                   auto_complete_transaction: transaction_model.auto_complete_transaction,
                  }
         }
       end
@@ -124,6 +126,7 @@ class TransactionMailer < ActionMailer::Base
     buyer_model ||= Person.find(transaction.starter_id)
     community ||= Community.find(transaction.community_id)
     payment = TransactionService::Transaction.payment_details(transaction)
+    transaction_model ||= Transaction.find(transaction.id)
 
     prepare_template(community, buyer_model, "email_about_new_payments")
     with_locale(buyer_model.locale, community.locales.map(&:to_sym), community.id) do
@@ -159,6 +162,7 @@ class TransactionMailer < ActionMailer::Base
                    community_name: community.name_with_separator(buyer_model.locale),
                    avon_commission: MoneyViewUtils.to_humanized(transaction.avon_commission),
                    commission_percentage: transaction.commission_from_seller,
+                   auto_complete_transaction: transaction_model.auto_complete_transaction,
                  }
         }
       }

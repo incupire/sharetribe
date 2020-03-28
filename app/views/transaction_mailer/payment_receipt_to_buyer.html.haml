@@ -10,7 +10,11 @@
   %td{:align => "left"}
     %font{body_font}
       - if gateway == :stripe
-        = t("emails.receipt_to_payer.stripe.you_have_made_new_payment", :listing_title => listing_title, :payment_sum => payment_total, :recipient_full_name => recipient_given_name, :service_name => community_name).html_safe
+        - if auto_complete_transaction
+          = t("emails.receipt_to_payer.you_have_made_new_payment", :listing_title => listing_title, :payment_sum => payment_total, :recipient_full_name => recipient_given_name, :service_name => community_name).html_safe
+        - else
+          = t("emails.receipt_to_payer.stripe.you_have_made_new_payment", :listing_title => listing_title, :payment_sum => payment_total, :recipient_full_name => recipient_given_name, :service_name => community_name).html_safe
+
       - elsif gateway == :coupon_pay
         = t("emails.receipt_to_payer.you_have_made_new_coupon_payment", listing_title: listing_title, payment_sum: payment_total.split('$')[1], recipient_full_name: recipient_given_name, currency: image_tag("#{host}/assets/black_a_img.png", style: "height: 15px; position: relative; top: 1px;")).html_safe
       - else
