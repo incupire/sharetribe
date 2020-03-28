@@ -235,10 +235,10 @@ class HomepageController < ApplicationController
     }
 
     # Geolocation add 25 miles radius for map view
-    if @view_type == 'map'
-      puts "========= #{current_cordinates(request.remote_ip)} ================="
-      search.merge!(current_cordinates(request.remote_ip))
-    end
+    # if @view_type == 'map'
+    #   puts "========= #{current_cordinates(request.remote_ip)} ================="
+    #   search.merge!(current_cordinates(request.remote_ip))
+    # end
 
     if @view_type != 'map' && location_search_in_use
       search.merge!(location_search_params(params, keyword_search_in_use))
