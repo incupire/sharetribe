@@ -7,4 +7,4 @@
   .row.checkbox-group-container
     .checkbox-container
       = form.check_box :auto_complete_transaction, checked: @listing.new_record? || @listing.auto_complete_transaction
-      = form.label :auto_complete_transaction, t("listings.form.auto_accept"), class: 'light'
+      = form.label :auto_complete_transaction, "Auto-Complete, to eliminate the Mark complete/Mark redeem step", class: 'light'
