@@ -100,5 +100,8 @@
 
 
     = button_tag t('.create_new_account')
+    .already_member
+      = t('sessions.new.already_member')
+    = link_to t('sessions.new.login'), login_path, class: "button"
 
 = render :partial => "help_texts", :collection => ["terms", "help_invitation_code", "privacy"], :as => :field

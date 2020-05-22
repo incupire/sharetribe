@@ -2903,6 +2903,128 @@ figure.fluidratio {
 
     }
   }
+h2.crf-acc-trigger {
+  cursor: pointer;
+  font-size: 15px;
+  background: #eaeaea;
+  padding: 15px;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-bottom: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-radius: 5px;
+}
+
+.crf-accrodian-content {
+  padding: 12px;
+  padding-left: 20px;
+  padding-right: 20px;
+  border: 2px solid #eaeaea;
+  margin-top: -13px !important;
+  margin-bottom: 10px;
+  display: none;
+  label {
+    margin-top: 0px;
+    font-size: 14px;
+    font-weight: 900;
+    color: #000;
+  }
+
+  input {
+    font-size: 14px;
+  }
+
+  textarea {
+    font-size: 14px;
+  }
+
+  .lb-mt-mb-15 {
+    margin-top: 15px;
+    margin-bottom: 35px;
+
+    &.row {
+      margin-bottom: 25px;
+    }
+  }
+}
+
+
+.acc-change-btn {
+  font-size: 15px;
+  display: block;
+  width: 100%;
+}
+
+.home-listings {
+  .fc {
+    .fc-view-container {
+      .fc-view {
+        table {
+          .fc-body {
+            tr {
+              background: #fff;
+
+              .fc-widget-content {
+                .fc-day-grid {
+                  .fc-widget-content {
+                    .fc-bg {
+                      table {
+                        tr {
+                          background: transparent;
+
+                          .fc-day {
+                            background: transparent;
+                            
+                            &.fc-today {
+                              background: #fcf8e3;
+                            }
+                          }
+                        }
+                      }
+                    }
+
+                    .fc-content-skeleton {
+                      background: transparent;
+
+                      table {
+                        tr {
+                          background: transparent;
+
+                          .fc-day-number {
+                            background: #fff;
+                            border-color: #ddd;
+                            border-right: 1px solid #ddd;
+
+                            &.fc-today {
+                              background: #fcf8e3;
+                            }
+                          }
+                        }
+
+                        .fc-event-container {
+                          .fc-content {
+                            white-space: initial;
+                            cursor: pointer;
+
+                            .fc-title {
+                              white-space: initial;
+                              font-size: 13px;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 
 
 

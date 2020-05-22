@@ -357,6 +357,13 @@ module ApplicationHelper
 
     links += [
       {
+        :topic => :configure,
+        :text => t("admin.landing_page.landing_page"),
+        :icon_class => icon_class("home"),
+        :path => admin_homepage_settings_path,
+        :name => "homepage"
+      },
+      {
         :topic => :manage,
         :text => t("admin.communities.manage_members.manage_members"),
         :icon_class => icon_class("community"),
@@ -447,6 +454,7 @@ module ApplicationHelper
         :name => "landing_page",
       }
     end
+
 
     if FeatureFlagHelper.feature_enabled?(:user_fields)
       links += [

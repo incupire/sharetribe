@@ -56,6 +56,20 @@ en:
           remove: Remove
           cancel: Cancel
     communities:
+      homepage:
+        section_1: Section 1
+        section_2: Section 2
+        section_3: Section 3
+        section_4: Section 4
+        section_5: Section 5
+        column: Column
+        heading: Heading
+        title: Title
+        image: Image
+        button_title: Button title
+        button_link: Button link
+        content: Content
+        heading_link: Heading Link
       edit_details:
         community_details: "Basic details"
         community_look_and_feel: Design
@@ -2235,6 +2249,7 @@ en:
   sessions:
     new:
       create_new_account: "Create a new account"
+      already_member: "Already a member?"
       i_forgot_my_password: "Forgot username or password"
       login: "Log in"
       login_to_kassi: "Log in to %{service_name}"

@@ -4,7 +4,8 @@ class CommunitiesController < ApplicationController
               :cannot_access_if_banned,
               :cannot_access_without_confirmation,
               :ensure_consent_given,
-              :ensure_user_belongs_to_community
+              :ensure_user_belongs_to_community,
+              :homepage
 
   before_action :ensure_no_communities
 

@@ -228,6 +228,8 @@ Rails.application.routes.draw do
 
       # Landing page menu
       get   "/landing_page"         => "communities#landing_page",                  as: :landing_page
+      get "homepage_settings"  => "community_homepage#homepage_settings"
+      patch "homepage_settings"   => "community_homepage#homepage_settings"
 
       resources :communities do
         member do
