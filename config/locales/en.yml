@@ -57,12 +57,24 @@ en:
           cancel: Cancel
     communities:
       homepage:
+        name: Name
+        work: Work
+        type: Type
+        star: Star
+        homepage_updated_successfully: Homepage settings updated successfully.
+        testimonial_section: Testimonial Section
+        landing_page_settings: Homepage Settings
         section_1: Section 1
         section_2: Section 2
         section_3: Section 3
         section_4: Section 4
         section_5: Section 5
-        column: Column
+        column_1: Column 1
+        column_2: Column 2
+        column_3: Column 3
+        column_4: Column 4
+        column_5: Column 5
+        column_6: Column 6
         heading: Heading
         title: Title
         image: Image

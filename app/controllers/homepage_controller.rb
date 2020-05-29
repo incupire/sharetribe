@@ -11,6 +11,7 @@ class HomepageController < ApplicationController
   def home
     @all_categories = Category.all.order(:sort_priority)
     redirect_to '/s' if logged_in?
+    @homepage_dynamic = HomepageSection.last
   end
 
   def index

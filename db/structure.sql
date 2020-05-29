@@ -745,6 +745,34 @@ CREATE TABLE `homepage_sections` (
   `advantage_col3_image_updated_at` datetime DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `testimonial_main_heading` varchar(255) DEFAULT NULL,
+  `testimonial_column1_name` varchar(255) DEFAULT NULL,
+  `testimonial_column1_work` varchar(255) DEFAULT NULL,
+  `testimonial_column1_type` varchar(255) DEFAULT NULL,
+  `testimonial_col1_image_file_name` varchar(255) DEFAULT NULL,
+  `testimonial_col1_image_content_type` varchar(255) DEFAULT NULL,
+  `testimonial_col1_image_file_size` int(11) DEFAULT NULL,
+  `testimonial_col1_image_updated_at` datetime DEFAULT NULL,
+  `testimonial_col2_image_file_name` varchar(255) DEFAULT NULL,
+  `testimonial_col2_image_content_type` varchar(255) DEFAULT NULL,
+  `testimonial_col2_image_file_size` int(11) DEFAULT NULL,
+  `testimonial_col2_image_updated_at` datetime DEFAULT NULL,
+  `testimonial_col3_image_file_name` varchar(255) DEFAULT NULL,
+  `testimonial_col3_image_content_type` varchar(255) DEFAULT NULL,
+  `testimonial_col3_image_file_size` int(11) DEFAULT NULL,
+  `testimonial_col3_image_updated_at` datetime DEFAULT NULL,
+  `testimonial_column1_content` text,
+  `testimonial_column1_star_count` float DEFAULT NULL,
+  `testimonial_column2_name` text,
+  `testimonial_column2_work` text,
+  `testimonial_column2_type` text,
+  `testimonial_column2_content` text,
+  `testimonial_column2_star_count` float DEFAULT NULL,
+  `testimonial_column3_name` text,
+  `testimonial_column3_work` text,
+  `testimonial_column3_type` text,
+  `testimonial_column3_content` text,
+  `testimonial_column3_star_count` float DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2485,6 +2513,9 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20190618122749'),
 ('20190720104946'),
 ('20190819130848'),
-('20200521105807');
+('20200521105807'),
+('20200528135049'),
+('20200529043118'),
+('20200529043834');
 
 
