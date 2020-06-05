@@ -1393,6 +1393,14 @@ CREATE TABLE `people` (
   `mobile_number` varchar(255) DEFAULT NULL,
   `android_device_token` varchar(255) DEFAULT NULL,
   `ios_device_token` varchar(255) DEFAULT NULL,
+  `business_name` varchar(255) DEFAULT NULL,
+  `website_name` varchar(255) DEFAULT NULL,
+  `physical_location` varchar(255) DEFAULT NULL,
+  `community_description_experience` text,
+  `facebook_link` varchar(255) DEFAULT NULL,
+  `instagram_link` varchar(255) DEFAULT NULL,
+  `linkedin_link` varchar(255) DEFAULT NULL,
+  `twitter_link` varchar(255) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -2516,6 +2524,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200521105807'),
 ('20200528135049'),
 ('20200529043118'),
-('20200529043834');
+('20200529043834'),
+('20200604124430');
 
 

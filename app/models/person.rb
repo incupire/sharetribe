@@ -50,6 +50,14 @@
 #  mobile_number                      :string(255)
 #  android_device_token               :string(255)
 #  ios_device_token                   :string(255)
+#  business_name                      :string(255)
+#  website_name                       :string(255)
+#  physical_location                  :string(255)
+#  community_description_experience   :text(65535)
+#  facebook_link                      :string(255)
+#  instagram_link                     :string(255)
+#  linkedin_link                      :string(255)
+#  twitter_link                       :string(255)
 #
 # Indexes
 #
@@ -195,7 +203,7 @@ class Person < ApplicationRecord
                       :thumb => "48x48#",
                       :original => "600x800>"}
 
-  process_in_background :image
+  #process_in_background :image
 
   #validates_attachment_presence :image
   validates_attachment_size :image, :less_than => 9.megabytes
