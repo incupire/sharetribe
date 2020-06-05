@@ -132,10 +132,6 @@
 #  advantage_col3_image_updated_at             :datetime
 #  created_at                                  :datetime         not null
 #  updated_at                                  :datetime         not null
-#  testimonial_main_heading                    :string(255)
-#  testimonial_column1_name                    :string(255)
-#  testimonial_column1_work                    :string(255)
-#  testimonial_column1_type                    :string(255)
 #  testimonial_col1_image_file_name            :string(255)
 #  testimonial_col1_image_content_type         :string(255)
 #  testimonial_col1_image_file_size            :integer
