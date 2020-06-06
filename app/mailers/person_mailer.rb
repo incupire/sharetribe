@@ -407,7 +407,6 @@ class PersonMailer < ActionMailer::Base
     @other_user = conversation.other_party(@recipient)
     set_up_layout_variables(recipient, @community, @email_type)
     with_locale(recipient.locale, @community.locales.map(&:to_sym), @community.id) do
-      @message = message
       sending_params = {:to => recipient.confirmed_notification_emails_to,
                      :from => community_specific_sender(@community),
                      :subject => t("emails.unread_message_reminder.you_have_an_unread_message")}

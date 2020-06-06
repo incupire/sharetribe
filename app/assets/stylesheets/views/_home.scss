@@ -50,7 +50,28 @@
     width: auto;
     min-width: lines(5);
   }
+  &:hover{
+    .custom_svg{
+      fill: #fff;
+    }
+  }
+  .custom_svg{
+    fill: #3c3c3c;
+    line-height: 42px;
+    display: inline-block;
+    margin: 0;
+    height: 16px;
+    width: 16px;
+    position: relative;
+    top: 4px;
+  }
+  &.selected{
+    .custom_svg{
+      fill: #fff;
+    }
+  }
 }
+
 
 .home-toolbar-button-text {
   display: none;
@@ -110,12 +131,21 @@
     height: 30em;
   }
 }
+.home-map{
+  @media screen and (max-width: 767px){
+    margin-bottom: -0.75em;
+    .map{
+      height: calc(100vh - 199px);
+    }
+  }
+}
 
 .home-list-item {
   position: relative;
   margin-bottom: lines(0.5);
   border-bottom: 1px solid $border;
-  min-height: lines(3.5);
+  //min-height: lines(3.5);
+  min-height: 7.25em;
 
   @include media(tablet) {
     padding-bottom: lines(1);
@@ -150,8 +180,8 @@ $home-list-image-padding-mobile: lines(0.5);
   @extend .home-list-image-container;
   width: $home-list-image-size-mobile;
   height: $home-list-image-size-mobile;
-  width: 5.4em;
-  height: 5.4em;
+  width: 7.4em;
+  height: 7.4em;
   display: block;
   margin-top: -0.5em;
 
@@ -340,6 +370,10 @@ $home-list-avatar-padding: lines(0.25);
     & > .smaller {
       font-size: em(24);
     }
+  }
+  .list_view_avon_icon{
+    height: 18px;
+    margin-right: -3px;
   }
 }
 
@@ -570,10 +604,10 @@ $home-list-avatar-padding: lines(0.25);
     margin-top: -20px;
   }
   .mr_lf{
-        margin-left: 15em;
-        @media screen and (max-width: 680px){
-          margin-left: 6.75em;
-        }
+    margin-left: 15em;
+    @media screen and (max-width: 680px){
+      margin-left: 8.75em;
+    }
   }
   .mr_lft{
     left: 15em;
@@ -615,4 +649,3 @@ $home-list-avatar-padding: lines(0.25);
     }
   }
 }
-

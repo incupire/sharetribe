@@ -55,22 +55,21 @@ class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :expor
        author_coupon_balnce
      }.to_csv(force_quotes: true)
      transactions.each do |transaction|
-      if transaction.listing.present?
-        yielder << [
-          transaction.id,
-          transaction.listing_id  || "N/A",
-          transaction.listing_title || "N/A",
-          transaction.status,
-          transaction.payment_total.is_a?(Money) ? transaction.payment_total.currency : "N/A",
-          transaction.payment_total,
-          transaction.created_at,
-          transaction.last_activity,
-          transaction.starter ? transaction.starter.username : "DELETED",
-          transaction.author ? transaction.author.username : "DELETED",
-          (transaction&.starter.present? && transaction.starter&.coupon_balance.present?) ? (transaction.starter&.coupon_balance_cents/100).to_f : "",
-          (transaction.author.present? && transaction.author&.coupon_balance.present?) ? (transaction.author&.coupon_balance_cents/100).to_f : ""
-        ].to_csv(force_quotes: true)
-      end
+       next unless transaction.listing
+       yielder << [
+         transaction.id,
+         transaction.listing ? transaction.listing.id : "N/A",
+         transaction.listing ? transaction.listing_title : "N/A",
+         transaction.status,
+         transaction.payment_total.is_a?(Money) ? transaction.payment_total.currency : "N/A",
+         transaction.payment_total,
+         transaction.created_at,
+         transaction.last_activity,
+         transaction.starter ? transaction.starter.username : "DELETED",
+         transaction.author ? transaction.author.username : "DELETED",
+         (transaction&.starter.present? && transaction.starter&.coupon_balance.present?) ? (transaction.starter&.coupon_balance_cents/100).to_f : "",
+         (transaction.author.present? && transaction.author&.coupon_balance.present?) ? (transaction.author&.coupon_balance_cents/100).to_f : ""
+       ].to_csv(force_quotes: true)
      end
     end
   end

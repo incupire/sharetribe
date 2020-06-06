@@ -1,7 +1,7 @@
+= javascript_include_tag "#{STRIPE_JS_HOST}/v3/"
 = form_tag person_update_stripe_customer_settings_path(@current_user), method: :put, id: "card-form" do
   .preauthorize-section.mr_0
     .row
-      = javascript_include_tag "#{STRIPE_JS_HOST}/v3/"
       %p.or Enter Your Credit card information to be used for Avontage Marketplaces fees
       .form-row
         .row

@@ -42,6 +42,7 @@
 #  avon_commission_charge_id         :string(255)
 #  auto_accept_transaction           :boolean          default(FALSE)
 #  auto_rejected                     :boolean          default(FALSE)
+#  auto_complete_transaction         :boolean          default(FALSE)
 #
 # Indexes
 #

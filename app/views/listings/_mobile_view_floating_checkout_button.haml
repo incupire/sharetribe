@@ -1,0 +1,38 @@
+// fix bottom bar 
+.bottom_bar_phone_view
+  .inner_bar
+    .mobile_view_fixed
+      - if @listing.price
+        %span.listing-price-amount
+          = image_tag "black_a_img.png", class: 'black_a'
+          = MoneyViewUtils.to_humanized(@listing.price).split('$')[1]
+        - with_quantity_text(@current_community, @listing) do |text|
+          %span.listing-price-quantity
+            = text
+    .buy_part
+      %button.button.custom_buy_btn
+        - if @listing_presenter.quantity_per_day_or_night?
+          - @listing_presenter.blocked_dates_result.on_success do
+            .enabled-book-button.custm_buy
+              .content
+                = action_button_label(@listing)
+
+          - @listing_presenter.blocked_dates_result.on_error do
+            .disabled-book-button{disabled: true}
+              .content
+                = action_button_label(@listing)
+        - else
+          .enabled-book-button.custm_buy
+            .content
+              = action_button_label(@listing)     
+
+- content_for :extra_javascript do
+  :javascript
+    $(document).ready(function(){
+      $('.custom_buy_btn').click(function(){
+        $('.buyer_custom_modal').addClass('open');
+      });
+      $('.clos, .close_btn').click(function(){
+        $('.buyer_custom_modal').removeClass('open');
+      });
+    });

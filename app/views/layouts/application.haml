@@ -43,7 +43,8 @@
       = yield
     - else
       - content_for(:page_content) do
-        %section.marketplace-lander{class: is_homepage ? '' : 'featured_conditionally'}
+        - is_map_view = params[:view].present? && params[:view] == "map"
+        %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
           - if @big_cover_photo
             .coverimage
               %figure.marketplace-cover.fluidratio
@@ -60,8 +61,11 @@
                 .title-header-wrapper
                   .marketplace-title-header.make_custom_cover_title
                     = yield :title_header
+        - if @current_user && params[:controller] != "homepage" 
+          = link_to :back,  class: 'my-class' do
+            = image_tag 'left-arrow_white.png'
 
-        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : ''}
+        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : 'custom-page-content'}
           %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
             = render :partial => "layouts/notifications"
             = yield
@@ -125,3 +129,4 @@
     = render :partial => 'analytics/bottom_scripts'
 
     = render :partial => "layouts/noscript"
+

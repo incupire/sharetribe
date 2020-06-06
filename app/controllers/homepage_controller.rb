@@ -231,8 +231,15 @@ class HomepageController < ApplicationController
       locale: I18n.locale,
       include_closed: false,
       sort: nil,
-      featured: params[:category].eql?('featured') ? true : false
+      featured: params[:category].eql?('featured') ? true : false,
+      boundingbox: params[:boundingbox]
     }
+
+    # Geolocation add 25 miles radius for map view
+    # if @view_type == 'map'
+    #   puts "========= #{current_cordinates(request.remote_ip)} ================="
+    #   search.merge!(current_cordinates(request.remote_ip))
+    # end
 
     if @view_type != 'map' && location_search_in_use
       search.merge!(location_search_params(params, keyword_search_in_use))
@@ -307,6 +314,19 @@ class HomepageController < ApplicationController
     .merge(center_point)
     .merge(combined_search_params)
     .compact
+  end
+
+  def current_cordinates(remote_ip)
+    begin
+      result = Geocoder.search(remote_ip).first
+      if result.present? && result.coordinates.present?
+        return { latitude: result.coordinates[0], longitude: result.coordinates[1] }
+      else
+        return { latitude: nil, longitude: nil }
+      end
+    rescue Exception => e
+      return { latitude: nil, longitude: nil }
+    end    
   end
 
   # Filter search params if their values equal min/max

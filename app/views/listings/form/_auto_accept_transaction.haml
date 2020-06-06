@@ -1,4 +1,10 @@
-.row.checkbox-group-container
-  .checkbox-container
-    = form.check_box(:auto_accept_transaction)
-    = form.label :auto_accept_transaction, t("listings.form.auto_accept"), class: 'light'
+- if @current_community.auto_accept_orders?
+  .row.checkbox-group-container
+    .checkbox-container
+      = form.check_box :auto_accept_transaction, checked: @listing.new_record? || @listing.auto_accept_transaction
+      = form.label :auto_accept_transaction, t("listings.form.auto_accept"), class: 'light'
+- if @current_user.has_admin_rights?(@current_community)
+  .row.checkbox-group-container
+    .checkbox-container
+      = form.check_box :auto_complete_transaction, checked: @listing.new_record? || @listing.auto_complete_transaction
+      = form.label :auto_complete_transaction, "Auto-Complete, to eliminate the Mark complete/Mark redeem step", class: 'light'

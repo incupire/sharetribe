@@ -131,10 +131,9 @@ module TransactionService::Transaction
       renter.coupon_balance = renter.coupon_balance - order_total
       if renter.save
         create_avon_bucks_history(order_total, renter, "deducted", transaction)
-        notify_renter_about_avon_voucher_redeem_instructions(transaction)
       end
     end
-    tx.reload   
+    tx.reload
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -213,6 +212,11 @@ module TransactionService::Transaction
     gw = gateway_adapter(tx.payment_gateway)
 
     res = tx_process.complete_preauthorization(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
+    
+    if res.success && tx.payment_gateway.eql?(:coupon_pay)
+      notify_renter_about_avon_voucher_redeem_instructions(transaction_id, community_id)
+    end
+    
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -226,20 +230,20 @@ module TransactionService::Transaction
 
     res = tx_process.complete(tx: tx, message: message, sender_id: sender_id, gateway_adapter: gw)
     # Add coupon balance to seller account on marked complete  
-    if res.success && tx.payment_gateway.eql?(:coupon_pay)
-      transaction = Transaction.find(tx[:id])
-      seller_gets = order_total(tx) #- order_commission(tx)
-      seller = transaction.author
-      if seller.coupon_balance_cents.present?
-        seller.coupon_balance += seller_gets   
-      else
-        seller.coupon_balance = seller_gets
-      end
-      if seller.save
-        create_avon_bucks_history(seller_gets, seller, "added", transaction)
-      end     
-      transaction.toggle!(:coupon_bal_refunded)
-    end      
+    # if res.success && tx.payment_gateway.eql?(:coupon_pay)
+    #   transaction = Transaction.find(tx[:id])
+    #   seller_gets = order_total(tx) #- order_commission(tx)
+    #   seller = transaction.author
+    #   if seller.coupon_balance_cents.present?
+    #     seller.coupon_balance += seller_gets   
+    #   else
+    #     seller.coupon_balance = seller_gets
+    #   end
+    #   if seller.save
+    #     create_avon_bucks_history(seller_gets, seller, "added", transaction)
+    #   end     
+    #   transaction.toggle!(:coupon_bal_refunded)
+    # end
     res.maybe()
       .map { |gw_fields| Result::Success.new(create_transaction_response(tx, gw_fields)) }
       .or_else(res)
@@ -343,7 +347,7 @@ module TransactionService::Transaction
     )
   end
 
-  def notify_renter_about_avon_voucher_redeem_instructions(transaction)
-    Delayed::Job.enqueue(AvonVoucherNotificationJob.new(transaction.id, transaction.community_id))
+  def notify_renter_about_avon_voucher_redeem_instructions(transaction_id, community_id)
+    Delayed::Job.enqueue(AvonVoucherNotificationJob.new(transaction_id, community_id))
   end
 end

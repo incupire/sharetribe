@@ -6,8 +6,8 @@ module PushNotification
 
     fcm = FCM.new(APP_CONFIG.fcm_api_key)
     
-    if recipient.android_device_token.present?
-      device_token = recipient.android_device_token
+    if recipient.android_device_token.present? || recipient.ios_device_token.present?
+      device_tokens = [ recipient.android_device_token, recipient.ios_device_token ].reject(&:blank?)
 
       options = {
         data: {
@@ -22,7 +22,7 @@ module PushNotification
         priority: "high"
       }
       
-      response = fcm.send([device_token], options)
+      response = fcm.send(device_tokens, options)
       body = JSON.parse(response[:body])
       status = true if body["success"] == 1
 

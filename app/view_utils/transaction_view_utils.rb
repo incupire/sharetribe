@@ -30,7 +30,9 @@ module TransactionViewUtils
     [:avon_commission, :money],
     [:start_time, :time],
     [:end_time, :time],
-    [:per_hour, :to_bool, default: false]
+    [:per_hour, :to_bool, default: false],
+    [:auto_accept_transaction, :to_bool, default: false],
+    [:auto_complete_transaction, :to_bool, default: false]
   )
 
 

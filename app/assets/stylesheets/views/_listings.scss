@@ -402,15 +402,20 @@ $listing-author-avatar-height: 108;
 .fb_share {
   background: #0259a3;
   border-radius: 4px;
-  padding: 5.4px 20px;
+  padding: 5.4px 10px;
   margin-right: 5px;
   float: left;
   cursor: pointer;
   @media(min-width: 320px) and (max-width: 768px) {
-    margin-top: 10px;
+    margin-top: 0px;
+    padding: 3px 8px;
+    margin-bottom: 6px;
   }
   img {
     width: 14px;
+    @media screen and (max-width: 767px){
+      width: 12px;
+    }
   }
   span {
     font-size: 13px;
@@ -418,6 +423,11 @@ $listing-author-avatar-height: 108;
     top: -3px;
     color: #fff;
     font-weight: 600;
+    @media screen and (max-width: 767px){
+      font-size: 12px;
+      position: relative;
+      top: -2px;
+    }
   }
 }
 .twitter_share {
@@ -428,12 +438,17 @@ $listing-author-avatar-height: 108;
   float: left;
   cursor: pointer;
   @media(min-width: 320px) and (max-width: 768px) {
-    margin-top: 10px;
+    margin-top: 0px;
+    padding: 3px 8px;
+    margin-bottom: 6px;
   }
   img {
     width: 14px;
     position: relative;
     //top: -2px;
+    @media screen and (max-width: 767px){
+      width: 12px;
+    }
   }
   span {
     font-size: 13px;
@@ -441,6 +456,9 @@ $listing-author-avatar-height: 108;
     top: -2px;
     color: #fff;
     font-weight: 600;
+    @media screen and (max-width: 767px){
+      font-size: 12px;
+    }
   }
 }
 .custom_contact {
@@ -473,6 +491,9 @@ $listing-author-avatar-height: 108;
   }
   &:hover {
     background: #365899;
+  }
+  @media screen and (max-width: 767px){
+    display: none;
   }
 }
 .fb-like.fb_iframe_widget {

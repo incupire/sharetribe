@@ -72,7 +72,11 @@
           .checkbox-container
             .settings-checkbox-label.label
               = form.check_box :auto_accept_orders
-              = form.label :auto_accept_orders, t(".auto_accept_orders"), :class => "settings-checkbox-label"             
+              = form.label :auto_accept_orders, t(".auto_accept_orders"), :class => "settings-checkbox-label"
+          / .checkbox-container
+          /   .settings-checkbox-label.label
+          /     =# form.check_box :auto_complete_orders
+          /     =# form.label :auto_complete_orders, "Auto-Complete orders - simplify the transaction process, eliminate the Mark complete/Mark Redeem step", :class => "settings-checkbox-label"
 
     .row
       .col-12

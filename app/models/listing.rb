@@ -51,6 +51,7 @@
 #  featured                        :boolean          default(FALSE)
 #  favorites_count                 :integer          default(0)
 #  auto_accept_transaction         :boolean          default(FALSE)
+#  auto_complete_transaction       :boolean          default(FALSE)
 #
 # Indexes
 #

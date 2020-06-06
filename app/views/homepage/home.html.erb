@@ -865,10 +865,12 @@
   </div>
 <% end %>
 
-<script type="text/javascript">
-  $('.home-categories-main').click(function(e){
-    var x = $(this).attr("data-url");
-    $(this).attr('href', x);
-    $('#search_val').val("");
-  });
-</script>
+<%= content_for :extra_javascript do %>
+  <script type="text/javascript">
+    $('.home-categories-main').click(function(e){
+      var x = $(this).attr("data-url");
+      $(this).attr('href', x);
+      $('#search_val').val("");
+    });
+  </script>
+<%end%>

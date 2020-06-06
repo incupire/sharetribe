@@ -288,6 +288,7 @@ CREATE TABLE `communities` (
   `send_unread_message_reminder_day` varchar(255) DEFAULT NULL,
   `new_offer_reminder_to_admins` tinyint(1) DEFAULT '0',
   `auto_accept_orders` tinyint(1) DEFAULT '0',
+  `auto_complete_orders` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -974,6 +975,8 @@ CREATE TABLE `listings` (
   `featured` tinyint(1) DEFAULT '0',
   `favorites_count` int(11) DEFAULT '0',
   `auto_accept_transaction` tinyint(1) DEFAULT '0',
+
+  `auto_complete_transaction` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_listings_on_uuid` (`uuid`),
   KEY `index_listings_on_new_category_id` (`category_id`) USING BTREE,
@@ -1617,6 +1620,7 @@ CREATE TABLE `transactions` (
   `avon_commission_charge_id` varchar(255) DEFAULT NULL,
   `auto_accept_transaction` tinyint(1) DEFAULT '0',
   `auto_rejected` tinyint(1) DEFAULT '0',
+  `auto_complete_transaction` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `index_transactions_on_listing_id` (`listing_id`) USING BTREE,
   KEY `index_transactions_on_conversation_id` (`conversation_id`) USING BTREE,
@@ -2522,5 +2526,8 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200529043118'),
 ('20200529043834'),
 ('20200604124430');
+('20200328140403'),
+('20200328141125'),
+('20200328142903');
 
 

@@ -17,12 +17,20 @@ class ConfirmReminderJob < Struct.new(:conversation_id, :recipient_id, :communit
     community = Community.find(community_id)
     if transaction.status.eql?("paid")
       MailCarrier.deliver_now(PersonMailer.send("confirm_reminder", transaction, transaction.buyer, community, days_to_cancel))
+      
       if transaction.buyer.should_receive_sms?("sms_remainder_to_mark_complete")
-        SMSNotification.sms_service(transaction.buyer.mobile_number, sms_body(transaction, community))
+        # SMS Notification
+        SMSNotification.sms_service(
+          transaction.buyer.mobile_number, 
+          sms_body(transaction, community)
+        )
       end
-      if transaction.buyer.android_device_token.present?
-        PushNotification.send_notification(transaction.buyer, sms_body(transaction, community))
-      end
+
+      # Push Notification
+      PushNotification.send_notification(
+        transaction.buyer, 
+        sms_body(transaction, community)
+      )
     end
   end
 
