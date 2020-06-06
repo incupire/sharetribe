@@ -29,8 +29,10 @@
                 <% end %>
                 <div class="listing_details">
                   <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col1_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col1_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic&.local_business_sec_col1_explore_btn_text, class:'explore_button' %>
+                  <% if @homepage_dynamic&.local_business_sec_col1_explore_btn_link.present? %>
+                    <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col1_explore_btn_link : sign_up_path do %>
+                      <%= button_tag @homepage_dynamic&.local_business_sec_col1_explore_btn_text, class:'explore_button' %>
+                    <% end %>
                   <% end %>
                   <div class="description"><%= @homepage_dynamic&.local_business_sec_col1_explore_btn_content %></div>
                 </div>
@@ -47,8 +49,10 @@
                 <% end %>
                 <div class="listing_details">
                   <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col2_heading %></div>
+                  <% if @homepage_dynamic&.local_business_sec_col2_explore_btn_link.present? %>
                   <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col2_explore_btn_link : sign_up_path do %>
                     <%= button_tag @homepage_dynamic&.local_business_sec_col2_explore_btn_text, class:'explore_button' %>
+                  <% end %>
                   <% end %>
                   <div class="description"><%= @homepage_dynamic&.local_business_sec_col2_explore_btn_content %></div>
                 </div>
@@ -65,8 +69,10 @@
                 <% end %>
                 <div class="listing_details">
                   <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col3_heading %></div>
+                  <% if @homepage_dynamic&.local_business_sec_col3_explore_btn_link.present? %>
                   <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col3_explore_btn_link : sign_up_path do %>
                     <%= button_tag @homepage_dynamic&.local_business_sec_col3_explore_btn_text, class:'explore_button' %>
+                  <% end %>
                   <% end %>
                   <div class="description"><%= @homepage_dynamic&.local_business_sec_col3_explore_btn_content %></div>
                 </div>
@@ -83,8 +89,10 @@
                 <% end %>
                 <div class="listing_details">
                   <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col4_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col4_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic&.local_business_sec_col4_explore_btn_text, class:'explore_button' %>
+                  <% if @homepage_dynamic&.local_business_sec_col4_explore_btn_link.present? %>
+                    <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col4_explore_btn_link : sign_up_path do %>
+                      <%= button_tag @homepage_dynamic&.local_business_sec_col4_explore_btn_text, class:'explore_button' %>
+                    <% end %>
                   <% end %>
                   <div class="description"><%= @homepage_dynamic&.local_business_sec_col4_explore_btn_content %></div>
                 </div>
@@ -101,8 +109,10 @@
                 <% end %>
                 <div class="listing_details">
                   <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col5_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col5_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic&.local_business_sec_col5_explore_btn_text, class:'explore_button' %>
+                  <% if @homepage_dynamic&.local_business_sec_col5_explore_btn_link.present? %>
+                    <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col5_explore_btn_link : sign_up_path do %>
+                      <%= button_tag @homepage_dynamic&.local_business_sec_col5_explore_btn_text, class:'explore_button' %>
+                    <% end %>
                   <% end %>
                   <div class="description"><%= @homepage_dynamic&.local_business_sec_col5_explore_btn_content %></div>
                 </div>
@@ -119,8 +129,10 @@
                 <% end %>
                 <div class="listing_details">
                   <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col6_heading %></div>
+                  <% if @homepage_dynamic&.local_business_sec_col6_explore_btn_link.present? %>
                   <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col6_explore_btn_link : sign_up_path do %>
                     <%= button_tag @homepage_dynamic&.local_business_sec_col6_explore_btn_text, class:'explore_button' %>
+                  <% end %>
                   <% end %>
                   <div class="description"><%= @homepage_dynamic&.local_business_sec_col6_explore_btn_content %></div>
                 </div>
@@ -129,7 +141,9 @@
           </div>
         </div>
         <div class="under_categories col-md-12 col-sm-12 col-xs-12">
+          <% if @homepage_dynamic&.explore_service_heading_title.present? %>
           <%= link_to @homepage_dynamic&.explore_service_heading_title, public_and_not_logged_in ? @homepage_dynamic&.explore_service_heading_link : sign_up_path ,class:'more_services'%>
+          <% end %>
 
 
 
