@@ -770,6 +770,10 @@ CREATE TABLE `homepage_sections` (
   `testimonial_column3_type` text,
   `testimonial_column3_content` text,
   `testimonial_column3_star_count` float DEFAULT NULL,
+  `testimonial_main_heading` varchar(255) DEFAULT NULL,
+  `testimonial_column1_name` varchar(255) DEFAULT NULL,
+  `testimonial_column1_work` varchar(255) DEFAULT NULL,
+  `testimonial_column1_type` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -975,7 +979,6 @@ CREATE TABLE `listings` (
   `featured` tinyint(1) DEFAULT '0',
   `favorites_count` int(11) DEFAULT '0',
   `auto_accept_transaction` tinyint(1) DEFAULT '0',
-
   `auto_complete_transaction` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_listings_on_uuid` (`uuid`),
@@ -2521,13 +2524,14 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20190618122749'),
 ('20190720104946'),
 ('20190819130848'),
+('20200328140403'),
+('20200328141125'),
+('20200328142903'),
 ('20200521105807'),
 ('20200528135049'),
 ('20200529043118'),
 ('20200529043834'),
-('20200604124430');
-('20200328140403'),
-('20200328141125'),
-('20200328142903');
+('20200604124430'),
+('20200606184538');
 
 
