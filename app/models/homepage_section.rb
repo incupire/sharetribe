@@ -156,6 +156,7 @@
 #  testimonial_column3_type                    :text(65535)
 #  testimonial_column3_content                 :text(65535)
 #  testimonial_column3_star_count              :float(24)
+#  testimonial_main_heading                    :string(255)
 #
 
 class HomepageSection < ApplicationRecord
