@@ -1,5 +1,5 @@
 <% public_and_not_logged_in = (@current_community.public? && !logged_in?)%>
-<% if @homepage_dynamic.present? %>
+<% if true #@homepage_dynamic.present? %>
   <div class="main_head_coverphoto col-md-12 col-sm-12 col-xs-12 no_padding_default">
     <div class="cover_photo" style='background: url("<%= @current_community.cover_photo.present? ? @current_community.cover_photo.url(:original) : asset_url('main_cover.png')%>");'>
       <h1 class="main_cover_title">
@@ -15,198 +15,198 @@
     <div class="main_wrapper">
       <div class="sub_wrapper">
         <h3 class="under_cover_photo_title">
-          <%= @homepage_dynamic.local_business_sec_heading %>
+          <%= @homepage_dynamic.local_business_sec_heading rescue nil %>
           <!-- A local community of Arizona small business owners and freelancers selling special Offers online<br/> without the high fees. <br/>Collaborate to gain high quality clients, repeat customers, save money, and KEEP IT LOCAL. -->  
         </h3>
         <div class="col-md-12 col-sm-12 col-xs-12 categories no_padding_default">
           <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
-            <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col1_explore_btn_link : sign_up_path do %>
+            <%= link_to public_and_not_logged_in  ? (@homepage_dynamic&.local_business_sec_col1_explore_btn_link) : sign_up_path do %>
               <div class="listing_frame">
-                <% if @homepage_dynamic.local_business_sec_col1_image.present? %>
+                <% if @homepage_dynamic&.local_business_sec_col1_image.present? %>
                   <div class="image_frame">
                     <%= image_tag @homepage_dynamic.local_business_sec_col1_image.url, class: '' %>
                   </div>
                 <% end %>
                 <div class="listing_details">
-                  <div class="category_heading"><%= @homepage_dynamic.local_business_sec_col1_heading %></div>
+                  <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col1_heading %></div>
                   <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col1_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic.local_business_sec_col1_explore_btn_text, class:'explore_button' %>
+                    <%= button_tag @homepage_dynamic&.local_business_sec_col1_explore_btn_text, class:'explore_button' %>
                   <% end %>
-                  <div class="description"><%= @homepage_dynamic.local_business_sec_col1_explore_btn_content %></div>
+                  <div class="description"><%= @homepage_dynamic&.local_business_sec_col1_explore_btn_content %></div>
                 </div>
               </div>
             <%end%>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
-            <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col2_explore_btn_link : sign_up_path do %>
+            <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col2_explore_btn_link : sign_up_path do %>
               <div class="listing_frame">
-                <% if @homepage_dynamic.local_business_sec_col2_image.present? %>
+                <% if @homepage_dynamic&.local_business_sec_col2_image.present? %>
                   <div class="image_frame">
-                    <%= image_tag @homepage_dynamic.local_business_sec_col2_image.url, class: '' %>
+                    <%= image_tag @homepage_dynamic&.local_business_sec_col2_image&.url, class: '' %>
                   </div>
                 <% end %>
                 <div class="listing_details">
-                  <div class="category_heading"><%= @homepage_dynamic.local_business_sec_col2_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col2_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic.local_business_sec_col2_explore_btn_text, class:'explore_button' %>
+                  <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col2_heading %></div>
+                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col2_explore_btn_link : sign_up_path do %>
+                    <%= button_tag @homepage_dynamic&.local_business_sec_col2_explore_btn_text, class:'explore_button' %>
                   <% end %>
-                  <div class="description"><%= @homepage_dynamic.local_business_sec_col2_explore_btn_content %></div>
+                  <div class="description"><%= @homepage_dynamic&.local_business_sec_col2_explore_btn_content %></div>
                 </div>
               </div>
             <%end%>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
-            <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col3_explore_btn_link : sign_up_path do %>
+            <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col3_explore_btn_link : sign_up_path do %>
               <div class="listing_frame">
-                <% if @homepage_dynamic.local_business_sec_col3_image.present? %>
+                <% if @homepage_dynamic&.local_business_sec_col3_image.present? %>
                   <div class="image_frame">
-                    <%= image_tag @homepage_dynamic.local_business_sec_col3_image.url, class: '' %>
+                    <%= image_tag @homepage_dynamic&.local_business_sec_col3_image.url, class: '' %>
                   </div>
                 <% end %>
                 <div class="listing_details">
-                  <div class="category_heading"><%= @homepage_dynamic.local_business_sec_col3_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col3_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic.local_business_sec_col3_explore_btn_text, class:'explore_button' %>
+                  <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col3_heading %></div>
+                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col3_explore_btn_link : sign_up_path do %>
+                    <%= button_tag @homepage_dynamic&.local_business_sec_col3_explore_btn_text, class:'explore_button' %>
                   <% end %>
-                  <div class="description"><%= @homepage_dynamic.local_business_sec_col3_explore_btn_content %></div>
+                  <div class="description"><%= @homepage_dynamic&.local_business_sec_col3_explore_btn_content %></div>
                 </div>
               </div>
             <%end%>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
-            <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col4_explore_btn_link : sign_up_path do %>
+            <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col4_explore_btn_link : sign_up_path do %>
               <div class="listing_frame">
-                <% if @homepage_dynamic.local_business_sec_col4_image.present? %>
+                <% if @homepage_dynamic&.local_business_sec_col4_image.present? %>
                   <div class="image_frame">
-                    <%= image_tag @homepage_dynamic.local_business_sec_col4_image.url, class: '' %>
+                    <%= image_tag @homepage_dynamic&.local_business_sec_col4_image.url, class: '' %>
                   </div>
                 <% end %>
                 <div class="listing_details">
-                  <div class="category_heading"><%= @homepage_dynamic.local_business_sec_col4_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col4_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic.local_business_sec_col4_explore_btn_text, class:'explore_button' %>
+                  <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col4_heading %></div>
+                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col4_explore_btn_link : sign_up_path do %>
+                    <%= button_tag @homepage_dynamic&.local_business_sec_col4_explore_btn_text, class:'explore_button' %>
                   <% end %>
-                  <div class="description"><%= @homepage_dynamic.local_business_sec_col4_explore_btn_content %></div>
+                  <div class="description"><%= @homepage_dynamic&.local_business_sec_col4_explore_btn_content %></div>
                 </div>
               </div>
             <%end%>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
-            <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col5_explore_btn_link : sign_up_path do %>
+            <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col5_explore_btn_link : sign_up_path do %>
               <div class="listing_frame">
-                <% if @homepage_dynamic.local_business_sec_col5_image.present? %>
+                <% if @homepage_dynamic&.local_business_sec_col5_image.present? %>
                   <div class="image_frame">
-                    <%= image_tag @homepage_dynamic.local_business_sec_col5_image.url, class: '' %>
+                    <%= image_tag @homepage_dynamic&.local_business_sec_col5_image.url, class: '' %>
                   </div>
                 <% end %>
                 <div class="listing_details">
-                  <div class="category_heading"><%= @homepage_dynamic.local_business_sec_col5_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col5_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic.local_business_sec_col5_explore_btn_text, class:'explore_button' %>
+                  <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col5_heading %></div>
+                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col5_explore_btn_link : sign_up_path do %>
+                    <%= button_tag @homepage_dynamic&.local_business_sec_col5_explore_btn_text, class:'explore_button' %>
                   <% end %>
-                  <div class="description"><%= @homepage_dynamic.local_business_sec_col5_explore_btn_content %></div>
+                  <div class="description"><%= @homepage_dynamic&.local_business_sec_col5_explore_btn_content %></div>
                 </div>
               </div>
             <%end%>
           </div>
           <div class="col-md-4 col-sm-4 col-xs-12 no_padding_default">
-            <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col6_explore_btn_link : sign_up_path do %>
+            <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col6_explore_btn_link : sign_up_path do %>
               <div class="listing_frame">
-                <% if @homepage_dynamic.local_business_sec_col6_image.present? %>
+                <% if @homepage_dynamic&.local_business_sec_col6_image.present? %>
                   <div class="image_frame">
-                    <%= image_tag @homepage_dynamic.local_business_sec_col6_image.url, class: '' %>
+                    <%= image_tag @homepage_dynamic&.local_business_sec_col6_image.url, class: '' %>
                   </div>
                 <% end %>
                 <div class="listing_details">
-                  <div class="category_heading"><%= @homepage_dynamic.local_business_sec_col6_heading %></div>
-                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic.local_business_sec_col6_explore_btn_link : sign_up_path do %>
-                    <%= button_tag @homepage_dynamic.local_business_sec_col6_explore_btn_text, class:'explore_button' %>
+                  <div class="category_heading"><%= @homepage_dynamic&.local_business_sec_col6_heading %></div>
+                  <%= link_to public_and_not_logged_in  ? @homepage_dynamic&.local_business_sec_col6_explore_btn_link : sign_up_path do %>
+                    <%= button_tag @homepage_dynamic&.local_business_sec_col6_explore_btn_text, class:'explore_button' %>
                   <% end %>
-                  <div class="description"><%= @homepage_dynamic.local_business_sec_col6_explore_btn_content %></div>
+                  <div class="description"><%= @homepage_dynamic&.local_business_sec_col6_explore_btn_content %></div>
                 </div>
               </div>
             <%end%>
           </div>
         </div>
         <div class="under_categories col-md-12 col-sm-12 col-xs-12">
-          <%= link_to @homepage_dynamic.explore_service_heading_title, public_and_not_logged_in ? @homepage_dynamic.explore_service_heading_link : sign_up_path ,class:'more_services'%>
+          <%= link_to @homepage_dynamic&.explore_service_heading_title, public_and_not_logged_in ? @homepage_dynamic&.explore_service_heading_link : sign_up_path ,class:'more_services'%>
 
 
 
           <div class="explore_services">
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="explore-service-box">
-                <% if @homepage_dynamic.explore_service_col1_icon.present? %>
-                  <%= image_tag @homepage_dynamic.explore_service_col1_icon.url, class: 'explore-service-icon' %>
+                <% if @homepage_dynamic&.explore_service_col1_icon.present? %>
+                  <%= image_tag @homepage_dynamic&.explore_service_col1_icon.url, class: 'explore-service-icon' %>
                 <% end %>
-                <h1 class="service-heading"><%= @homepage_dynamic.explore_service_col1_heading %></h1>
-                <p class="service-details"><%= @homepage_dynamic.explore_service_col1_content %></p>
+                <h1 class="service-heading"><%= @homepage_dynamic&.explore_service_col1_heading %></h1>
+                <p class="service-details"><%= @homepage_dynamic&.explore_service_col1_content %></p>
               </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="explore-service-box">
-                <% if @homepage_dynamic.explore_service_col2_icon.present? %>
-                  <%= image_tag @homepage_dynamic.explore_service_col2_icon.url, class: 'explore-service-icon' %>
+                <% if @homepage_dynamic&.explore_service_col2_icon.present? %>
+                  <%= image_tag @homepage_dynamic&.explore_service_col2_icon.url, class: 'explore-service-icon' %>
                 <% end %>
-                <h1 class="service-heading"><%= @homepage_dynamic.explore_service_col2_heading %></h1>
-                <p class="service-details"><%= @homepage_dynamic.explore_service_col2_content %></p>
+                <h1 class="service-heading"><%= @homepage_dynamic&.explore_service_col2_heading %></h1>
+                <p class="service-details"><%= @homepage_dynamic&.explore_service_col2_content %></p>
               </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="explore-service-box">
-                <% if @homepage_dynamic.explore_service_col3_icon.present? %>
-                  <%= image_tag @homepage_dynamic.explore_service_col3_icon.url, class: 'explore-service-icon' %>
+                <% if @homepage_dynamic&.explore_service_col3_icon.present? %>
+                  <%= image_tag @homepage_dynamic&.explore_service_col3_icon.url, class: 'explore-service-icon' %>
                 <% end %>
-                <h1 class="service-heading"><%= @homepage_dynamic.explore_service_col3_heading %></h1>
-                <p class="service-details"><%= @homepage_dynamic.explore_service_col3_content %></p>
+                <h1 class="service-heading"><%= @homepage_dynamic&.explore_service_col3_heading %></h1>
+                <p class="service-details"><%= @homepage_dynamic&.explore_service_col3_content %></p>
               </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="explore-service-box">
-                <% if @homepage_dynamic.explore_service_col4_icon.present? %>
-                  <%= image_tag @homepage_dynamic.explore_service_col4_icon.url, class: 'explore-service-icon' %>
+                <% if @homepage_dynamic&.explore_service_col4_icon.present? %>
+                  <%= image_tag @homepage_dynamic&.explore_service_col4_icon.url, class: 'explore-service-icon' %>
                 <% end %>
-                <h1 class="service-heading"><%= @homepage_dynamic.explore_service_col4_heading %></h1>
-                <p class="service-details"><%= @homepage_dynamic.explore_service_col4_content %></p>
+                <h1 class="service-heading"><%= @homepage_dynamic&.explore_service_col4_heading %></h1>
+                <p class="service-details"><%= @homepage_dynamic&.explore_service_col4_content %></p>
               </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="explore-service-box">
-                <% if @homepage_dynamic.explore_service_col5_icon.present? %>
-                  <%= image_tag @homepage_dynamic.explore_service_col5_icon.url, class: 'explore-service-icon' %>
+                <% if @homepage_dynamic&.explore_service_col5_icon.present? %>
+                  <%= image_tag @homepage_dynamic&.explore_service_col5_icon.url, class: 'explore-service-icon' %>
                 <% end %>
-                <h1 class="service-heading"><%= @homepage_dynamic.explore_service_col5_heading %></h1>
-                <p class="service-details"><%= @homepage_dynamic.explore_service_col5_content %></p>
+                <h1 class="service-heading"><%= @homepage_dynamic&.explore_service_col5_heading %></h1>
+                <p class="service-details"><%= @homepage_dynamic&.explore_service_col5_content %></p>
               </div>
             </div>
             <div class="col-md-4 col-sm-4 col-xs-12">
               <div class="explore-service-box">
-                <% if @homepage_dynamic.explore_service_col6_icon.present? %>
-                  <%= image_tag @homepage_dynamic.explore_service_col6_icon.url, class: 'explore-service-icon' %>
+                <% if @homepage_dynamic&.explore_service_col6_icon.present? %>
+                  <%= image_tag @homepage_dynamic&.explore_service_col6_icon.url, class: 'explore-service-icon' %>
                 <% end %>
-                <h1 class="service-heading"><%= @homepage_dynamic.explore_service_col6_heading %></h1>
-                <p class="service-details"><%= @homepage_dynamic.explore_service_col6_content %></p>
+                <h1 class="service-heading"><%= @homepage_dynamic&.explore_service_col6_heading %></h1>
+                <p class="service-details"><%= @homepage_dynamic&.explore_service_col6_content %></p>
               </div>
             </div>
           </div>
 
           <div class="discover-community">
-            <h4 class="discover-heading"><%= @homepage_dynamic.discover_community_heading %></h4>
+            <h4 class="discover-heading"><%= @homepage_dynamic&.discover_community_heading %></h4>
             <div class="col-md-6 col-sm-6 col-xs-12">
               <div class="left-side">
-                <p class="discover-details"><%= @homepage_dynamic.discover_community_description %></p>
+                <p class="discover-details"><%= @homepage_dynamic&.discover_community_description %></p>
                 <!-- <p class="discover-details top-p">Join us to see who's here!</p> -->
-                <%if @homepage_dynamic.discover_community_button_text.present? %>
+                <%if @homepage_dynamic&.discover_community_button_text.present? %>
                   <div class="movement_btn">
-                    <%= link_to @homepage_dynamic.discover_community_button_text, @homepage_dynamic.discover_community_button_link, class: 'button'%>
+                    <%= link_to @homepage_dynamic&.discover_community_button_text, @homepage_dynamic&.discover_community_button_link, class: 'button'%>
                   </div>
                 <% end %>
               </div>
             </div>
             <div class="col-md-6 col-sm-6 col-xs-12">
-              <% if @homepage_dynamic.discover_community_right_image.present? %>
+              <% if @homepage_dynamic&.discover_community_right_image.present? %>
                 <div class="right-side">
-                  <%= image_tag @homepage_dynamic.discover_community_right_image.url, class: 'comminity-pic' %>
+                  <%= image_tag @homepage_dynamic&.discover_community_right_image.url, class: 'comminity-pic' %>
                 </div>
               <% end %>
             </div>
@@ -214,7 +214,7 @@
 
           <div class="quotes-section">
             <div class="members_wrapper ipad">
-              <h1 class="our-members"><%= @homepage_dynamic.testimonial_main_heading %></h1>
+              <h1 class="our-members"><%= @homepage_dynamic&.testimonial_main_heading %></h1>
               <div class="member-section custom_container">
                 <%=link_to "https://www.avontage.com/en/eic_agency" do%>
                   <div class="member-box">
@@ -223,19 +223,22 @@
                         <%# jessica = Person.find_by(username: "jessica")%>
                         <%# avatar = jessica.present? && jessica.image.present? ? jessica.image.url(:medium) : missing_avatar(:thumb) %>
                         <%#= image_tag avatar%>
-                        <%= image_tag @homepage_dynamic.testimonial_col1_image.url %>
+
+                        <%= image_tag @homepage_dynamic&.testimonial_col1_image.url rescue nil %>
                       </div>
                       <div class="member-detail text-center">
-                        <p class="name"><%= @homepage_dynamic.testimonial_column1_name %></p>
-                        <p class="work"><%= @homepage_dynamic.testimonial_column1_work %></p>
-                        <p class="type"><%= @homepage_dynamic.testimonial_column1_type %></p>
-                        <div class="star_container">
-                          <% (1..@homepage_dynamic.testimonial_column1_star_count).each do |star| %>
-                            <%= image_tag "star.png" %>
-                          <% end %>
-                        </div>
+                        <p class="name"><%= @homepage_dynamic&.testimonial_column1_name %></p>
+                        <p class="work"><%= @homepage_dynamic&.testimonial_column1_work %></p>
+                        <p class="type"><%= @homepage_dynamic&.testimonial_column1_type %></p>
+                        <% if @homepage_dynamic&.testimonial_column1_star_count.present? %>
+                          <div class="star_container">
+                            <% (1..@homepage_dynamic&.testimonial_column1_star_count).each do |star| %>
+                              <%= image_tag "star.png" %>
+                            <% end %>
+                          </div>
+                        <% end %>
                       </div>
-                      <p class="card-detail"><%= @homepage_dynamic.testimonial_column1_content %></p>
+                      <p class="card-detail"><%= @homepage_dynamic&.testimonial_column1_content %></p>
                     </div>
                   </div>
                 <%end%>
@@ -246,19 +249,21 @@
                         <%# jessica = Person.find_by(username: "jessica")%>
                         <%# avatar = jessica.present? && jessica.image.present? ? jessica.image.url(:medium) : missing_avatar(:thumb) %>
                         <%#= image_tag avatar%>
-                        <%= image_tag @homepage_dynamic.testimonial_col2_image.url %>
+                        <%= image_tag @homepage_dynamic&.testimonial_col2_image.url rescue nil %>
                       </div>
                       <div class="member-detail text-center">
-                        <p class="name"><%= @homepage_dynamic.testimonial_column2_name %></p>
-                        <p class="work"><%= @homepage_dynamic.testimonial_column2_work %></p>
-                        <p class="type"><%= @homepage_dynamic.testimonial_column2_type %></p>
-                        <div class="star_container">
-                          <% (1..@homepage_dynamic.testimonial_column2_star_count).each do |star| %>
-                            <%= image_tag "star.png" %>
-                          <% end %>
-                        </div>
+                        <p class="name"><%= @homepage_dynamic&.testimonial_column2_name %></p>
+                        <p class="work"><%= @homepage_dynamic&.testimonial_column2_work %></p>
+                        <p class="type"><%= @homepage_dynamic&.testimonial_column2_type %></p>
+                        <% if @homepage_dynamic&.testimonial_column2_star_count.present? %>
+                          <div class="star_container">
+                            <% (1..@homepage_dynamic&.testimonial_column2_star_count).each do |star| %>
+                              <%= image_tag "star.png" %>
+                            <% end %>
+                          </div>
+                        <% end %>
                       </div>
-                      <p class="card-detail"><%= @homepage_dynamic.testimonial_column2_content %></p>
+                      <p class="card-detail"><%= @homepage_dynamic&.testimonial_column2_content %></p>
                     </div>
                   </div>
                 <% end %>
@@ -269,19 +274,21 @@
                         <%# jessica = Person.find_by(username: "jessica")%>
                         <%# avatar = jessica.present? && jessica.image.present? ? jessica.image.url(:medium) : missing_avatar(:thumb) %>
                         <%#= image_tag avatar%>
-                        <%= image_tag @homepage_dynamic.testimonial_col3_image.url %>
+                        <%= image_tag @homepage_dynamic&.testimonial_col3_image.url rescue nil %>
                       </div>
                       <div class="member-detail text-center">
-                        <p class="name"><%= @homepage_dynamic.testimonial_column3_name %></p>
-                        <p class="work"><%= @homepage_dynamic.testimonial_column3_work %></p>
-                        <p class="type"><%= @homepage_dynamic.testimonial_column3_type %></p>
-                        <div class="star_container">
-                          <% (1..@homepage_dynamic.testimonial_column3_star_count).each do |star| %>
-                            <%= image_tag "star.png" %>
-                          <% end %>
-                        </div>
+                        <p class="name"><%= @homepage_dynamic&.testimonial_column3_name %></p>
+                        <p class="work"><%= @homepage_dynamic&.testimonial_column3_work %></p>
+                        <p class="type"><%= @homepage_dynamic&.testimonial_column3_type %></p>
+                        <% if @homepage_dynamic&.testimonial_column3_star_count.present? %>
+                          <div class="star_container">
+                            <% (1..@homepage_dynamic&.testimonial_column3_star_count).each do |star| %>
+                              <%= image_tag "star.png" %>
+                            <% end %>
+                          </div>
+                        <% end %>
                       </div>
-                      <p class="card-detail"><%= @homepage_dynamic.testimonial_column3_content %></p>
+                      <p class="card-detail"><%= @homepage_dynamic&.testimonial_column3_content %></p>
                     </div>
                   </div>
                 <% end %>
@@ -289,37 +296,37 @@
             </div>
 
             <div class="How-it-Works-wrapper">
-              <h1 class="heading-work"><%= @homepage_dynamic.how_it_work_heading %></h1>
+              <h1 class="heading-work"><%= @homepage_dynamic&.how_it_work_heading %></h1>
               <div class="inner-work">
                 <div class="col-sm-7 col-md-7 col-xs-12">
                   <div class="left-side-text">
-                    <%if @homepage_dynamic.how_it_work_col1_heading.present? %>
-                      <h1 class="heading-left"><%= @homepage_dynamic.how_it_work_col1_heading %></h1>
+                    <%if @homepage_dynamic&.how_it_work_col1_heading.present? %>
+                      <h1 class="heading-left"><%= @homepage_dynamic&.how_it_work_col1_heading %></h1>
                     <% end %>
-                     <p class="left-text"><%= @homepage_dynamic.how_it_work_col1_content %></p>
+                     <p class="left-text"><%= @homepage_dynamic&.how_it_work_col1_content %></p>
 
-                    <%if @homepage_dynamic.how_it_work_col2_heading.present? %>
-                      <h1 class="heading-left"><%= @homepage_dynamic.how_it_work_col2_heading %></h1>
+                    <%if @homepage_dynamic&.how_it_work_col2_heading.present? %>
+                      <h1 class="heading-left"><%= @homepage_dynamic&.how_it_work_col2_heading %></h1>
                     <% end %>
-                     <p class="left-text"><%= @homepage_dynamic.how_it_work_col2_content %></p>
+                     <p class="left-text"><%= @homepage_dynamic&.how_it_work_col2_content %></p>
 
-                    <%if @homepage_dynamic.how_it_work_col3_heading.present? %>
-                      <h1 class="heading-left"><%= @homepage_dynamic.how_it_work_col1_heading %></h1>
+                    <%if @homepage_dynamic&.how_it_work_col3_heading.present? %>
+                      <h1 class="heading-left"><%= @homepage_dynamic&.how_it_work_col1_heading %></h1>
                     <% end %>
-                     <p class="left-text"><%= @homepage_dynamic.how_it_work_col3_content %></p>
-                    <% if @homepage_dynamic.how_it_work_button_text.present? %>
+                     <p class="left-text"><%= @homepage_dynamic&.how_it_work_col3_content %></p>
+                    <% if @homepage_dynamic&.how_it_work_button_text.present? %>
                        <div>
-                          <%= link_to @homepage_dynamic.how_it_work_button_link do %>
-                            <button class="get-started"><%= @homepage_dynamic.how_it_work_button_text %></button>
+                          <%= link_to @homepage_dynamic&.how_it_work_button_link do %>
+                            <button class="get-started"><%= @homepage_dynamic&.how_it_work_button_text %></button>
                           <% end %>
                        </div>
                     <% end %>
                   </div>
                 </div>
                 <div class="col-sm-5 col-md-5 col-xs-12">
-                  <% if @homepage_dynamic.how_it_work_right_image.present? %>
+                  <% if @homepage_dynamic&.how_it_work_right_image.present? %>
                     <div class="right-side-img">
-                      <%= image_tag @homepage_dynamic.how_it_work_right_image.url, class: 'earn_quality' %>
+                      <%= image_tag @homepage_dynamic&.how_it_work_right_image.url, class: 'earn_quality' %>
                     </div>
                   <% end %>
                 </div>
@@ -332,44 +339,44 @@
     </div>
     <div class="main_wrapper_second">
       <div class="col-md-12 col-sm-12 col-xs-12 no_padding_default main_frame_business">
-        <h2 class="heading_market"><%= @homepage_dynamic.advantage_heading %></h2>
+        <h2 class="heading_market"><%= @homepage_dynamic&.advantage_heading %></h2>
         <!-- <p class="below_heading_market">work & live like an owner!</p> -->
         <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="listing_frame">
-            <% if @homepage_dynamic.advantage_col1_image.present? %>
+            <% if @homepage_dynamic&.advantage_col1_image.present? %>
               <div class="listing_image">
-                <%= image_tag @homepage_dynamic.advantage_col1_image.url, class: 'earn_quality' %>
+                <%= image_tag @homepage_dynamic&.advantage_col1_image.url, class: 'earn_quality' %>
               </div>
             <% end %>
             <div class="listing_description">
-              <h2><%= @homepage_dynamic.advantage_col1_heading %></h2>
-              <p><%= @homepage_dynamic.advantage_col1_content %></p>
+              <h2><%= @homepage_dynamic&.advantage_col1_heading %></h2>
+              <p><%= @homepage_dynamic&.advantage_col1_content %></p>
             </div>
           </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="listing_frame">
-            <% if @homepage_dynamic.advantage_col2_image.present? %>
+            <% if @homepage_dynamic&.advantage_col2_image.present? %>
               <div class="listing_image">
-                <%= image_tag @homepage_dynamic.advantage_col2_image.url, class: 'earn_quality' %>
+                <%= image_tag @homepage_dynamic&.advantage_col2_image.url, class: 'earn_quality' %>
               </div>
             <% end %>
             <div class="listing_description">
-              <h2><%= @homepage_dynamic.advantage_col1_heading %></h2>
-              <p><%= @homepage_dynamic.advantage_col1_content %></p>
+              <h2><%= @homepage_dynamic&.advantage_col1_heading %></h2>
+              <p><%= @homepage_dynamic&.advantage_col1_content %></p>
             </div>
           </div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-12">
           <div class="listing_frame">
-            <% if @homepage_dynamic.advantage_col3_image.present? %>
+            <% if @homepage_dynamic&.advantage_col3_image.present? %>
               <div class="listing_image">
-                <%= image_tag @homepage_dynamic.advantage_col3_image.url, class: 'earn_quality' %>
+                <%= image_tag @homepage_dynamic&.advantage_col3_image.url, class: 'earn_quality' %>
               </div>
             <% end %>
             <div class="listing_description">
-              <h2><%= @homepage_dynamic.advantage_col3_heading %></h2>
-              <p><%= @homepage_dynamic.advantage_col3_content %></p>
+              <h2><%= @homepage_dynamic&.advantage_col3_heading %></h2>
+              <p><%= @homepage_dynamic&.advantage_col3_content %></p>
             </div>
           </div>
         </div>
