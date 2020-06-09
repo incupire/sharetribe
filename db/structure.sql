@@ -289,6 +289,10 @@ CREATE TABLE `communities` (
   `new_offer_reminder_to_admins` tinyint(1) DEFAULT '0',
   `auto_accept_orders` tinyint(1) DEFAULT '0',
   `auto_complete_orders` tinyint(1) DEFAULT '0',
+  `require_verification_to_post_request` tinyint(1) DEFAULT '0',
+  `require_verification_to_send_direct_message` tinyint(1) DEFAULT '1',
+  `allow_user_to_post_comment_to_request` tinyint(1) DEFAULT '0',
+  `new_request_reminder_to_admins` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -338,6 +342,8 @@ CREATE TABLE `community_memberships` (
   `last_page_load_date` datetime DEFAULT NULL,
   `status` varchar(255) NOT NULL DEFAULT 'accepted',
   `can_post_listings` tinyint(1) DEFAULT '0',
+  `can_post_requests` tinyint(1) DEFAULT '0',
+  `can_send_dms` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_community_memberships_on_person_id` (`person_id`) USING BTREE,
   KEY `index_community_memberships_on_community_id` (`community_id`) USING BTREE
@@ -2532,5 +2538,9 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200529043118'),
 ('20200529043834'),
 ('20200604124430'),
-('20200606183519');
+('20200606183519'),
+('20200606184538'),
+('20200609060409'),
+('20200609070256');
+
 

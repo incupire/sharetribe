@@ -25,7 +25,7 @@ class ListingsController < ApplicationController
 
   before_action :ensure_is_admin, :only => [ :move_to_top, :show_in_updates_email ]
 
-  before_action :is_authorized_to_post, :only => [ :new, :create ]
+  before_action :is_authorized_to_post, :only => [ :new, :create, :update, :edit ]
 
   def index
     @selected_tribe_navi_tab = "home"
@@ -405,9 +405,15 @@ class ListingsController < ApplicationController
   end
 
   def is_authorized_to_post
-    if @current_community.require_verification_to_post_listings?
-      unless @current_user.has_admin_rights?(@current_community) || @current_community_membership.can_post_listings?
-        redirect_to verification_required_listings_path
+    order_type = @listing.try(:listing_shape) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
+    if order_type.present?
+      order_type = t(order_type[:name_tr_key])
+      if @current_community.require_verification_to_post_listings? || @current_community.require_verification_to_post_request?
+        if !@current_user.has_admin_rights?(@current_community)
+          if (!order_type.downcase.include?('requests') && !@current_community_membership.can_post_listings?) || (order_type.downcase.include?('requests') && !@current_community_membership.can_post_requests?)
+            redirect_to verification_required_listings_path
+          end
+        end
       end
     end
   end
@@ -479,7 +485,8 @@ class ListingsController < ApplicationController
     if @current_community.follow_in_use?
       Delayed::Job.enqueue(NotifyFollowersJob.new(@listing.id, @current_community.id), :run_at => NotifyFollowersJob::DELAY.from_now)
     end
-    Delayed::Job.enqueue(NewOfferReminderToAdminsJob.new(@listing.id, @current_community.id))
+    order_type = t(@listing.listing_shape[:name_tr_key]) rescue ''
+    Delayed::Job.enqueue(NewOfferReminderToAdminsJob.new(@listing.id, @current_community.id, order_type))
 
     flash[:notice] = t(
       "layouts.notifications.listing_created_successfully",

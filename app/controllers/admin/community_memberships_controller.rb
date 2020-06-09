@@ -93,6 +93,20 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     render body: nil, status: 200
   end
 
+  def post_requests_allowed
+    @current_community.community_memberships.where(person_id: params[:allowed_to_request]).update_all("can_post_requests = 1")
+    @current_community.community_memberships.where(person_id: params[:disallowed_to_request]).update_all("can_post_requests = 0")
+
+    render body: nil, status: 200
+  end
+
+  def dms_allowed
+    @current_community.community_memberships.where(person_id: params[:allowed_to_dms]).update_all("can_send_dms = 1")
+    @current_community.community_memberships.where(person_id: params[:disallowed_to_dms]).update_all("can_send_dms = 0")
+
+    render body: nil, status: 200
+  end
+
   def add_coupon_balance
     currency = @current_community.currency
     person = Person.find(params[:id])
@@ -156,7 +170,11 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
       language
       coupon_balance
     }
-    header_row.push("can_post_listings") if community.require_verification_to_post_listings
+    header_row.push("can_post_offers") if community.require_verification_to_post_listings
+    header_row.push("can_post_requests") if community.require_verification_to_post_request
+    header_row.push("can_send_dms") if community.require_verification_to_send_direct_message
+
+
     if user_fields_enabled
       header_row += community.person_custom_fields.map{|f| f.name}
     end
@@ -180,7 +198,9 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
           language: user.locale,
           coupon_balance: user.coupon_balance.present? ? (user&.coupon_balance_cents/100).to_f : ""
         }
-        user_data[:can_post_listings] = membership.can_post_listings if community.require_verification_to_post_listings
+        user_data[:can_post_offers] = membership.can_post_listings if community.require_verification_to_post_listings
+        user_data[:can_post_requests] = membership.can_post_requests if community.require_verification_to_post_request
+        user_data[:can_send_dms] = membership.can_send_dms if community.require_verification_to_send_direct_message
         if user_fields_enabled
           community.person_custom_fields.each do |field|
             field_value = user.custom_field_values.by_question(field).first
@@ -216,6 +236,10 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
       "created_at"
     when "posting_allowed"
       "can_post_listings"
+    when "post_requests_allowed"
+      "can_post_requests"
+    when "dms_allowed"
+      "can_send_dms"
     else
       "created_at"
     end

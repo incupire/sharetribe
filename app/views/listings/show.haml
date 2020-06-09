@@ -196,8 +196,8 @@
             %a.twitter_share{href: "https://www.linkedin.com/shareArticle?mini=true&url=#{listing_url(@listing)}&title=#{@listing.title}&summary=#{@listing.description}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
               = image_tag 'linkedin-letters.png'
               %span Share on linkedIn
-
-    - unless (@listing.closed? && !current_user?(@listing.author)) || !@current_community.listing_comments_in_use
+    - order_type = t(@listing.listing_shape[:name_tr_key]) rescue ''
+    - unless (@listing.closed? && !current_user?(@listing.author)) || ((!order_type.downcase.include?('requests') && !@current_community.listing_comments_in_use) || (order_type.downcase.include?('requests') && !@current_community.allow_user_to_post_comment_to_request))
       .view-item
         #comments.discussion.overflow-allowed
           %h2

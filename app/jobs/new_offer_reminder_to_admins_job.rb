@@ -1,4 +1,4 @@
-class NewOfferReminderToAdminsJob < Struct.new(:listing_id, :community_id)
+class NewOfferReminderToAdminsJob < Struct.new(:listing_id, :community_id, :order_type)
 
 
   include DelayedAirbrakeNotification
@@ -12,8 +12,7 @@ class NewOfferReminderToAdminsJob < Struct.new(:listing_id, :community_id)
     # Do something later
     listing = Listing.find(listing_id)
     community = Community.find(community_id)
-
-    if community.new_offer_reminder_to_admins?
+    if (!order_type.downcase.include?('requests') && community.new_offer_reminder_to_admins?) || (order_type.downcase.include?('requests') && community.new_request_reminder_to_admins?)
       community.admins.each do |admin|
         email = PersonMailer.new_offer_reminder_notification_to_admins(listing, community, admin)
         if email.present?

@@ -22,9 +22,18 @@
         .checkbox-container
           = form.check_box :private
           = form.label :private, t(".private"), :class => "settings-checkbox-label"
+
+        .checkbox-container
+          = form.check_box :require_verification_to_send_direct_message
+          = form.label :require_verification_to_send_direct_message, t(".require_verification_to_send_direct_message"), :class => "settings-checkbox-label"
+
         .checkbox-container
           = form.check_box :require_verification_to_post_listings
           = form.label :require_verification_to_post_listings, t(".require_verification_to_post_listings"), :class => "settings-checkbox-label"
+
+        .checkbox-container
+          = form.check_box :require_verification_to_post_request
+          = form.label :require_verification_to_post_request, t(".require_verification_to_post_request"), :class => "settings-checkbox-label"
 
     - if(FeatureFlagHelper.location_search_available)
       .row
@@ -54,6 +63,10 @@
         .checkbox-container
           = form.check_box :listing_comments_in_use
           = form.label :listing_comments_in_use, t(".listing_comments_in_use"), :class => "settings-checkbox-label"
+
+        .checkbox-container
+          = form.check_box :allow_user_to_post_comment_to_request
+          = form.label :allow_user_to_post_comment_to_request, t(".allow_user_to_post_comment_to_request"), :class => "settings-checkbox-label"
 
     - if @current_community.payments_in_use?
       .row
@@ -96,6 +109,9 @@
           = form.check_box :new_offer_reminder_to_admins
           = form.label :new_offer_reminder_to_admins, t(".new_offer_reminder_to_admins"), :class => "settings-checkbox-label"
 
+        .checkbox-container
+          = form.check_box :new_request_reminder_to_admins
+          = form.label :new_request_reminder_to_admins, t(".new_request_reminder_to_admins"), :class => "settings-checkbox-label"
         .checkbox-container
           %span
             = form.check_box :unread_message_reminder_enabled

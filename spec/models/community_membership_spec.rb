@@ -13,6 +13,8 @@
 #  last_page_load_date :datetime
 #  status              :string(255)      default("accepted"), not null
 #  can_post_listings   :boolean          default(FALSE)
+#  can_post_requests   :boolean          default(FALSE)
+#  can_send_dms        :boolean          default(FALSE)
 #
 # Indexes
 #

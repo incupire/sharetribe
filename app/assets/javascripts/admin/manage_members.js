@@ -98,10 +98,22 @@ window.ST.initializeManageMembers = function() {
       return ev.target;
     });
 
+  var requestAllowedStreams = $(".admin-members-can-post-request").asEventStream('change')
+    .map(function (ev) {
+      return ev.target;
+    });
+
+  var dmsAllowedStreams = $(".admin-members-can-post-dms").asEventStream('change')
+    .map(function (ev) {
+      return ev.target;
+    });
+
   var postingAllowed = createCheckboxAjaxRequest(postingAllowedStreams, "posting_allowed", "allowed_to_post", "disallowed_to_post");
+  var requestAllowed = createCheckboxAjaxRequest(requestAllowedStreams, "post_requests_allowed", "allowed_to_request", "disallowed_to_request");
+  var dmsAllowed = createCheckboxAjaxRequest(dmsAllowedStreams, "dms_allowed", "allowed_to_dms", "disallowed_to_dms");
   var isAdmin = createCheckboxAjaxRequest(adminStreams, "promote_admin", "add_admin", "remove_admin");
 
-  var ajaxRequest = postingAllowed.merge(isAdmin);
+  var ajaxRequest = postingAllowed.merge(isAdmin).merge(requestAllowed).merge(dmsAllowed);
   var ajaxResponse = ajaxRequest.ajax().endOnError();
 
   var ajaxStatus = window.ST.ajaxStatusIndicator(ajaxRequest, ajaxResponse);

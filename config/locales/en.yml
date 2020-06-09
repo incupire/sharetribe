@@ -232,6 +232,8 @@ en:
         users_can_invite_new_users: "Allow all users to invite new users"
         private: "Allow only registered users to see offers and user profiles (make marketplace private)"
         require_verification_to_post_listings: "Allow only users verified by admin to post new offers"
+        require_verification_to_post_request: "Allow only users verified by admin to post new requests"
+        require_verification_to_send_direct_message: "Allow only users verified by admin to send DMs via Ask Seller or Contact button"
         search_preferences: "Search preferences"
         default_search_type: "Search type: %{select_search_type}"
         keyword_search: "Keyword search"
@@ -246,11 +248,13 @@ en:
         show_listing_publishing_date: "Display publishing date of the offer on the offer page"
         show_category_in_listing_list: "Display offer type in list view"
         listing_comments_in_use: "Allow users to post comments to offers (viewable to all other users)"
+        allow_user_to_post_comment_to_request: "Allow users to post comments to requests (viewable to all other users)"
         auto_accept_orders: "Auto-Accept orders - simplify the transaction process, eliminate the Accept/Decline step"
         email_preferences: "Email preferences"
         automatic_newsletters: "Send automatic daily / weekly newsletters to all users (unless they opt out)"
         email_admins_about_new_members: "Send admins an email whenever a new user signs up"
         new_offer_reminder_to_admins: "Send admins an email whenever a new offer is posted"
+        new_request_reminder_to_admins: "Send admins an email whenever a new request is posted"
         send_unread_message_reminder: "Send inbox unread messages reminders every "
         send_unread_message_reminder_day: "Unread message reminder day"
         google_analytics_key: "Google Analytics tracking ID"
@@ -280,6 +284,8 @@ en:
         join_date: Joined
         admin: Admin
         posting_allowed: "Posting allowed"
+        post_requests_allowed: 'Post request allowed'
+        dms_allowed: 'DMs allowed'
         ban_user: Ban
         coupon_balance: "Avontage Bucks"
         add_coupon_balance: "Add Avontage Bucks"
