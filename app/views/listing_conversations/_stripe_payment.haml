@@ -7,12 +7,22 @@
           = "Pay with Avontage Bucks"
           = image_tag "A_Buck_Currency_white.png"
         =# button_tag "Pay with Avon-BUCKS", id: "coupon-pay", class: 'checkout-with-coupon-pay customiz_btn',style:'margin: 0px;'
-    .coupan_balances.for_booking
-      %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks balance:
-      %span.price
-        = image_tag "black_a_img.png"
-        = (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
-        =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
+    .new_coupon_work.for_booking
+      .inner_container
+        .row.coupan_balances
+          %span.people-custom-fields-title.coupan_title Your Avontage Bucks Balance:
+          %span.price
+            = image_tag "avonatge_currency.png"
+            = (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
+        .load_balance
+          .button.load_button
+            Reload Your Balance
+    // .coupan_balances.for_booking
+    //   %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks balance:
+    //   %span.price
+    //     =# image_tag "black_a_img.png"
+    //     =# (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
+    //    =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
     -# Not in use
       %p.left
         Once you've purchased this Offer using your Avontage Bucks Credits, and the Seller has Accepted, contact the Seller to Redeem your offer. See REDEEM INSTRUCTIONS on the Offer page. Avontage Bucks credits will be charged only if

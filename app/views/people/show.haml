@@ -22,12 +22,22 @@
           .icon-with-text-container
             .ss-chat.icon-part
             .ss.text-part= t(".add_description")
-    - if @current_user.present? && @current_user == @person     
-      .row.coupan_balances
-        %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
-        %span.price
-          = image_tag "black_a_img.png"
-          = MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
+    - if @current_user.present? && @current_user == @person
+      .new_coupon_work
+        .inner_container
+          .row.coupan_balances
+            %span.people-custom-fields-title.coupan_title Your Avontage Bucks Balance:
+            %span.price
+              = image_tag "avonatge_currency.png"
+              = MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
+          .load_balance
+            .button.load_button
+              Reload Your Balance
+      // .row.coupan_balances
+      //   %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
+      //   %span.price
+      //     =# image_tag "black_a_img.png"
+      //     =# MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
     - if community_person_custom_fields.any?
       - community_person_custom_fields.each do |custom_field|
         - custom_field_value = @person.custom_field_value_for(custom_field)

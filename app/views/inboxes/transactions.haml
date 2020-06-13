@@ -2,12 +2,22 @@
   %h1= t("layouts.no_tribe.transaction_history")
 
 .undo-mobile-wrapper-margin#conversations
-  - if @current_user.present?    
-    .row.coupan_balances
-      %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
-      %span.price
-        = image_tag "black_a_img.png"
-        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
+  - if @current_user.present?
+    .new_coupon_work
+      .inner_container
+        .row.coupan_balances
+          %span.people-custom-fields-title.coupan_title Your Avontage Bucks Balance:
+          %span.price
+            = image_tag "avonatge_currency.png"
+            = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
+        .load_balance
+          .button.load_button
+            Reload Your Balance
+    // .row.coupan_balances
+    //   %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
+    //   %span.price
+    //     =# image_tag "black_a_img.png"
+    //     =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
     %br
 
   - if result_rows.present?
