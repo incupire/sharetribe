@@ -168,6 +168,33 @@ hr {
   opacity: 1 !important;
   margin-left: 5px;
 }
+.bucks_guarantee_data {
+  position: relative;
+  background-color: #e8e8e8;
+  margin-bottom: 15px;
+  .heart_beat {
+    position: absolute;
+    right: 10px;
+    top: 5px;
+  }
+  .safety_batch {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+  }
+  .inner_data {
+    font-family: 'Source Sans Pro', helvetica, sans-serif;
+    padding: 15px 65px 55px 15px;
+    .heading {
+      font-size: 24px;
+      font-weight: bolder;
+      color: #000;
+    }
+    li {
+      margin-top: 10px;
+    }
+  }
+}
 .new_coupon_work.for_booking {
   .inner_container {
     border: 2px solid #55c1c9;
