@@ -1,17 +1,57 @@
 = javascript_include_tag "#{STRIPE_JS_HOST}/v3/"
+
 = form_tag reload_your_balance_person_settings_path(@current_user), method: :post, id: "reload-balance-form" do
-  .preauthorize-section.mr_0
+  .preauthorize-section.mr_0.custom_reload_box
+    .h2.reload_heading
+      Reload Your Balance
+
+    .icon_row
+      .logo_box
+        = image_tag 'avonatge_heart.png', alt: 'logo', class: 'logo_img'
+        .logo_name
+          Avontage
+      .feedback_box
+        = image_tag 'star.png', alt: 'star', class: 'star_img'
+        .rating_box
+          .rating
+            100% positive (24/24)
+          .feedback_text Feedback
+
+    .balance_heading
+      Your Avontage Bucks Balance:
+      %span
+        = image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon'
+      %span.currency_text
+        200.00
+
     .row
-      %p.or Enter Your Credit card information to be used for Avontage Marketplaces fees
-      = radio_button_tag 'balance', 50, true
-      $50
-      = radio_button_tag 'balance', 100, false
-      $100
-      = radio_button_tag 'balance', 200, false
-      $200
-      = radio_button_tag 'balance', 500, false
-      $500
-      = number_field_tag 'custom_balance'
+      / %p.or Enter Your Credit card information to be used for Avontage Marketplaces fees
+      .amount_box
+        .amount_heading
+          Amount
+        .amount_price_row
+          .select_price_box
+            = radio_button_tag 'balance', 50, true, id: 'radio1'
+            %label{:for => "radio1"} $50
+          .select_price_box
+            = radio_button_tag 'balance', 100, false, id: 'radio2'
+            %label{:for => "radio2"} $100
+          .select_price_box
+            = radio_button_tag 'balance', 200, false, id: 'radio3'
+            %label{:for => "radio3"} $200
+          .select_price_box
+            = radio_button_tag 'balance', 500, false, id: 'radio4'
+            %label{:for => "radio4"} $500
+          = number_field_tag 'custom_balance'
+
+      .payment_method
+        Payment method
+      .earn_extra-box
+        %span.bold
+          Earn
+        %span.green
+          Extra 10 Avontage Bucks
+        When you reload Avontage admin will add your bonus after the reload
       .form-row
         .row
           .col-12
@@ -21,7 +61,7 @@
           .col-12
 
         .row.stripe-payment.mr_0
-          .col-6.payment-button-wrapper.paypal-button-wrapper
+          .col-12.payment-button-wrapper.paypal-button-wrapper
             = button_tag t("payment_settings.stripe_customer.save_card"), id: "send-add-card", class: 'checkout-with-stripe-button'
 
           .row
