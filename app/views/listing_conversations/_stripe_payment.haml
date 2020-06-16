@@ -15,8 +15,8 @@
             = image_tag "avonatge_currency.png"
             = (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
         .load_balance
-          .button.load_button
-            Reload Your Balance
+          = link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: "button load_button"
+
     // .coupan_balances.for_booking
     //   %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks balance:
     //   %span.price

@@ -528,6 +528,7 @@ Rails.application.routes.draw do
             get :unsubscribe
             get :transactions_person_messages
             get :favorite
+            match :reload_your_balance, via: [:get, :post]
           end
         end
         resources :testimonials

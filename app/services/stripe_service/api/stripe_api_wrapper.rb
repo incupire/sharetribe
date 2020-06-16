@@ -41,6 +41,17 @@ class StripeService::API::StripeApiWrapper
       end
     end
 
+    def reload_balance(community_id:, amount:, currency:, description:, card_token:)
+      with_stripe_payment_config(community_id) do |payment_settings|
+        charge = Stripe::Charge.create({
+          amount: amount,
+          currency: currency,
+          description: description,
+          source: card_token,
+        })
+      end
+    end
+
     def update_customer(community:, customer_id:, token:)
       with_stripe_payment_config(community) do |payment_settings|
         customer = Stripe::Customer.retrieve(customer_id)
