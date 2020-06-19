@@ -890,3 +890,33 @@ img.square_image {
 .flash_reload{
   display: initial;
 }
+
+.flash-error.flash-notification {
+  padding: 0;
+  height: 39px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .flash_reload {
+    background: #fff;
+    height: 39px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+    margin: 0 0 0 12px;
+
+    a {
+      background: #f0d590;
+      color: #000;
+      font-weight: 600;
+      height: 34px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 18px;
+      border-radius: 5px;
+    }
+  }
+}
