@@ -131,7 +131,33 @@
       .msg
         =link_to("CLICK HERE", new_listing_path)
         = t("homepage.filters.click_on_link")
-      
+  
+  .home_toolbar_section
+    .left_section
+      = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'offer-img', class: 'offer_image'
+
+      .gray_text_box
+        %p Have a project or in need of a service?
+        %p Pos a Request to find intrested parties to trade with you.
+        = link_to 'POST A REQUEST', '', class: 'post_request_link'
+    .right_section
+      .main_heading
+        Featured Offers Section
+      .jobs_box
+        .heading_box-row
+          .heading_box
+            .jobs_heading
+              Browse for Jobs and Requests
+            .sub_heading
+              Make offers to members needing your help 
+          = link_to 'view all', '', class: 'view_all_link'
+
+        .jobs_row
+          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
+          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
+          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
+          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
+          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
   .home-toolbar
 
     - if listing_shape_menu_enabled || @category_menu_enabled
@@ -216,6 +242,8 @@
   .row
     - if @category_menu_enabled
       .col-3.visible-tablet
+        = link_to 'JOBS & REQUESTS POSTED', '', class: 'button requests_btn'
+        
         - if @show_categories
           .row
             .col-12
