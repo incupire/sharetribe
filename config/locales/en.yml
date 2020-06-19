@@ -1567,7 +1567,7 @@ en:
       learn_more: "Learn more"
     no_tribe:
       inbox: Inbox
-      settings: Settings
+      settings: Member Settings
       feedback: "Contact the %{service_name} team"
       transactions: "Transactions"
       favorite: "Favorite Offers"
@@ -1760,6 +1760,7 @@ en:
     settings:
       account: Account
       notifications: Notifications
+      enable_purchasing: Enable Purchasing
       stripe_customer: "Avontage Fees"
       profile: "Profile info"
       settings: Settings
@@ -2390,6 +2391,7 @@ en:
       profilemap: Mapview
       street_address: "* Business Location"
       these_fields_are_shown_in_your: "This information is visible to all %{service_name} users"
+      our_promise_for_profile: "Our promise to you: Your information will not be sold to any outside agencies for marketing or otherwise."
       visible_to_everybody: "visible to everybody"
       visible_to_registered_users: "(visible to users that have logged in)"
       default_in_listing: "(used only as a default when creating a new offer)"
@@ -2397,6 +2399,7 @@ en:
       image_is_processing: "Hang on tight. We are processing your profile picture. It will be ready in a minute or two."
       shown_in_your_public_profile: "(shown in your public profile)"
     save_information: "Save information"
+    save_and_close: "Save and Close"
   shipping_address:
     shipping_address: "Shipping address"
   tag_cloud:
