@@ -24,6 +24,10 @@ class SettingsController < ApplicationController
   end
 
   def reload_your_balance
+    avontage = Person.find_by(username: 'avontage')
+    @received_testimonials = TestimonialViewUtils.received_testimonials_in_community(avontage, @current_community)
+    @received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(avontage, @current_community)
+    @feedback_positive_percentage = avontage.feedback_positive_percentage_in_community(@current_community)
     if request.post?
       begin
         balance = params[:custom_balance].to_f > 0 ? params[:custom_balance].to_f : params[:balance].to_f
