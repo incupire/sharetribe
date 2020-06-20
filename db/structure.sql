@@ -67,6 +67,7 @@ CREATE TABLE `avon_bucks_histories` (
   `currency` varchar(255) DEFAULT NULL,
   `transaction_id` int(11) DEFAULT NULL,
   `operator_id` varchar(255) DEFAULT NULL,
+  `stripe_charge_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2547,6 +2548,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200609060409'),
 ('20200609070256'),
 ('20200619103305'),
-('20200620062504');
+('20200620062504'),
+('20200620084844');
 
 

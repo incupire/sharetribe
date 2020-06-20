@@ -39,6 +39,15 @@ class SettingsController < ApplicationController
 
         if res.status.present? && res.status.eql?('succeeded')
           @current_user.increment!(:coupon_balance_cents, balance.cents)
+          AvonBucksHistory.create(
+            amount: MoneyUtil.to_money(balance.cents, @current_community.currency),
+            operation: 'self added',
+            remaining_balance: @current_user.coupon_balance,
+            person_id: @current_user.id,
+            operator_id:  @current_user.id,
+            currency: @current_community.currency,
+            stripe_charge_id: res.id
+          )
           flash[:notice] = "Your Avontage Bucks Balance successfully reloaded"
         else
           flash[:error] = "Something went wrong. Please try again"

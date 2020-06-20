@@ -405,6 +405,11 @@ class ListingsController < ApplicationController
   end
 
   def is_authorized_to_post
+    unless @current_user.is_active?
+      flash[:error] = 'You are not authorized to perform this action'
+      redirect_to search_path
+      return
+    end
     order_type = @listing.try(:listing_shape) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
     if order_type.present?
       order_type = t(order_type[:name_tr_key])
