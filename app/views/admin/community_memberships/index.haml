@@ -67,6 +67,7 @@
           %th Activated
           %th Verified
           %th Level
+          %th Confirm Email
           %th= t("admin.communities.manage_members.coupon_balance")
           %th= t("admin.communities.manage_members.add_coupon_balance")
           %th= t("admin.communities.manage_members.deduct_coupon_balance")
@@ -109,6 +110,9 @@
                 = check_box_tag "is_verified[#{member.id}]", member.id, member.is_verified, class: "admin-members-verified-toggle"
               %td{:style => "text-align: center"}
                 = select_tag 'user_level[#{member.id}]', options_for_select(Person::USER_LEVEL, selected: member.user_level), prompt: '-select-', class: 'admin-members-user-level', data: {user_id: member.id}
+              %td{:style => "text-align: center"}
+                = check_box_tag "confirm_email[#{member.id}]", member.id, member.email_to_confirm?, class: "admin-members-confirm-email-address"
+
               %td.coupon_balance{id: "coupon_balance_#{member.id}"}
                 = MoneyViewUtils.to_humanized(member.coupon_balance).html_safe
               %td

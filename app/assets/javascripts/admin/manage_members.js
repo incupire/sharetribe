@@ -128,6 +128,11 @@ window.ST.initializeManageMembers = function() {
       return ev.target;
     });
 
+  var confirmEmailAddress = $(".admin-members-confirm-email-address").asEventStream('change')
+    .map(function (ev) {
+      return ev.target;
+    });
+
   var postingAllowed = createCheckboxAjaxRequest(postingAllowedStreams, "posting_allowed", "allowed_to_post", "disallowed_to_post");
   var requestAllowed = createCheckboxAjaxRequest(requestAllowedStreams, "post_requests_allowed", "allowed_to_request", "disallowed_to_request");
   var dmsAllowed = createCheckboxAjaxRequest(dmsAllowedStreams, "dms_allowed", "allowed_to_dms", "disallowed_to_dms");
@@ -135,7 +140,10 @@ window.ST.initializeManageMembers = function() {
   var isActive = createCheckboxAjaxRequest(activateAllowedStreams, "set_activated", "allowed_to_active", "disallowed_to_active");
   var isVerified = createCheckboxAjaxRequest(verifiedAllowedStreams, "set_verified", "allowed_to_verified", "disallowed_to_verified");
   var userLevel = createCheckboxAjaxRequest(levelAllowedStreams, "set_level", "user_role", "user_id");
-  var ajaxRequest = postingAllowed.merge(isAdmin).merge(requestAllowed).merge(dmsAllowed).merge(isActive).merge(isVerified).merge(userLevel);
+  var manualEmailConfirm = createCheckboxAjaxRequest(confirmEmailAddress, "manually_confirm_email_address", "allowed_to_confirm", "disallowed_to_confirm");
+
+
+  var ajaxRequest = postingAllowed.merge(isAdmin).merge(requestAllowed).merge(dmsAllowed).merge(isActive).merge(isVerified).merge(userLevel).merge(manualEmailConfirm);
   var ajaxResponse = ajaxRequest.ajax().endOnError();
 
   var ajaxStatus = window.ST.ajaxStatusIndicator(ajaxRequest, ajaxResponse);

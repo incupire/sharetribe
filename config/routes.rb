@@ -310,6 +310,7 @@ Rails.application.routes.draw do
             post :set_verified
             post :set_activated
             post :set_level
+            post :manually_confirm_email_address
           end
         end
         resource :paypal_preferences, only: :index do

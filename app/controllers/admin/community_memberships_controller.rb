@@ -9,7 +9,7 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
 
     respond_to do |format|
       format.html do
-        @memberships = CommunityMembership.where(community_id: @current_community.id, status: ["accepted", "banned"])
+        @memberships = CommunityMembership.where(community_id: @current_community.id, status: ["accepted", "banned", "pending_email_confirmation"])
                                            .includes(person: :emails)
                                            .paginate(page: params[:page], per_page: 50)
                                            .order("#{sort_column} #{sort_direction}")
@@ -92,6 +92,23 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
       end
       render body: nil, status: 200
     end
+  end
+
+  def manually_confirm_email_address
+    if params[:allowed_to_confirm].present?
+      Email.where(person_id: params[:allowed_to_confirm]).update_all(confirmed_at: Time.now)
+      person = Person.find_by(id: params[:allowed_to_confirm])
+      membership = person.community_memberships.where(:status => "pending_email_confirmation").first
+      membership.update_attribute(:status, "accepted") rescue nil
+    end
+
+    if params[:disallowed_to_confirm].present?
+      Email.where(person_id: params[:disallowed_to_confirm]).update_all(confirmed_at: nil)
+      person = Person.find_by(id: params[:disallowed_to_confirm])
+      membership = person.community_memberships.where(:status => "accepted").first
+      membership.update_attribute(:status, "pending_email_confirmation") rescue nil
+    end
+    render body: nil, status: 200
   end
 
   def posting_allowed
