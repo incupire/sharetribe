@@ -7,13 +7,24 @@
   - key_param = maps_key ? "?key=#{maps_key}" : ""
   - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
   = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
-
+- content_for :profile_progress do
+  .progress_bar_details
+    %span Member Setup Porgress
+    %span.outer_margin 14%
+    .progress
+      .bar{:style => "width: 14%"}
+    %span Next
+    %span
+      = link_to 'Setup notifications', notifications_person_settings_path(target_user), class: 'next_step button'
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community) }
 
 #person_settings_form.left-navi-section.settings-section
+  %p
+    = t("settings.profile.our_promise_for_profile")
+    =# link_to(t("settings.profile.profile_page"), target_user) + "."
   %p
     = t("settings.profile.these_fields_are_shown_in_your")
     = link_to(t("settings.profile.profile_page"), target_user) + "."

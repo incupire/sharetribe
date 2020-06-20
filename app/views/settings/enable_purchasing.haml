@@ -9,8 +9,7 @@
       .bar{:style => "width: 28%"}
     %span Next
     %span
-
-      = link_to 'Activate purchasing', enable_purchasing_person_settings_path(target_user), class: 'next_step button'
+      = link_to 'Activate purchasing', '#', class: 'next_step button'
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 
