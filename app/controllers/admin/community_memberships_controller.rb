@@ -9,7 +9,7 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
 
     respond_to do |format|
       format.html do
-        @memberships = CommunityMembership.where(community_id: @current_community.id, status: ["accepted", "banned"])
+        @memberships = CommunityMembership.where(community_id: @current_community.id, status: ["accepted", "banned", "pending_email_confirmation"])
                                            .includes(person: :emails)
                                            .paginate(page: params[:page], per_page: 50)
                                            .order("#{sort_column} #{sort_direction}")
@@ -76,14 +76,39 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
   end
 
   def promote_admin
-    if removes_itself?(params[:remove_admin], @current_user)
+    if removes_itself?([params[:remove_admin]], @current_user)
       render body: nil, status: 405
     else
-      @current_community.community_memberships.where(person_id: params[:add_admin]).update_all("admin = 1")
-      @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 0")
-
+      person = Person.find_by(id: params[:remove_admin])
+      if params[:add_admin].eql?('Manager')
+        @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 0")
+        person.update(is_manager: true)
+      elsif params[:add_admin].eql?('Admin')
+        @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 1")
+        person.update(is_manager: false)
+      elsif params[:add_admin].eql?('None')
+        @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 0")
+        person.update(is_manager: false)
+      end
       render body: nil, status: 200
     end
+  end
+
+  def manually_confirm_email_address
+    if params[:allowed_to_confirm].present?
+      Email.where(person_id: params[:allowed_to_confirm]).update_all(confirmed_at: Time.now)
+      person = Person.find_by(id: params[:allowed_to_confirm])
+      membership = person.community_memberships.where(:status => "pending_email_confirmation").first
+      membership.update_attribute(:status, "accepted") rescue nil
+    end
+
+    if params[:disallowed_to_confirm].present?
+      Email.where(person_id: params[:disallowed_to_confirm]).update_all(confirmed_at: nil)
+      person = Person.find_by(id: params[:disallowed_to_confirm])
+      membership = person.community_memberships.where(:status => "accepted").first
+      membership.update_attribute(:status, "pending_email_confirmation") rescue nil
+    end
+    render body: nil, status: 200
   end
 
   def posting_allowed
@@ -104,6 +129,23 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     @current_community.community_memberships.where(person_id: params[:allowed_to_dms]).update_all("can_send_dms = 1")
     @current_community.community_memberships.where(person_id: params[:disallowed_to_dms]).update_all("can_send_dms = 0")
 
+    render body: nil, status: 200
+  end
+
+  def set_verified
+    Person.where(id: params[:allowed_to_verified]).update_all(is_verified: true)
+    Person.where(id: params[:disallowed_to_verified]).update_all(is_verified: false)
+    render body: nil, status: 200
+  end
+
+  def set_activated
+    Person.where(id: params[:allowed_to_active]).update_all(is_active: true)
+    Person.where(id: params[:disallowed_to_active]).update_all(is_active: false)
+    render body: nil, status: 200
+  end
+
+  def set_level
+    Person.where(id: params[:user_id]).update_all(user_level: params[:user_role])
     render body: nil, status: 200
   end
 
@@ -221,7 +263,7 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
 
   def removes_itself?(ids, current_admin_user)
     ids ||= []
-    ids.include?(current_admin_user.id) && current_admin_user.is_marketplace_admin?(@current_community)
+    ids.include?(current_admin_user.id) && (current_admin_user.is_marketplace_admin?(@current_community) || current_admin_user.is_manager?)
   end
 
   def sort_column

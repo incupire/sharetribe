@@ -67,6 +67,7 @@ CREATE TABLE `avon_bucks_histories` (
   `currency` varchar(255) DEFAULT NULL,
   `transaction_id` int(11) DEFAULT NULL,
   `operator_id` varchar(255) DEFAULT NULL,
+  `stripe_charge_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1410,6 +1411,10 @@ CREATE TABLE `people` (
   `linkedin_link` varchar(255) DEFAULT NULL,
   `twitter_link` varchar(255) DEFAULT NULL,
   `profile_progress` varchar(255) DEFAULT '---\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
+  `is_manager` tinyint(1) DEFAULT '0',
+  `is_verified` tinyint(1) DEFAULT '0',
+  `is_active` tinyint(1) DEFAULT '1',
+  `user_level` int(11) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -2544,5 +2549,8 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200609060409'),
 ('20200609070256'),
 ('20200620101716');
+('20200619103305'),
+('20200620062504'),
+('20200620084844');
 
 

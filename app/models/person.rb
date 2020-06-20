@@ -59,6 +59,10 @@
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
 #  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
+#  is_manager                         :boolean          default(FALSE)
+#  is_verified                        :boolean          default(FALSE)
+#  is_active                          :boolean          default(TRUE)
+#  user_level                         :integer
 #
 # Indexes
 #
@@ -101,6 +105,9 @@ class Person < ApplicationRecord
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
+
+  ROLE = ['Admin', 'Manager', 'None']
+  USER_LEVEL = {'New' => 0, 'Bronze' => 1, 'Silver' => 2, 'Gold' => 3}
   attr_accessor :login
   has_many :avon_bucks_histories, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -475,7 +482,7 @@ class Person < ApplicationRecord
   end
 
   def has_admin_rights?(community)
-    is_admin? || is_marketplace_admin?(community)
+    is_admin? || is_marketplace_admin?(community) || is_manager?
   end
 
   def should_receive?(email_type)
@@ -613,6 +620,10 @@ class Person < ApplicationRecord
   # A person inherits some default settings from the community in which she is joining
   def inherit_settings_from(current_community)
     self.min_days_between_community_updates = current_community.default_min_days_between_community_updates
+  end
+
+  def email_to_confirm?
+    community_memberships.where(:status => "accepted").present?
   end
 
   def should_receive_community_updates_now?

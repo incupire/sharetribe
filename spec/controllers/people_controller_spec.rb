@@ -59,6 +59,10 @@
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
 #  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
+#  is_manager                         :boolean          default(FALSE)
+#  is_verified                        :boolean          default(FALSE)
+#  is_active                          :boolean          default(TRUE)
+#  user_level                         :integer
 #
 # Indexes
 #
