@@ -8,13 +8,18 @@ window.ST.initializeManageMembers = function() {
 
   function createCheckboxAjaxRequest(streams, url, allowedKey, disallowedKey) {
     var ajaxRequest = Bacon.combineAsArray(streams).changes().debounce(DELAY).skipDuplicates(_.isEqual).map(function(valueObjects) {
-      function isValueTrue(valueObject) {
-        return valueObject.checked;
-      }
-
       var data = {};
-      data[allowedKey] = _.filter(valueObjects, isValueTrue).map(function(input){ return input.value; });
-      data[disallowedKey] = _.reject(valueObjects, isValueTrue).map(function(input){ return input.value; });
+      if (url == 'promote_admin'){
+        data[allowedKey] = valueObjects[0].value
+        data[disallowedKey] = valueObjects[0].dataset.userId
+
+      }else{
+        function isValueTrue(valueObject) {
+          return valueObject.checked;
+        }
+        data[allowedKey] = _.filter(valueObjects, isValueTrue).map(function(input){ return input.value; });
+        data[disallowedKey] = _.reject(valueObjects, isValueTrue).map(function(input){ return input.value; });
+     }
 
       return {
         type: "POST",
@@ -78,16 +83,15 @@ window.ST.initializeManageMembers = function() {
     });
   };
 
-  var adminStreams = $(".admin-members-is-admin").asEventStream('change')
-    .map(function (ev) {
+  var adminStreams = $(".admin-members-is-admin").asEventStream('change').map(function (ev) {
       return ev.target;
-    })
-    .filter(function (target) {
-      if (target.checked) {
+    }).filter(function (target) {
+      if (target.value == 'Manager' || target.value == 'Admin') {
         if (confirm(ST.t('admin.communities.manage_members.this_makes_the_user_an_admin'))) {
           return true;
         }
-        target.checked = !target.checked;
+        target.value = target.dataset.currentRole
+        // target.checked = !target.checked;
         return false;
       }
       return true;

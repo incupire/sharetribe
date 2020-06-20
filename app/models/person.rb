@@ -58,6 +58,7 @@
 #  instagram_link                     :string(255)
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
+#  is_manager                         :boolean          default(FALSE)
 #
 # Indexes
 #

@@ -76,12 +76,20 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
   end
 
   def promote_admin
-    if removes_itself?(params[:remove_admin], @current_user)
+    if removes_itself?([params[:remove_admin]], @current_user)
       render body: nil, status: 405
     else
-      @current_community.community_memberships.where(person_id: params[:add_admin]).update_all("admin = 1")
-      @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 0")
-
+      person = Person.find_by(id: params[:remove_admin])
+      if params[:add_admin].eql?('Manager')
+        @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 0")
+        person.update(is_manager: true)
+      elsif params[:add_admin].eql?('Admin')
+        @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 1")
+        person.update(is_manager: false)
+      elsif params[:add_admin].eql?('None')
+        @current_community.community_memberships.where(person_id: params[:remove_admin]).update_all("admin = 0")
+        person.update(is_manager: false)
+      end
       render body: nil, status: 200
     end
   end
@@ -221,7 +229,7 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
 
   def removes_itself?(ids, current_admin_user)
     ids ||= []
-    ids.include?(current_admin_user.id) && current_admin_user.is_marketplace_admin?(@current_community)
+    ids.include?(current_admin_user.id) && (current_admin_user.is_marketplace_admin?(@current_community) || current_admin_user.is_manager?)
   end
 
   def sort_column

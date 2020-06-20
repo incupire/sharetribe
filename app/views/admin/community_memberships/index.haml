@@ -61,7 +61,7 @@
           - if @current_community.require_verification_to_send_direct_message
             %th{:style => "text-align: center"}= render partial: "layouts/sort_link", locals: { column: "dms_allowed", direction: sort_link_direction("dms_allowed"), title: t("admin.communities.manage_members.dms_allowed") }
 
-          %th= t("admin.communities.manage_members.admin")
+          %th Admin/Manager
           %th= t("admin.communities.manage_members.ban_user")
           %th= t("admin.communities.manage_members.coupon_balance")
           %th= t("admin.communities.manage_members.add_coupon_balance")
@@ -88,8 +88,11 @@
                 %td{:style => "text-align: center"}= check_box_tag "post-requests-allowed[#{member.id}]", member.id, membership.can_post_requests, :class => "admin-members-can-post-request"
               - if @current_community.require_verification_to_send_direct_message
                 %td{:style => "text-align: center"}= check_box_tag "dms-allowed[#{member.id}]", member.id, membership.can_send_dms, :class => "admin-members-can-post-dms"
+
               %td{:style => "text-align: center"}
-                = check_box_tag "is_admin[#{member.id}]", member.id, member.is_marketplace_admin?(@current_community), :class => "admin-members-is-admin", :disabled => member.eql?(@current_user) || membership.status == 'banned'
+                =# check_box_tag "is_admin[#{member.id}]", member.id, member.is_marketplace_admin?(@current_community), :class => "admin-members-is-admin", :disabled => member.eql?(@current_user) || membership.status == 'banned'
+
+                = select_tag 'is_admin[#{member.id}]', options_for_select(['Admin', 'Manager', 'None'], selected: member.has_admin_rights?(@current_community) ? 'Admin' : (member.is_manager? ? 'Manager' : 'None')), :disabled => member.eql?(@current_user), class: 'admin-members-is-admin', data: {user_id: member.id, current_role: member.has_admin_rights?(@current_community) ? 'Admin' : (member.is_manager? ? 'Manager' : 'None')}
 
               %td{:style => "text-align: center"}
                 = check_box_tag "is_banned[#{member.id}]", member.id, membership.status == 'banned',
