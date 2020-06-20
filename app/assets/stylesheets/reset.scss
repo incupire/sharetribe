@@ -975,3 +975,16 @@ img.square_image {
     color:white;
   }
 }
+.inline_buttons {
+  display: flex;
+  button {
+    margin-right: 10px;
+  }
+}
+.profile_text {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 auto;
+  max-width: 75%;
+  margin-bottom: 40px;  
+}

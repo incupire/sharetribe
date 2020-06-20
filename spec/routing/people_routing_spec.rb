@@ -58,6 +58,7 @@
 #  instagram_link                     :string(255)
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
+#  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
 #
 # Indexes
 #

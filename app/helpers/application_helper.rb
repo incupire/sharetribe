@@ -570,15 +570,8 @@ module ApplicationHelper
         :name => "notifications"
       },
       {
-        :id => "settings-tab-enable_purchasing",
-        :text => t("layouts.settings.enable_purchasing"),
-        :icon_class => icon_class("notification_settings"),
-        :path => enable_purchasing_person_settings_path(person),
-        :name => "enable_purchasing"
-      },
-      {
         :id => "settings-tab-new-stripe-customber",
-        :text => t("layouts.settings.stripe_customer"),
+        :text => t("layouts.settings.enable_purchasing"),
         :icon_class => icon_class("payments"),
         :path => person_stripe_customber_settings_path(person),
         :name => "new-stripe-customber"

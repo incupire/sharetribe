@@ -58,6 +58,7 @@
 #  instagram_link                     :string(255)
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
+#  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
 #
 # Indexes
 #
@@ -187,6 +188,7 @@ class Person < ApplicationRecord
   ]
 
   serialize :preferences
+  serialize :profile_progress
 
   validates_length_of :phone_number, :maximum => 25, :allow_nil => true, :allow_blank => true
   validates_length_of :username, :within => 3..20

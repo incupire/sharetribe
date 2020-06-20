@@ -525,7 +525,6 @@ Rails.application.routes.draw do
           member do
             get :account
             get :notifications
-            get :enable_purchasing
             get :unsubscribe
             get :transactions_person_messages
             get :favorite
