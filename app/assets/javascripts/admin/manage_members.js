@@ -9,7 +9,7 @@ window.ST.initializeManageMembers = function() {
   function createCheckboxAjaxRequest(streams, url, allowedKey, disallowedKey) {
     var ajaxRequest = Bacon.combineAsArray(streams).changes().debounce(DELAY).skipDuplicates(_.isEqual).map(function(valueObjects) {
       var data = {};
-      if (url == 'promote_admin'){
+      if (url == 'promote_admin' || url == 'set_level'){
         data[allowedKey] = valueObjects[0].value
         data[disallowedKey] = valueObjects[0].dataset.userId
 
@@ -112,12 +112,30 @@ window.ST.initializeManageMembers = function() {
       return ev.target;
     });
 
+
+  var verifiedAllowedStreams = $(".admin-members-verified-toggle").asEventStream('change')
+    .map(function (ev) {
+      return ev.target;
+    });
+
+  var activateAllowedStreams = $(".admin-members-active-toggle").asEventStream('change')
+    .map(function (ev) {
+      return ev.target;
+    });
+
+  var levelAllowedStreams = $(".admin-members-user-level").asEventStream('change')
+    .map(function (ev) {
+      return ev.target;
+    });
+
   var postingAllowed = createCheckboxAjaxRequest(postingAllowedStreams, "posting_allowed", "allowed_to_post", "disallowed_to_post");
   var requestAllowed = createCheckboxAjaxRequest(requestAllowedStreams, "post_requests_allowed", "allowed_to_request", "disallowed_to_request");
   var dmsAllowed = createCheckboxAjaxRequest(dmsAllowedStreams, "dms_allowed", "allowed_to_dms", "disallowed_to_dms");
   var isAdmin = createCheckboxAjaxRequest(adminStreams, "promote_admin", "add_admin", "remove_admin");
-
-  var ajaxRequest = postingAllowed.merge(isAdmin).merge(requestAllowed).merge(dmsAllowed);
+  var isActive = createCheckboxAjaxRequest(activateAllowedStreams, "set_activated", "allowed_to_active", "disallowed_to_active");
+  var isVerified = createCheckboxAjaxRequest(verifiedAllowedStreams, "set_verified", "allowed_to_verified", "disallowed_to_verified");
+  var userLevel = createCheckboxAjaxRequest(levelAllowedStreams, "set_level", "user_role", "user_id");
+  var ajaxRequest = postingAllowed.merge(isAdmin).merge(requestAllowed).merge(dmsAllowed).merge(isActive).merge(isVerified).merge(userLevel);
   var ajaxResponse = ajaxRequest.ajax().endOnError();
 
   var ajaxStatus = window.ST.ajaxStatusIndicator(ajaxRequest, ajaxResponse);

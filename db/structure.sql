@@ -1410,6 +1410,9 @@ CREATE TABLE `people` (
   `linkedin_link` varchar(255) DEFAULT NULL,
   `twitter_link` varchar(255) DEFAULT NULL,
   `is_manager` tinyint(1) DEFAULT '0',
+  `is_verified` tinyint(1) DEFAULT '0',
+  `is_active` tinyint(1) DEFAULT '1',
+  `user_level` int(11) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -2543,6 +2546,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200606184538'),
 ('20200609060409'),
 ('20200609070256'),
-('20200619103305');
+('20200619103305'),
+('20200620062504');
 
 

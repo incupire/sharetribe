@@ -59,6 +59,9 @@
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
 #  is_manager                         :boolean          default(FALSE)
+#  is_verified                        :boolean          default(FALSE)
+#  is_active                          :boolean          default(TRUE)
+#  user_level                         :integer
 #
 # Indexes
 #

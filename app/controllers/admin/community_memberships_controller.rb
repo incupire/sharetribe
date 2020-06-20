@@ -115,6 +115,23 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     render body: nil, status: 200
   end
 
+  def set_verified
+    Person.where(id: params[:allowed_to_verified]).update_all(is_verified: true)
+    Person.where(id: params[:disallowed_to_verified]).update_all(is_verified: false)
+    render body: nil, status: 200
+  end
+
+  def set_activated
+    Person.where(id: params[:allowed_to_active]).update_all(is_active: true)
+    Person.where(id: params[:disallowed_to_active]).update_all(is_active: false)
+    render body: nil, status: 200
+  end
+
+  def set_level
+    Person.where(id: params[:user_id]).update_all(user_level: params[:user_role])
+    render body: nil, status: 200
+  end
+
   def add_coupon_balance
     currency = @current_community.currency
     person = Person.find(params[:id])
