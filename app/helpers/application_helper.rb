@@ -584,12 +584,20 @@ module ApplicationHelper
     if paypal_ready || stripe_ready
       links << {
         :id => "settings-tab-payments",
-        :text => t("layouts.settings.payments"),
+        :text => t("layouts.settings.enable_selling"),
         :icon_class => icon_class("payments"),
         :path => person_payment_settings_path(person),
         :name => "payments"
       }
     end
+
+    links << {
+      :id => "settings-tab-payments",
+      :text => t("layouts.settings.transactions"),
+      :icon_class => icon_class("coins"),
+      :path => transactions_person_settings_path(person),
+      :name => "transactions"
+    }
 
     return links
   end

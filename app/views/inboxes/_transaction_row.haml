@@ -1,7 +1,7 @@
 -# Mobile View
 - if browser.device.mobile?
   - if conversation[:type].eql?(:avon_bucks)
-    = render partial: 'avon_history', locals: conversation
+    = render partial: 'inboxes/avon_history', locals: conversation
   - elsif conversation[:type].eql?(:transaction)
     = link_to conversation[:path] do
       - txn  = Transaction.find_by(id: conversation[:transaction_id])
@@ -87,7 +87,7 @@
 - else
   -# Desktop View
   - if conversation[:type].eql?(:avon_bucks)
-    = render partial: 'avon_history', locals: conversation
+    = render partial: 'inboxes/avon_history', locals: conversation
   - elsif conversation[:type].eql?(:transaction)
     - txn  = Transaction.find_by(id: conversation[:transaction_id])
     .row-with-divider.without-margin.conversation-row{:class => conversation[:should_notify] ? "conversation-unread" : ""}
