@@ -1,3 +1,5 @@
+- content_for :profile_progress do
+  = render :partial => "settings/progress_bar", :locals => {progress_title: "Profile Setup Porgress", redirect_link: person_payment_settings_path(@current_user), link_text: "Accept Credit Card payments", progress_percent: @current_user.profile_progress[:enable_purchasing] == 0 ? @current_user.profile_progress[:notifications] : @current_user.profile_progress[:enable_purchasing] }
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 

@@ -3,7 +3,7 @@
   %span.outer_margin
     = "#{progress_percent}" +"%"
   .progress
-    .bar{:style => "width: 14%"}
+    .bar{:style => "width: #{progress_percent}%"}
   %span Next
   %span
     = link_to link_text, redirect_link, class: 'next_step button'

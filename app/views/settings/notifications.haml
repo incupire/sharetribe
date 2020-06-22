@@ -2,7 +2,7 @@
   initialize_update_notification_settings_form("#{I18n.locale}","#{target_user.id.to_s}");
 
 - content_for :profile_progress do
-  = render :partial => "progress_bar", :locals => {progress_title: "Profile Setup Porgress", redirect_link: person_stripe_customber_settings_path(target_user), link_text: "Activate purchasing", progress_percent: target_user.profile_progress[:notifications]}
+  = render :partial => "progress_bar", :locals => {progress_title: "Profile Setup Porgress", redirect_link: person_stripe_customber_settings_path(target_user), link_text: "Activate purchasing", progress_percent: target_user.profile_progress[:notifications] == 0 ? target_user.profile_progress[:user_profile] : target_user.profile_progress[:notifications]}
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 

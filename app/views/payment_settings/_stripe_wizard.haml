@@ -53,14 +53,17 @@
             = render partial: 'verification_fields_form', locals: {stripe_account_form: stripe_account_form, seller_needs_verification: seller_needs_verification}
 
             .col-4
-              = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@target_user), style: 'float: right; margin-top: 1.5em'
-              = button_tag t('stripe_accounts.form_new.save_details')
+              = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@target_user), style: 'float: right; margin-top: 1.5em', class: 'hidden'
+              = button_tag t('stripe_accounts.form_new.save_details'), class: 'hidden simple_go'
+              %input.send_button.button.send_button_accoxunt.param_go{:name => "save_and_next_to_enable_selling", :type => "hidden", :value => "Save and Next"}
+
   - content_for :extra_javascript do
     :javascript
       $(function(){ 
       $("#edit-stripe-info").click(function(){
         $("#stripe_forms").toggleClass("hidden");
         $("#edit-stripe-info").hide();
+        $('.inline_buttons').removeClass('hidden');
         return false;
       });
       if(#{stripe_account[:stripe_bank_id].blank? || flash[:error].present?}) {
@@ -111,15 +114,32 @@
               - stripe_link = link_to t("stripe_accounts.form_new.tos_link_title"), base_terms_url, target: "_blank", data: {terms_url: base_terms_url}, id: "stripe-terms-link"
               = t("stripe_accounts.form_new.tos_link", stripe_link: stripe_link ).html_safe
 
-              = button_tag t('stripe_accounts.form_new.save_details')
-%p
-  %b= "Note: Your bank account information is NOT required on Avontage. This is an optional feature"
+            %p
+              %b= "Note: Your bank account information is NOT required on Avontage. This is an optional feature"
 
-%p= "If you wish to accept credit card payments for your offers in addition to Avontage Bucks trade credits, then you must setup your bank account information so the payment processing company can transfer any credit card sales to your account."
+            %p= "If you wish to accept credit card payments for your offers in addition to Avontage Bucks trade credits, then you must setup your bank account information so the payment processing company can transfer any credit card sales to your account."
 
-%p= "Customary credit card processing fees apply. Please check Stripe.com for details."
+            %p= "Customary credit card processing fees apply. Please check Stripe.com for details."
 
-%p= "All banking information are encrypted and securely stored on Stripe.com servers. Avontage does not host any of the credit card or banking information."
+            %p= "All banking information are encrypted and securely stored on Stripe.com servers. Avontage does not host any of the credit card or banking information."
+            .enter_ein
+              = label_tag 'ein_code','Enter EIN or SSN'
+            .ein_text
+              = text_field_tag 'ein_code'
+            .inline_buttons
+              = button_tag t('settings.save_and_close'), class: ''
+              %input.send_button.button.send_button_accoxunt.param_go{:name => "save_and_next_to_enable_selling", :type => "submit", :value => "Save and Next"}
+
+- if stripe_seller_ready
+  .inline_buttons.hidden
+    = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@target_user), style: 'float: right; margin-top: 1.5em', class: 'cancel_payment'
+    = link_to t("settings.save_and_close"),'javascript:void(0)', :class => "send_button_account button"
+    = link_to t("settings.save_and_next"),'javascript:void(0)', :class => "send_button_account_param button"
+- else
+  .inline_buttons
+    = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@target_user), style: 'float: right; margin-top: 1.5em', class: 'cancel_payment'
+    = link_to t("settings.save_and_close"),'javascript:void(0)', :class => "send_button_account button"
+    = link_to t("settings.save_and_next"),'javascript:void(0)', :class => "send_button_account_param button"
 
 - stripe_data = stripe_default_data
 - stripe_data = stripe_data.merge(update: true) if stripe_seller_ready
@@ -128,4 +148,11 @@
     $(function() {
       window.ST.initStripeBankForm(#{stripe_data.to_json.html_safe});
     });
+    $('.send_button_account').click(function(){
+      $('.param_go').attr('name','sample')
+      $('.simple_go').trigger('click');
+    })
+    $('.send_button_account_param').click(function(){
+      $('.simple_go').trigger('click');
+    })
 

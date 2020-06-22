@@ -1410,11 +1410,11 @@ CREATE TABLE `people` (
   `instagram_link` varchar(255) DEFAULT NULL,
   `linkedin_link` varchar(255) DEFAULT NULL,
   `twitter_link` varchar(255) DEFAULT NULL,
-  `profile_progress` varchar(255) DEFAULT '---\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
   `is_manager` tinyint(1) DEFAULT '0',
   `is_verified` tinyint(1) DEFAULT '0',
   `is_active` tinyint(1) DEFAULT '1',
   `user_level` int(11) DEFAULT NULL,
+  `profile_progress` varchar(255) DEFAULT '---\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -1494,6 +1494,7 @@ CREATE TABLE `stripe_accounts` (
   `stripe_customer_id` varchar(255) DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `ein_code` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2551,6 +2552,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200619103305'),
 ('20200620062504'),
 ('20200620084844'),
-('20200620101716');
+('20200620101716'),
+('20200622121046');
 
 

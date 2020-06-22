@@ -1,5 +1,5 @@
 - content_for :profile_progress do
-  = render :partial => "settings/progress_bar", :locals => {progress_title: "Profile Setup Porgress", redirect_link: "/en/listings/new", link_text: "Post your Offers", progress_percent: @current_user.profile_progress[:enable_selling]}
+  = render :partial => "settings/progress_bar", :locals => {progress_title: "Profile Setup Porgress", redirect_link: "/en/listings/new", link_text: "Post your Offers", progress_percent: @current_user.profile_progress[:enable_selling] == 0 ? @current_user.profile_progress[:enable_purchasing] : @current_user.profile_progress[:enable_selling]}
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 
@@ -53,7 +53,6 @@
 
           #paypal_wizard{class: paypal_account.present? ? "" : "hidden"}
             = render partial: "paypal_wizard", locals: local_assigns
-
       - content_for :extra_javascript do
         :javascript
           $("#toggle_stripe_wizard").click(function(){$("#stripe_wizard").show(); $(this).hide(); return false;});
