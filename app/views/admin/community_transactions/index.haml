@@ -1,3 +1,20 @@
+- content_for :extra_javascript do
+  :javascript
+    $("#start_date").datepicker()
+    $("#end_date").datepicker()
+
+    $("#export-as-csv").on('click', function(){
+      start_date = $("#start_date").val()
+      end_date = $("#end_date").val()
+      status = $("#status").val()
+      $.ajax({
+        type: "get",
+        url: "/admin/communities/#{@current_community.id}/transactions/export",
+        data: { 'start_date': start_date, 'end_date': end_date, 'status': status },
+        success: function () {}
+      })
+    })
+
 - content_for :title_header do
   %h1
     = t("layouts.admin.admin")
@@ -9,7 +26,20 @@
 .left-navi-section
   %h2= t("admin.communities.transactions.transactions", community_name: community.name(I18n.locale))
 
-  #export-as-csv.right= link_to(" " + t("admin.communities.transactions.export_all_as_csv"), {action: :export}, {remote: true, class: icon_class("download")})
+
+  = form_tag admin_community_transactions_path(@current_community), :method => :get do
+    .row
+      .col-3
+        = text_field_tag :start_date, params[:start_date], placeholder: 'From date'
+      .col-3
+        = text_field_tag :end_date, params[:end_date], placeholder: 'To date'
+      .col-4
+        = select_tag :status, options_for_select([['Completed', 'confirmed'], ['Pending', 'preauthorized'] , ['Unresponded message', 'unresponded']], selected: params[:status]), prompt: 'select status'
+      .col-2
+        = submit_tag 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'
+
+  #export-as-csv.right
+    = link_to(" " + t("admin.communities.transactions.export_all_as_csv"), 'javascript:void(0);', {class: icon_class("download")})
 
   %span#admin_transactions_count= page_entries_info(transactions, :model => "Transaction").html_safe
 

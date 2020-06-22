@@ -5,7 +5,7 @@ class Admin::CommunityTransactionsController < Admin::AdminBaseController
   def index
     @selected_left_navi_link = "transactions"
     pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
-
+    params.permit!
     transactions = if params[:sort].nil? || params[:sort] == "last_activity"
       Transaction.for_community_sorted_by_activity(
         @current_community.id,
@@ -20,6 +20,23 @@ class Admin::CommunityTransactionsController < Admin::AdminBaseController
         sort_direction,
         pagination_opts[:limit],
         pagination_opts[:offset])
+    end
+
+    if params[:start_date].present? && params[:end_date].present?
+      start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
+      end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
+      transactions = transactions.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+    end
+
+    if params[:status].present? && ['confirmed', 'preauthorized'].include?(params[:status])
+      transactions = transactions.where(current_state: params[:status])
+    elsif params[:status].eql?('unresponded')
+      transactions = transactions.where(current_state: 'free')
+      txns = []
+      transactions.each do |txn|
+        txns << txn.id if txn.conversation.present? && txn.conversation.messages.size == 1
+      end
+      transactions = transactions.where(id: txns)
     end
 
     count = Transaction.exist.by_community(@current_community.id).with_payment_conversation.count
@@ -57,7 +74,8 @@ class Admin::CommunityTransactionsController < Admin::AdminBaseController
 
   def export
     @export_result = ExportTaskResult.create
-    Delayed::Job.enqueue(ExportTransactionsJob.new(@current_user.id, @current_community.id, @export_result.id))
+    params.permit!
+    Delayed::Job.enqueue(ExportTransactionsJob.new(@current_user.id, @current_community.id, @export_result.id, params))
     respond_to do |format|
       format.js { render layout: false }
     end

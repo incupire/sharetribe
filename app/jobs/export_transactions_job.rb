@@ -1,5 +1,5 @@
 require 'csv'
-class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :export_task_id)
+class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :export_task_id, :params)
   include DelayedAirbrakeNotification
 
   # This before hook should be included in all Jobs to make sure that the service_name is
@@ -16,6 +16,28 @@ class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :expor
     export_task.update_attributes(status: 'started')
 
     conversations = Transaction.for_community_sorted_by_activity(community.id, 'desc', nil, nil, true)
+
+    if params[:start_date].present? && params[:end_date].present?
+      start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
+      end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
+      conversations = conversations.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+    end
+
+    if params[:status].present? && ['confirmed', 'preauthorized'].include?(params[:status])
+      conversations = conversations.where(current_state: params[:status])
+    end
+
+    if params[:status].present? && ['confirmed', 'preauthorized'].include?(params[:status])
+      conversations = conversations.where(current_state: params[:status])
+    elsif params[:status].eql?('unresponded')
+      conversations = conversations.where(current_state: 'free')
+      txns = []
+      conversations.each do |txn|
+        txns << txn.id if txn.conversation.present? && txn.conversation.messages.size == 1
+      end
+      conversations = conversations.where(id: txns)
+    end
+
     csv_rows = []
     ExportTransactionsJob.generate_csv_for(csv_rows, conversations)
     csv_content = csv_rows.join("")
