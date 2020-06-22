@@ -271,9 +271,11 @@ class StripeService::API::StripeApiWrapper
     end
 
     def update_account(community:, account_id:, token:)
+      binding.pry
       with_stripe_payment_config(community) do |payment_settings|
         account = Stripe::Account.retrieve(account_id)
         account.account_token = token
+        account.ein_code = ein_code
         account.save
       end
     end

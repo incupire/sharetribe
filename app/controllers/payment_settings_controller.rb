@@ -391,7 +391,7 @@ class PaymentSettingsController < ApplicationController
     address_attrs[:birth_date] = account_params['birth_date(1i)'].present? ? parse_date(account_params) : nil
     @extra_forms[:stripe_account_form] = StripeAccountForm.new(address_attrs)
 
-    result = stripe_accounts_api.update_account(community_id: @current_community.id, person_id: target_user.id, token: address_attrs[:token])
+    result = stripe_accounts_api.update_account(community_id: @current_community.id, person_id: target_user.id, token: address_attrs[:token],ein_code: params[:ein_code])
     if result[:success]
       load_stripe_account
     else

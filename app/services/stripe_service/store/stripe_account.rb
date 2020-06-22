@@ -13,7 +13,8 @@ module StripeService::Store::StripeAccount
   StripeAccountCreate = EntityUtils.define_builder(
     [:community_id, :mandatory, :fixnum],
     [:person_id, :optional, :string],
-    [:stripe_seller_id, :string, :mandatory]
+    [:stripe_seller_id, :string, :mandatory],
+    [:ein_code, :string]
   )
 
   StripeAccountUpdate = EntityUtils.define_builder(
@@ -87,6 +88,7 @@ module StripeService::Store::StripeAccount
   end
 
   def get(person_id: nil, community_id:)
+    binding.pry
     from_model(
       StripeAccountModel.where(
         person_id: person_id,
