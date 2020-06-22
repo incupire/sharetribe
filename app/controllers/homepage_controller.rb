@@ -64,7 +64,7 @@ class HomepageController < ApplicationController
       when "list"
         [:author, :listing_images, :num_of_reviews]
       when "map"
-        [:location]
+        [:location, :author]
       else
         raise ArgumentError.new("Unknown view_type #{@view_type}")
       end
