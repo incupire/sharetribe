@@ -30,29 +30,30 @@
           = form_tag update_person_payment_settings_path(@target_user),
             id: "stripe-account-form", multipart: true, method: :put do
             = hidden_field_tag "stripe_account_form_address_country", stripe_seller_account[:address_country]
-            = fields_for stripe_account_form do |form|
-              = form.date_select :birth_date, { discard_day: true, discard_month: true, discard_year: true }
+            .more_frame
+              = fields_for stripe_account_form do |form|
+                = form.date_select :birth_date, { discard_day: true, discard_month: true, discard_year: true }
+                .row
+                  .col-12
+                    = form.error_messages
+                .row
+                  .col-6
+                    = form.label :first_name, t("stripe_accounts.form_new.first_name")+"*"
+                    = form.text_field :first_name, class: 'required'
+                  .col-6
+                    = form.label :last_name, t("stripe_accounts.form_new.last_name")+"*"
+                    = form.text_field :last_name, class: 'required'
               .row
                 .col-12
-                  = form.error_messages
-              .row
-                .col-6
-                  = form.label :first_name, t("stripe_accounts.form_new.first_name")+"*"
-                  = form.text_field :first_name, class: 'required'
-                .col-6
-                  = form.label :last_name, t("stripe_accounts.form_new.last_name")+"*"
-                  = form.text_field :last_name, class: 'required'
-            .row
-              .col-12
-                = label_tag t("stripe_accounts.form_new.country")
-                = CountryI18nHelper.translate_country(stripe_seller_account[:address_country])
+                  = label_tag t("stripe_accounts.form_new.country")
+                  = CountryI18nHelper.translate_country(stripe_seller_account[:address_country])
 
-            = render partial: 'address_fields_form', locals: {stripe_account_form: stripe_account_form, available_countries: available_countries}
+              = render partial: 'address_fields_form', locals: {stripe_account_form: stripe_account_form, available_countries: available_countries}
 
-            = render partial: 'bank_fields_form', locals: {stripe_bank_form: stripe_bank_form, stripe_account: stripe_account, stripe_seller_account: stripe_seller_account, stripe_mode: stripe_mode}
+              = render partial: 'bank_fields_form', locals: {stripe_bank_form: stripe_bank_form, stripe_account: stripe_account, stripe_seller_account: stripe_seller_account, stripe_mode: stripe_mode}
 
-            = render partial: 'verification_fields_form', locals: {stripe_account_form: stripe_account_form, seller_needs_verification: seller_needs_verification}
-            %p
+              = render partial: 'verification_fields_form', locals: {stripe_account_form: stripe_account_form, seller_needs_verification: seller_needs_verification}
+            %p.top_space_paypal
               %b= "Note: Your bank account information is NOT required on Avontage. This is an optional feature"
 
             %p= "If you wish to accept credit card payments for your offers in addition to Avontage Bucks trade credits, then you must setup your bank account information so the payment processing company can transfer any credit card sales to your account."
@@ -60,6 +61,7 @@
             %p= "Customary credit card processing fees apply. Please check Stripe.com for details."
 
             %p= "All banking information are encrypted and securely stored on Stripe.com servers. Avontage does not host any of the credit card or banking information."
+            %p.next_color= "Per IRS code, business sales and barter trades need to be reported as income and expenses. Please consult your tax advisor for details."
             .enter_ein
               = label_tag 'ein_code','Enter EIN or SSN'
             .ein_text
@@ -67,8 +69,9 @@
             .col-12
               .inline_buttons
                 = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@target_user), style: 'float: right; margin-top: 1.5em', class: 'cancel_link'
-                = button_tag t('stripe_accounts.form_new.save_details'), class: 'simple_go'
-                %input.send_button.button.send_button_accoxunt.param_go{:name => "save_and_next_to_enable_selling", :type => "submit", :value => "Save and Next"}
+                = button_tag t("settings.save_and_close"), class: 'simple_go send_button_account'
+                = button_tag t("settings.save_and_next"), class: 'simple_go send_button_account_param'
+                %input.send_button.button.send_button_accoxunt.param_go{:name => "save_and_next_to_post", :type => "hidden", :value => "Save and Next"}
 
   - content_for :extra_javascript do
     :javascript
@@ -76,7 +79,7 @@
       $("#edit-stripe-info").click(function(){
         $("#stripe_forms").toggleClass("hidden");
         $("#edit-stripe-info").hide();
-        $('.inline_buttons').removeClass('hidden');
+        //$('.inline_buttons').removeClass('hidden');
         return false;
       });
       if(#{stripe_account[:stripe_bank_id].blank? || flash[:error].present?}) {
@@ -91,43 +94,44 @@
       .paypal-wizard-content.connect-row
         .col-12
           = form_tag create_person_payment_settings_path(@target_user), id: "stripe-account-form", multipart: true do
-            = fields_for stripe_account_form do |form|
-              .row
-                .col-12
-                  = form.error_messages
-              .row
-                .col-6
-                  = form.label :first_name, t("stripe_accounts.form_new.first_name")+"*"
-                  = form.text_field :first_name, class: 'required'
-                .col-6
-                  = form.label :last_name, t("stripe_accounts.form_new.last_name")+"*"
-                  = form.text_field :last_name, class: 'required'
+            .more_frame
+              = fields_for stripe_account_form do |form|
+                .row
+                  .col-12
+                    = form.error_messages
+                .row
+                  .col-6
+                    = form.label :first_name, t("stripe_accounts.form_new.first_name")+"*"
+                    = form.text_field :first_name, class: 'required'
+                  .col-6
+                    = form.label :last_name, t("stripe_accounts.form_new.last_name")+"*"
+                    = form.text_field :last_name, class: 'required'
 
-              .row
-                .col-12
-                  = form.label :birth_date, t("stripe_accounts.form_new.birth_date")+"*"
-                  = form.date_select :birth_date, {:start_year => Date.current.year-18, :end_year => 1920, order: [:day, :month, :year], :use_month_names => I18n.t("datepicker.months").values}, class: 'required'
-              .row
-                .col-2
-                  = form.label :address_country, t("stripe_accounts.form_new.address_country")+"*"
-                  = form.select :address_country, available_countries, {prompt: t("stripe_accounts.form_new.select_country")}, {style: "min-width: 200px"}
+                .row
+                  .col-12
+                    = form.label :birth_date, t("stripe_accounts.form_new.birth_date")+"*"
+                    = form.date_select :birth_date, {:start_year => Date.current.year-18, :end_year => 1920, order: [:day, :month, :year], :use_month_names => I18n.t("datepicker.months").values}, class: 'required'
+                .row
+                  .col-2
+                    = form.label :address_country, t("stripe_accounts.form_new.address_country")+"*"
+                    = form.select :address_country, available_countries, {prompt: t("stripe_accounts.form_new.select_country")}, {style: "min-width: 200px"}
 
-            .country-dependent{"data-country-except" => "XXX"}
-              = render partial: 'address_fields_form', locals: {stripe_account_form: stripe_account_form, available_countries: available_countries}
+              .country-dependent{"data-country-except" => "XXX"}
+                = render partial: 'address_fields_form', locals: {stripe_account_form: stripe_account_form, available_countries: available_countries}
 
-            .country-dependent{"data-country-except" => "XXX"}
-              = render partial: 'bank_fields_form', locals: {stripe_bank_form: stripe_bank_form, stripe_account: stripe_account, stripe_seller_account: stripe_seller_account, stripe_mode: stripe_mode}
+              .country-dependent{"data-country-except" => "XXX"}
+                = render partial: 'bank_fields_form', locals: {stripe_bank_form: stripe_bank_form, stripe_account: stripe_account, stripe_seller_account: stripe_seller_account, stripe_mode: stripe_mode}
 
-            = render 'personal_id_number', stripe_account_form: stripe_account_form
+              = render 'personal_id_number', stripe_account_form: stripe_account_form
 
-            = render partial: 'verification_fields_form', locals: {stripe_account_form: stripe_account_form, seller_needs_verification: seller_needs_verification}
+              = render partial: 'verification_fields_form', locals: {stripe_account_form: stripe_account_form, seller_needs_verification: seller_needs_verification}
 
-            .country-dependent{"data-country-except" => "XXX"}
-              - base_terms_url = "https://stripe.com/COUNTRY/connect-account/legal#translation"
-              - stripe_link = link_to t("stripe_accounts.form_new.tos_link_title"), base_terms_url, target: "_blank", data: {terms_url: base_terms_url}, id: "stripe-terms-link"
-              = t("stripe_accounts.form_new.tos_link", stripe_link: stripe_link ).html_safe
+              .country-dependent{"data-country-except" => "XXX"}
+                - base_terms_url = "https://stripe.com/COUNTRY/connect-account/legal#translation"
+                - stripe_link = link_to t("stripe_accounts.form_new.tos_link_title"), base_terms_url, target: "_blank", data: {terms_url: base_terms_url}, id: "stripe-terms-link"
+                = t("stripe_accounts.form_new.tos_link", stripe_link: stripe_link ).html_safe
 
-            %p
+            %p.top_space_paypal
               %b= "Note: Your bank account information is NOT required on Avontage. This is an optional feature"
 
             %p= "If you wish to accept credit card payments for your offers in addition to Avontage Bucks trade credits, then you must setup your bank account information so the payment processing company can transfer any credit card sales to your account."
@@ -135,13 +139,16 @@
             %p= "Customary credit card processing fees apply. Please check Stripe.com for details."
 
             %p= "All banking information are encrypted and securely stored on Stripe.com servers. Avontage does not host any of the credit card or banking information."
+            %p= "Per IRS code, business sales and barter trades need to be reported as income and expenses. Please consult your tax advisor for details."
             .enter_ein
               = label_tag 'ein_code','Enter EIN or SSN'
             .ein_text
               = text_field_tag 'ein_code'
-            .inline_buttons
-              = button_tag t('settings.save_and_close'), class: ''
-              %input.send_button.button.send_button_accoxunt.param_go{:name => "save_and_next_to_enable_selling", :type => "submit", :value => "Save and Next"}
+            .col-12
+              .inline_buttons
+                = button_tag t("settings.save_and_close"), class: 'simple_go send_button_account'
+                = button_tag t("settings.save_and_next"), class: 'simple_go send_button_account_param'
+                %input.send_button.button.send_button_accoxunt.param_go{:name => "save_and_next_to_post", :type => "hidden", :value => "Save and Next"}
 - if false
   - if stripe_seller_ready
     .inline_buttons.hidden
@@ -163,9 +170,5 @@
     });
     $('.send_button_account').click(function(){
       $('.param_go').attr('name','sample')
-      $('.simple_go').trigger('click');
-    })
-    $('.send_button_account_param').click(function(){
-      $('.simple_go').trigger('click');
     })
 

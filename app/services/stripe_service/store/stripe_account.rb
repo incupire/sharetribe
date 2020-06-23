@@ -50,7 +50,6 @@ module StripeService::Store::StripeAccount
   module_function
 
   def create(opts:)
-    binding.pry
     entity = StripeAccountCreate.call(opts)
     account_model = StripeAccountModel.where(community_id: entity[:community_id], person_id: entity[:person_id]).first
     if account_model
@@ -88,7 +87,6 @@ module StripeService::Store::StripeAccount
   end
 
   def get(person_id: nil, community_id:)
-    binding.pry
     from_model(
       StripeAccountModel.where(
         person_id: person_id,

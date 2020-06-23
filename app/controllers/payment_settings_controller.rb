@@ -30,11 +30,20 @@ class PaymentSettingsController < ApplicationController
       return
     end
     if target_user.profile_progress[:enable_selling] == 0
-      target_user.profile_progress.update(enable_selling: 71)
+      target_user.profile_progress.update(enable_selling: 29)
       target_user.save
     end
     warn_about_missing_payment_info
-    render 'index', locals: index_view_locals
+
+    if params[:save_and_next_to_post].present?
+      if @form_error
+        render 'index', locals: index_view_locals
+      else
+        redirect_to new_listing_path
+      end
+    else
+      render 'index', locals: index_view_locals
+    end
   end
 
   def update
@@ -52,7 +61,7 @@ class PaymentSettingsController < ApplicationController
       @current_user.profile_progress.update(enable_selling: 71)
       @current_user.save
     end
-    if params[:save_and_next_to_enable_selling].present?
+    if params[:save_and_next_to_post].present?
       redirect_to new_listing_path
     else
       render 'index', locals: index_view_locals
@@ -83,7 +92,6 @@ class PaymentSettingsController < ApplicationController
   end
 
   def update_stripe_customer
-    binding.pry
     if params[:stripe_token].present?
       begin
         if @current_user.stripe_customer_id.present?
@@ -97,7 +105,7 @@ class PaymentSettingsController < ApplicationController
         end
         @current_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
         if @current_user.profile_progress[:enable_purchasing] == 0
-          @current_user.profile_progress.update(enable_purchasing: 42)
+          @current_user.profile_progress.update(enable_purchasing: 14)
           @current_user.save
         end
         flash[:success] = "Card saved successfully!"
@@ -268,7 +276,6 @@ class PaymentSettingsController < ApplicationController
   end
 
   def stripe_create_account
-    binding.pry
     return if @stripe_account_ready
 
     stripe_account_form = parse_create_params(params[:stripe_account_form])
@@ -284,6 +291,8 @@ class PaymentSettingsController < ApplicationController
         @stripe_error = true
         flash.now[:error] = result[:error_msg]
       end
+    else
+      @form_error = true
     end
   end
 

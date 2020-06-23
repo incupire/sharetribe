@@ -1770,6 +1770,8 @@ en:
       payments: "Accept Credit Card"
       enable_selling: Enable Selling
       transactions: 'Transactions'
+      offers_and_request: My Offers & Requests
+      offers_and_request: "Offers and Requests"
   listings:
     bubble_listing_not_visible:
       listing_not_visible: "You do not have permission to view this offer."

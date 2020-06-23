@@ -8,7 +8,7 @@
   - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
   = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
 - content_for :profile_progress do
-  = render :partial => "progress_bar", :locals => {progress_title: "Member Setup Porgress", redirect_link: notifications_person_settings_path(target_user), link_text: "Setup notifications", progress_percent: target_user.profile_progress[:user_profile]}
+  = render :partial => "progress_bar", :locals => {progress_title: "Member Setup Porgress", redirect_link: notifications_person_settings_path(target_user), link_text: "Setup notifications", progress_percent: target_user.overall_progress}
   %p.profile_text
     = t("settings.profile.profile_complete_info")
 - content_for :title_header do

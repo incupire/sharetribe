@@ -13,6 +13,59 @@ class SettingsController < ApplicationController
     flash.now[:notice] = t("settings.profile.image_is_processing") if @service.image_is_processing?
   end
 
+  def offers_and_request
+    @selected_left_navi_link = "offers_and_request"
+    @service = Person::SettingsService.new(community: @current_community, params: params)
+    if params[:start_date].present? && params[:end_date].present?
+      start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
+      end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
+      transactions = transactions.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+    end
+    scope_listings = resource_scope
+
+    expired_listings = []
+    scope_listings.each do |listing|
+      if listing.valid_until && listing.valid_until < DateTime.current
+        expired_listings << listing
+      end
+    end
+    @expired_listings = expired_listings
+    @open_listings = scope_listings.where(open: true)
+    @closed_listings = scope_listings.where(open: false)
+    if params[:status].present? && params[:listing_title].present? && !(params[:status].eql?('expired'))
+      scope_listings = scope_listings.where(open: params[:status], title: params[:listing_title])
+    elsif params[:status].present? && params[:listing_title].present? && params[:status].eql?('expired')
+      scope_listings = @expired_listings.where(title: params[:listing_title])
+    else
+      if params[:status].present?
+        scope_listings = scope_listings.where(open: params[:status])
+      else
+        scope_listings = scope_listings.where(title: params[:listing_title])
+      end
+    end
+    respond_to do |format|
+      format.html do
+        @listings = scope_listings.order("#{sort_column} #{sort_direction}")
+                .paginate(:page => params[:page], :per_page => 30)        
+      end
+
+      format.csv do
+        all_listings = scope_listings
+
+        marketplace_name = @current_community.use_domain ? @current_community.domain : @current_community.ident
+
+        self.response.headers["Content-Type"] ||= 'text/csv'
+        self.response.headers["Content-Disposition"] = "attachment; filename=#{marketplace_name}-listings-#{Date.today}.csv"
+        self.response.headers["Content-Transfer-Encoding"] = "binary"
+        self.response.headers["Last-Modified"] = Time.now.ctime.to_s
+
+        self.response_body = Enumerator.new do |yielder|
+          generate_csv_for(yielder, all_listings, @current_community)
+        end
+      end
+    end
+  end
+
   def transactions
     @selected_left_navi_link = "transactions"
     @service = Person::SettingsService.new(community: @current_community, params: params)
@@ -212,8 +265,28 @@ class SettingsController < ApplicationController
     end
   end
 
+  def sort_column
+    case params[:sort]
+    when 'started'
+      'listings.created_at'
+    when 'updated', nil
+      'listings.updated_at'
+    when 'category'
+      'categories.url'
+    when 'featured'
+      'listings.featured'
+    end
+  end
+
+  def sort_direction
+    params[:direction] == 'asc' ? 'asc' : 'desc'
+  end
+
   private
 
+  def resource_scope
+    @current_community.listings.exist.includes(:author, :category)
+  end
 
   def find_person_to_unsubscribe(current_user, auth_token)
     current_user || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }

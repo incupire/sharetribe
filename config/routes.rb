@@ -530,6 +530,7 @@ Rails.application.routes.draw do
             get :account
             get :notifications
             get :unsubscribe
+            get :offers_and_request
             get :transactions
             get :transactions_person_messages
             get :favorite

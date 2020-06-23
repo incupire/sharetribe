@@ -24,7 +24,7 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
           generate_csv_for(yielder, all_listings, @current_community)
         end
       end
-    end      
+    end
   end
 
   def destroy
