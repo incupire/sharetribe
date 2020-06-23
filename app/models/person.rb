@@ -708,6 +708,14 @@ class Person < ApplicationRecord
     custom_field_values.by_question(custom_field).first
   end
 
+  def overall_progress
+    if self.profile_progress.present?
+      profile_progress[:user_profile] + profile_progress[:notifications] + profile_progress[:enable_purchasing] + profile_progress[:enable_selling]
+    else
+      0
+    end
+  end
+
   private
 
   def digest(password, salt)

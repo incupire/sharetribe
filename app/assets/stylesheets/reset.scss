@@ -985,6 +985,42 @@ img.square_image {
   max-width: 75%;
   margin-bottom: 40px;  
 }
+.checkout-with-stripe-buttons {
+  margin-right: 10px;
+}
+.cancel_payment {
+  margin-right: 10px;
+}
+.send_button_account {
+  margin-right: 10px !important;
+}
 .report_submit{
   margin-top: 0px !important;
+}
+.cancel_link {
+  margin-right: 10px;
+}
+p.next_color {
+  color: #00374a;
+  font-weight: 600;
+}
+.enter_ein {
+  color: #00374a;
+}
+.top_space_paypal {
+  margin-top: 20px;
+}
+.more_frame {
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 1.5em 2.25em;
+}
+.scroll_frame {
+  width: 100%;
+  overflow-x: scroll;
+  .scrollable_table {
+    @media (min-width: 768px) {
+      width: 1080px;
+    }
+  }
 }

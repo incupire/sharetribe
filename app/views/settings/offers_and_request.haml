@@ -1,0 +1,90 @@
+- target_user = @service.person
+- content_for :javascript do
+  initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
+
+- content_for :extra_javascript do
+  - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
+  - key_param = maps_key ? "?key=#{maps_key}" : ""
+  - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
+  = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
+- content_for :profile_progress do
+  = render :partial => "settings/progress_bar", :locals => {progress_title: "Profile Setup Porgress", redirect_link: person_payment_settings_path(@current_user), link_text: "Accept Credit Card payments", progress_percent: @current_user.overall_progress}
+- content_for :title_header do
+  %h1= t("layouts.settings.settings")
+
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community) }
+
+#person_settings_form.left-navi-section.settings-section
+  %h2= t("admin.communities.listings.listings")
+  = form_tag offers_and_request_person_settings_path(target_user), :method => :get do
+    .row
+      .col-3
+        = text_field_tag :listing_title, params[:listing_title], placeholder: 'Search for a listing title'
+      .col-4
+        = select_tag :status, options_for_select([['All statuses', 'all_status'], ['Open', 'open'], ['Close', 'close'] , ['Expired', 'expired']], selected: params[:status]), prompt: 'select status'
+      .col-2
+        = submit_tag 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'
+  %span#admin_listings_count= page_entries_info(@listings, :model => "Listing").html_safe
+
+  %table#admin_listings
+    %thead
+      %tr
+        %th= t("admin.communities.listings.headers.title")
+        %th= t("admin.communities.listings.headers.author")
+        %th
+          = render partial: "layouts/sort_link", locals: { column: "started",
+            direction: sort_link_direction("started"),
+            title: t("admin.communities.listings.headers.created") }
+        %th
+          = render partial: "layouts/sort_link", locals: { column: "updated",
+            direction: sort_link_direction("updated"),
+            title: t("admin.communities.listings.headers.updated") }
+        %th
+          = render partial: "layouts/sort_link", locals: { column: "category",
+            direction: sort_link_direction("category"),
+            title: t("admin.communities.listings.headers.category") }         
+        %th= t("admin.communities.listings.headers.status")
+        %th
+          = render partial: "layouts/sort_link", locals: { column: "featured",
+            direction: sort_link_direction("featured"),
+            title: t("admin.communities.listings.headers.featured") }       
+        %th= t("admin.communities.listings.headers.edit_listing")
+        %th= t("admin.communities.listings.headers.delete_listing")
+
+    %tbody
+      - @listings.each do |listing|
+        %tr
+          %td
+            = link_to listing.title, listing_path(listing)
+          %td
+            - p = listing.author
+            - if p.deleted
+              = ''
+            - else
+              = link_to PersonViewUtils.person_display_name(p, @current_community), person_path(p.username)
+          %td= l(listing.created_at, format: :short)
+          %td= l(listing.updated_at, format: :short)
+          %td
+            - category = listing.category
+            = link_to category.display_name(I18n.locale), search_path(category: category.url)
+          %td
+            - expired = listing.valid_until && listing.valid_until < DateTime.current
+            - key = expired ? 'expired' : (listing.open? ? 'open' : 'closed')
+            = t("admin.communities.listings.#{key}")
+
+          %td{:style => "text-align: center"}
+            = check_box_tag "featured[#{listing.id}]", listing.id, listing.featured?,
+              data: {featured_url: featured_admin_community_listing_path(@current_community.id, listing.id),
+              non_featured_url: featured_admin_community_listing_path(@current_community.id, listing.id)},
+              class: "admin-featured-listing-toggle"
+
+          %td
+            = link_to edit_listing_path(listing) do
+              = icon_tag("edit")
+          %td  
+            %a.custom_balance{href: admin_community_listing_path(@current_community.id,listing.id), data: {method: :delete, confirm: "Are you sure you want to delete!"}}
+              %i.fa.fa-trash
+
+  .row
+    .col-12
+      = will_paginate @listings

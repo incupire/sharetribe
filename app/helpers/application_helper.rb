@@ -592,6 +592,14 @@ module ApplicationHelper
     end
 
     links << {
+      :id => "settings-tab-offers_and_request",
+      :text => t("layouts.settings.offers_and_request"),
+      :icon_class => icon_class("coins"),
+      :path => offers_and_request_person_settings_path(person),
+      :name => "offers_and_request"
+    }
+
+    links << {
       :id => "settings-tab-payments",
       :text => t("layouts.settings.transactions"),
       :icon_class => icon_class("coins"),

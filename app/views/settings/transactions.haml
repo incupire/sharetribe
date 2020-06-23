@@ -1,6 +1,6 @@
 - target_user = @service.person
 - content_for :profile_progress do
-  = render :partial => "progress_bar", :locals => {progress_title: "Member Setup Porgress", redirect_link: notifications_person_settings_path(target_user), link_text: "Setup notifications", progress_percent: target_user.profile_progress[:user_profile]}
+  = render :partial => "progress_bar", :locals => {progress_title: "Member Setup Porgress", redirect_link: notifications_person_settings_path(target_user), link_text: "Setup notifications", progress_percent: target_user.overall_progress}
 - content_for :title_header do
   %h1= t("layouts.no_tribe.transaction_history")
 
@@ -27,11 +27,12 @@
       %br
 
     - if result_rows.present?
+      .scroll_frame
+        .scrollable_table
+          = render :partial => "inboxes/transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
 
-      = render :partial => "inboxes/transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
-
-      = will_paginate(transactional_inbox_rows)
-      = pageless(transactional_inbox_rows.total_pages, '#conversations', request.path, t('conversations.index.loading_more_messages'))
+          = will_paginate(transactional_inbox_rows)
+          = pageless(transactional_inbox_rows.total_pages, '#conversations', request.path, t('conversations.index.loading_more_messages'))
 
     - else
       #no_conversations
