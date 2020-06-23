@@ -443,6 +443,7 @@ class PeopleController < Devise::RegistrationsController
         :twitter_link,
         :image,
         :description,
+        :tags,
         :password,
         :password2,
         :referral_code,

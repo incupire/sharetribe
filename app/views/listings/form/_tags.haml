@@ -1,0 +1,44 @@
+= form.label :tags, 'Hashtags', :class => "input"
+= form.text_area(:tags, :class => "title_text_field hashtags_input")
+
+
+- content_for :hash_tag do
+  :javascript
+    createHasgtags($(".hashtags_input").val())
+
+    $(".hashtags_input").on('focusout', function(){
+      createHasgtags($(this).val())
+    })
+
+    function createHasgtags(ele_value){
+      if (ele_value != ''){
+        current_value = ele_value.split(" ")
+        current_value_arr = []
+        $(current_value).each(function(i, e){
+          var step = 0;
+          for (let step = 0; step < 5; step++) {
+            e = e.replace('#', '')
+          }
+          current_value_arr.push(e)
+        })
+        var outPlus = [];
+        $(current_value_arr).each(function( g, h ) {
+          outPlus.push("#"+h.split(" ").join(' #'));
+        });
+        final_string = outPlus.join(' ')
+        $(".hashtags_input").val(final_string)
+      }
+    }
+
+
+- if run_js_immediately
+  = yield :hash_tag
+- else
+  - content_for :extra_javascript do
+    = yield :hash_tag
+      
+
+ 
+
+
+  

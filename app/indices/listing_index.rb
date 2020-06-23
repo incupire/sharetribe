@@ -16,6 +16,8 @@ if APP_CONFIG.use_thinking_sphinx_indexing.to_s.casecmp("true") == 0
     indexes custom_field_values(:text_value), :as => :custom_text_fields
     indexes origin_loc.google_address
     indexes author.display_name, :as => :display_name
+    indexes author.tags, :as => :author_tags
+    indexes tags
 
     # attributes
     has id, :as => :listing_id # id didn't work without :as aliasing
@@ -34,8 +36,10 @@ if APP_CONFIG.use_thinking_sphinx_indexing.to_s.casecmp("true") == 0
 
     set_property :field_weights => {
       :title       => 10,
+      :tags        => 9,
       :category    => 8,
       :display_name => 7,
+      :author_tags => 6,
       :description => 3
     }
     group_by 'latitude', 'longitude'

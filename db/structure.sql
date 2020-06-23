@@ -987,6 +987,7 @@ CREATE TABLE `listings` (
   `favorites_count` int(11) DEFAULT '0',
   `auto_accept_transaction` tinyint(1) DEFAULT '0',
   `auto_complete_transaction` tinyint(1) DEFAULT '0',
+  `tags` text,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_listings_on_uuid` (`uuid`),
   KEY `index_listings_on_new_category_id` (`category_id`) USING BTREE,
@@ -1410,11 +1411,12 @@ CREATE TABLE `people` (
   `instagram_link` varchar(255) DEFAULT NULL,
   `linkedin_link` varchar(255) DEFAULT NULL,
   `twitter_link` varchar(255) DEFAULT NULL,
-  `profile_progress` varchar(255) DEFAULT '---\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
   `is_manager` tinyint(1) DEFAULT '0',
   `is_verified` tinyint(1) DEFAULT '0',
   `is_active` tinyint(1) DEFAULT '1',
   `user_level` int(11) DEFAULT NULL,
+  `profile_progress` varchar(255) DEFAULT '---\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
+  `tags` text,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -2553,6 +2555,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200620062504'),
 ('20200620084844'),
 ('20200620101716'),
-('20200622121046');
+('20200622121046'),
+('20200623110342');
 
 

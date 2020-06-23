@@ -44,7 +44,7 @@ module ListingIndexService::Search::DatabaseSearchHelper
     query = Listing
             .where(where_opts)
             .includes(included_models)
-            .order("listings.sort_date DESC")
+            .order('RAND()')
             .paginate(per_page: search[:per_page], page: search[:page])
             
     query = query.where(featured: true) if search[:featured]
