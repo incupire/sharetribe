@@ -24,6 +24,7 @@
     = render :partial => "notification_checkbox", :collection => @current_community.email_notification_types, :as => :notification_type, locals: {target_user: target_user}
 
     = hidden_field_tag "person[preferences][empty_notification]", '1'
+    = hidden_field_tag "notification_page", 'ok'
     .inline_buttons
       = form.button t("settings.save_and_close"), :class => "send_button_notifications"
       %input.send_button.button{:name => "save_and_next_to_enable_purchasing", :type => "submit", :value => "Save and Next"}

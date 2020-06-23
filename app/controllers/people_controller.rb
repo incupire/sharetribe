@@ -279,9 +279,11 @@ class PeopleController < Devise::RegistrationsController
       target_user.profile_progress.update(user_profile: 14)
       target_user.save
     end
-    if target_user.profile_progress[:notifications] == 0
-      target_user.profile_progress.update(notifications: 14)
-      target_user.save
+    if params[:notification_page].present?
+      if target_user.profile_progress[:notifications] == 0
+        target_user.profile_progress.update(notifications: 14)
+        target_user.save
+      end
     end
     if params[:save_and_next].present?
       redirect_to notifications_person_settings_path(target_user)

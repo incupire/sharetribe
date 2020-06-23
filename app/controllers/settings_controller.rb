@@ -23,22 +23,28 @@ class SettingsController < ApplicationController
     end
     scope_listings = resource_scope
 
-    expired_listings = []
+    #expired listings
+    expired_listing_ids = []
     scope_listings.each do |listing|
       if listing.valid_until && listing.valid_until < DateTime.current
-        expired_listings << listing
+        expired_listing_ids << listing.id
       end
     end
-    @expired_listings = expired_listings
-    @open_listings = scope_listings.where(open: true)
-    @closed_listings = scope_listings.where(open: false)
-    if params[:status].present? && params[:listing_title].present? && !(params[:status].eql?('expired'))
-      scope_listings = scope_listings.where(open: params[:status], title: params[:listing_title])
-    elsif params[:status].present? && params[:listing_title].present? && params[:status].eql?('expired')
-      scope_listings = @expired_listings.where(title: params[:listing_title])
+    all_expired_listings = scope_listings.where(id: expired_listing_ids)
+
+    if params[:status].present? && params[:listing_title].present?
+      if params[:status].eql?('expired')
+        scope_listings = all_expired_listings.where(title: params[:listing_title])
+      else
+        scope_listings = scope_listings.where(open: params[:status].eql?('open'), title: params[:listing_title])
+      end
     else
       if params[:status].present?
-        scope_listings = scope_listings.where(open: params[:status])
+        if params[:status].eql?('expired')
+          scope_listings = all_expired_listings
+        else
+          scope_listings = scope_listings.where(open: params[:status].eql?('open'))
+        end
       else
         scope_listings = scope_listings.where(title: params[:listing_title])
       end
@@ -69,72 +75,6 @@ class SettingsController < ApplicationController
   def transactions
     @selected_left_navi_link = "transactions"
     @service = Person::SettingsService.new(community: @current_community, params: params)
-    params[:page] = 1 unless request.xhr?
-    pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
-    count = InboxService.inbox_data_count(@current_user.id, @current_community.id)
-    transactional_inbox_rows = transactional_inbox_rows(pagination_opts, count)
-    sorted_activity_dates = transactional_inbox_rows.pluck(:last_transition_at)
-    if request.xhr?
-      if sorted_activity_dates.present? && transactional_inbox_rows.next_page.present?
-        bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories
-                                                              .where.not(id: session[:avon_bucks_ids])
-                                                              .where(transaction_id: nil)
-                                                              .where("created_at <= ? AND created_at >= ?", 
-                                                                  sorted_activity_dates.first.to_date.end_of_day, sorted_activity_dates.last.to_date.beginning_of_day
-                                                              )
-      else
-        bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories
-                                                              .where.not(id: session[:avon_bucks_ids])
-                                                              .where(transaction_id: nil)         
-      end
-    else
-      if sorted_activity_dates.present? && transactional_inbox_rows.next_page.present?
-          bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories
-                                                                .where(transaction_id: nil)
-                                                                .where("created_at <= ? AND created_at >= ?", 
-                                                                    sorted_activity_dates.first.to_date.end_of_day, sorted_activity_dates.last.to_date.beginning_of_day
-                                                                )        
-      else
-        bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories.where(transaction_id: nil) 
-      end     
-    end
-
-    unless bucks_histories_in_between_sorted_activity_dates.blank?
-      arranged_histories_rows = []
-      bucks_histories_in_between_sorted_activity_dates.each do |history|
-        arranged_hash = {
-          type: 'avon_bucks'.to_sym,
-          id: history.id,
-          person_id: history.person_id,
-          operator_id: history.operator_id,
-          amount: history.amount,
-          operation: history.operation,
-          last_transition_at: history.created_at.to_time
-        }
-        arranged_histories_rows << arranged_hash
-      end
-
-      flatten_tx_rows = (transactional_inbox_rows + arranged_histories_rows).flatten
-      result_rows = flatten_tx_rows.sort_by! { |r| r[:last_transition_at] }.reverse
-    end
-
-    result_rows = result_rows.present? ? result_rows : transactional_inbox_rows
-
-    if request.xhr?
-      session[:avon_bucks_ids] = (session[:avon_bucks_ids] + bucks_histories_in_between_sorted_activity_dates.pluck(:id)).flatten.uniq
-      render :partial => "transaction_row", 
-        :collection => result_rows, :as => :conversation, 
-        locals: { 
-          payments_in_use: @current_community.payments_in_use? 
-        }
-    else
-      session[:avon_bucks_ids] = bucks_histories_in_between_sorted_activity_dates.pluck(:id)
-      render locals: {
-        transactional_inbox_rows: transactional_inbox_rows,
-        result_rows: result_rows,
-        payments_in_use: @current_community.payments_in_use?
-      }
-    end         
   end
 
   def transactional_inbox_rows(pagination_opts, count)
