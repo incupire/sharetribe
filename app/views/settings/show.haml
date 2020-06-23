@@ -7,6 +7,33 @@
   - key_param = maps_key ? "?key=#{maps_key}" : ""
   - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
   = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
+
+  :javascript
+    createHasgtags($(".hashtags_input").val())
+
+    $(".hashtags_input").on('focusout', function(){
+      createHasgtags($(this).val())
+    })
+
+    function createHasgtags(ele_value){
+      if (ele_value != ''){
+        current_value = ele_value.split(" ")
+        current_value_arr = []
+        $(current_value).each(function(i, e){
+          var step = 0;
+          for (let step = 0; step < 5; step++) {
+            e = e.replace('#', '')
+          }
+          current_value_arr.push(e)
+        })
+        var outPlus = [];
+        $(current_value_arr).each(function( g, h ) {
+          outPlus.push("#"+h.split(" ").join(' #'));
+        });
+        final_string = outPlus.join(' ')
+        $(".hashtags_input").val(final_string)
+      }
+    }
 - content_for :profile_progress do
   = render :partial => "progress_bar", :locals => {progress_title: "Member Setup Porgress", redirect_link: notifications_person_settings_path(target_user), link_text: "Setup notifications", progress_percent: target_user.overall_progress}
   %p.profile_text
@@ -121,6 +148,9 @@
     -# Community Description experience
     = form.label :community_description_experience, t("settings.profile.community_experience"), :class => "input"
     = form.text_area :community_description_experience, :class => "update_profile_description_text_area"
+
+    = form.label :tags, 'Hashtags', :class => "input"
+    = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input"
 
 
     .row
