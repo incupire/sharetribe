@@ -10,6 +10,7 @@
 #  stripe_customer_id :string(255)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  ein_code           :string(255)
 #
 
 class StripeAccount < ApplicationRecord

@@ -12,10 +12,11 @@
 #  currency                :string(255)
 #  transaction_id          :integer
 #  operator_id             :string(255)
+#  stripe_charge_id        :string(255)
 #
 
 class AvonBucksHistory < ApplicationRecord
-  VALID_OPERATIONS = ["added", "deducted"]
+  VALID_OPERATIONS = ["added", "deducted", "self added"]
   validates_inclusion_of :operation, :in => VALID_OPERATIONS
   
   belongs_to :person

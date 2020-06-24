@@ -6,6 +6,8 @@ class PersonMessagesController < ApplicationController
 
   before_action :fetch_recipient
 
+  before_action :ensure_authorized_to_post
+
   def new
     @conversation = Conversation.new
   end
@@ -24,6 +26,14 @@ class PersonMessagesController < ApplicationController
   end
 
   private
+
+  def ensure_authorized_to_post
+    if !@current_user.is_active? || (@current_community.require_verification_to_send_direct_message? && !@current_community_membership.can_send_dms?)
+      flash[:error] = 'You are not authorized to send message'
+      redirect_to search_path
+      return
+    end
+  end
 
   def validate(params)
     content_present = Maybe(params)[:conversation][:message_attributes][:content]

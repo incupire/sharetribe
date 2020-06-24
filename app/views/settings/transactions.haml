@@ -1,0 +1,39 @@
+- target_user = @service.person
+- content_for :profile_progress do
+  = render :partial => "progress_bar", :locals => {progress_title: "Member Setup Porgress", redirect_link: notifications_person_settings_path(target_user), link_text: "Setup notifications", progress_percent: target_user.overall_progress}
+- content_for :title_header do
+  %h1= t("layouts.no_tribe.transaction_history")
+
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community) }
+
+#person_settings_form.left-navi-section.settings-section
+  .undo-mobile-wrapper-margin#conversations
+    - if @current_user.present?
+      .new_coupon_work
+        .inner_container
+          .row.coupan_balances
+            %span.people-custom-fields-title.coupan_title Your Avontage Bucks Balance:
+            %span.price
+              = image_tag "avonatge_currency.png"
+              = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
+          .load_balance
+            = link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: "button load_button"
+
+      // .row.coupan_balances
+      //   %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
+      //   %span.price
+      //     =# image_tag "black_a_img.png"
+      //     =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
+      %br
+
+    - if result_rows.present?
+      .scroll_frame
+        .scrollable_table
+          = render :partial => "inboxes/transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
+
+          = will_paginate(transactional_inbox_rows)
+          = pageless(transactional_inbox_rows.total_pages, '#conversations', request.path, t('conversations.index.loading_more_messages'))
+
+    - else
+      #no_conversations
+        = t("conversations.index.no_received_messages")

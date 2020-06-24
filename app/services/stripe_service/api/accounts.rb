@@ -9,10 +9,10 @@ module StripeService::API
       stripe_accounts_store.get_active_users(community_id: community_id)
     end
 
-    def create(community_id:, person_id:, body:)
+    def create(community_id:, person_id:, body:, ein_code:)
       metadata = {sharetribe_community_id: community_id, sharetribe_person_id: person_id, sharetribe_mode: stripe_api.charges_mode(community_id)}
       result = stripe_api.register_seller(community: community_id, account_info: body, metadata: metadata)
-      data = body.merge(stripe_seller_id: result.id, community_id: community_id, person_id: person_id)
+      data = body.merge(stripe_seller_id: result.id, community_id: community_id, person_id: person_id,ein_code: ein_code)
       Result::Success.new(stripe_accounts_store.create(opts: data))
     rescue => e
       Result::Error.new(e.message)
@@ -34,9 +34,10 @@ module StripeService::API
       Result::Error.new(e.message)
     end
 
-    def update_account(community_id:, person_id:, token:)
+    def update_account(community_id:, person_id:, token:, ein_code:)
       data = { community_id: community_id, person_id: person_id}
       account = stripe_accounts_store.get(person_id: person_id, community_id: community_id).to_hash
+      user_stripe_account = StripeAccount.find_by(person_id: person_id).update_column(:ein_code, ein_code)
       stripe_api.update_account(community: community_id, account_id: account[:stripe_seller_id], token: token)
       Result::Success.new(account)
     rescue => e

@@ -58,6 +58,12 @@
 #  instagram_link                     :string(255)
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
+#  is_manager                         :boolean          default(FALSE)
+#  is_verified                        :boolean          default(FALSE)
+#  is_active                          :boolean          default(TRUE)
+#  user_level                         :integer
+#  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
+#  tags                               :text(65535)
 #
 # Indexes
 #

@@ -206,14 +206,14 @@
 }
 
 .paypal-wizard {
-  border: 1px solid $border;
+  //border: 1px solid $border;
   @include border-radius($default-border-radius);
   margin-bottom: lines(1);
   margin-top: lines(2);
 }
 
 .paypal-wizard-content {
-  padding: lines(1) lines(1.5);
+  //padding: lines(1) lines(1.5);
 }
 
 .paypal-wizard-divider {

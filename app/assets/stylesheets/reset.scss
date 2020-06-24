@@ -888,6 +888,7 @@ img.square_image {
   }
 }
 
+
 .home_toolbar_section {
   display: flex;
   flex-direction: row;
@@ -988,4 +989,142 @@ img.square_image {
   align-items: center;
   font-weight: bold;
   border-radius: 18px !important;
+}
+
+
+.flash-error.flash-notification {
+  padding: 0;
+  height: 39px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+
+  .flash_reload {
+    background: #fff;
+    height: 39px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5px;
+    margin: 0 0 0 12px;
+
+    a {
+      background: #f0d590;
+      color: #000;
+      font-weight: 600;
+      height: 34px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0 18px;
+      border-radius: 5px;
+    }
+  }
+}
+// progress bar
+.progress_bar_details {
+  display: flex;
+  justify-content: center;
+  margin: 20px auto;
+  padding: 25px 10px 10px 30px;
+  color: #fff;
+  background: #57a5b1;
+  .next_step {
+    padding: 10px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    margin-left: 10px;
+    margin-top: -12px;
+    background: transparent;
+    margin-bottom: 0px;
+    &:hover {
+      background: transparent;
+    }
+  }
+  span.outer_margin {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+  .progress {
+    margin: -1px 15px 15px 20px;
+    padding: 0;
+    width: 50%;
+    height: 18px;
+    overflow: hidden;
+    background: #4a9585;
+    border-radius: 12px;
+  }
+
+  .bar {
+    position: relative;
+    float: left;
+    min-width: 1%;
+    height: 100%;
+    background: #b6eae1;
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+  }
+
+  .percent {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    margin:0;
+    font-family:tahoma,arial,helvetica;
+    font-size:12px;
+    color:white;
+  }
+}
+.inline_buttons {
+  display: flex;
+  button {
+    margin-right: 10px;
+  }
+}
+.profile_text {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 auto;
+  max-width: 75%;
+  margin-bottom: 40px;  
+}
+.checkout-with-stripe-buttons {
+  margin-right: 10px;
+}
+.cancel_payment {
+  margin-right: 10px;
+}
+.send_button_account {
+  margin-right: 10px !important;
+}
+.report_submit{
+  margin-top: 0px !important;
+}
+.cancel_link {
+  margin-right: 10px;
+}
+p.next_color {
+  color: #00374a;
+  font-weight: 600;
+}
+.enter_ein {
+  color: #00374a;
+}
+.top_space_paypal {
+  margin-top: 20px;
+}
+.more_frame {
+  border: 1px solid #c3c3c3;
+  border-radius: 5px;
+  padding: 1.5em 2.25em;
+}
+.scroll_frame {
+  width: 100%;
+  overflow-x: scroll;
+  .scrollable_table {
+    @media (min-width: 768px) {
+      width: 1080px;
+    }
+  }
 }

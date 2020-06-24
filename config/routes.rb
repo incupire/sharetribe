@@ -307,6 +307,10 @@ Rails.application.routes.draw do
             post :posting_allowed
             post :post_requests_allowed
             post :dms_allowed
+            post :set_verified
+            post :set_activated
+            post :set_level
+            post :manually_confirm_email_address
           end
         end
         resource :paypal_preferences, only: :index do
@@ -526,6 +530,8 @@ Rails.application.routes.draw do
             get :account
             get :notifications
             get :unsubscribe
+            get :offers_and_request
+            get :transactions
             get :transactions_person_messages
             get :favorite
             match :reload_your_balance, via: [:get, :post]

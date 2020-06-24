@@ -13,7 +13,8 @@ module StripeService::Store::StripeAccount
   StripeAccountCreate = EntityUtils.define_builder(
     [:community_id, :mandatory, :fixnum],
     [:person_id, :optional, :string],
-    [:stripe_seller_id, :string, :mandatory]
+    [:stripe_seller_id, :string, :mandatory],
+    [:ein_code, :string]
   )
 
   StripeAccountUpdate = EntityUtils.define_builder(

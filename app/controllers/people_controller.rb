@@ -274,9 +274,24 @@ class PeopleController < Devise::RegistrationsController
     rescue RestClient::RequestFailed => e
       flash[:error] = t("layouts.notifications.update_error")
     end
-
     #redirect_back(fallback_location: homepage_url)
-    redirect_to person_path(target_user)
+    if target_user.profile_progress[:user_profile] == 0
+      target_user.profile_progress.update(user_profile: 14)
+      target_user.save
+    end
+    if params[:notification_page].present?
+      if target_user.profile_progress[:notifications] == 0
+        target_user.profile_progress.update(notifications: 14)
+        target_user.save
+      end
+    end
+    if params[:save_and_next].present?
+      redirect_to notifications_person_settings_path(target_user)
+    elsif params[:save_and_next_to_enable_purchasing].present?
+      redirect_to person_stripe_customber_settings_path(target_user)
+    else
+      redirect_to person_path(target_user)
+    end
   end
 
   def destroy
@@ -362,7 +377,6 @@ class PeopleController < Devise::RegistrationsController
     person.emails << email
 
     person.inherit_settings_from(current_community)
-
     if person.save!
       sign_in(resource_name, resource)
     end
@@ -429,6 +443,7 @@ class PeopleController < Devise::RegistrationsController
         :twitter_link,
         :image,
         :description,
+        :tags,
         :password,
         :password2,
         :referral_code,

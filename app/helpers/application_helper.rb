@@ -571,7 +571,7 @@ module ApplicationHelper
       },
       {
         :id => "settings-tab-new-stripe-customber",
-        :text => t("layouts.settings.stripe_customer"),
+        :text => t("layouts.settings.enable_purchasing"),
         :icon_class => icon_class("payments"),
         :path => person_stripe_customber_settings_path(person),
         :name => "new-stripe-customber"
@@ -584,12 +584,28 @@ module ApplicationHelper
     if paypal_ready || stripe_ready
       links << {
         :id => "settings-tab-payments",
-        :text => t("layouts.settings.payments"),
+        :text => t("layouts.settings.enable_selling"),
         :icon_class => icon_class("payments"),
         :path => person_payment_settings_path(person),
         :name => "payments"
       }
     end
+
+    links << {
+      :id => "settings-tab-offers_and_request",
+      :text => t("layouts.settings.offers_and_request"),
+      :icon_class => icon_class("coins"),
+      :path => offers_and_request_person_settings_path(person),
+      :name => "offers_and_request"
+    }
+
+    links << {
+      :id => "settings-tab-payments",
+      :text => t("layouts.settings.transactions"),
+      :icon_class => icon_class("coins"),
+      :path => transactions_person_settings_path(person),
+      :name => "transactions"
+    }
 
     return links
   end
@@ -786,6 +802,20 @@ module ApplicationHelper
 
   def regex_definition_to_js(string)
     string.gsub('\A', '^').gsub('\z', '$').gsub('\\', '\\\\')
+  end
+
+  def redirect_link_call
+    if @current_user.overall_progress == 0
+      person_settings_path(@current_user)
+    elsif @current_user.overall_progress == 14
+      notifications_person_settings_path(@current_user)
+    elsif @current_user.overall_progress == 28
+       person_stripe_customber_settings_path(@current_user)
+    elsif @current_user.overall_progress == 42
+      person_payment_settings_path(@current_user)
+    else
+      new_listing_path
+    end
   end
 end
 # rubocop:enable Metrics/ModuleLength

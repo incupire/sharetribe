@@ -14,7 +14,7 @@
         = image_tag 'star.png', alt: 'star', class: 'star_img'
         .rating_box
           .rating
-            100% positive (24/24)
+            = "#{@feedback_positive_percentage} positive (#{@received_positive_testimonials.size}/#{@received_testimonials.size})"
           .feedback_text Feedback
 
     .balance_heading
@@ -22,7 +22,7 @@
       %span
         = image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon'
       %span.currency_text
-        200.00
+        = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
 
     .row
       / %p.or Enter Your Credit card information to be used for Avontage Marketplaces fees

@@ -29,9 +29,21 @@ class PaymentSettingsController < ApplicationController
       render 'index', locals: index_view_locals
       return
     end
-
+    if target_user.profile_progress[:enable_selling] == 0
+      target_user.profile_progress.update(enable_selling: 29)
+      target_user.save
+    end
     warn_about_missing_payment_info
-    render 'index', locals: index_view_locals
+
+    if params[:save_and_next_to_post].present?
+      if @form_error
+        render 'index', locals: index_view_locals
+      else
+        redirect_to new_listing_path
+      end
+    else
+      render 'index', locals: index_view_locals
+    end
   end
 
   def update
@@ -45,7 +57,15 @@ class PaymentSettingsController < ApplicationController
     stripe_update_bank_account
 
     warn_about_missing_payment_info
-    render 'index', locals: index_view_locals
+    if @current_user.profile_progress[:enable_selling] == 0
+      @current_user.profile_progress.update(enable_selling: 71)
+      @current_user.save
+    end
+    if params[:save_and_next_to_post].present?
+      redirect_to new_listing_path
+    else
+      render 'index', locals: index_view_locals
+    end
   end
 
   def stripe_customer
@@ -84,9 +104,13 @@ class PaymentSettingsController < ApplicationController
             card_token: params[:stripe_token])
         end
         @current_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
+        if @current_user.profile_progress[:enable_purchasing] == 0
+          @current_user.profile_progress.update(enable_purchasing: 14)
+          @current_user.save
+        end
         flash[:success] = "Card saved successfully!"
         redirect_to params[:redir_url]
-        return                         
+        return
       rescue Stripe::CardError => e
         flash[:error] = "Stripe could not finalize your request as: #{e.message}"
       rescue Exception => e
@@ -95,7 +119,11 @@ class PaymentSettingsController < ApplicationController
     else
       flash[:error] = "Stripe could not finalize your request now, please provide valid card information!"
     end
-    redirect_to person_edit_stripe_customber_settings_path(@current_user)
+    if params[:save_and_next_to_enable_selling].present?
+      redirect_to person_payment_settings_path(@current_user)
+    else
+      redirect_to person_edit_stripe_customber_settings_path(@current_user)
+    end  
   end
 
   private
@@ -255,7 +283,7 @@ class PaymentSettingsController < ApplicationController
     if stripe_account_form.valid?
       account_attrs = stripe_account_form.to_hash
       account_attrs[:email] =  target_user.confirmed_notification_email_addresses.first || target_user.primary_email.try(:address)
-      result = stripe_accounts_api.create(community_id: @current_community.id, person_id: target_user.id, body: account_attrs)
+      result = stripe_accounts_api.create(community_id: @current_community.id, person_id: target_user.id, body: account_attrs, ein_code: params[:ein_code])
       if result[:success]
         @just_created = true
         load_stripe_account
@@ -263,6 +291,8 @@ class PaymentSettingsController < ApplicationController
         @stripe_error = true
         flash.now[:error] = result[:error_msg]
       end
+    else
+      @form_error = true
     end
   end
 
@@ -370,7 +400,7 @@ class PaymentSettingsController < ApplicationController
     address_attrs[:birth_date] = account_params['birth_date(1i)'].present? ? parse_date(account_params) : nil
     @extra_forms[:stripe_account_form] = StripeAccountForm.new(address_attrs)
 
-    result = stripe_accounts_api.update_account(community_id: @current_community.id, person_id: target_user.id, token: address_attrs[:token])
+    result = stripe_accounts_api.update_account(community_id: @current_community.id, person_id: target_user.id, token: address_attrs[:token],ein_code: params[:ein_code])
     if result[:success]
       load_stripe_account
     else

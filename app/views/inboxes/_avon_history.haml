@@ -13,17 +13,20 @@
           = "#{time_ago_in_words(last_transition_at)} ago"
 
   .col-4
-    = t("conversations.avon_bucks_history.avon_bucks_adjusment_by_admin")
+    - if operation.eql?("self added")
+      Avontage Bucks Balance self added
+    - else
+      = t("conversations.avon_bucks_history.avon_bucks_adjusment_by_admin")
     .conversation-context
 
   .col-2
-    - if operation.eql?("added")
+    - if operation.eql?("added") || operation.eql?("self added")
       = "+ #{MoneyViewUtils.to_humanized(amount)} Avon"
     - else
       = "- #{MoneyViewUtils.to_humanized(amount)} Avon"
 
   .col-2
-    - if operation.eql?("added")
+    - if operation.eql?("added") || operation.eql?("self added")
       = t("conversations.avon_bucks_history.added")
     - else
       = t("conversations.avon_bucks_history.deducted")

@@ -58,6 +58,12 @@
 #  instagram_link                     :string(255)
 #  linkedin_link                      :string(255)
 #  twitter_link                       :string(255)
+#  is_manager                         :boolean          default(FALSE)
+#  is_verified                        :boolean          default(FALSE)
+#  is_active                          :boolean          default(TRUE)
+#  user_level                         :integer
+#  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
+#  tags                               :text(65535)
 #
 # Indexes
 #
@@ -100,6 +106,9 @@ class Person < ApplicationRecord
 
   # Virtual attribute for authenticating by either username or email
   # This is in addition to a real persisted field like 'username'
+
+  ROLE = ['Admin', 'Manager', 'None']
+  USER_LEVEL = {'New' => 0, 'Bronze' => 1, 'Silver' => 2, 'Gold' => 3}
   attr_accessor :login
   has_many :avon_bucks_histories, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -187,6 +196,7 @@ class Person < ApplicationRecord
   ]
 
   serialize :preferences
+  serialize :profile_progress
 
   validates_length_of :phone_number, :maximum => 25, :allow_nil => true, :allow_blank => true
   validates_length_of :username, :within => 3..20
@@ -473,7 +483,7 @@ class Person < ApplicationRecord
   end
 
   def has_admin_rights?(community)
-    is_admin? || is_marketplace_admin?(community)
+    is_admin? || is_marketplace_admin?(community) || is_manager?
   end
 
   def should_receive?(email_type)
@@ -613,6 +623,10 @@ class Person < ApplicationRecord
     self.min_days_between_community_updates = current_community.default_min_days_between_community_updates
   end
 
+  def email_to_confirm?
+    community_memberships.where(:status => "accepted").present?
+  end
+
   def should_receive_community_updates_now?
     return false unless should_receive?("community_updates")
     # return whether or not enought time has passed. The - 45.minutes is because the sending takes some time so we want
@@ -693,6 +707,40 @@ class Person < ApplicationRecord
 
   def custom_field_value_for(custom_field)
     custom_field_values.by_question(custom_field).first
+  end
+
+  def overall_progress
+    if self.profile_progress.present?
+      profile_progress[:user_profile] + profile_progress[:notifications] + profile_progress[:enable_purchasing] + profile_progress[:enable_selling]
+    else
+      0
+    end
+  end
+
+  def progress_title
+    if overall_progress == 0
+      "Member Setup progress"
+    elsif overall_progress == 14
+      "Member Setup progress"
+    elsif overall_progress >= 28
+      "profile Setup progress"
+    else
+      "Profile Setup progress"
+    end
+  end
+
+  def redirect_link_text
+    if overall_progress == 0
+      "Profile Setup"
+    elsif overall_progress == 14
+      "Setup notifications"
+    elsif overall_progress == 28
+      "Activate purchasing"
+    elsif overall_progress == 42
+      "Accept Credit Card payments"
+    else
+      "Post your Offers"
+    end
   end
 
   private

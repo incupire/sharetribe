@@ -62,7 +62,7 @@ class PreauthorizeTransactionsController < ApplicationController
         avon_commission = order_commission(validation_result.data, listing)
         total_payble = price_break_down[:total] - avon_commission
         if total_payble > @current_user.coupon_balance
-          error_msg = "Insufficient  Avontage Bucks! Please contact Avontage to learn how you can earn more Avontage Bucks."
+          error_msg = "Insufficient Avontage Bucks! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Click to reload your balance. <div class='flash_reload'><a href= #{reload_your_balance_person_settings_path(@current_user)}> Reload Your Balance</a></div>".html_safe
           render_error_response(request.xhr?, error_msg, listing_path(listing))
         else
           initiated_success(validation_result.data)
