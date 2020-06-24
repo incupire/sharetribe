@@ -6,7 +6,7 @@
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 
-= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community) }
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section.notification-settings
   = form_for target_user do |form|

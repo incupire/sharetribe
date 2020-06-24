@@ -8,7 +8,13 @@ class PaymentSettingsController < ApplicationController
   skip_before_action :warn_about_missing_payment_info, only: [:update]
 
   def index
-    render 'index', locals: index_view_locals
+    if @current_user.is_manager? && @current_user != target_user
+      flash[:error] = 'You are not authorized to perform this action'
+      redirect_to '/s'
+      return
+    else
+      render 'index', locals: index_view_locals
+    end
   end
 
   def create
@@ -69,61 +75,73 @@ class PaymentSettingsController < ApplicationController
   end
 
   def stripe_customer
-    @stripe_service = stripe_settings
-    @selected_left_navi_link = "new-stripe-customber"
-    if @current_user.stripe_customer_id.present?
-      customer = stripe_api.get_customer_account(community: @current_community, customer_id: @current_user.stripe_customer_id)
-      card_info = stripe_api.get_card_info(customer: customer)
+    if @current_user.is_manager? && @current_user != target_user
+      flash[:error] = 'You are not authorized to perform this action'
+      redirect_to '/s'
+      return
     else
-      card_info = nil
-    end
-    render 'stripe_customer', locals: {left_hand_navigation_links: settings_links_for(@target_user, @current_community),
-                                     stripe_publishable_key: StripeHelper.publishable_key(@current_community.id),
-                                     card_info: card_info}     
+      @stripe_service = stripe_settings
+      @selected_left_navi_link = "new-stripe-customber"
+      if target_user.stripe_customer_id.present?
+        customer = stripe_api.get_customer_account(community: @current_community, customer_id: target_user.stripe_customer_id)
+        card_info = stripe_api.get_card_info(customer: customer)
+      else
+        card_info = nil
+      end
+      render 'stripe_customer', locals: {left_hand_navigation_links: settings_links_for(@target_user, @current_community, @current_user.is_manager? && @current_user != target_user),
+                                       stripe_publishable_key: StripeHelper.publishable_key(@current_community.id),
+                                       card_info: card_info}
+    end                     
   end
 
   def edit_stripe_customer
     @stripe_service = stripe_settings
     @selected_left_navi_link = "new-stripe-customber"
     render 'edit_stripe_customer', locals: {
-                                            left_hand_navigation_links: settings_links_for(@target_user, @current_community),
+                                            left_hand_navigation_links: settings_links_for(@target_user, @current_community, @current_user.is_manager? && @current_user != target_user),
                                             stripe_publishable_key: StripeHelper.publishable_key(@current_community.id)
                                           }
   end
 
   def update_stripe_customer
-    if params[:stripe_token].present?
-      begin
-        if @current_user.stripe_customer_id.present?
-          customer = stripe_api.get_customer_account(community: @current_community, customer_id: @current_user.stripe_customer_id)
-          stripe_customer = stripe_api.update_customer(community: @current_community, customer_id: @current_user.stripe_customer_id, token: params[:stripe_token])          
-        else
-          stripe_customer = stripe_api.register_customer(
-            community: @current_community, 
-            email: @current_user.primary_email.address, 
-            card_token: params[:stripe_token])
+    if @current_user.is_manager? && @current_user != target_user
+      flash[:error] = 'You are not authorized to perform this action'
+      redirect_to '/s'
+      return
+    or_else
+      if params[:stripe_token].present?
+        begin
+          if @target_user.stripe_customer_id.present?
+            customer = stripe_api.get_customer_account(community: @current_community, customer_id: @target_user.stripe_customer_id)
+            stripe_customer = stripe_api.update_customer(community: @current_community, customer_id: @target_user.stripe_customer_id, token: params[:stripe_token])
+          else
+            stripe_customer = stripe_api.register_customer(
+              community: @current_community,
+              email: @target_user.primary_email.address,
+              card_token: params[:stripe_token])
+          end
+          @target_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
+          if @target_user.profile_progress[:enable_purchasing] == 0
+            @target_user.profile_progress.update(enable_purchasing: 14)
+            @target_user.save
+          end
+          flash[:success] = "Card saved successfully!"
+          redirect_to params[:redir_url]
+          return
+        rescue Stripe::CardError => e
+          flash[:error] = "Stripe could not finalize your request as: #{e.message}"
+        rescue Exception => e
+          flash[:error] = "Stripe could not finalize your request now, please try later!"
         end
-        @current_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
-        if @current_user.profile_progress[:enable_purchasing] == 0
-          @current_user.profile_progress.update(enable_purchasing: 14)
-          @current_user.save
-        end
-        flash[:success] = "Card saved successfully!"
-        redirect_to params[:redir_url]
-        return
-      rescue Stripe::CardError => e
-        flash[:error] = "Stripe could not finalize your request as: #{e.message}"
-      rescue Exception => e
-        flash[:error] = "Stripe could not finalize your request now, please try later!"
+      else
+        flash[:error] = "Stripe could not finalize your request now, please provide valid card information!"
       end
-    else
-      flash[:error] = "Stripe could not finalize your request now, please provide valid card information!"
+      if params[:save_and_next_to_enable_selling].present?
+        redirect_to person_payment_settings_path(@target_user)
+      else
+        redirect_to person_edit_stripe_customber_settings_path(@target_user)
+      end
     end
-    if params[:save_and_next_to_enable_selling].present?
-      redirect_to person_payment_settings_path(@current_user)
-    else
-      redirect_to person_edit_stripe_customber_settings_path(@current_user)
-    end  
   end
 
   private
@@ -169,7 +187,7 @@ class PaymentSettingsController < ApplicationController
     end
 
     {
-      left_hand_navigation_links: settings_links_for(target_user, @current_community),
+      left_hand_navigation_links: settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user),
       commission_from_seller: t("stripe_accounts.commission", commission: payment_settings[:commission_from_seller]),
       minimum_commission: Money.new(payment_settings[:minimum_transaction_fee_cents], community_currency),
       commission_type: payment_settings[:commission_type],

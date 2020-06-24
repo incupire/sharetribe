@@ -37,9 +37,9 @@
         = select_tag :status, options_for_select([['Completed', 'confirmed'], ['Pending', 'preauthorized'] , ['Unresponded message', 'unresponded']], selected: params[:status]), prompt: 'select status'
       .col-2
         = submit_tag 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'
-
-  #export-as-csv.right
-    = link_to(" " + t("admin.communities.transactions.export_all_as_csv"), 'javascript:void(0);', {class: icon_class("download")})
+  - unless @current_user.is_manager?
+    #export-as-csv.right
+      = link_to(" " + t("admin.communities.transactions.export_all_as_csv"), 'javascript:void(0);', {class: icon_class("download")})
 
   %span#admin_transactions_count= page_entries_info(transactions, :model => "Transaction").html_safe
 

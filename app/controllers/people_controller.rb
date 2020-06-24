@@ -253,7 +253,7 @@ class PeopleController < Devise::RegistrationsController
       if target_user.update_attributes(person_params.except(:email_attributes))
         if params[:person][:password]
           #if password changed Devise needs a new sign in.
-          sign_in target_user, :bypass => true
+          sign_in target_user, :bypass => true if target_user == @current_user
         end
 
         m_email_address.each {

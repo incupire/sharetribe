@@ -150,45 +150,57 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
   end
 
   def add_coupon_balance
-    currency = @current_community.currency
-    person = Person.find(params[:id])
-    cents = MoneyUtil.parse_str_to_subunits(params[:coupon_balance_cents], currency)   
-    if person.coupon_balance_cents.present?
-      person.coupon_balance += MoneyUtil.to_money(cents, currency)    
+    unless @current_user.is_manager?
+      currency = @current_community.currency
+      person = Person.find(params[:id])
+      cents = MoneyUtil.parse_str_to_subunits(params[:coupon_balance_cents], currency)
+      if person.coupon_balance_cents.present?
+        person.coupon_balance += MoneyUtil.to_money(cents, currency)
+      else
+        person.coupon_balance = MoneyUtil.to_money(cents, currency)
+      end
+      if person.save
+        create_avon_bucks_history(person, cents, "added")
+      end
     else
-      person.coupon_balance = MoneyUtil.to_money(cents, currency)
-    end
-    if person.save
-      create_avon_bucks_history(person, cents, "added")
+      flash[:error] = 'Your are not authorized to perform this action'
     end
     respond_to do |format|
       format.js {render layout: false}
-    end   
+    end
   end
 
   def deduct_coupon_balance
-    currency = @current_community.currency
-    person = Person.find(params[:id])
-    cents = MoneyUtil.parse_str_to_subunits(params[:coupon_balance_cents], currency)
-    if person.coupon_balance_cents.present? && (person.coupon_balance_cents >= cents)
-      person.coupon_balance -= MoneyUtil.to_money(cents, currency)
-      if person.save
-        create_avon_bucks_history(person, cents, "deducted")
+    unless @current_user.is_manager?
+      currency = @current_community.currency
+      person = Person.find(params[:id])
+      cents = MoneyUtil.parse_str_to_subunits(params[:coupon_balance_cents], currency)
+      if person.coupon_balance_cents.present? && (person.coupon_balance_cents >= cents)
+        person.coupon_balance -= MoneyUtil.to_money(cents, currency)
+        if person.save
+          create_avon_bucks_history(person, cents, "deducted")
+        end
+        flash[:error] = nil
+      else
+        flash[:error] = "Deduction balance should not be greater than available balance!"
       end
-      flash[:error] = nil
     else
-      flash[:error] = "Deduction balance should not be greater than available balance!"
-    end 
+      flash[:error] = 'Your are not authorized to perform this action'
+    end
     respond_to do |format|
       format.js {render layout: false}
-    end    
+    end
   end
 
   def destroy
-    membership = CommunityMembership.find_by(id: params[:id], community_id: @current_community.id)
-    person = membership.person
-    person.destroy
-    flash[:notice] = 'User deleted successfully!'
+    unless @current_user.is_manager?
+      membership = CommunityMembership.find_by(id: params[:id], community_id: @current_community.id)
+      person = membership.person
+      person.destroy
+      flash[:notice] = 'User deleted successfully!'
+    else
+      flash[:error] = 'Your are not authorized to perform this action'
+    end
     redirect_to admin_community_community_memberships_path(@current_community)
   end   
 
@@ -216,49 +228,50 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
     header_row.push("can_post_requests") if community.require_verification_to_post_request
     header_row.push("can_send_dms") if community.require_verification_to_send_direct_message
 
-
-    if user_fields_enabled
-      header_row += community.person_custom_fields.map{|f| f.name}
-    end
-    yielder << header_row.to_csv(force_quotes: true)
-    memberships.find_each do |membership|
-      user = membership.person
-      unless user.blank?
-        user_data = {
-          first_name: user.given_name,
-          last_name: user.family_name,
-          display_name: user.display_name,
-          username: user.username,
-          phone_number: user.phone_number,
-          address: user.location ? user.location.address : "",
-          email_address: nil,
-          email_address_confirmed: nil,
-          joined_at: membership.created_at,
-          status: membership.status,
-          is_admin: membership.admin,
-          accept_emails_from_admin: nil,
-          language: user.locale,
-          coupon_balance: user.coupon_balance.present? ? (user&.coupon_balance_cents/100).to_f : ""
-        }
-        user_data[:can_post_offers] = membership.can_post_listings if community.require_verification_to_post_listings
-        user_data[:can_post_requests] = membership.can_post_requests if community.require_verification_to_post_request
-        user_data[:can_send_dms] = membership.can_send_dms if community.require_verification_to_send_direct_message
-        if user_fields_enabled
-          community.person_custom_fields.each do |field|
-            field_value = user.custom_field_values.by_question(field).first
-            user_data[field.name] = field_value.try(:display_value)
+    unless @current_user.is_manager?
+      if user_fields_enabled
+        header_row += community.person_custom_fields.map{|f| f.name}
+      end
+      yielder << header_row.to_csv(force_quotes: true)
+      memberships.find_each do |membership|
+        user = membership.person
+        unless user.blank?
+          user_data = {
+            first_name: user.given_name,
+            last_name: user.family_name,
+            display_name: user.display_name,
+            username: user.username,
+            phone_number: user.phone_number,
+            address: user.location ? user.location.address : "",
+            email_address: nil,
+            email_address_confirmed: nil,
+            joined_at: membership.created_at,
+            status: membership.status,
+            is_admin: membership.admin,
+            accept_emails_from_admin: nil,
+            language: user.locale,
+            coupon_balance: user.coupon_balance.present? ? (user&.coupon_balance_cents/100).to_f : ""
+          }
+          user_data[:can_post_offers] = membership.can_post_listings if community.require_verification_to_post_listings
+          user_data[:can_post_requests] = membership.can_post_requests if community.require_verification_to_post_request
+          user_data[:can_send_dms] = membership.can_send_dms if community.require_verification_to_send_direct_message
+          if user_fields_enabled
+            community.person_custom_fields.each do |field|
+              field_value = user.custom_field_values.by_question(field).first
+              user_data[field.name] = field_value.try(:display_value)
+            end
+          end
+          user.emails.each do |email|
+            accept_emails_from_admin = user.preferences["email_from_admins"] && email.send_notifications
+            data = user_data.clone
+            data[:email_address] = email.address
+            data[:email_address_confirmed] = !!email.confirmed_at
+            data[:accept_emails_from_admin] = !!accept_emails_from_admin
+            yielder << data.values.to_csv(force_quotes: true)
           end
         end
-        user.emails.each do |email|
-          accept_emails_from_admin = user.preferences["email_from_admins"] && email.send_notifications
-          data = user_data.clone
-          data[:email_address] = email.address
-          data[:email_address_confirmed] = !!email.confirmed_at
-          data[:accept_emails_from_admin] = !!accept_emails_from_admin
-          yielder << data.values.to_csv(force_quotes: true)
-        end
       end
-    end
+    end  
   end
 
   def removes_itself?(ids, current_admin_user)

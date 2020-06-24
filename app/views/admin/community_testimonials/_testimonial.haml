@@ -10,13 +10,13 @@
   - if testimonial
     %td
       - p = testimonial.author
-      - if p.deleted
+      - if p.try(:deleted) || !p.present?
         = ''
       - else
         = link_to PersonViewUtils.person_display_name(p, @current_community), person_path(p.username)
     %td
       - p = testimonial.receiver
-      - if p.deleted
+      - if p.try(:deleted) || !p.present?
         = ''
       - else
         = link_to PersonViewUtils.person_display_name(p, @current_community), person_path(p.username)
@@ -34,7 +34,7 @@
   - else
     %td
       - p = for_author ? tx.author : tx.starter
-      - if p.deleted
+      - if p.try(:deleted) || !p.present?
         = ''
       - else
         = link_to PersonViewUtils.person_display_name(p, @current_community), person_path(p.username)

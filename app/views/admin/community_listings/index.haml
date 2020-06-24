@@ -22,8 +22,8 @@
     = t("admin.communities.manage_members.save_user_status_error")
 
 = render :partial => "layouts/ajax_update_notification"
-
-#export-as-csv.right= link_to(" " + t("admin.communities.manage_members.export_all_as_csv"), {format: :csv}, {class: "js-users-csv-export " + icon_class("download")})
+- unless @current_user.is_manager?
+  #export-as-csv.right= link_to(" " + t("admin.communities.manage_members.export_all_as_csv"), {format: :csv}, {class: "js-users-csv-export " + icon_class("download")})
 
 .left-navi-section
   %h2= t("admin.communities.listings.listings")
