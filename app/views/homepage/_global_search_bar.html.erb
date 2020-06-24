@@ -1,10 +1,10 @@
-<!-- <div class="col-sm-12 col-md-12 sub-header">
+<div class="sub-header">
   <div class="custom-search-bar">
     <form action="/s" method="get" class="search-form">
-      <%#
+      <%
         placeholder = @current_user.present? ? "Hi #{@current_user.given_name}! #{@community_customization.search_placeholder}" : "#{@community_customization.search_placeholder}"
       %>
-      <input type="text" name="q" id="search_val" value="<%#=params[:q]%>" placeholder="<%#= placeholder %>" class="style-for-input">
+      <input type="text" name="q" id="search_val" value="<%=params[:q]%>" placeholder="<%= placeholder %>" class="style-for-input">
       <button type="submit" class="search-btn">
         <u class="text">Search</u>
         <div>
@@ -12,6 +12,32 @@
         </div>
       </button>
     </form>
+
+    <div class="reload_your_balance-box">
+      <div class="bank_balance">
+        Your Avontage Banks Balance
+        <span class="balance">
+          <%= image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon' %>
+          200.00  
+        </span>
+      </div>
+      <%= link_to 'Reload Your Balance', '', class: 'reload_blnce_btn' %>
+    </div>
+
+    <div class="badge_review_box">
+      <div class="flex_box">
+        <%= image_tag "varified.png", alt: 'badge', class: 'badge_img verified' %>
+        <span>verified</span>
+      </div>
+      <div class="flex_box">
+        <%= image_tag "medal_gold.png", alt: 'badge', class: 'badge_img medal' %>
+        <span>level</span>
+      </div>
+      <div class="flex_box">
+        <%= image_tag "Reveiws_star.png", alt: 'badge', class: 'badge_img review' %>
+        <span>4 reviews</span>
+      </div>
+    </div>
+    
   </div>
 </div>
- -->

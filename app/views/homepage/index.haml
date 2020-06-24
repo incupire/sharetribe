@@ -134,7 +134,7 @@
   
   .home_toolbar_section
     .left_section
-      = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'offer-img', class: 'offer_image'
+      = image_tag 'Refer_&_Earn.png', alt: 'offer-img', class: 'offer_image'
 
       .gray_text_box
         %p Have a project or in need of a service?
@@ -158,7 +158,7 @@
           = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
           = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
           = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
-  .home-toolbar
+  .home-toolbar.redesign_mobile_toolbar
 
     - if listing_shape_menu_enabled || @category_menu_enabled
       .home-toolbar-show-filters-button-container
@@ -193,6 +193,25 @@
             %span.home-toolbar-button-text
               = t("homepage.filters.#{view_type}_button")
     
+    
+    .custom_sort_type
+      #home_toolbar-select-short-type.toggle.with-borders{"data-toggle" => ".home-toolbar-short-type-menu"}
+        .toggle-header-container
+          .toggle-header
+            Sort by
+          %i.icon-caret-down.icon-dropdown
+
+      .home-toolbar-short-type-menu.toggle-menu.hidden
+        = link_to 'Newest Offers', '', class: 'toggle-menu-subitem'
+        = link_to 'Updated Offers', '', class: 'toggle-menu-subitem'
+        = link_to 'Price: Low to High', '', class: 'toggle-menu-subitem'
+        = link_to 'Price: High to Low', '', class: 'toggle-menu-subitem'
+        = link_to 'Location', '', class: 'toggle-menu-subitem'
+        = link_to 'Most Reviews', '', class: 'toggle-menu-subitem'
+        = link_to 'Verified Members', '', class: 'toggle-menu-subitem'
+
+    %h1.offer_heading Browse the latest Offers
+
     - if listing_shape_menu_enabled || @category_menu_enabled
       .home-toolbar-filters.home-toolbar-filters-mobile-hidden#home-toolbar-filters
         - if listing_shape_menu_enabled

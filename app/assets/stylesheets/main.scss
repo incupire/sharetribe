@@ -2298,6 +2298,7 @@ figure.fluidratio {
     border-bottom: 0px;
     .SearchBar__root__2hIPj {
       visibility: hidden;
+      display: none;
     }
 
     .ProfileDropdown__profileAction__1H9nm {
@@ -2317,26 +2318,42 @@ figure.fluidratio {
 .sub-header {
   border-bottom: 1px solid #e6e6eb;
   margin-bottom: 10px;
+
   .custom-search-bar {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
     @media screen and (max-width: 767px) {
-      padding-left: 5px;
-      padding-right: 5px;
+      flex-direction: column;
+      padding: 0 10px 10px;
     }
+
     .search-form {
-      width: 1000px;
-      margin-left: 20px;
+      max-width: 100%;
+      width: 59%;
       height: 40px;
       border: 2px solid #e6e6e6;
       border-radius: 10px;
       margin-top: 5px;
       margin-bottom: 5px;
-      @media screen and (max-width: 1024px) {
+
+      @media screen and (max-width: 767px) {
         width: 100%;
         margin-left: 0;
         border-radius: 5px;
       }
+      @media screen and (min-width: 768px) and (max-width: 992px) {
+        width: 42%;
+      }
+      @media screen and (min-width: 993px) and (max-width: 1024px) {
+        width: 54%;
+      }
+
       .style-for-input {
-        width: 886px;
+        width: calc(100% - 110px);
         float: left;
         border: none;
         min-height: 36px;
@@ -2344,6 +2361,7 @@ figure.fluidratio {
         font-weight: 600;
         padding: 0px;
         padding-left: 15px;
+
         &:focus {
           border: none;
           outline: none;
@@ -2360,7 +2378,11 @@ figure.fluidratio {
         &:-moz-placeholder {
           color: #000;
         }
-        @media screen and (min-width: 768px) and (max-width: 1024px) {
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+          width: 84%;
+          font-size: 12px;
+        }
+        @media screen and (min-width: 993px) and (max-width: 1024px) {
           width: 88%;
         }
         @media screen and (max-width: 767px) {
@@ -2382,7 +2404,11 @@ figure.fluidratio {
         padding: 0px;
         margin: 0;
 
-        @media screen and (min-width: 768px) and (max-width: 1024px) {
+        @media screen and (min-width: 768px) and (max-width: 992px) {
+          width: 16%;
+          font-size: 14px;
+        }
+        @media screen and (min-width: 993px) and (max-width: 1024px) {
           width: 12%;
         }
 
@@ -2412,6 +2438,91 @@ figure.fluidratio {
             display: none;
           }
         }
+      }
+    }
+
+    .reload_your_balance-box {
+      border: 2px solid #03c4cc;
+      margin: 0 5px 5px 10px;
+      padding: 8px;
+      border-radius: 4px;
+
+      @media screen and (max-width: 767px) {
+        width: 100%;
+        margin: 5px 0 12px;
+      }
+      @media screen and (min-width: 768px) and (max-width: 1024px) {
+        width: 200px;
+        padding: 10px 5px;
+      }
+
+      .bank_balance {
+        font-size: 16px;
+        font-weight: 600;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+
+        @media screen and (min-width: 768px) and (max-width: 1024px) {
+          font-size: 14px;
+        } 
+
+        .balance {
+          color: #3b8142;
+
+          @media screen and (min-width: 768px) and (max-width: 1024px) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+
+          .currency_icon {
+            height: 18px;
+            margin: 0 0 0 3px;
+            position: relative;
+            top: 2px;
+
+            @media screen and (min-width: 768px) and (max-width: 1024px) {
+              top: 0;
+            }
+          }
+        }
+      }
+
+      .reload_blnce_btn {
+        background: #f0d590;
+        color: #000;
+        font-weight: 600;
+        margin: 20px 0 0;
+        padding: 5px 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: fit-content;
+        font-size: 14px;
+      }
+    }
+
+    .badge_review_box {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 12px;
+      color: #3c3c3c;
+      font-weight: 600;
+      margin: 0;
+
+      .badge_img {
+        height: 18px;
+        margin: 0 5px 0 0;
+      }
+
+      .flex_box {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        margin: 0 6px 0 0;
       }
     }
   }

@@ -12,6 +12,42 @@
   @include media(tablet) {
     margin-bottom: lines(1);
   }
+
+  &.redesign_mobile_toolbar {
+    @media screen and (max-width: 767px) {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+
+      .toggle-header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .icon-dropdown {
+          top: 0;
+        }
+      }
+
+      .custom_sort_type {
+        width: 100%;
+        order: 4;
+        margin: 0 0 10px;
+      }
+
+      .offer_heading {
+        width: 100%;
+        margin: 0 0 10px;
+        order: 3;
+      }
+
+      .home-toolbar-filters {
+        width: 100%;
+       // margin: 20px 0 0;
+      }
+    }
+  }
 }
 
 .home-grid {
@@ -429,6 +465,10 @@ $home-list-avatar-padding: lines(0.25);
   }
   &.custom-categories-btn {
     color: #fff !important;
+
+    @media screen and (min-width: 768px) and (max-width: 992px) {
+      font-size: 12px;
+    }
   }
 }
 
