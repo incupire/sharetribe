@@ -89,25 +89,28 @@ class Admin::CommunityListingsController < Admin::AdminBaseController
       price
       monthly_availability
     }
-    yielder << header_row.to_csv(force_quotes: true)
-    unless all_listings.blank?
-      all_listings.each do |listing|
-        expired = listing.valid_until && listing.valid_until < DateTime.current
-        custom_field_name = listing.custom_field_values.select{|value| value.question.name.eql?("MONTHLY AVAILABILITY: (number of Offers available accepting Avontage Bucks trade-credits, range 1 to 50)?")}.first
-        value = custom_field_name.display_value if custom_field_name.present?
-        listing_data = {
-          title: listing.title,
-          author: PersonViewUtils.person_display_name(listing.author, community),
-          created_at: listing.created_at,
-          updated_at: listing.updated_at,
-          category: listing.category.display_name(I18n.locale),
-          status: expired ? 'expired' : (listing.open? ? 'open' : 'closed'),
-          featured: listing.featured?,
-          price: MoneyViewUtils.to_humanized(listing.price),
-          monthly_availability: value.present? ? value : nil
-        }
-        data = listing_data.clone
-        yielder << data.values.to_csv(force_quotes: true)      
+
+    unless @current_user.is_manager?
+      yielder << header_row.to_csv(force_quotes: true)
+      unless all_listings.blank?
+        all_listings.each do |listing|
+          expired = listing.valid_until && listing.valid_until < DateTime.current
+          custom_field_name = listing.custom_field_values.select{|value| value.question.name.eql?("MONTHLY AVAILABILITY: (number of Offers available accepting Avontage Bucks trade-credits, range 1 to 50)?")}.first
+          value = custom_field_name.display_value if custom_field_name.present?
+          listing_data = {
+            title: listing.title,
+            author: PersonViewUtils.person_display_name(listing.author, community),
+            created_at: listing.created_at,
+            updated_at: listing.updated_at,
+            category: listing.category.display_name(I18n.locale),
+            status: expired ? 'expired' : (listing.open? ? 'open' : 'closed'),
+            featured: listing.featured?,
+            price: MoneyViewUtils.to_humanized(listing.price),
+            monthly_availability: value.present? ? value : nil
+          }
+          data = listing_data.clone
+          yielder << data.values.to_csv(force_quotes: true)
+        end
       end
     end
   end  

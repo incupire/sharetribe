@@ -36,7 +36,7 @@
 
   .inline_user_btns
     = link_to t("admin.communities.manage_members.add_new_user"), new_admin_person_path, class: 'button space_around'
-  - if params[:q].blank?
+  - if params[:q].blank? && !@current_user.is_manager?
     #export-as-csv.right= link_to(" " + t("admin.communities.manage_members.export_all_as_csv"), {format: :csv}, {class: "js-users-csv-export " + icon_class("download")})
 
   %span#admin_members_count
@@ -69,10 +69,12 @@
           %th Level
           %th Confirm Email
           %th= t("admin.communities.manage_members.coupon_balance")
-          %th= t("admin.communities.manage_members.add_coupon_balance")
-          %th= t("admin.communities.manage_members.deduct_coupon_balance")
+          - unless @current_user.is_manager?
+            %th= t("admin.communities.manage_members.add_coupon_balance")
+            %th= t("admin.communities.manage_members.deduct_coupon_balance")
           %th= t("admin.communities.manage_members.edit_profile")
-          %th= t("admin.communities.manage_members.delete_user")
+          - unless @current_user.is_manager?
+            %th= t("admin.communities.manage_members.delete_user")
 
       %tbody
         - @memberships.each do |membership|
@@ -115,21 +117,23 @@
 
               %td.coupon_balance{id: "coupon_balance_#{member.id}"}
                 = MoneyViewUtils.to_humanized(member.coupon_balance).html_safe
-              %td
-                %a.add_coupon_balance.custom_balance{href: '#', data: {id:  member.id, action: "add"}}
-                  %i.fa.fa-plus-square                
 
-              %td  
-                %a.deduct_coupon_balance.custom_balance{href: '#', data: {id:  member.id, action: "deduct"}}
-                  %i.fa.fa-minus-square
+              - unless @current_user.is_manager?
+                %td
+                  %a.add_coupon_balance.custom_balance{href: '#', data: {id:  member.id, action: "add"}}
+                    %i.fa.fa-plus-square
+
+                %td
+                  %a.deduct_coupon_balance.custom_balance{href: '#', data: {id:  member.id, action: "deduct"}}
+                    %i.fa.fa-minus-square
     
               %td
                 = link_to person_settings_path(member.username) do
                   = icon_tag("edit")
-
-              %td  
-                %a.custom_balance{href: admin_community_community_membership_path(@current_community.id, membership.id), data: {method: :delete, confirm: "Are you sure you want to delete!"}}
-                  %i.fa.fa-user-times
+              - unless @current_user.is_manager?
+                %td
+                  %a.custom_balance{href: admin_community_community_membership_path(@current_community.id, membership.id), data: {method: :delete, confirm: "Are you sure you want to delete!"}}
+                    %i.fa.fa-user-times
 
   .row
     .col-12
@@ -149,24 +153,24 @@
           = text_field_tag :coupon_balance_cents
           = button_tag 'Add', class: 'add_deduct_btn'
 
-
-- content_for :extra_javascript do
-  :javascript
-    var community_id = '#{@current_community.id}';
-    $('.add_coupon_balance, .deduct_coupon_balance').on("click", function(e){
-      e.preventDefault();
-      var person_id = $(this).data('id');
-      var action = $(this).data('action');
-      if (action == "add"){
-        add_bal_form_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/add_coupon_balance";
-        $('#coupon_balance_form').attr('action', add_bal_form_url);
-        $('.add_deduct_btn').text('Add');
-        $('.label_add_deduct').text('Add Avontage Bucks');
-      }else if(action == "deduct"){
-        deduct_bal_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/deduct_coupon_balance";
-        $('#coupon_balance_form').attr('action', deduct_bal_url);
-        $('.add_deduct_btn').text('Deduct');
-        $('.label_add_deduct').text('Deduct Avontage Bucks');      
-      }
-      $('.coupon-balance-popup').lightbox_me({centered: true, zIndex: 1000000})
-    });        
+- unless @current_user.is_manager?
+  - content_for :extra_javascript do
+    :javascript
+      var community_id = '#{@current_community.id}';
+      $('.add_coupon_balance, .deduct_coupon_balance').on("click", function(e){
+        e.preventDefault();
+        var person_id = $(this).data('id');
+        var action = $(this).data('action');
+        if (action == "add"){
+          add_bal_form_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/add_coupon_balance";
+          $('#coupon_balance_form').attr('action', add_bal_form_url);
+          $('.add_deduct_btn').text('Add');
+          $('.label_add_deduct').text('Add Avontage Bucks');
+        }else if(action == "deduct"){
+          deduct_bal_url = "/admin/communities/"+ community_id +"/community_memberships/"+ person_id +"/deduct_coupon_balance";
+          $('#coupon_balance_form').attr('action', deduct_bal_url);
+          $('.add_deduct_btn').text('Deduct');
+          $('.label_add_deduct').text('Deduct Avontage Bucks');
+        }
+        $('.coupon-balance-popup').lightbox_me({centered: true, zIndex: 1000000})
+      });

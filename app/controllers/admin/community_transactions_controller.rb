@@ -73,9 +73,11 @@ class Admin::CommunityTransactionsController < Admin::AdminBaseController
   end
 
   def export
-    @export_result = ExportTaskResult.create
-    params.permit!
-    Delayed::Job.enqueue(ExportTransactionsJob.new(@current_user.id, @current_community.id, @export_result.id, params))
+    unless @current_user.is_manager?
+      @export_result = ExportTaskResult.create
+      params.permit!
+      Delayed::Job.enqueue(ExportTransactionsJob.new(@current_user.id, @current_community.id, @export_result.id, params))
+    end
     respond_to do |format|
       format.js { render layout: false }
     end

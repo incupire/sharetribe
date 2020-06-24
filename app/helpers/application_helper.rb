@@ -312,13 +312,13 @@ module ApplicationHelper
   # Admin view left hand navigation content
   def admin_links_for(community)
     links = [
-      {
-        :topic => :general,
-        :text => t("admin.communities.getting_started.getting_started"),
-        :icon_class => icon_class("openbook"),
-        :path => admin_getting_started_guide_path,
-        :name => "getting_started_guide"
-      },
+      # {
+      #   :topic => :general,
+      #   :text => t("admin.communities.getting_started.getting_started"),
+      #   :icon_class => icon_class("openbook"),
+      #   :path => admin_getting_started_guide_path,
+      #   :name => "getting_started_guide"
+      # },
       # {
       #   :id => "admin-help-center-link",
       #   :topic => :general,
@@ -327,33 +327,33 @@ module ApplicationHelper
       #   :path => "#{APP_CONFIG.knowledge_base_url}/?utm_source=marketplaceadminpanel&utm_medium=referral&utm_campaign=leftnavi",
       #   :name => "help_center"
       # },
-      {
-        :id => "admin-academy-link",
-        :topic => :general,
-        :text => t("admin.left_hand_navigation.academy"),
-        :icon_class => icon_class("academy"),
-        :path => "https://www.sharetribe.com/academy/guide/?utm_source=marketplaceadminpanel&utm_medium=referral&utm_campaign=leftnavi",
-        :name => "academy"
-      }
+      # {
+      #   :id => "admin-academy-link",
+      #   :topic => :general,
+      #   :text => t("admin.left_hand_navigation.academy"),
+      #   :icon_class => icon_class("academy"),
+      #   :path => "https://www.sharetribe.com/academy/guide/?utm_source=marketplaceadminpanel&utm_medium=referral&utm_campaign=leftnavi",
+      #   :name => "academy"
+      # }
     ]
 
-    if APP_CONFIG.external_plan_service_in_use
-      links << {
-        :topic => :general,
-        :text => t("admin.left_hand_navigation.subscription"),
-        :icon_class => icon_class("credit_card"),
-        :path => admin_plan_path,
-        :name => "plan",
-      }
-    end
+    # if APP_CONFIG.external_plan_service_in_use
+    #   links << {
+    #     :topic => :general,
+    #     :text => t("admin.left_hand_navigation.subscription"),
+    #     :icon_class => icon_class("credit_card"),
+    #     :path => admin_plan_path,
+    #     :name => "plan",
+    #   }
+    # end
 
-    links << {
-      :topic => :general,
-      :text => t("admin.left_hand_navigation.preview"),
-      :icon_class => icon_class("eye"),
-      :path => homepage_without_locale_path(big_cover_photo: true, locale: nil),
-      :name => "preview",
-    }
+    # links << {
+    #   :topic => :general,
+    #   :text => t("admin.left_hand_navigation.preview"),
+    #   :icon_class => icon_class("eye"),
+    #   :path => homepage_without_locale_path(big_cover_photo: true, locale: nil),
+    #   :name => "preview",
+    # }
 
     links += [
       {
@@ -546,7 +546,7 @@ module ApplicationHelper
   # rubocop:enable Metrics/MethodLength
 
   # Settings view left hand navigation content
-  def settings_links_for(person, community=nil)
+  def settings_links_for(person, community=nil, is_manager = false)
     links = [
       {
         :id => "settings-tab-profile",
@@ -568,20 +568,23 @@ module ApplicationHelper
         :icon_class => icon_class("notification_settings"),
         :path => notifications_person_settings_path(person),
         :name => "notifications"
-      },
-      {
+      }
+    ]
+
+    if !is_manager
+      links << {
         :id => "settings-tab-new-stripe-customber",
         :text => t("layouts.settings.enable_purchasing"),
         :icon_class => icon_class("payments"),
         :path => person_stripe_customber_settings_path(person),
         :name => "new-stripe-customber"
-      }      
-    ]
+      }
+    end
 
     paypal_ready = PaypalHelper.community_ready_for_payments?(@current_community.id)
     stripe_ready = StripeHelper.community_ready_for_payments?(@current_community.id)
 
-    if paypal_ready || stripe_ready
+    if (paypal_ready || stripe_ready) && !is_manager
       links << {
         :id => "settings-tab-payments",
         :text => t("layouts.settings.enable_selling"),
