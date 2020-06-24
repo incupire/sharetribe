@@ -35,7 +35,7 @@
       }
     }
 - content_for :profile_progress do
-  = render :partial => "progress_bar", :locals => {progress_title: "Member Setup Porgress", redirect_link: notifications_person_settings_path(target_user), link_text: "Setup notifications", progress_percent: target_user.overall_progress}
+  = render :partial => "settings/progress_bar", :locals => {progress_title: target_user.progress_title, redirect_link: redirect_link_call, link_text: target_user.redirect_link_text, progress_percent: target_user.overall_progress}
   %p.profile_text
     = t("settings.profile.profile_complete_info")
 - content_for :title_header do

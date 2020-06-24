@@ -296,6 +296,18 @@ class Transaction < ApplicationRecord
     end
   end
 
+  def payment_total_sort
+    unit_price       = self.unit_price || 0
+    quantity         = self.listing_quantity || 1
+    shipping_price   = self.shipping_price || 0
+    if self.payment_gateway.eql?(:coupon_pay)
+      sort_amount = (unit_price * quantity) + shipping_price + commission
+    else
+      sort_amount = (unit_price * quantity) + shipping_price
+    end
+    sort_amount.to_f
+  end
+
   # def push_unread_message_reminder
   #   if ["preauthorized", "paid", "rejected", "confirmed", "canceled"].include?(self.current_state)
   #     community = self.community

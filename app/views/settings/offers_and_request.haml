@@ -8,7 +8,7 @@
   - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
   = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
 - content_for :profile_progress do
-  //=# render :partial => "settings/progress_bar", :locals => {progress_title: "Profile Setup Porgress", redirect_link: person_payment_settings_path(@current_user), link_text: "Accept Credit Card payments", progress_percent: @current_user.overall_progress}
+  = render :partial => "settings/progress_bar", :locals => {progress_title: target_user.progress_title, redirect_link: redirect_link_call, link_text: target_user.redirect_link_text, progress_percent: target_user.overall_progress}
 - content_for :title_header do
   %h1= t("layouts.settings.settings")
 
@@ -19,6 +19,7 @@
   = form_tag offers_and_request_person_settings_path(target_user), :method => :get do
     .row
       .col-6
+        = hidden_field_tag :search_for, 'none'
         = text_field_tag :listing_title, params[:listing_title], placeholder: 'Search for a listing title'
       .col-3
         = select_tag :status, options_for_select([['All statuses', 'all_status'], ['Open', 'open'], ['Close', 'close'] , ['Expired', 'expired']], selected: params[:status])
