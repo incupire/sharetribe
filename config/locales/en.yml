@@ -447,6 +447,7 @@ en:
           published: Published
       listings:
         listings: Offers
+        my_offers: My Offers & Requests
         headers:
           title: Title
           author: Author

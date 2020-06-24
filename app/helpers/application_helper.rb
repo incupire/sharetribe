@@ -806,5 +806,19 @@ module ApplicationHelper
   def regex_definition_to_js(string)
     string.gsub('\A', '^').gsub('\z', '$').gsub('\\', '\\\\')
   end
+
+  def redirect_link_call
+    if @current_user.overall_progress == 0
+      person_settings_path(@current_user)
+    elsif @current_user.overall_progress == 14
+      notifications_person_settings_path(@current_user)
+    elsif @current_user.overall_progress == 28
+       person_stripe_customber_settings_path(@current_user)
+    elsif @current_user.overall_progress == 42
+      person_payment_settings_path(@current_user)
+    else
+      new_listing_path
+    end
+  end
 end
 # rubocop:enable Metrics/ModuleLength

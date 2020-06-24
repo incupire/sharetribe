@@ -18,6 +18,8 @@
       - unless props[:next_step] == :all_done
         - react_component_cache(name: "onboarding_topbar", props: props) do
           = react_component("OnboardingTopBar", props: props, prerender: true)
+    - if @current_user.present?
+      = render :partial => "settings/progress_bar", :locals => {progress_title: @current_user.progress_title, redirect_link: redirect_link_call, link_text: @current_user.redirect_link_text, progress_percent: @current_user.overall_progress}
 
     - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
       - if(search_mode != :keyword || @view_type.eql?("map"))
@@ -42,7 +44,7 @@
     - if is_landing_page
       = yield
     - else
-      = yield :profile_progress
+      =# yield :profile_progress
       - content_for(:page_content) do
         - is_map_view = params[:view].present? && params[:view] == "map"
         %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}

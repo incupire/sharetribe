@@ -717,6 +717,32 @@ class Person < ApplicationRecord
     end
   end
 
+  def progress_title
+    if overall_progress == 0
+      "Member Setup progress"
+    elsif overall_progress == 14
+      "Member Setup progress"
+    elsif overall_progress >= 28
+      "profile Setup progress"
+    else
+      "Profile Setup progress"
+    end
+  end
+
+  def redirect_link_text
+    if overall_progress == 0
+      "Profile Setup"
+    elsif overall_progress == 14
+      "Setup notifications"
+    elsif overall_progress == 28
+      "Activate purchasing"
+    elsif overall_progress == 42
+      "Accept Credit Card payments"
+    else
+      "Post your Offers"
+    end
+  end
+
   private
 
   def digest(password, salt)
