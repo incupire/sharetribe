@@ -1,0 +1,13 @@
+%h2 Post New Offer Instructions
+.edit-community-details-edit-link
+  %a{:id => "edit_link", :href => "/editor/en/admin/communities/#{@current_community.id}/edit_offer_success_tips", :data => { :save_url => mercury_update_path }}
+    .icon-with-text-container 
+      = icon_tag("edit", ["icon-part"])
+      .text-part= t("admin.communities.edit_details.edit_info")      
+
+.edit-community-details-field
+  #offer_success_tips{:data => {:mercury => "full"}}
+    - if @community_customization && @community_customization.offer_success_tips
+      = @community_customization.offer_success_tips.html_safe
+    - else
+      &nbsp;

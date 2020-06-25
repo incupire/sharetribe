@@ -324,6 +324,7 @@ CREATE TABLE `community_customizations` (
   `search_placeholder` varchar(255) DEFAULT NULL,
   `transaction_agreement_label` varchar(255) DEFAULT NULL,
   `transaction_agreement_content` mediumtext,
+  `offer_success_tips` text,
   PRIMARY KEY (`id`),
   KEY `index_community_customizations_on_community_id` (`community_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -2556,6 +2557,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200620084844'),
 ('20200620101716'),
 ('20200622121046'),
-('20200623110342');
+('20200623110342'),
+('20200624120605');
 
 

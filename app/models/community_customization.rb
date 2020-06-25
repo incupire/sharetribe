@@ -22,6 +22,7 @@
 #  search_placeholder                         :string(255)
 #  transaction_agreement_label                :string(255)
 #  transaction_agreement_content              :text(16777215)
+#  offer_success_tips                         :text(65535)
 #
 # Indexes
 #
@@ -60,6 +61,7 @@ class CommunityCustomization < ApplicationRecord
     search_placeholder
     transaction_agreement_label
     transaction_agreement_content
+    offer_success_tips
   )
 
 end

@@ -15,6 +15,16 @@ class Admin::CommunitiesController < Admin::AdminBaseController
     @community = @current_community
   end
 
+  def edit_offer_success_tips
+    @selected_left_navi_link = "text_instructions"
+    @community = @current_community
+  end
+
+  def edit_text_instructions_only
+    @selected_left_navi_link = "text_instructions"
+    @community = @current_community
+  end
+
   def edit_welcome_email
     @selected_left_navi_link = "welcome_email"
     @community = @current_community
