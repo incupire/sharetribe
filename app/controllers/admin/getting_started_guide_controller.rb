@@ -6,6 +6,8 @@ class Admin::GettingStartedGuideController < Admin::AdminBaseController
     redirect_to search_path, flash: { error: I18n.t('error_messages.onboarding.server_rendering') }
   end
 
+  before_action :redirect_to_manage_user
+
   def index
     @selected_left_navi_link = "getting_started_guide"
     render :index, locals: { props: data(page: :status) }
@@ -48,6 +50,10 @@ class Admin::GettingStartedGuideController < Admin::AdminBaseController
   end
 
   private
+
+  def redirect_to_manage_user
+    redirect_to admin_community_community_memberships_path(@current_community, sort: "join_date", direction: "desc") and return
+  end
 
   def data(page:)
     listing_shape_name = @current_community.shapes.first[:name]

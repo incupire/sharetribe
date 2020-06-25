@@ -436,6 +436,10 @@ class ApplicationController < ActionController::Base
       flash[:error] = t("layouts.notifications.only_kassi_administrators_can_access_this_area")
       redirect_to search_path and return
     end
+
+    if @current_user.present? && @current_user.is_manager? && ['admin/community_customizations', 'admin/community_homepage', 'admin/communities', 'admin/categories', 'admin/custom_fields', 'admin/listing_shapes', 'admin/payment_preferences'].include?(params[:controller])
+      redirect_to admin_community_community_memberships_path(@current_community, sort: "join_date", direction: "desc") and return
+    end
   end
 
   def ensure_is_superadmin

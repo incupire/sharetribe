@@ -363,10 +363,16 @@ en:
         processing_export: "Processing export to CSV..."
         transactions: Transactions
         headers:
+          type: "Type"
+          date: Date
+          other_member: Other Member
+          offer_title: Offer Title
           conversation: "Conversation thread"
           listing: Offer
           status: Status
           sum: Sum
+          sell: Sell
+          purchase: Purchase
           started: Started
           last_activity: "Latest activity"
           initiated_by: Starter
@@ -907,6 +913,7 @@ en:
       messages_partitive: messages
       no_received_messages: "No messages"
       no_sent_messages: "No sent messages"
+      no_transactions: "No transactions"
     conversation:
       accepted_request: "Request accepted."
       accepted_offer: "Offer accepted."

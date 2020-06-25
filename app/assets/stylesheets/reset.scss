@@ -1192,3 +1192,20 @@ p.next_color {
     display: none;
   }
 }
+
+table#admin_listings.new_design {
+  color: #03c4cc;
+  thead {
+    color: #fff;
+    background: #03c4cc;
+    .sort-link {
+      color: #fff;
+    }
+  }
+  td {
+    border-top-left-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
+}
