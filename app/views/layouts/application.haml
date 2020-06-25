@@ -35,7 +35,8 @@
       .custom_react_navbar
         - cache props do
           = react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
-      = render partial: 'homepage/global_search_bar'
+      %div.global_search_bar{ class: is_landing_page ? 'hide_search_field' : ''}
+        = render partial: 'homepage/global_search_bar'
     - else
       = render partial: 'layouts/global_header', locals: header_props()
 
