@@ -16,37 +16,39 @@ class SettingsController < ApplicationController
   def offers_and_request
     @selected_left_navi_link = "offers_and_request"
     @service = Person::SettingsService.new(community: @current_community, params: params)
-    if params[:start_date].present? && params[:end_date].present?
-      start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
-      end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
-      transactions = transactions.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
-    end
+    # if params[:start_date].present? && params[:end_date].present?
+    #   start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
+    #   end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
+    #   transactions = transactions.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+    # end
     scope_listings = resource_scope
 
     #expired listings
-    expired_listing_ids = []
-    scope_listings.each do |listing|
-      if listing.valid_until && listing.valid_until < DateTime.current
-        expired_listing_ids << listing.id
+    if params[:search_for].present?
+      expired_listing_ids = []
+      scope_listings.each do |listing|
+        if listing.valid_until && listing.valid_until < DateTime.current
+          expired_listing_ids << listing.id
+        end
       end
-    end
-    all_expired_listings = scope_listings.where(id: expired_listing_ids)
+      all_expired_listings = scope_listings.where(id: expired_listing_ids)
 
-    if params[:status].present? && params[:listing_title].present?
-      if params[:status].eql?('expired')
-        scope_listings = all_expired_listings.where(title: params[:listing_title])
-      else
-        scope_listings = scope_listings.where(open: params[:status].eql?('open'), title: params[:listing_title])
-      end
-    else
-      if params[:status].present?
+      if params[:status].present? && params[:listing_title].present?
         if params[:status].eql?('expired')
-          scope_listings = all_expired_listings
+          scope_listings = all_expired_listings.where(title: params[:listing_title])
         else
-          scope_listings = scope_listings.where(open: params[:status].eql?('open'))
+          scope_listings = scope_listings.where(open: params[:status].eql?('open'), title: params[:listing_title])
         end
       else
-        scope_listings = scope_listings.where(title: params[:listing_title])
+        if params[:status].present?
+          if params[:status].eql?('expired')
+            scope_listings = all_expired_listings
+          else
+            scope_listings = scope_listings.where(open: params[:status].eql?('open'))
+          end
+        else
+          scope_listings = scope_listings.where(title: params[:listing_title])
+        end
       end
     end
     respond_to do |format|
@@ -55,84 +57,76 @@ class SettingsController < ApplicationController
                 .paginate(:page => params[:page], :per_page => 30)        
       end
 
-      format.csv do
-        all_listings = scope_listings
+      # format.csv do
+      #   all_listings = scope_listings
 
-        marketplace_name = @current_community.use_domain ? @current_community.domain : @current_community.ident
+      #   marketplace_name = @current_community.use_domain ? @current_community.domain : @current_community.ident
 
-        self.response.headers["Content-Type"] ||= 'text/csv'
-        self.response.headers["Content-Disposition"] = "attachment; filename=#{marketplace_name}-listings-#{Date.today}.csv"
-        self.response.headers["Content-Transfer-Encoding"] = "binary"
-        self.response.headers["Last-Modified"] = Time.now.ctime.to_s
+      #   self.response.headers["Content-Type"] ||= 'text/csv'
+      #   self.response.headers["Content-Disposition"] = "attachment; filename=#{marketplace_name}-listings-#{Date.today}.csv"
+      #   self.response.headers["Content-Transfer-Encoding"] = "binary"
+      #   self.response.headers["Last-Modified"] = Time.now.ctime.to_s
 
-        self.response_body = Enumerator.new do |yielder|
-          generate_csv_for(yielder, all_listings, @current_community)
-        end
-      end
+      #   self.response_body = Enumerator.new do |yielder|
+      #     generate_csv_for(yielder, all_listings, @current_community)
+      #   end
+      # end
     end
   end
 
   def transactions
     @selected_left_navi_link = "transactions"
     @service = Person::SettingsService.new(community: @current_community, params: params)
-  end
-
-  def transactional_inbox_rows(pagination_opts, count)
-    inbox_rows = InboxService.inbox_data(
-      @current_user.id,
-      @current_community.id,
-      pagination_opts[:limit],
-      pagination_opts[:offset])
-
-    inbox_rows = inbox_rows.select{|item| item[:type].eql?(:transaction)}
-
-    inbox_rows = inbox_rows.map { |inbox_row|
-      extended_inbox = inbox_row.merge(
-        path: path_to_conversation_or_transaction(inbox_row),
-        last_activity_ago: time_ago(inbox_row[:last_activity_at]),
-        title: inbox_title(inbox_row, inbox_payment(inbox_row))
-      )
-
-      if inbox_row[:type] == :transaction
-        extended_inbox.merge(
-          listing_url: listing_path(id: inbox_row[:listing_id])
-        )
+    pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
+    params.permit!
+    transactions = Transaction.for_person(@service.person)
+    if params[:sort].present?
+      if params[:sort] == "type" && params[:direction] == "asc"
+        starter_txs = transactions.where(starter_id: @service.person.id)
+        transactions =  starter_txs + transactions.where(listing_author_id: @service.person.id)
+      elsif params[:sort] == "type" && params[:direction] == "desc"
+        author_txs = transactions.where(listing_author_id: @service.person.id)
+        transactions =  author_txs + transactions.where(starter_id: @service.person.id)
+      elsif params[:sort] == "sell" || params[:sort] == "purchase"
+        if params[:sort_direction] == "desc"
+          transactions = transactions.sort_by(&:payment_total_sort).reverse
+        else
+          transactions = transactions.sort_by(&:payment_total_sort)
+        end
       else
-        extended_inbox
-      end       
-    }
-
-    paginated_inbox_rows = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], count) do |pager| 
-      pager.replace(inbox_rows) 
+        sort_column = "transactions.#{params[:sort]}" if params[:sort].index('.').nil?
+        transactions = Transaction.order("#{simple_sort_column(sort_column)} #{params[:sort_direction]}")
+        transactions = transactions.includes(:listing).where("listing_author_id = ? OR starter_id = ?", @service.person.id, @service.person.id)
+        transactions = transactions.limit(pagination_opts[:limit]).offset(pagination_opts[:offset])
+      end
     end
-  end
-
-  def inbox_title(inbox_item, payment_sum)
-    title = if InboxService.last_activity_type(inbox_item) == :message
-      inbox_item[:last_message_content]
-    else
-      action_messages = TransactionViewUtils.create_messages_from_actions(
-        inbox_item[:transitions],
-        inbox_item[:other],
-        inbox_item[:starter],
-        payment_sum,
-        inbox_item[:payment_gateway],
-        inbox_item[:community_id]
-      )
-
-      action_messages.last[:content]
+    if params[:search_for].present?
+      if params[:transaction_title].present? && params[:status].present?
+        transactions = transactions.where(listing_title: params[:transaction_title], current_state: params[:status])
+      else
+        if params[:transaction_title].present?
+          transactions = transactions.where(listing_title: params[:transaction_title])
+        else
+          unless params[:status] == "all_status"
+            transactions = transactions.where(current_state: params[:status])
+          end
+        end
+      end
     end
-  end
+    count = transactions.count
+    transactions = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], count) do |pager|
+      pager.replace(transactions)
+    end
 
-  def inbox_payment(inbox_item)
-    Maybe(inbox_item)[:payment_total].or_else(nil)
-  end
-
-  def path_to_conversation_or_transaction(inbox_item)
-    if inbox_item[:type] == :transaction
-      person_transaction_path(:person_id => inbox_item[:current][:username], :id => inbox_item[:transaction_id])
-    else
-      single_conversation_path(:conversation_type => "received", :id => inbox_item[:conversation_id])
+    respond_to do |format|
+      format.html do
+        render("transactions", {
+          locals: {
+            community: @current_community,
+            transactions: transactions,
+          }
+        })
+      end
     end
   end
 
@@ -202,6 +196,23 @@ class SettingsController < ApplicationController
       render :unsubscribe, locals: {target_user: target_user, unsubscribe_successful: true}
     else
       render :unsubscribe, :status => :unauthorized, locals: {target_user: target_user, unsubscribe_successful: false}
+    end
+  end
+
+  def simple_sort_column(sort_column)
+    case sort_column
+    when "listing_title"
+      "listing_title"
+    when "started"
+      "created_at"
+    when "status"
+      "current_state"
+    when "sell"
+      "payment_total"
+    when "purchase"
+      "payment_total"
+    else
+      "created_at"
     end
   end
 

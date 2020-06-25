@@ -19,7 +19,10 @@
         - react_component_cache(name: "onboarding_topbar", props: props) do
           = react_component("OnboardingTopBar", props: props, prerender: true)
     - if @current_user.present?
-      = render :partial => "settings/progress_bar", :locals => {progress_title: @current_user.progress_title, redirect_link: redirect_link_call, link_text: @current_user.redirect_link_text, progress_percent: @current_user.overall_progress}
+      - if params[:controller] == "settings"
+        = yield :profile_progress
+      - else
+        = render :partial => "settings/progress_bar", :locals => {progress_title: @current_user.progress_title, redirect_link: redirect_link_call, link_text: @current_user.redirect_link_text, progress_percent: @current_user.overall_progress}
 
     - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
       - if(search_mode != :keyword || @view_type.eql?("map"))
