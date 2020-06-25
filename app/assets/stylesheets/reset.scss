@@ -174,17 +174,19 @@ hr {
   margin-bottom: 15px;
   .heart_beat {
     position: absolute;
-    right: 10px;
+    right: 20px;
     top: 5px;
+    height: 50px;
   }
   .safety_batch {
     position: absolute;
     right: 0px;
     bottom: 0px;
+    height: 70px;
   }
   .inner_data {
     font-family: 'Source Sans Pro', helvetica, sans-serif;
-    padding: 15px 65px 55px 15px;
+    padding: 15px 36px 55px 15px;
     .heading {
       font-size: 24px;
       font-weight: bolder;

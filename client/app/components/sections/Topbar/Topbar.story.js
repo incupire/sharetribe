@@ -102,6 +102,9 @@ const baseProps = {
   newListingButton: {
     text: 'Post a new listing',
   },
+  newListingButtonTwo: {
+    text: 'Post a new listing',
+  },
   i18n: {
     locale: 'en',
     defaultLocale: 'en',

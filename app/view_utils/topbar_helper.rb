@@ -54,6 +54,9 @@ module TopbarHelper
       newListingButton: {
         text: I18n.t("homepage.index.post_new_listing"),
       },
+      newListingButtonTwo: {
+        text: I18n.t("homepage.index.post_a_request"),
+      },
       i18n: {
         locale: I18n.locale,
         defaultLocale: I18n.default_locale

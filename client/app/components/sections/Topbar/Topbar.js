@@ -11,6 +11,7 @@ import styleVariables from '../../../assets/styles/variables';
 
 // elements
 import AddNewListingButton from '../../elements/AddNewListingButton/AddNewListingButton';
+import AddNewListingButtonTwo from '../../elements/AddNewListingButtonTwo/AddNewListingButtonTwo';
 import Logo from '../../elements/Logo/Logo';
 import NotificationBadge from '../../elements/NotificationBadge/NotificationBadge';
 
@@ -232,6 +233,9 @@ class Topbar extends Component {
         newListingButton: this.props.newListingButton ?
           { ...this.props.newListingButton, url: newListingRoute, mobileLayoutOnly: true } :
           null,
+        newListingButtonTwo: this.props.newListingButtonTwo ?
+          { ...this.props.newListingButtonTwo, url: newListingRoute, mobileLayoutOnly: true } :
+          null,
         loginLinks: {
           loginUrl: loginRoute,
           signupUrl: signupRoute,
@@ -279,6 +283,25 @@ class Topbar extends Component {
         className: {
           [css.topbarMenu]: true,
         } }) : null,
+
+      this.props.newListingButton ?
+        r(AddNewListingButton, {
+          ...this.props.newListingButton,
+          className: css.topbarListingButton,
+          url: newListingRoute,
+          customColor: marketplaceColor1,
+        }) :
+      null,
+
+      this.props.newListingButtonTwo ?
+        r(AddNewListingButtonTwo, {
+          ...this.props.newListingButtonTwo,
+          className: css.topbarListingButton,
+          url: newListingRoute,
+          customColor: marketplaceColor1,
+        }) :
+      null,
+
       this.props.avatarDropdown && loggedInUsername ?
         r(AvatarDropdown, {
           ...avatarDropdownProps(this.props.avatarDropdown, marketplaceColor1,
@@ -291,14 +314,6 @@ class Topbar extends Component {
           customColor: marketplaceColor1,
           className: css.topbarLinks,
         }),
-      this.props.newListingButton ?
-        r(AddNewListingButton, {
-          ...this.props.newListingButton,
-          className: css.topbarListingButton,
-          url: newListingRoute,
-          customColor: marketplaceColor1,
-        }) :
-      null,
     ]);
   }
 }
@@ -330,6 +345,12 @@ Topbar.propTypes = {
     })),
   }),
   newListingButton: object,
+  routes: routesProp,
+  marketplace: PropTypes.shape({
+    marketplaceColor1: string,
+    location: string,
+  }),
+  newListingButtonTwo: object,
   routes: routesProp,
   marketplace: PropTypes.shape({
     marketplaceColor1: string,

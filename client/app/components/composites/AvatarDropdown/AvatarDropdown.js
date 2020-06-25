@@ -79,7 +79,7 @@ class AvatarDropdown extends Component {
       onClick: this.handleClick,
       onBlur: this.handleBlur,
       tabIndex: 0,
-      className: classNames('AvatarDropdown', this.props.className, openOnHoverClass, openClass, css.avatarDropdown, notificationsClass),
+      className: classNames('AvatarDropdown redesign_Avatar_dropdown', this.props.className, openOnHoverClass, openClass, css.avatarDropdown, notificationsClass),
     }, [
       div({ className: css.avatarWithNotifications }, [
         r(Avatar, this.props.avatar),
@@ -97,6 +97,11 @@ class AvatarDropdown extends Component {
           this.profileDropdown = c;
         },
       }),
+
+      r.div({className: 'avontage_balance_box'}, [
+        r.div('Avontage'),
+        r.div({className: 'avontage_balance'}, '200'),
+      ]),
     ]);
   }
 }

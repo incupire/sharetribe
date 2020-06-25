@@ -119,6 +119,11 @@ storiesOf('Top bar')
               url: 'www.example.com/post',
               mobileLayoutOnly: true,
             },
+            newListingButtonTwo: {
+              text: 'Post a new listing',
+              url: 'www.example.com/post',
+              mobileLayoutOnly: true,
+            },
           }
         ),
         containerStyle
