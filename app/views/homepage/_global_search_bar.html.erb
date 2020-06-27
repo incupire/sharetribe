@@ -12,33 +12,22 @@
         </div>
       </button>
     </form>
+    <%if params[:controller] == "homepage" && params[:action] == "index"%>
+      <div class="reload_your_balance-box">
+        <div class="bank_balance">
+          Your Avontage Banks Balance
+          <span class="balance">
+            <%= image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon' %>
+            <%= (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe %>
+          </span>
+        </div>
+        <%= link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: 'reload_blnce_btn' %>
+      </div>
 
-    <div class="reload_your_balance-box">
-      <div class="bank_balance">
-        Your Avontage Banks Balance
-        <span class="balance">
-          <%= image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon' %>
-          200.00  
-        </span>
+      <div class="badge_review_box">
+        <%=render 'layouts/level_rating_and_verified', user: @current_user%>
       </div>
-      <%= link_to 'Reload Your Balance', '', class: 'reload_blnce_btn' %>
-    </div>
-
-    <div class="badge_review_box">
-      <div class="flex_box">
-        <%= image_tag "varified.png", alt: 'badge', class: 'badge_img verified' %>
-        <%#= image_tag "unverfied.png", alt: 'badge', class: 'badge_img verified' %>
-        <span>verified</span>
-      </div>
-      <div class="flex_box">
-        <%= image_tag "medal_gold.png", alt: 'badge', class: 'badge_img medal' %>
-        <span>level</span>
-      </div>
-      <div class="flex_box">
-        <%= image_tag "Reveiws_star.png", alt: 'badge', class: 'badge_img review' %>
-        <span>4 reviews</span>
-      </div>
-    </div>
+    <%end%>  
     
   </div>
 </div>

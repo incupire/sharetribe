@@ -134,30 +134,31 @@
   
   .home_toolbar_section
     .left_section
-      = image_tag 'Refer_&_Earn.png', alt: 'offer-img', class: 'offer_image'
+      = link_to "https://www.avontage.com/blog/referandearn/" do
+        = image_tag 'Refer_&_Earn.png', alt: 'offer-img', class: 'offer_image'
 
       .gray_text_box
         %p Have a project or in need of a service?
         %p Pos a Request to find intrested parties to trade with you.
-        = link_to 'POST A REQUEST', '', class: 'post_request_link'
+        = link_to 'POST A REQUEST', path_for_request_type_listing(@current_community), class: 'post_request_link'
     .right_section
       .main_heading
         Featured Offers Section
       .jobs_box
+        - featured_listings = Listing.currently_open.where(featured: true)
         .heading_box-row
           .heading_box
             .jobs_heading
               Browse for Jobs and Requests
             .sub_heading
               Make offers to members needing your help 
-          = link_to 'view all', '', class: 'view_all_link'
+          - if featured_listings.size > 5
+            = link_to 'view all', search_path(category: "featured"), class: 'view_all_link'
 
         .jobs_row
-          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
-          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
-          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
-          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
-          = image_tag 'https://media.gettyimages.com/photos/happy-kids-swimming-underwater-in-pool-picture-id538602500?s=612x612', alt: 'jobs-img', class: 'jobs_image'
+          - featured_listings.first(5).each do |featured_listing|
+            = link_to listing_path(featured_listing) do
+              = image_tag featured_listing.listing_images.empty? ? 'listing_missing.png' : featured_listing.listing_images.first.image.url(:medium) , alt: 'jobs-img', class: 'jobs_image'
   .home-toolbar.redesign_mobile_toolbar
 
     - if listing_shape_menu_enabled || @category_menu_enabled
@@ -206,7 +207,6 @@
         = link_to 'Updated Offers', '', class: 'toggle-menu-subitem'
         = link_to 'Price: Low to High', '', class: 'toggle-menu-subitem'
         = link_to 'Price: High to Low', '', class: 'toggle-menu-subitem'
-        = link_to 'Location', '', class: 'toggle-menu-subitem'
         = link_to 'Most Reviews', '', class: 'toggle-menu-subitem'
         = link_to 'Verified Members', '', class: 'toggle-menu-subitem'
 
@@ -261,8 +261,8 @@
   .row
     - if @category_menu_enabled
       .col-3.visible-tablet
-        = link_to 'JOBS & REQUESTS POSTED', '', class: 'button requests_btn'
-        
+        = link_to 'JOBS & REQUESTS POSTED', search_path(category: "featured"), class: 'button requests_btn'
+
         - if @show_categories
           .row
             .col-12

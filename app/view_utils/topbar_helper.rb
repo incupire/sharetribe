@@ -71,7 +71,9 @@ module TopbarHelper
       },
       unReadMessagesCount: InboxService.notification_count(user&.id, community.id),
       unReadTransactionalMessagesCount: InboxService.transactional_notification_count(user&.id, community.id),
-      unReadDirectMessageCount: InboxService.direct_conversations_notification_count(user&.id, community.id)
+      unReadDirectMessageCount: InboxService.direct_conversations_notification_count(user&.id, community.id),
+      avontageBalance: user&.coupon_balance.present? ? MoneyViewUtils.to_humanized(user.coupon_balance).split('$')[1] : '',
+      requestBtnUrl: ApplicationController.helpers.path_for_request_type_listing(community)
     }
   end
 

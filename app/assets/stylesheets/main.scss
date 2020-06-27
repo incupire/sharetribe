@@ -82,7 +82,7 @@ body {
     padding-top: lines(1);
 
     &.no-cover-photo {
-      padding-top: 33px;
+      padding-top: 0px;
     }
   }
 
@@ -2549,6 +2549,10 @@ figure.fluidratio {
     justify-content: flex-start;
     align-items: center;
     margin: 0 6px 0 0;
+
+    a {
+      color: #525960;
+    }
   }
 }
 

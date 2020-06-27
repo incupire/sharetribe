@@ -69,6 +69,20 @@ module ApplicationHelper
     haml_concat add_links(capture_haml(&block)).html_safe
   end
 
+  def path_for_request_type_listing(community)
+    request_url = "/en/listings/new"
+    shapes = ListingShape.where(community_id: community.id).exist_ordered.all
+    shapes.each do |shape|
+      name = I18n.t(shape.name_tr_key)
+      if name.downcase.include?('request')
+        request_url = "/en/listings/new?listing_shape=#{shape.id}"
+        break
+      end  
+    end
+
+    return request_url
+  end
+
   def small_avatar_thumb(person, avatar_html_options={})
     avatar_thumb(:thumb, person, avatar_html_options)
   end

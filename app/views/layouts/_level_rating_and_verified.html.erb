@@ -1,0 +1,27 @@
+<div class="flex_box">
+  <%if user.is_verified%>
+    <%= image_tag "varified.png", alt: 'badge', class: 'badge_img verified' %>
+    <span>verified</span>
+  <%else%>
+    <%= image_tag "unverfied.png", alt: 'badge', class: 'badge_img verified' %>
+    <span>Unverified</span>
+  <%end%>  
+</div>
+<%if user.user_level.present? && !user.user_level.zero?%>
+  <div class="flex_box">
+    <%if user.user_level == 1%>
+      <%= image_tag "medal_bronze.png", alt: 'badge', class: 'badge_img medal' %>
+    <%elsif user.user_level == 2%>
+      <%= image_tag "medal_silver.png", alt: 'badge', class: 'badge_img medal' %>
+    <%elsif user.user_level == 3%>
+      <%= image_tag "medal_gold.png", alt: 'badge', class: 'badge_img medal' %>
+    <%end%>
+    <span>level</span>
+  </div>
+<%end%>  
+<div class="flex_box">
+  <%= image_tag "Reveiws_star.png", alt: 'badge', class: 'badge_img review' %>
+  <%=link_to person_path(user.username) do%>
+    <span><%=pluralize(user.try(:received_testimonials).try(:size) || user.num_of_reviews, 'review', 'reviews')%></span>
+  <%end%>
+</div>

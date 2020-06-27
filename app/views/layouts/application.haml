@@ -35,8 +35,9 @@
       .custom_react_navbar
         - cache props do
           = react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
-      %div.global_search_bar{ class: is_landing_page ? 'hide_search_field' : ''}
-        = render partial: 'homepage/global_search_bar'
+      - if @current_user.present?
+        %div.global_search_bar{ class: is_landing_page ? 'hide_search_field' : ''}
+          = render partial: 'homepage/global_search_bar'
     - else
       = render partial: 'layouts/global_header', locals: header_props()
 
@@ -51,26 +52,27 @@
       =# yield :profile_progress
       - content_for(:page_content) do
         - is_map_view = params[:view].present? && params[:view] == "map"
-        %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
-          - if @big_cover_photo
-            .coverimage
-              %figure.marketplace-cover.fluidratio
-                .lander-content.marketplace-lander-content
-                  = yield :title_header
-          - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
-            = link_to is_homepage ? search_path(category: "featured") : '' do
-              .coverimage{class: on_admin? ? 'main_height' : ''}
-                - unless on_admin?
-                  %figure.marketplace-cover-small.fluidratio.custom_small_cover
-                .coverimage-fade.disbale_fade{:class => yield(:coverfade_class)}
-                  %figure.marketplace-cover-small-fade.fluidratio
-              .title-container
-                .title-header-wrapper
-                  .marketplace-title-header.make_custom_cover_title
+        - unless is_homepage
+          %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
+            - if @big_cover_photo
+              .coverimage
+                %figure.marketplace-cover.fluidratio
+                  .lander-content.marketplace-lander-content
                     = yield :title_header
-        - if @current_user && params[:controller] != "homepage" 
-          = link_to :back,  class: 'my-class' do
-            = image_tag 'left-arrow_white.png'
+            - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
+              = link_to is_homepage ? search_path(category: "featured") : '' do
+                .coverimage{class: on_admin? ? 'main_height' : ''}
+                  - unless on_admin?
+                    %figure.marketplace-cover-small.fluidratio.custom_small_cover
+                  .coverimage-fade.disbale_fade{:class => yield(:coverfade_class)}
+                    %figure.marketplace-cover-small-fade.fluidratio
+                .title-container
+                  .title-header-wrapper
+                    .marketplace-title-header.make_custom_cover_title
+                      = yield :title_header
+          - if @current_user && params[:controller] != "homepage" 
+            = link_to :back,  class: 'my-class' do
+              = image_tag 'left-arrow_white.png'
 
         %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : 'custom-page-content'}
           %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }

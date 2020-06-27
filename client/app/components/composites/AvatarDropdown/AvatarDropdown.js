@@ -99,8 +99,8 @@ class AvatarDropdown extends Component {
       }),
 
       r.div({className: 'avontage_balance_box'}, [
-        r.div('Avontage'),
-        r.div({className: 'avontage_balance'}, '200'),
+        r.div(this.props.avatar.givenName),
+        r.div({className: 'avontage_balance'}, this.props.avontageBalance),
       ]),
     ]);
   }

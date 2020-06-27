@@ -26,6 +26,8 @@ module ListingIndexViewUtils
     :first_name,
     :last_name,
     :display_name,
+    :is_verified,
+    :user_level,
     :avatar,
     :is_deleted,
     :num_of_reviews)
@@ -47,6 +49,9 @@ module ListingIndexViewUtils
             l[:author][:first_name],
             l[:author][:last_name],
             l[:author][:display_name],
+            l[:author][:is_verified],
+            l[:author][:user_level],
+
             ListingImage.new(
               l[:author][:avatar][:thumb]
             ),

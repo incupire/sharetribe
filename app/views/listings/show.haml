@@ -270,16 +270,7 @@
                     = t(".ask_seller")
     
     .badge_review_box.profile_show_badge
-      .flex_box
-        = image_tag "varified.png", alt: 'badge', class: 'badge_img verified'
-        =# image_tag "unverfied.png", alt: 'badge', class: 'badge_img verified'
-        %span verified
-      .flex_box
-        = image_tag "medal_gold.png", alt: 'badge', class: 'badge_img medal'
-        %span level
-      .flex_box
-        = image_tag "Reveiws_star.png", alt: 'badge', class: 'badge_img review'
-        %span 4 reviews
+      =render 'layouts/level_rating_and_verified', user: @listing.author
 
     -# Member Profile Info
     - if @listing.author.description && !@listing.author.description.blank?

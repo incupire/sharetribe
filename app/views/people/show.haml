@@ -90,17 +90,8 @@
         = render :partial => "profile_action_buttons"
 
     .badge_review_box.profile_show_badge
-      .flex_box
-        = image_tag "varified.png", alt: 'badge', class: 'badge_img verified'
-        =# image_tag "unverfied.png", alt: 'badge', class: 'badge_img verified'
-        %span verified
-      .flex_box
-        = image_tag "medal_gold.png", alt: 'badge', class: 'badge_img medal'
-        %span level
-      .flex_box
-        = image_tag "Reveiws_star.png", alt: 'badge', class: 'badge_img review'
-        %span 4 reviews
-
+      =render 'layouts/level_rating_and_verified', user: @person
+    %br
 
     - if @current_user.present? && @current_user == @person
       .new_coupon_work
@@ -119,22 +110,27 @@
       //     =# MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
 
     .website_link_box
-      .website_heading Website
-      .website_link_row
-        = link_to '#', class: 'website_link' do
-          = image_tag 'facebook.png', alt: 'facebook', class: 'link_img'
-        = link_to '#', class: 'website_link' do
-          = image_tag 'instagram.png', alt: 'instagram', class: 'link_img'
-        = link_to '#', class: 'website_link' do
-          = image_tag 'linkedin.png', alt: 'linkedin', class: 'link_img'
-        = link_to '#', class: 'website_link' do
-          = image_tag 'twitter.png', alt: 'twitter', class: 'link_img'
+      - if @person.facebook_link.present? || @person.instagram_link.present? || @person.linkedin_link.present? || @person.twitter_link.present?
+        .website_heading Website
+        .website_link_row
+          - if @person.facebook_link.present?
+            = link_to @person.facebook_link, class: 'website_link' do
+              = image_tag 'facebook.png', alt: 'facebook', class: 'link_img'
+          - if @person.instagram_link.present?
+            = link_to @person.instagram_link, class: 'website_link' do
+              = image_tag 'instagram.png', alt: 'instagram', class: 'link_img'
+          - if @person.linkedin_link.present?
+            = link_to @person.linkedin_link, class: 'website_link' do
+              = image_tag 'linkedin.png', alt: 'linkedin', class: 'link_img'
+          - if @person.twitter_link.present?
+            = link_to @person.twitter_link, class: 'website_link' do
+              = image_tag 'twitter.png', alt: 'twitter', class: 'link_img'
       .calendar_row
         = image_tag 'calendar.png', alt: 'calendar', class: 'calendar_img'
         %span.member_since
           Member since
         %span
-          Aug 21, 2019
+          = @person.created_at.strftime("%b %d, %Y")
 
 - content_for :extra_javascript do
   :javascript

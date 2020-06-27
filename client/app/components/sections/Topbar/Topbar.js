@@ -45,7 +45,7 @@ const profileActions = function profileActions(routes, username) {
   } : null;
 };
 
-const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, notificationCount, routes, unReadTransactionalMessagesCount, unReadDirectMessageCount) => {
+const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, notificationCount, avontageBalance, routes, unReadTransactionalMessagesCount, unReadDirectMessageCount) => {
   const color = customColor || styleVariables['--customColorFallback'];
   const actions = {
     inboxAction: () => false,
@@ -66,7 +66,7 @@ const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, not
     adminDashboard: t('web.topbar.admin_dashboard'),
     logout: t('web.topbar.logout'),
   };
-  return { actions, translations, customColor: color, isAdmin, notificationCount, unReadTransactionalMessagesCount, unReadDirectMessageCount, ...avatarDropdown };
+  return { actions, translations, customColor: color, isAdmin, notificationCount, avontageBalance, unReadTransactionalMessagesCount, unReadDirectMessageCount, ...avatarDropdown };
 };
 
 const mobileProfileLinks = function mobileProfileLinks(username, isAdmin, router, location, customColor, unReadDirectMessageCount, unReadTransactionalMessagesCount) {
@@ -242,6 +242,7 @@ class Topbar extends Component {
           customColor: marketplaceColor1,
         },
         notificationCount: this.props.unReadMessagesCount,
+        avontageBalance: this.props.avontageBalance,
       }) :
       {};
 
@@ -297,7 +298,7 @@ class Topbar extends Component {
         r(AddNewListingButtonTwo, {
           ...this.props.newListingButtonTwo,
           className: css.topbarListingButton,
-          url: newListingRoute,
+          url: this.props.requestBtnUrl,
           customColor: marketplaceColor1,
         }) :
       null,
@@ -305,7 +306,7 @@ class Topbar extends Component {
       this.props.avatarDropdown && loggedInUsername ?
         r(AvatarDropdown, {
           ...avatarDropdownProps(this.props.avatarDropdown, marketplaceColor1,
-                                 loggedInUsername, isAdmin, this.props.unReadMessagesCount, this.props.routes, this.props.unReadTransactionalMessagesCount, this.props.unReadDirectMessageCount),
+                                 loggedInUsername, isAdmin, this.props.unReadMessagesCount, this.props.avontageBalance, this.props.routes, this.props.unReadTransactionalMessagesCount, this.props.unReadDirectMessageCount),
           classSet: css.topbarAvatarDropdown,
         }) :
         r(LoginLinks, {
@@ -362,7 +363,9 @@ Topbar.propTypes = {
   }),
   unReadMessagesCount: PropTypes.number,
   unReadTransactionalMessagesCount: PropTypes.number,
-  unReadDirectMessageCount: PropTypes.number
+  unReadDirectMessageCount: PropTypes.number,
+  avontageBalance: PropTypes.string,
+  requestBtnUrl: PropTypes.string
 };
 
 export default Topbar;

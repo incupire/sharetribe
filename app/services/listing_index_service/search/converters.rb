@@ -44,6 +44,8 @@ module ListingIndexService::Search::Converters
             first_name: l.author.given_name,
             last_name: l.author.family_name,
             display_name: l.author.display_name,
+            is_verified: l.author.is_verified,
+            user_level: l.author.user_level,
             avatar: {
               thumb: l.author.image.present? ? l.author.image.url(:thumb) : nil
             },

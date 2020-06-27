@@ -53,17 +53,6 @@
               = MoneyViewUtils.to_humanized(listing.price).split('$')[1]
 
       .badge_review_box
-        .flex_box
-          = image_tag "varified.png", alt: 'badge', class: 'badge_img verified'
-          =# image_tag "unverfied.png", alt: 'badge', class: 'badge_img verified'
-          %span
-            verified
-        .flex_box
-          = image_tag "medal_gold.png", alt: 'badge', class: 'badge_img medal'
-          %span
-            level
-        - if listing.author.num_of_reviews > 0
-          .flex_box
-            = image_tag "Reveiws_star.png", alt: 'badge', class: 'badge_img review'
-            %span
-              = pluralize(listing.author.num_of_reviews, t("homepage.list_item.review"), t("homepage.list_item.reviews"))
+        = render 'layouts/level_rating_and_verified', user: listing.author
+
+

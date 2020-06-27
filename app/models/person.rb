@@ -723,7 +723,7 @@ class Person < ApplicationRecord
     elsif overall_progress == 14
       "Member Setup progress"
     elsif overall_progress >= 28
-      "profile Setup progress"
+      "Profile Setup progress"
     else
       "Profile Setup progress"
     end
