@@ -447,5 +447,12 @@ $(window).on('mercury:ready', function() {
 });
 
 $(window).bind('mercury:saved', function() {
-  window.location = window.location.href.replace(/\/editor\//i, '/');
+  if ((window.location.href.includes('edit_text_instructions_only')) || (window.location.href.includes('edit_offer_success_tips'))){
+    url = window.location.href.replace(/\/editor\//i, '/');
+    url = url.replace('edit_text_instructions_only', 'edit_text_instructions')
+    url = url.replace('edit_offer_success_tips', 'edit_text_instructions')
+    window.location = url;
+  }else{
+    window.location = window.location.href.replace(/\/editor\//i, '/');
+  }
 });

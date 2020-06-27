@@ -238,6 +238,8 @@ Rails.application.routes.draw do
           get :check_email_status
           post :resend_verification_email
           get :edit_text_instructions
+          get :edit_text_instructions_only
+          get :edit_offer_success_tips
           get :test_welcome_email
           get :social_media
           get :analytics
