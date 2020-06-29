@@ -1275,3 +1275,20 @@ table#admin_listings.new_design {
     }
   }
 }
+
+.edit_cell_heading {
+  display: flex;
+  align-items: center;
+
+  .edit_anchor {
+    display: flex;
+    font-size: 16px;
+    align-items: center;
+    margin: 0 0 0 10px;
+
+    img {
+      height: 19px;
+      margin: 0 6px 0 0;
+    }
+  }
+}
