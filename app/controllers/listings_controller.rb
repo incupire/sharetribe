@@ -171,9 +171,9 @@ class ListingsController < ApplicationController
         if shape.booking?
           anchor = shape.booking_per_hour? ? 'manage-working-hours' : 'manage-availability'
           @listing.working_hours_new_set(force_create: true) if shape.booking_per_hour?
-          redirect_to listing_path(@listing, anchor: anchor, listing_just_created: true), status: 303
+          redirect_to listing_path(@listing, anchor: anchor, listing_just_created: true, new_offer_posted: true), status: 303
         else
-          redirect_to @listing, status: 303
+          redirect_to listing_path(@listing, new_offer_posted: true), status: 303
         end
       else
         logger.error("Errors in creating listing: #{@listing.errors.full_messages.inspect}")

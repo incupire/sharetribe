@@ -340,6 +340,14 @@
       .posted_text
         Your offer has been posted.
 
+- if @listing.listing_shape.present?
+  - is_offer_shape = t(@listing.listing_shape.name_tr_key).downcase.include?('offer')
+  - if params[:new_offer_posted].present? && is_offer_shape
+    - content_for :extra_javascript do
+      :javascript
+        $(".new_offer_popup").removeClass('hidden')
+
+
 - content_for :extra_javascript do
   :javascript
     $('.fb_share').click(function(){
@@ -351,6 +359,10 @@
       if (window.focus) {newwindow.focus()}
       return false;
     }
+
+    $(".close_popup").on('click', function(){
+      $(".new_offer_popup").addClass('hidden')
+    })
 
     $(".read-more").on('click', function(e){
       e.preventDefault()
