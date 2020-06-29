@@ -64,6 +64,7 @@
 #  user_level                         :integer
 #  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
 #  tags                               :text(65535)
+#  total_received_review              :integer          default(0)
 #
 # Indexes
 #

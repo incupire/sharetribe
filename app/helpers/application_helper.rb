@@ -77,11 +77,26 @@ module ApplicationHelper
       if name.downcase.include?('request')
         request_url = "/en/listings/new?listing_shape=#{shape.id}"
         break
-      end  
+      end
     end
 
     return request_url
   end
+
+  def request_shape_name
+    shape_name = 'all'
+    shapes = ListingShape.where(community_id: @current_community.id).exist_ordered.all
+    shapes.each do |shape|
+      name = I18n.t(shape.name_tr_key)
+      if name.downcase.include?('request')
+        shape_name = shape.name
+        break
+      end
+    end
+    shape_name
+  end
+
+
 
   def small_avatar_thumb(person, avatar_html_options={})
     avatar_thumb(:thumb, person, avatar_html_options)

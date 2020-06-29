@@ -1418,6 +1418,7 @@ CREATE TABLE `people` (
   `user_level` int(11) DEFAULT NULL,
   `profile_progress` varchar(255) DEFAULT '---\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
   `tags` text,
+  `total_received_review` int(11) DEFAULT '0',
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -2558,6 +2559,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200620101716'),
 ('20200622121046'),
 ('20200623110342'),
-('20200624120605');
+('20200624120605'),
+('20200629060035');
 
 

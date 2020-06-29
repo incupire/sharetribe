@@ -40,6 +40,13 @@ namespace :sharetribe do
     EmailService::API::Api.addresses.enqueue_batch_sync()
   end
 
+  desc "Update total received review of person"
+  task :update_total_review => :environment do
+    Person.find_each do |person|
+      person.update_column(:total_received_review, person.received_testimonials.size)
+    end  
+  end
+
   namespace :person_custom_fields do
     desc "Copying person's phone number to custom fields"
     task :copy_phone_number_community, [:community_ident] => :environment do |t, args|

@@ -27,6 +27,8 @@ class Testimonial < ApplicationRecord
 
   validates_inclusion_of :grade, :in => 0..1, :allow_nil => false
 
+  after_create :update_total_received_review
+
   scope :positive, -> { where("grade >= 0.5") }
   scope :for_admin_view, -> (community) {
     includes(:tx, :author, :receiver)
@@ -40,5 +42,9 @@ class Testimonial < ApplicationRecord
 
   def positive?
     grade >= 0.5
+  end
+
+  def update_total_received_review
+    receiver.update(total_received_review: receiver.received_testimonials.size)
   end
 end

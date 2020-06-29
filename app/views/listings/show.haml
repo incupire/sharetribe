@@ -37,16 +37,7 @@
   .top_sm_name
     = link_to PersonViewUtils.person_display_name(@listing.author, @current_community), @listing.author, :id => "listing-author-link", :class => "listing-author-name-link", :title => "#{PersonViewUtils.person_display_name(@listing.author, @current_community)}"
   .badge_review_box.listing_show_badge
-    .flex_box
-      = image_tag "varified.png", alt: 'badge', class: 'badge_img verified'
-      =# image_tag "unverfied.png", alt: 'badge', class: 'badge_img verified'
-      %span verified
-    .flex_box
-      = image_tag "medal_gold.png", alt: 'badge', class: 'badge_img medal'
-      %span level
-    .flex_box
-      = image_tag "Reveiws_star.png", alt: 'badge', class: 'badge_img review'
-      %span 4 reviews
+    =render 'layouts/level_rating_and_verified', user: @listing.author
 
   / .top_review
   /   %i{:class => icon_class("testimonial")}

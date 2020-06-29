@@ -230,7 +230,7 @@ class HomepageController < ApplicationController
       price_max: params[:price_max],
       locale: I18n.locale,
       include_closed: false,
-      sort: nil,
+      sort: params[:sort].present? ? params[:sort].to_sym : nil,
       featured: params[:category].eql?('featured') ? true : false,
       boundingbox: params[:boundingbox]
     }

@@ -76,14 +76,13 @@ module ListingIndexService::Search
           custom_dropdown_field_options: (grouped_by_operator[:or] || []).map { |v| v[:value] },
           custom_checkbox_field_options: (grouped_by_operator[:and] || []).flat_map { |v| v[:value] },
         }
-
-        order = 'sort_date DESC'
+        order = sort_by_filter(search[:sort])
         if search[:latitude].present? && search[:longitude].present?
           limit = (25 * 1.60934 * 1000)  # Within 25 miles    
           @coordinates = [to_radians(search[:latitude]), to_radians(search[:longitude])]
           with.merge!(geodist: 0.0..limit)
           order = 'geodist ASC'
-        end        
+        end
 
         models = Listing.search(
           Riddle::Query.escape(search[:keywords] || ""),
@@ -107,6 +106,24 @@ module ListingIndexService::Search
         end
       end
 
+    end
+
+    def sort_by_filter(filter)
+      if filter == :created_at
+        'created_at DESC'
+      elsif filter == :updated_at
+        'updated_at DESC'
+      elsif filter == :price_low_to_high
+        'price_cents ASC'
+      elsif filter == :price_high_to_low
+        'price_cents DESC'
+      elsif filter == :most_review
+        'total_received_review DESC'
+      elsif filter == :is_verified
+        'is_verified DESC'
+      else
+        'sort_date DESC'
+      end
     end
 
     def to_radians(degrees)

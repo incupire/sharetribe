@@ -90,7 +90,8 @@
         - # New top bar search params are in different form and they have to be retained here
         - search_params = ["q", "lc", "ls", "boundingbox", "distance_max"]
         - excluded_params = search_params unless FeatureFlagHelper.feature_enabled?(:topbar_v1)
-        - params.except("action", "controller", "view", "utf8", *excluded_params).each do |param, value|
+        - exclude_sort = ['sort']
+        - params.except("action", "controller", "view", "utf8", *excluded_params, *exclude_sort).each do |param, value|
           - unless CustomFieldSearchParams.custom_field_search_param?(param) || param.match(/^price_/)
             = hidden_field_tag param, value
         = hidden_field_tag "view", @view_type
