@@ -329,6 +329,16 @@
           .padding_left
             = render :partial => 'recommended_offers_in_current_category', :locals => {person: @listing.author, listings: @recommended_listings}          
 
+.new_offer_popup.hidden
+  .new_offer_popup-box
+    .close_popup
+      = image_tag 'close_popup.svg', alt: 'close'
+    .inner_popup_box
+      = image_tag 'varified.png', alt: 'verify', class: 'success_icon'
+      .success_heading
+        Success!
+      .posted_text
+        Your offer has been posted.
 
 - content_for :extra_javascript do
   :javascript

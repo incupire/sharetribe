@@ -196,21 +196,8 @@
     
     
     .custom_sort_type
-      #home_toolbar-select-short-type.toggle.with-borders{"data-toggle" => ".home-toolbar-short-type-menu"}
-        .toggle-header-container
-          .toggle-header
-            Sort by
-          %i.icon-caret-down.icon-dropdown
-
-      .home-toolbar-short-type-menu.toggle-menu.hidden
-        //=# link_to 'Newest Offers', '', class: 'toggle-menu-subitem'
-        //=# link_to 'Updated Offers', '', class: 'toggle-menu-subitem'
-        //=# link_to 'Price: Low to High', '', class: 'toggle-menu-subitem'
-        //=# link_to 'Price: High to Low', '', class: 'toggle-menu-subitem'
-        //=# link_to 'Most Reviews', '', class: 'toggle-menu-subitem'
-        //=# link_to 'Verified Members', '', class: 'toggle-menu-subitem'
-
-        = select_tag 'sort', options_for_select([['Newest Offers', 'created_at'], ['Updated Offers', 'updated_at'], ['Price: Low to High', 'price_low_to_high'], ['Price: High to Low', 'price_high_to_low'], ['Most Reviews', 'most_review'], ['Verified Members', 'is_verified']], selected: params[:sort]), id: 'sort_filter', prompt: 'Sort by'
+      
+      = select_tag 'Sort by', options_for_select([['Newest Offers', 'created_at'], ['Updated Offers', 'updated_at'], ['Price: Low to High', 'price_low_to_high'], ['Price: High to Low', 'price_high_to_low'], ['Most Reviews', 'most_review'], ['Verified Members', 'is_verified']], selected: params[:sort]), id: 'sort_filter', prompt: 'Sort by'
 
     %h1.offer_heading Browse the latest Offers
 
