@@ -292,7 +292,6 @@ window.ST = window.ST || {};
     // Listen for back button click
     window.addEventListener('popstate', function(evt) {
       selected_attributes = evt.state || emptySelection;
-
       $('.js-form-fields').addClass('hidden');
       var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
 
@@ -302,12 +301,25 @@ window.ST = window.ST || {};
     // Listener for attribute menu clicks
     $('.new-listing-form').find('a.select').click(
       function() {
-        $('.js-form-fields').addClass('hidden');
-        var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
+        if (!$('.js-form-fields').hasClass('hidden') && ($(this).closest('.selected-group').last().attr('name') == 'category' || $(this).closest('.selected-group').last().attr('name') == 'subcategory')){
+          result = window.confirm('Are you sure?')
+          if ( result ) {
+            $('.js-form-fields').addClass('hidden');
+            var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
 
-        setPushState(selected_attributes);
+            setPushState(selected_attributes);
 
-        menuStateChanged(shouldLoadForm);
+            menuStateChanged(shouldLoadForm);
+          } else {
+          }
+        }else{
+          $('.js-form-fields').addClass('hidden');
+          var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);
+
+          setPushState(selected_attributes);
+
+          menuStateChanged(shouldLoadForm);
+        }
       }
     );
   };
