@@ -2642,6 +2642,7 @@ en:
       language: Language
       transactions: "Transactions"
       favorite: "Favorite"
+      my_listing: "My Listings"
     utils:
       km: km
       mi: mi

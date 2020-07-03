@@ -36,6 +36,7 @@ const profileActions = function profileActions(routes, username) {
   return username ?
   {
     inboxAction: routes.person_inbox_path(username),
+    myListingAction: '/s',
     transactionsAction: routes.transactions_person_messages_path(username),
     favoriteAction: routes.person_favorite_listings_path(username),
     profileAction: routes.person_path(username),
@@ -49,6 +50,7 @@ const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, not
   const color = customColor || styleVariables['--customColorFallback'];
   const actions = {
     inboxAction: () => false,
+    myListingAction: () => false,
     transactionsAction: () => false,
     favoriteAction: () => false,
     profileAction: () => false,
@@ -59,6 +61,7 @@ const avatarDropdownProps = (avatarDropdown, customColor, username, isAdmin, not
   };
   const translations = {
     inbox: t('web.topbar.inbox'),
+    myListing: t('web.topbar.my_listing'),
     transactions: t('web.topbar.transactions'),
     favorite: t('web.topbar.favorite'),
     profile: t('web.topbar.profile'),
@@ -96,6 +99,7 @@ const mobileProfileLinks = function mobileProfileLinks(username, isAdmin, router
       formatLinkData(profilePaths.favoriteAction, location, customColor, t('web.topbar.favorite')),
       formatLinkData(profilePaths.settingsAction, location, customColor, t('web.topbar.settings')),
       formatLinkData(profilePaths.logoutAction, location, customColor, t('web.topbar.logout')),
+      formatLinkData(profilePaths.myListingAction, location, customColor, t('web.topbar.my_listing')),
     ];
 
     if (isAdmin) {

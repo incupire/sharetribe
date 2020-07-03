@@ -31,3 +31,20 @@
     //   - else
     //     %span.fluid-thumbnail-grid-image-type{:class => "#{modifier_class}"}
     //       =# shape_name(listing)
+    
+.home-fluid-thumbnail-grid-author.custom_grid_author
+  .fluid-thumbnail-grid-image-title.custom_title.custom_parent
+    = listing.title if listing.title.present?
+  .fluid-thumbnail-grid-image-price-container.modify_price.custom_price
+    - if listing.price
+      %span.fluid-thumbnail-grid-image-price.custom_price
+        = image_tag "black_a_img.png", class: "avon_small_icon_img"
+        = MoneyViewUtils.to_humanized(listing.price).split('$')[1]
+        - price_unit = price_quantity_slash_unit(listing)
+      - if !price_unit.blank?
+        - price_text = " " + price_unit
+        %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
+          = price_text
+    - else
+      %span.fluid-thumbnail-grid-image-type
+        = shape_name(listing)
