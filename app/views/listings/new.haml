@@ -79,6 +79,18 @@
           %a.select.selected.hidden{:data => {:id => value[:id]}}
             .link-text= t(".selected_transaction_type", :transaction_type => t(value[:name_tr_key]))
 
+  .looking_good_popup
+    .looking_good_box
+      .close_popup
+        = image_tag 'close_popup.svg', alt: 'close', class: 'close_popup_img'
+      = image_tag 'popup_banner.png', alt: 'popup banner', class: 'popup_banner_img'
+      %h2.popup_heading
+        Looking good!
+      .popup_text
+        Now let's spread the word and earn $1000's Avontage Bucks! We know that you'll love Avontage and your friends will too! Click below to refer other business owners and earn $100 Avontage Bucks for each business-owner that signs up!
+      = image_tag 'Refer_&_Earn_new.png', alt: 'refer and earn', class: 'Refer_Earn_img'
+      .bottom_text I'll do it later thanks
+
   %h2.listing-form-title{:id => "foo"}
 
   #option-groups
