@@ -154,11 +154,6 @@ group :test do
   gem 'fake_stripe', git: 'https://github.com/ithouse/fake_stripe.git', ref: '6848daab104333b2c0c493ab069731d4a0b87f6f'
 end
 
-group :development, :test do
-  gem 'pry-byebug'
-end
-
-
 gem 'therubyracer', '~> 0.12.3', platforms: :ruby
 gem 'js-routes', '~> 1.3.3'
 

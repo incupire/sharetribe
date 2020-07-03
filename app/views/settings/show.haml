@@ -136,7 +136,8 @@
       = icon_tag("information", ["icon-fix"])
     %small
       = t("settings.profile.profile_picture_description")
-    = image_tag target_user.image.url, class: "square_image"
+    - if target_user.image.present?
+      = image_tag target_user.image.url, class: "square_image"
     = render 'layouts/filename', file_field: target_user.image
     .upload_image
       = "Upload an Image"

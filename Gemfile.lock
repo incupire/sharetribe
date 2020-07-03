@@ -106,7 +106,6 @@ GEM
       tzinfo
     browser (2.6.1)
     builder (3.2.3)
-    byebug (9.0.6)
     callsite (0.0.11)
     camertron-eprun (1.1.1)
     capybara (2.6.2)
@@ -390,9 +389,6 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
-    pry-byebug (3.4.2)
-      byebug (~> 9.0)
-      pry (~> 0.10)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     public_suffix (2.0.5)
@@ -679,7 +675,6 @@ DEPENDENCIES
   paypal-sdk-permissions (~> 1.96.4)
   possibly (~> 1.0.1)
   premailer (~> 1.10.4)
-  pry-byebug
   pry-rails
   public_suffix (~> 2.0.5)
   rack-attack (~> 5.0.1)
@@ -727,4 +722,4 @@ RUBY VERSION
    ruby 2.3.4p301
 
 BUNDLED WITH
-   1.17.3
+   2.0.1
