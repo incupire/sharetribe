@@ -105,6 +105,14 @@ module ListingsHelper
     end
   end
 
+  def listing_search_status_titles
+    if params[:status].present?
+      I18n.t("admin.communities.listings.status.selected_js") + params[:status].size.to_s
+    else
+      I18n.t("admin.communities.listings.status.all")
+    end
+  end
+
   def price_quantity_per_unit(listing)
     quantity =
       if listing.unit_type.present?

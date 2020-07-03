@@ -87,6 +87,7 @@
 //= require image_carousel
 //= require thumbnail_stripe
 //= require listing
+//= require listings
 //= require listing_images
 //= require location_search
 //= require datepicker

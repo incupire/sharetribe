@@ -454,6 +454,14 @@ en:
       listings:
         listings: Offers
         my_offers: My Offers & Requests
+        status:
+          all: "All statuses"
+          selected_js: "Selected statuses: "
+          open: Open
+          closed: Closed
+          expired: Expired
+          approval_pending: Pending
+          approval_rejected: Rejected
         headers:
           title: Title
           author: Author

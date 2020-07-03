@@ -14,120 +14,15 @@ class SettingsController < ApplicationController
   end
 
   def offers_and_request
-    @selected_left_navi_link = "offers_and_request"
     @service = Person::SettingsService.new(community: @current_community, params: params)
-    # if params[:start_date].present? && params[:end_date].present?
-    #   start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
-    #   end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
-    #   transactions = transactions.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
-    # end
-    scope_listings = resource_scope
-
-    #expired listings
-    if params[:search_for].present?
-      expired_listing_ids = []
-      scope_listings.each do |listing|
-        if listing.valid_until && listing.valid_until < DateTime.current
-          expired_listing_ids << listing.id
-        end
-      end
-      all_expired_listings = scope_listings.where(id: expired_listing_ids)
-
-      if params[:status].present? && params[:listing_title].present?
-        if params[:status].eql?('expired')
-          scope_listings = all_expired_listings.where(title: params[:listing_title])
-        else
-          scope_listings = scope_listings.where(open: params[:status].eql?('open'), title: params[:listing_title])
-        end
-      else
-        if params[:status].present?
-          if params[:status].eql?('expired')
-            scope_listings = all_expired_listings
-          else
-            scope_listings = scope_listings.where(open: params[:status].eql?('open'))
-          end
-        else
-          scope_listings = scope_listings.where(title: params[:listing_title])
-        end
-      end
-    end
-    respond_to do |format|
-      format.html do
-        @listings = scope_listings.order("#{sort_column} #{sort_direction}")
-                .paginate(:page => params[:page], :per_page => 30)        
-      end
-
-      # format.csv do
-      #   all_listings = scope_listings
-
-      #   marketplace_name = @current_community.use_domain ? @current_community.domain : @current_community.ident
-
-      #   self.response.headers["Content-Type"] ||= 'text/csv'
-      #   self.response.headers["Content-Disposition"] = "attachment; filename=#{marketplace_name}-listings-#{Date.today}.csv"
-      #   self.response.headers["Content-Transfer-Encoding"] = "binary"
-      #   self.response.headers["Last-Modified"] = Time.now.ctime.to_s
-
-      #   self.response_body = Enumerator.new do |yielder|
-      #     generate_csv_for(yielder, all_listings, @current_community)
-      #   end
-      # end
-    end
+    @selected_left_navi_link = "listings"
+    @statuses = %w[open closed expired]
+    @listings = resource_scope.order("#{sort_column} #{sort_direction}").paginate(page: params[:page], per_page: 30)
   end
 
   def transactions
     @selected_left_navi_link = "transactions"
     @service = Person::SettingsService.new(community: @current_community, params: params)
-    pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
-    params.permit!
-    transactions = Transaction.for_person(@service.person)
-    if params[:sort].present?
-      if params[:sort] == "type" && params[:direction] == "asc"
-        starter_txs = transactions.where(starter_id: @service.person.id)
-        transactions =  starter_txs + transactions.where(listing_author_id: @service.person.id)
-      elsif params[:sort] == "type" && params[:direction] == "desc"
-        author_txs = transactions.where(listing_author_id: @service.person.id)
-        transactions =  author_txs + transactions.where(starter_id: @service.person.id)
-      elsif params[:sort] == "sell" || params[:sort] == "purchase"
-        if params[:sort_direction] == "desc"
-          transactions = transactions.sort_by(&:payment_total_sort).reverse
-        else
-          transactions = transactions.sort_by(&:payment_total_sort)
-        end
-      else
-        sort_column = "transactions.#{params[:sort]}" if params[:sort].index('.').nil?
-        transactions = Transaction.order("#{simple_sort_column(sort_column)} #{params[:sort_direction]}")
-        transactions = transactions.includes(:listing).where("listing_author_id = ? OR starter_id = ?", @service.person.id, @service.person.id)
-        transactions = transactions.limit(pagination_opts[:limit]).offset(pagination_opts[:offset])
-      end
-    end
-    if params[:search_for].present?
-      if params[:transaction_title].present? && params[:status].present?
-        transactions = transactions.where(listing_title: params[:transaction_title], current_state: params[:status])
-      else
-        if params[:transaction_title].present?
-          transactions = transactions.where(listing_title: params[:transaction_title])
-        else
-          unless params[:status] == "all_status"
-            transactions = transactions.where(current_state: params[:status])
-          end
-        end
-      end
-    end
-    count = transactions.count
-    transactions = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], count) do |pager|
-      pager.replace(transactions)
-    end
-
-    respond_to do |format|
-      format.html do
-        render("transactions", {
-          locals: {
-            community: @current_community,
-            transactions: transactions,
-          }
-        })
-      end
-    end
   end
 
   def account
@@ -199,33 +94,12 @@ class SettingsController < ApplicationController
     end
   end
 
-  def simple_sort_column(sort_column)
-    case sort_column
-    when "listing_title"
-      "listing_title"
-    when "started"
-      "created_at"
-    when "status"
-      "current_state"
-    when "sell"
-      "payment_total"
-    when "purchase"
-      "payment_total"
-    else
-      "created_at"
-    end
-  end
-
   def sort_column
     case params[:sort]
     when 'started'
       'listings.created_at'
     when 'updated', nil
       'listings.updated_at'
-    when 'category'
-      'categories.url'
-    when 'featured'
-      'listings.featured'
     end
   end
 
@@ -235,12 +109,27 @@ class SettingsController < ApplicationController
 
   private
 
-  def resource_scope
-    @current_community.listings.exist.includes(:author, :category)
-  end
-
   def find_person_to_unsubscribe(current_user, auth_token)
     current_user || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }
   end
 
+  def resource_scope
+    scope = @current_community.listings.exist.includes(:author, :category).where(author: @service.person)
+    if params[:q].present?
+      scope = scope.search_title_author_category(params[:q])
+    end
+
+    if params[:status].present?
+      statuses = []
+      statuses.push(Listing.status_open_active) if params[:status].include?('open')
+      statuses.push(Listing.status_closed) if params[:status].include?('closed')
+      statuses.push(Listing.status_expired) if params[:status].include?('expired')
+      if statuses.size.positive?
+        status_scope = statuses.slice!(0)
+        statuses.map { |x| status_scope = status_scope.or(x) }
+        scope = scope.merge(status_scope)
+      end
+    end
+    scope
+  end
 end
