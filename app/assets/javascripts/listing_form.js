@@ -320,6 +320,9 @@ window.ST = window.ST || {};
 
           menuStateChanged(shouldLoadForm);
         }
+        if ($(this).text().toLowerCase().includes('offer') && typeof(selected_attributes.listing_shape) === 'string'){
+          $(".looking_good_popup").removeClass('hidden')
+        }
       }
     );
   };
