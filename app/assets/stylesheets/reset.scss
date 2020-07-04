@@ -1298,3 +1298,54 @@ table#admin_listings.new_design {
   display: inline;
   margin-right: 0px;
 }
+
+.looking_good_popup {
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  @media screen and (max-width: 767px) {
+    padding: 10px;
+  }
+
+  .looking_good_box {
+    background: #fff;
+    width: 100%;
+    border-radius: 8px;
+    position: relative;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    @media screen and (max-width: 767px) {
+      padding: 20px 10px;
+    }
+
+    .close_popup {
+      position: absolute;
+      right: 18px;
+      top: 18px;
+    }
+
+    .popup_banner_img {
+      margin: 20px 0 0px;
+    }
+    .popup_heading {
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+    .popup_text {
+      text-align: center;
+      margin: 0 0 10px;
+      font-weight: 600;
+    }
+    .Refer_Earn_img {
+      height: 65px;
+      margin: 0 0 5px;
+    }
+  }
+}

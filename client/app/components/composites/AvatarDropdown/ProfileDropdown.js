@@ -49,6 +49,7 @@ class ProfileDropdown extends Component {
       div({ className: css.box }, [
         div({ className: css.profileActions }, [
           r(ProfileActionCard, { label: this.props.translations.inbox, icon: inboxEmptyIcon, action: this.props.actions.inboxAction, notificationCount: this.props.unReadDirectMessageCount }),
+          r(ProfileActionCard, { label: this.props.translations.myListing, icon: transactionsIcon, action: this.props.actions.myListingAction }),
           r(ProfileActionCard, { label: this.props.translations.transactions, icon: transactionsIcon, action: this.props.actions.transactionsAction, notificationCount: this.props.unReadTransactionalMessagesCount }),
           r(ProfileActionCard, { label: this.props.translations.favorite, icon: heartIcon, action: this.props.actions.favoriteAction }),
           r(ProfileActionCard, { label: this.props.translations.profile, icon: profileIcon, action: this.props.actions.profileAction }),
@@ -73,6 +74,7 @@ class ProfileDropdown extends Component {
 ProfileDropdown.propTypes = {
   actions: PropTypes.shape({
     inboxAction: eitherStringOrFunc.isRequired,
+    myListingAction: eitherStringOrFunc.isRequired,
     transactionsAction: eitherStringOrFunc.isRequired,
     favoriteAction: eitherStringOrFunc.isRequired,
     profileAction: eitherStringOrFunc.isRequired,
@@ -82,6 +84,7 @@ ProfileDropdown.propTypes = {
   }).isRequired,
   translations: PropTypes.shape({
     inbox: PropTypes.string.isRequired,
+    myListing: PropTypes.string.isRequired,
     transactions: PropTypes.string.isRequired,
     favorite: PropTypes.string.isRequired,
     profile: PropTypes.string.isRequired,
