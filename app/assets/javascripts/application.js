@@ -94,6 +94,7 @@
 //= require follow
 //= require paypal_account_settings
 //= require transaction
+//= require transactions
 //= require listing_form
 //= require radio_buttons
 //= require new_layout

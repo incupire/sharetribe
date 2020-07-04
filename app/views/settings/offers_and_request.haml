@@ -1,4 +1,6 @@
 - target_user = @service.person
+- content_for :profile_progress do
+  = render :partial => "settings/progress_bar", :locals => {progress_title: target_user.progress_title, redirect_link: redirect_link_call, link_text: target_user.redirect_link_text, progress_percent: target_user.overall_progress}
 - content_for :title_header do
   %h1
     = t("layouts.settings.settings")

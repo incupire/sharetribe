@@ -119,6 +119,13 @@ class Transaction < ApplicationRecord
     .where(current_state: ['confirmed', 'canceled']).where.not(listings: {id: nil})
   }
 
+  scope :search_by_party_or_listing_title, ->(pattern) {
+    joins(:starter, :listing_author)
+    .where("listing_title like :pattern
+        OR (#{Person.search_by_pattern_sql('people')})
+        OR (#{Person.search_by_pattern_sql('listing_authors_transactions')})", pattern: pattern)
+  }
+
   #after_save :push_unread_message_reminder
 
   def booking_uuid_object
@@ -139,6 +146,11 @@ class Transaction < ApplicationRecord
     else
       UUIDUtils.parse_raw(self[:community_uuid])
     end
+  end
+
+  def show_link?
+    exclude = %w[pending payment_intent_requires_action payment_intent_action_expired]
+    !exclude.include?(self.current_state)
   end
 
   def starter_uuid_object

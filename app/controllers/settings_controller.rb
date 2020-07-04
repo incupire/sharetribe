@@ -1,4 +1,5 @@
 class SettingsController < ApplicationController
+  include Collator
 
   before_action :except => :unsubscribe do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_view_your_settings")
@@ -23,6 +24,14 @@ class SettingsController < ApplicationController
   def transactions
     @selected_left_navi_link = "transactions"
     @service = Person::SettingsService.new(community: @current_community, params: params)
+    statuses = %w[free confirmed paid canceled preauthorized rejected
+                       payment_intent_requires_action payment_intent_action_expired
+                       disputed refunded dismissed]
+    @statuses = statuses.map {|status|
+      [status, I18n.t("admin.communities.transactions.status_filter.#{status}"), status_checked?(status)]
+    }.sort_by{|_status, translation, _checked| collator.get_sort_key(translation) }
+
+    @transactions = transactions_scope.paginate(page: params[:page], per_page: 30)
   end
 
   def account
@@ -103,11 +112,51 @@ class SettingsController < ApplicationController
     end
   end
 
+  def sort_column_for_transaction
+    column = case params[:sort]
+             when "listing"
+              "listings.title"
+             when "started"
+              "created_at"
+              when "current_state"
+                "current_state"
+             end
+    column = "transactions.#{column}" if column.present? && column.index('.').nil?
+    column
+  end
+
   def sort_direction
     params[:direction] == 'asc' ? 'asc' : 'desc'
   end
 
   private
+
+  def transactions_scope
+    scope = Transaction.exist.by_community(@current_community.id).for_person(@service.person)
+    if params[:q].present?
+      pattern = "%#{params[:q]}%"
+      scope = scope.search_by_party_or_listing_title(pattern)
+    end
+    if params[:status].present? && params[:status].is_a?(String) || params[:status]&.reject(&:empty?).present?
+      scope = scope.where(current_state: params[:status])
+    end
+    if params[:sort].nil? || params[:sort] == "last_activity"
+      scope = scope.with_payment_conversation_latest(sort_direction)
+    elsif params[:sort] == "transaction_type"
+      if params[:direction] == 'asc'
+        scope = scope.with_payment_conversation.includes(:listing).order("FIELD(listings.author_id, @service.person.id)")
+      else
+        scope = scope.with_payment_conversation.includes(:listing).order("FIELD(starter_id, @service.person.id)")
+      end
+    else
+      scope = scope.with_payment_conversation.includes(:listing).order("#{sort_column_for_transaction} #{sort_direction}")
+    end
+    scope
+  end
+
+  def status_checked?(status)
+    params[:status].present? && params[:status].include?(status)
+  end
 
   def find_person_to_unsubscribe(current_user, auth_token)
     current_user || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }

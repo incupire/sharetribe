@@ -760,4 +760,10 @@ class Person < ApplicationRecord
   def logger_metadata
     { person_uuid: uuid }
   end
+
+  class << self
+    def search_by_pattern_sql(table, pattern=':pattern')
+      "(#{table}.given_name LIKE #{pattern} OR #{table}.family_name LIKE #{pattern} OR #{table}.display_name LIKE #{pattern})"
+    end
+  end
 end

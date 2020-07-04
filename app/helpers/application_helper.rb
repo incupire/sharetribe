@@ -770,6 +770,14 @@ module ApplicationHelper
     end
   end
 
+  def selected_statuses_title
+    if params[:status].present?
+      I18n.t("admin.communities.transactions.status_filter.selected", count: params[:status].size)
+    else
+      I18n.t("admin.communities.transactions.status_filter.all")
+    end
+  end
+
   def format_local_date(value)
     format = t("datepicker.format").gsub(/([md])[md]+/, '%\1').gsub(/yyyy/, '%Y')
     value.present? ? value.strftime(format) : nil

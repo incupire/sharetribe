@@ -19,23 +19,77 @@
           .load_balance
             = link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: "button load_button"
       %br
-    = form_tag transactions_person_settings_path(target_user), :method => :get do
-      .row
-        .col-6
-          = hidden_field_tag :search_for, 'none'
-          = text_field_tag :transaction_title, params[:transaction_title], placeholder: 'Search for a transaction title or other party involvement'
-        .col-3
-          = select_tag :status, options_for_select([['All statuses', 'all_status'], ['Canceled', 'canceled'], ['Completed', 'confirmed'], ['Free Transaction', 'free'], ['Paid', 'paid'], ['Preauthorized','preauthorized'], ['Rejected','rejected']], selected: params[:status])
-        .col-2
-          = submit_tag 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'
-    - if transactions.present?
-      .scroll_frame
-        .scrollable_table
-          = render :partial => "transaction_row", :locals => {transactions: transactions, target_user: target_user  }
+  = form_tag '', :method => :get do
+    .row
+      .col-6
+        = text_field_tag :q, params[:q], placeholder: 'Search for a transaction title or other party involved'
+      .col-3.status-select-wrapper
+        .status-select-button
+          = selected_statuses_title
 
-          =# will_paginate(transactions)
-          =# pageless(transactions.total_pages, '#conversations', request.path, t('conversations.index.loading_more_messages'))
+        .status-select-dropdown
+          .status-select-line.reset{data: {status: 'all'}}
+            = selected_statuses_title
+          - @statuses.each do |status, status_translation, checked|
+            .status-select-line{class: checked ? 'selected' : '', data: {status: status}}
+              = check_box_tag "status[]", status, checked, id: "status-#{status}"
+              = status_translation
+      .col-3
+        = submit_tag 'Search', class: 'button listing-search-button'
+        = link_to 'Show all', transactions_person_settings_path(target_user, sort: "last_activity", direction: "desc")
 
-    - else
-      #no_conversations
-        = t("conversations.index.no_transactions")
+  %span#admin_transactions_count= page_entries_info(@transactions, :model => "Transaction").html_safe
+
+
+  %table#admin_transactions
+    %thead
+      %tr
+        %th= render partial: "layouts/sort_link", locals: { column: "transaction_type", direction: sort_link_direction("transaction_type"), title: 'Type'}
+        %th= render partial: "layouts/sort_link", locals: { column: "started", direction: sort_link_direction("started"), title: t("admin.communities.transactions.headers.started") }
+        %th= render partial: "layouts/sort_link", locals: { column: "last_activity", direction: sort_link_direction("last_activity"), title: t("admin.communities.transactions.headers.last_activity") }
+        %th
+          =# render partial: "layouts/sort_link", locals: { column: "other_member", direction: sort_link_direction("other_member"), title: 'Other Member' }
+          Other Member
+        %th= render partial: "layouts/sort_link", locals: { column: "listing", direction: sort_link_direction("listing"), title: 'Offer Title' }
+        %th
+          =# render partial: "layouts/sort_link", locals: { column: "sell_amount", direction: sort_link_direction("sell_amount"), title: 'Sell'}
+          Sell
+        %th
+          =# render partial: "layouts/sort_link", locals: { column: "purchase_amount", direction: sort_link_direction("purchase_amount"), title: 'Purchase'}
+          Purchase
+        %th= render partial: "layouts/sort_link", locals: { column: "current_state", direction: sort_link_direction("current_state"), title: 'Status'}
+    %tbody
+      - @transactions.each do |transaction|
+        %tr
+          %td= transaction.listing_author_id == target_user.id ? "Sell" : "Purchase"
+          %td=l(transaction.created_at, format: :short_date)
+          %td=l(transaction.last_activity, format: :short_date)
+          %td
+            - if transaction.listing_author_id == target_user.id
+              =Maybe(transaction.starter).map { |p| link_to_unless(p.deleted, PersonViewUtils.person_display_name(p, @current_community),person_path(p.username)) }.or_else("")
+            - else
+              =Maybe(transaction.author).map { |p| link_to_unless(p.deleted, PersonViewUtils.person_display_name(p, @current_community), person_path(p.username)) }.or_else("")
+          - listing_title = transaction.listing_title || t("admin.communities.transactions.not_available")
+          %td=Maybe(transaction.listing).map { |listing| link_to_unless(listing.deleted, listing_title, listing_path(transaction.listing_id)) }.or_else(listing_title)
+          %td
+            - if transaction.listing_author_id == target_user.id
+              = '+'
+              =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""
+          %td
+            - if transaction.listing_author_id != target_user.id
+              = '-'
+              =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""    
+          %td
+            - status = t("admin.communities.transactions.status.#{transaction.payment_gateway}.#{transaction.status}")
+            - if transaction.show_link?
+              = link_to status, person_transaction_path(target_user, transaction.id)
+            - else
+              = status  
+  .row
+    .col-12
+      = will_paginate @transactions
+
+- content_for :extra_javascript do
+  = js_t ["admin.communities.transactions.status_filter.all", "admin.communities.transactions.status_filter.selected_js"], true
+  :javascript
+    window.ST.initializeTransactionSearchFormSelector();
