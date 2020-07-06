@@ -1,24 +1,27 @@
+
 - align = "left" unless defined? align
 
 %tr
   %td{:align => align || "center", :style => "padding-top: 25px;"}
-    =# image_tag 'logo.png', :alt => "logo", :style => "height: 40px;"
-    %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/logo.png", :style => "height: 40px;"}/
+    = link_to 'https://www.avontage.com/', :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag 'logo.png', height: "40px", alt: 'logo'
+
 %tr
   %td{:align => align || "center", :style => "padding-top: 5px; padding-bottom: 20px;"}
-    %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/Refer_&_Earn_new.png", :style => "height: 60px;"}/
+    = link_to 'https://www.avontage.com/blog/referandearn/', :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag 'Refer_&_Earn_new.png', height: "60px", alt: 'logo'
 %tr
   %td{:align => align || "center", :style => "padding-top: 5px; padding-bottom: 20px;"}
-    = link_to '#', :style => "margin-left: 8px;margin-right: 8px;" do
-      %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/homepage/linkedin.png", :style => "height: 32px;"}
-    = link_to '#', :style => "margin-left: 8px;margin-right: 8px;" do
-      %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/homepage/facebook.png", :style => "height: 32px;"}
-    = link_to '#', :style => "margin-left: 8px;margin-right: 8px;" do
-      %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/homepage/instagram.png", :style => "height: 32px;"}
-    = link_to '#', :style => "margin-left: 8px;margin-right: 8px;" do
-      %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/homepage/pinterest.png", :style => "height: 32px;"}
-    = link_to '#', :style => "margin-left: 8px;margin-right: 8px;" do
-      %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/homepage/twitter.png", :style => "height: 32px;"}
+    = link_to 'https://www.linkedin.com/company/avontage/', :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag 'homepage/linkedin.png', height: "32px", alt: 'logo', :style => "border-radius: 7px;"
+    = link_to 'https://www.facebook.com/avontage', :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag 'homepage/facebook.png', height: "32px", alt: 'logo', :style => "border-radius: 7px;"
+    = link_to 'https://www.instagram.com/avontage/', :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag 'homepage/instagram.png', height: "32px", alt: 'logo', :style => "border-radius: 7px;"
+    = link_to 'https://www.pinterest.com/avontage/pins/', :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag 'homepage/pinterest.png', height: "32px", alt: 'logo', :style => "border-radius: 7px;"
+    = link_to 'https://twitter.com/avontagebiz', :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag 'homepage/twitter.png', height: "32px", alt: 'logo', :style => "border-radius: 7px;"
 
 %tr
   %td{:align => "center", :style => "padding-bottom: 10px; font-weight: bold;"}
@@ -27,7 +30,7 @@
 
 %tr
   %td{:align => align || "center", :style => "padding-top: 5px; padding-bottom: 20px;"}
-    = link_to '#', :style => "margin-right: 14px;" do
-      %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/homepage/app_store.png", :style => "height: 54px;"}
-    = link_to '#', :style => "margin-left: 14px;" do
-      %img{:alt => "logo", :src => "/home/mac/projects/avontageplatform/app/assets/images/homepage/google_play.png", :style => "height: 54px;"}
+    = link_to 'https://apps.apple.com/us/app/avontage/id1477651720', :style => "margin-right: 14px;" do
+      = image_tag 'homepage/app_store.png', height: "54px", alt: 'logo', :style => "border-radius: 8px;"
+    = link_to 'https://play.google.com/store/apps/details?id=com.avontage.app&hl=en_US', :style => "margin-left: 14px;" do
+      = image_tag 'homepage/google_play.png', height: "54px", alt: 'logo', :style => "border-radius: 8px;"

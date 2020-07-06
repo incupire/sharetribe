@@ -2722,7 +2722,7 @@ en:
     card_not_stored: "Your credit card payment is securely processed by Stripe. %{service_name} does not store your credit/debit card information."
     #card_not_stored: "Your payment is securely processed by Stripe. %{service_name} does not store your credit/debit card information."
     deduction_notice: "A transaction of %{percentage}% will be deducted from offers you SELL, but only when accepting card payments."
-    missing_payment: "You have open offers but your account is not set up to receive money. To configure your payment preferences, visit %{settings_link}"
+    missing_payment: "If you would like to accept credit card payments in addition to Avontage Bucks trade credits on our platform. you'll need to configure your payment preferences at %{settings_link}"
     stripe_bank_connected: "Bank account details configured successfully!"
     stripe_can_accept: "You are now all set to receive money to your bank account"
     stripe_credit_card: "Credit card"

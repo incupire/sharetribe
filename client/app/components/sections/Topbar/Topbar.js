@@ -36,7 +36,7 @@ const profileActions = function profileActions(routes, username) {
   return username ?
   {
     inboxAction: routes.person_inbox_path(username),
-    myListingAction: '/s',
+    myListingAction: '/en/'+username+'/settings/offers_and_request',
     transactionsAction: routes.transactions_person_messages_path(username),
     favoriteAction: routes.person_favorite_listings_path(username),
     profileAction: routes.person_path(username),
