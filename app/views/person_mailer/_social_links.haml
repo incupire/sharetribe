@@ -8,8 +8,10 @@
 
 %tr
   %td{:align => align || "center", :style => "padding-top: 5px; padding-bottom: 20px;"}
-    = link_to 'https://www.avontage.com/blog/referandearn/', :style => "margin-left: 8px;margin-right: 8px;" do
-      = image_tag 'Refer_&_Earn_new.png', height: "60px", alt: 'logo'
+
+    = link_to @current_community.homepage_graphic_url.present? ? @current_community.homepage_graphic_url : "https://www.avontage.com/blog/referandearn", :style => "margin-left: 8px;margin-right: 8px;" do
+      = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn_new.png', alt: 'logo', height: "60px"
+
 %tr
   %td{:align => align || "center", :style => "padding-top: 5px; padding-bottom: 20px;"}
     = link_to 'https://www.linkedin.com/company/avontage/', :style => "margin-left: 8px;margin-right: 8px;" do

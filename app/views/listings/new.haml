@@ -114,8 +114,8 @@
       .popup_text
         Now let's spread the word and earn $1000's Avontage Bucks! We know that you'll love Avontage and your friends will too! Click below to refer other business owners and earn $100 Avontage Bucks for each business-owner that signs up!
 
-      = link_to "https://www.avontage.com/blog/referandearn/" do
-        = image_tag 'Refer_&_Earn_new.png', alt: 'refer and earn', class: 'Refer_Earn_img'
+      = link_to @current_community.homepage_graphic_url.present? ? @current_community.homepage_graphic_url : "https://www.avontage.com/blog/referandearn" do
+        = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn_new.png', alt: 'refer and earn', class: 'Refer_Earn_img'
       .bottom_text.will_do_latter I'll do it later thanks
 
   .js-form-fields.hidden

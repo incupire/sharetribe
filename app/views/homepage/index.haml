@@ -134,8 +134,8 @@
   
   .home_toolbar_section
     .left_section
-      = link_to "https://www.avontage.com/blog/referandearn/" do
-        = image_tag 'Refer_&_Earn.png', alt: 'offer-img', class: 'offer_image'
+      = link_to @current_community.homepage_graphic_url.present? ? @current_community.homepage_graphic_url : "https://www.avontage.com/blog/referandearn" do
+        = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn.png', alt: 'offer-img', class: 'offer_image'
 
       .gray_text_box
         %p Have a project or in need of a service?

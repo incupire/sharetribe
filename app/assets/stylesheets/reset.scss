@@ -1354,3 +1354,22 @@ table#admin_listings.new_design {
     }
   }
 }
+.add_graphics_section{
+  padding-top: 100px;
+}
+
+.graphic-upload > input {
+  display: none;
+}
+
+.graphic-upload > label{
+  cursor:pointer;
+}
+
+.graphics-upload-btn {
+  height: 42px;
+  width: 31%;
+  border: 2px solid #c3c3cd;
+  text-align: center;
+  padding-top: 8px;
+}

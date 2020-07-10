@@ -246,7 +246,6 @@ Rails.application.routes.draw do
           put :social_media, to: 'communities#update_social_media'
           put :analytics, to: 'communities#update_analytics'
           delete :delete_marketplace
-
           # DEPRECATED (2016-08-26)
           # These routes are not in use anymore, don't use them
           # See new "Topbar menu" routes above, outside of communities resource
@@ -268,6 +267,7 @@ Rails.application.routes.draw do
           put :update_details,     to: "community_customizations#update_details" # PUT request, no redirect
           get :edit_look_and_feel, to: redirect("/admin/look_and_feel/edit")
           put :edit_look_and_feel, to: "community_customizations#update_look_and_feel" # PUT request, no redirect
+          patch :add_special_graphics, to: "community_customizations#add_special_graphics", as: :add_special_graphics
 
           # DEPRECATED (2016-03-22)
           # These routes are not in use anymore, don't use them
@@ -283,6 +283,7 @@ Rails.application.routes.draw do
           get "getting_started_guide/invitation",             to: redirect("/admin/getting_started_guide/invitation")
 
         end
+        resources :rebates
         resources :listings, controller: :community_listings, only: [:index, :destroy] do
           member do
             put :featured

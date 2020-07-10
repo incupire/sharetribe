@@ -47,11 +47,14 @@
       .payment_method
         Payment method
       .earn_extra-box
-        %span.bold
-          Earn
-        %span.green
-          Extra 10 Avontage Bucks
-        When you reload Avontage admin will add your bonus after the reload
+        - if @current_community.reload_page_graphic.present?
+          = image_tag @current_community.reload_page_graphic.url
+        - else
+          %span.bold
+            Earn
+          %span.green
+            Extra 10 Avontage Bucks
+          When you reload Avontage admin will add your bonus after the reload
       .form-row
         .row
           .col-12

@@ -61,7 +61,7 @@
                     = yield :title_header
             - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
               = link_to is_homepage ? search_path(category: "featured") : '' do
-                .coverimage{class: on_admin? ? 'main_height' : ''}
+                .coverimage
                   - unless on_admin?
                     %figure.marketplace-cover-small.fluidratio.custom_small_cover
                   .coverimage-fade.disbale_fade{:class => yield(:coverfade_class)}

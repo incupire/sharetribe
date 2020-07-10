@@ -1,0 +1,84 @@
+- content_for :title_header do
+  %h1
+    = t("layouts.admin.admin")
+    = "-"
+    = t("admin.rebates.rebate")
+
+= render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
+
+.left-navi-section
+  %h2 Instant Rebate Codes for Avontage Bucks Payments only
+  %p 
+    Enter and activate rebate codes here.
+    %br
+    Rebate codes are applied at the checkout screen for Avontage Bucks transactions only.
+    %br
+    Rebate amount is deducted from the buyers total, but the transaction fee is calculated based on the original offer amount.
+    %br
+    The rebate amount WILL NOT be deducted from the seller's total. Seller will receive the full amount in Avontage Bucks
+
+  - if @rebates.present?
+    %table#admin_rebates
+      %thead
+        %tr
+          %th Rebate Code
+          %th Amount $A
+          %th Expires on
+          %th
+      %tbody
+        - @rebates.each do |rebate|
+          %tr
+            %td= rebate.code
+            %td= "-#{rebate.amount} A-bucks"
+            %td= rebate.expire_on.strftime("%b %d, %Y")
+            %td
+              = link_to edit_admin_community_rebate_path(@current_community, rebate), remote: true do
+                = icon_tag("edit")
+              = link_to admin_community_rebate_path(@current_community, rebate), method: 'delete', data: {confirm: 'Are you sure?'} do
+                %i.fa.fa-trash
+    .row
+      .col-12
+        = will_paginate @rebates
+  = link_to '+ Create a new rebate code', new_admin_community_rebate_path(@current_community), remote: true
+  #rebate-code-popup-box
+  .add_graphics_section
+    = form_tag add_special_graphics_admin_community_path(@current_community), method: 'patch', multipart: true do
+      .row
+        .col-12
+          %h2 Avontage Bucks Reload Page Infographic
+          - if @current_community.reload_page_graphic.present?
+            = image_tag @current_community.reload_page_graphic.url, height: "120px", width: "100%"
+          .graphic-upload
+            %label{for: 'community_reload_page_graphic'}
+              %div.graphics-upload-btn Upload an image
+            = file_field_tag 'community[reload_page_graphic]'
+          .reload_page-select-file-name  
+      %br
+      %br
+      .row
+        .col-12
+          %h2 Homepage Top-Left Special Graphics and URL link
+          - if @current_community.homepage_graphic.present?
+            = image_tag @current_community.homepage_graphic.url, height: "200px"
+          .graphic-upload
+            %label{for: 'community_homepage_graphic'}
+              %div.graphics-upload-btn Upload an image
+            = file_field_tag 'community[homepage_graphic]'
+          .homepage-select-file-name  
+      .row
+        .col-12
+          URL to Link to
+          = text_field_tag 'community[homepage_graphic_url]', @current_community.homepage_graphic_url
+          Open in the same browser/window
+
+      = submit_tag 'Save', class: 'ver-update-btn button report_submit'    
+
+- content_for :extra_javascript do
+  :javascript
+    $('#community_reload_page_graphic').change(function(e){
+      $('.reload_page-select-file-name').text(e.target.files[0].name);
+    });
+
+    $('#community_homepage_graphic').change(function(e){
+      $('.homepage-select-file-name').text(e.target.files[0].name);
+    });

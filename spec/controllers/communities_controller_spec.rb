@@ -99,6 +99,15 @@
 #  require_verification_to_send_direct_message :boolean          default(TRUE)
 #  allow_user_to_post_comment_to_request       :boolean          default(FALSE)
 #  new_request_reminder_to_admins              :boolean          default(TRUE)
+#  reload_page_graphic_file_name               :string(255)
+#  reload_page_graphic_content_type            :string(255)
+#  reload_page_graphic_file_size               :integer
+#  reload_page_graphic_updated_at              :datetime
+#  homepage_graphic_file_name                  :string(255)
+#  homepage_graphic_content_type               :string(255)
+#  homepage_graphic_file_size                  :integer
+#  homepage_graphic_updated_at                 :datetime
+#  homepage_graphic_url                        :string(255)
 #
 # Indexes
 #

@@ -511,6 +511,13 @@ module ApplicationHelper
         :icon_class => icon_class("form"),
         :path => admin_custom_fields_path,
         :name => "listing_fields"
+      },
+      {
+        :topic => :configure,
+        :text => t("admin.rebates.rebate"),
+        :icon_class => icon_class("offer_to_swap"),
+        :path => admin_community_rebates_path(@current_community),
+        :name => "rebates"
       }
     ]
 

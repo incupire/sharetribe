@@ -6,6 +6,8 @@ en:
         delimiter: ","
         format: "%u%n"
   admin:
+    rebates:
+      rebate: 'Rebates & Specials'
     categories:
       edit:
         edit_listing_category: "Edit category '%{category}'"

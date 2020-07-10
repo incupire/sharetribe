@@ -1,0 +1,21 @@
+.lightbox.lightbox-model.rebate-code-popup 
+  .lightbox-content.code-popup.border-thick
+    %a{:href => "", :class => "close right", :id => "close_x"}
+      %i.icon.icon-remove.icon-custom
+    .row.heading-row
+      .col-12
+        = form_for rebate, url: rebate.new_record? ? admin_community_rebates_path(@current_community) : admin_community_rebate_path(@current_community, rebate) do |f|
+          .row
+            .col-12
+              = f.label :code, 'Rebate code'
+              = f.text_field :code, required: true
+          .row
+            .col-6
+              = f.label :amount, 'Amount $A'
+              = f.text_field :amount, required: true
+            .col-6
+              = f.label :expire_on, 'Expire on'
+              = f.text_field :expire_on, required: true, value: rebate.new_record? ? nil : rebate.expire_on.strftime("%m/%d/%Y")
+          .row
+            .col-12
+              = f.submit 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'

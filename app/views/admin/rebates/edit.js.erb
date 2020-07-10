@@ -1,0 +1,4 @@
+$('.rebate-code-popup').remove()
+$("#rebate-code-popup-box").html("<%=j render 'form', rebate: @rebate%>")
+$('.rebate-code-popup').lightbox_me({centered: true, zIndex: 1000000})
+$("#rebate_expire_on").datepicker()

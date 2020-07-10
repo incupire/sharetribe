@@ -73,7 +73,17 @@ class Admin::CommunityCustomizationsController < Admin::AdminBaseController
     redirect_to admin_details_edit_path
   end
 
+  def add_special_graphics
+    @current_community.update(graphics_params)
+    flash[:notice] = 'Successfully updated'
+    redirect_to admin_community_rebates_path(@current_community)
+  end
+
   private
+
+  def graphics_params
+    params.require(:community).permit(:reload_page_graphic, :homepage_graphic, :homepage_graphic_url)
+  end
 
   def find_or_initialize_customizations(locales)
     locales.inject({}) do |customizations, locale|

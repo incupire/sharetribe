@@ -294,6 +294,15 @@ CREATE TABLE `communities` (
   `require_verification_to_send_direct_message` tinyint(1) DEFAULT '1',
   `allow_user_to_post_comment_to_request` tinyint(1) DEFAULT '0',
   `new_request_reminder_to_admins` tinyint(1) DEFAULT '1',
+  `reload_page_graphic_file_name` varchar(255) DEFAULT NULL,
+  `reload_page_graphic_content_type` varchar(255) DEFAULT NULL,
+  `reload_page_graphic_file_size` int(11) DEFAULT NULL,
+  `reload_page_graphic_updated_at` datetime DEFAULT NULL,
+  `homepage_graphic_file_name` varchar(255) DEFAULT NULL,
+  `homepage_graphic_content_type` varchar(255) DEFAULT NULL,
+  `homepage_graphic_file_size` int(11) DEFAULT NULL,
+  `homepage_graphic_updated_at` datetime DEFAULT NULL,
+  `homepage_graphic_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -1442,6 +1451,19 @@ CREATE TABLE `prospect_emails` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `rebates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rebates` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `code` varchar(255) DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `expire_on` date DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `schema_migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -2560,6 +2582,8 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200622121046'),
 ('20200623110342'),
 ('20200624120605'),
-('20200629060035');
+('20200629060035'),
+('20200710060821'),
+('20200710092930');
 
 
