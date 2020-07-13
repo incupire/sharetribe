@@ -20,6 +20,10 @@ class FeedbacksController < ApplicationController
     render_form
   end
 
+  def contact_page
+    render_form
+  end
+
   def create
     feedback_form = FeedbackForm.new(params[:feedback])
 

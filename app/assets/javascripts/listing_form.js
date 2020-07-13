@@ -302,7 +302,7 @@ window.ST = window.ST || {};
     $('.new-listing-form').find('a.select').click(
       function() {
         if (!$('.js-form-fields').hasClass('hidden') && ($(this).closest('.selected-group').last().attr('name') == 'category' || $(this).closest('.selected-group').last().attr('name') == 'subcategory')){
-          result = window.confirm('Are you sure?')
+          result = window.confirm(' Please save the offer first before changing the category. If you press OK, you will lose everything you have entered so far.')
           if ( result ) {
             $('.js-form-fields').addClass('hidden');
             var shouldLoadForm = select_listing_form_menu_link($(this), locale, attribute_array, listing_form_menu_titles, ordered_attributes, selected_attributes);

@@ -24,7 +24,17 @@ class InfosController < ApplicationController
     @selected_left_navi_link = "terms"
   end
 
+  def terms_and_condition
+    @selected_tribe_navi_tab = "about"
+    @selected_left_navi_link = "terms"
+  end
+
   def privacy
+    @selected_tribe_navi_tab = "about"
+    @selected_left_navi_link = "privacy"
+  end
+
+  def privacy_page
     @selected_tribe_navi_tab = "about"
     @selected_left_navi_link = "privacy"
   end
