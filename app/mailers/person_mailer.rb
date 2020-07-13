@@ -259,7 +259,7 @@ class PersonMailer < ActionMailer::Base
   # gives feedback on marketplace throught the contact us button in menu
   def new_feedback(feedback, community)
     subject = t("feedback.feedback_subject", service_name: community.name(I18n.locale))
-
+    set_up_layout_variables(nil, community)
     premailer_mail(
       :to => mail_feedback_to(community, APP_CONFIG.feedback_mailer_recipients),
       :from => community_specific_sender(community),

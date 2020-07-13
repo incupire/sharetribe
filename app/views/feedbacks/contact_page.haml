@@ -25,11 +25,13 @@
 
   .social_contact_box
     .social_contact_row
-      = image_tag 'livechat.png', alt: 'livechat', class: 'social_img'
+      = link_to 'https://app.purechat.com/w/AvontageAgent' do
+        = image_tag 'livechat.png', alt: 'livechat', class: 'social_img'
       %span
         %i Live chat with an agent
     .social_contact_row
-      = image_tag 'avon_boat.png', alt: 'livechat', class: 'social_img'
+      = link_to 'https://my.artibot.ai/avonbot' do
+        = image_tag 'avon_boat.png', alt: 'livechat', class: 'social_img'
       %span
         %i Chat with Avon bot
     .social_contact_row
