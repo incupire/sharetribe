@@ -1,0 +1,10 @@
+<%if @error.present?%>
+  $("#coupon-code-error").text("<%=@error%>")
+  $("#coupon-code-applied").text('')
+  $("#promo_code").val("")
+<%else%>
+  $("#coupon-code-applied").text('Rebate successfully applied')
+  $("#coupon-code-error").text('')
+  $("#promo_code").val("<%=params[:coupon]%>")
+<%end%>
+$("#initiate-break-down").html("<%=j render partial: 'transactions/price_break_down', locals: @price_break_down_locals%>")

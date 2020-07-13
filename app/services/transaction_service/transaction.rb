@@ -128,9 +128,10 @@ module TransactionService::Transaction
       transaction = Transaction.find(tx[:id])
       order_total = order_total(tx)
       renter = transaction.starter
-      renter.coupon_balance = renter.coupon_balance - order_total
+      coupon_discount = transaction.coupon_discount
+      renter.coupon_balance = renter.coupon_balance - (order_total - coupon_discount)
       if renter.save
-        create_avon_bucks_history(order_total, renter, "deducted", transaction)
+        create_avon_bucks_history((order_total - coupon_discount), renter, "deducted", transaction)
       end
     end
     tx.reload
@@ -188,7 +189,7 @@ module TransactionService::Transaction
     #Return coupon balance to renter on reject
     if res.success && tx.payment_gateway.eql?(:coupon_pay)
       transaction = Transaction.find(tx[:id])
-      order_total = order_total(tx)
+      order_total = order_total(tx) - transaction.coupon_discount
       renter = transaction.starter
       if renter.coupon_balance_cents.present?
         renter.coupon_balance += order_total   

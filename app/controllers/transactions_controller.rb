@@ -379,7 +379,7 @@ class TransactionsController < ApplicationController
         duration: booking ? tx.listing_quantity : nil,
         quantity: quantity,
         subtotal: show_subtotal ? tx.item_total : nil,
-        total: Maybe(tx.payment_total).or_else(payment[:total_price]),
+        total: Maybe(tx.payment_total - tx.coupon_discount).or_else(payment[:total_price]),
         seller_gets: Maybe(tx.payment_total).or_else(payment[:total_price]) - tx.commission,
         fee: tx.commission,
         avon_commission: tx.avon_commission,
@@ -390,7 +390,8 @@ class TransactionsController < ApplicationController
         start_time: booking_per_hour ? tx.booking.start_time : nil,
         end_time: booking_per_hour ? tx.booking.end_time : nil,
         auto_accept_transaction: tx.auto_accept_transaction,
-        auto_complete_transaction: tx.auto_complete_transaction
+        auto_complete_transaction: tx.auto_complete_transaction,
+        coupon_discount: tx.coupon_discount
       })
     end
   end

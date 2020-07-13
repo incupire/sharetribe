@@ -11,4 +11,5 @@
 #
 
 class Rebate < ApplicationRecord
+	validates_uniqueness_of :code
 end

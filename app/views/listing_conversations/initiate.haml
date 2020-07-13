@@ -24,8 +24,31 @@
         %div
           = t("listing_conversations.preauthorize.by", listing: link_to("#{listing.title}", listing_path(listing.id)), author: author_link).html_safe
 
-      %li
+      %li#initiate-break-down
         = render partial: "transactions/price_break_down", locals: price_break_down_locals.merge(is_author: false)
+    = form_tag apply_coupon_path(listing_id: listing.id), method: :post, id: "apply-coupon-form", remote: true do
+      %h2 Have a rebate or promo code?
+      .row
+        .col-9
+          = text_field_tag 'coupon', nil, required: true
+          #coupon-code-error
+          #coupon-code-applied
+          = hidden_field_tag(:start_on, start_on&.iso8601 )
+          = hidden_field_tag(:end_on, end_on&.iso8601 )
+          - if per_hour
+            = hidden_field_tag(:start_time, start_time&.iso8601 )
+            = hidden_field_tag(:end_time, end_time&.iso8601 )
+            = hidden_field_tag(:per_hour, '1' )
+          - if quantity
+            = hidden_field_tag :quantity, quantity
+
+          - if delivery_method
+            = hidden_field_tag :delivery, delivery_method
+        .col-3
+          = submit_tag 'Apply', class: 'ver-update-btn button report_submit'
+      %p
+        * Instant rebates are good for Avontage Bucks transactions only sponsored by Avontage platform
+
 
   = form_tag form_action, method: :post, id: "transaction-form" do
 
@@ -54,6 +77,7 @@
         = hidden_field_tag :delivery, delivery_method
 
       = hidden_field_tag :payment_type
+      = hidden_field_tag :promo_code
 
       - if stripe_in_use || @current_user.has_coupon_balance?
         .row-with-dynamiv-divider

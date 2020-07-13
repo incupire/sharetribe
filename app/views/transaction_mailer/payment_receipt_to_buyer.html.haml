@@ -70,6 +70,15 @@
               = t("emails.paypal_new_payment.shipping_total")
             %td= shipping_total
 
+        - if promo_code_discount.present? && promo_code_discount.to_f > 0
+          %tr
+            %td
+              Instant rebate
+            %td
+              = '-'
+              = image_tag "#{host}/assets/black_a_img.png" , style: "height: 15px; position: relative; top: 1px;"
+              = MoneyViewUtils.to_humanized(promo_code_discount).split('$')[1]
+
         %tr{:style => "border-top: 1px solid black"}
           %td
             %b=t("emails.receipt_to_payer.total")

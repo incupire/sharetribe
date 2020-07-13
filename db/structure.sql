@@ -1663,6 +1663,8 @@ CREATE TABLE `transactions` (
   `auto_accept_transaction` tinyint(1) DEFAULT '0',
   `auto_rejected` tinyint(1) DEFAULT '0',
   `auto_complete_transaction` tinyint(1) DEFAULT '0',
+  `rebate_code` varchar(255) DEFAULT NULL,
+  `rebate_amount_cents` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_transactions_on_listing_id` (`listing_id`) USING BTREE,
   KEY `index_transactions_on_conversation_id` (`conversation_id`) USING BTREE,
@@ -2584,6 +2586,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200624120605'),
 ('20200629060035'),
 ('20200710060821'),
-('20200710092930');
+('20200710092930'),
+('20200713051953');
 
 

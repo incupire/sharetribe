@@ -10,6 +10,7 @@ class PreauthorizeTransactionsController < ApplicationController
   before_action :ensure_user_has_stripe_customer_account, only: [:initiated]
   before_action :ensure_authorized_to_reply
   before_action :ensure_can_receive_payment
+  before_action :validate_promo_code
 
   def initiate
     @stripe_service = stripe_settings
@@ -60,7 +61,13 @@ class PreauthorizeTransactionsController < ApplicationController
       if params[:payment_type].eql?('coupon_pay')
         price_break_down = price_break_down_locals(validation_result.data, listing)
         avon_commission = order_commission(validation_result.data, listing)
-        total_payble = price_break_down[:total] - avon_commission
+        @rebate_code = Rebate.find_by(code: params[:promo_code])
+        if @rebate_code.present?
+          @coupon_discount = Money.new(@rebate_code.amount * 100, listing.currency)
+        else
+          @coupon_discount = Money.new(0, listing.currency)
+        end
+        total_payble = price_break_down[:total] - avon_commission - @coupon_discount
         if total_payble > @current_user.coupon_balance
           error_msg = "Insufficient Avontage Bucks! &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Click to reload your balance. <div class='flash_reload'><a href= #{reload_your_balance_person_settings_path(@current_user)}> Reload Your Balance</a></div>".html_safe
           render_error_response(request.xhr?, error_msg, listing_path(listing))
@@ -73,6 +80,80 @@ class PreauthorizeTransactionsController < ApplicationController
     else
       initiated_error(validation_result.data)
     end
+  end
+
+  def apply_coupon
+    params_validator = params_per_hour? ? TransactionService::Validation::NewPerHourTransactionParams : TransactionService::Validation::NewTransactionParams
+    validation_result = params_validator.validate(params).and_then { |params_entity|
+      tx_params = add_defaults(
+        params: params_entity,
+        shipping_enabled: listing.require_shipping_address,
+        pickup_enabled: listing.pickup_enabled)
+      tx_params[:marketplace_id] = @current_community.id
+
+      TransactionService::Validation::Validator.validate_initiate_params(
+        marketplace_uuid: @current_community.uuid_object,
+        listing_uuid: listing.uuid_object,
+        tx_params: tx_params,
+        quantity_selector: listing.quantity_selector&.to_sym,
+        shipping_enabled: listing.require_shipping_address,
+        pickup_enabled: listing.pickup_enabled,
+        availability_enabled: listing.availability.to_sym == :booking,
+        listing: listing,
+        stripe_in_use: StripeHelper.user_and_community_ready_for_payments?(listing.author_id, @current_community.id))
+    }
+
+    if validation_result.success
+      tx_params = validation_result.data
+      is_booking = is_booking?(listing)
+
+      quantity = calculate_quantity(tx_params: tx_params, is_booking: is_booking, unit: listing.unit_type)
+
+      item_total = TransactionService::Validation::ItemTotal.new(
+        unit_price: listing.price,
+        quantity: quantity)
+
+      shipping_total = calculate_shipping_from_listing(tx_params: tx_params, listing: listing, quantity: quantity)
+      order_total = TransactionService::Validation::OrderTotal.new(
+        item_total: item_total,
+        shipping_total: shipping_total
+      )
+      avon_commission = order_commission(tx_params, listing)
+
+      @rebate_code = Rebate.where("code =? AND expire_on >= ?", params[:coupon], Date.today).last
+      if @rebate_code.present?
+        if item_total.total.to_f >= @rebate_code.amount
+          coupon_discount = Money.new(@rebate_code.amount * 100, listing.currency)
+        else
+          @error = "Rebate amount should be less than or equal to offer amount"
+          coupon_discount = Money.new(0, listing.currency)
+        end
+      else
+        @error = "Code is invalid or expired"
+        coupon_discount = Money.new(0, listing.currency)
+      end
+      @price_break_down_locals = TransactionViewUtils.price_break_down_locals(
+                       booking:  is_booking,
+                       quantity: quantity,
+                       start_on: tx_params[:start_on],
+                       end_on:   tx_params[:end_on],
+                       duration: quantity,
+                       listing_price: listing.price,
+                       localized_unit_type: translate_unit_from_listing(listing),
+                       localized_selector_label: translate_selector_label_from_listing(listing),
+                       subtotal: subtotal_to_show(order_total),
+                       shipping_price: shipping_price_to_show(tx_params[:delivery], shipping_total),
+                       avon_commission: avon_commission,
+                       total: order_total.total + avon_commission - coupon_discount,
+                       unit_type: listing.unit_type,
+                       start_time: tx_params[:start_time],
+                       end_time:   tx_params[:end_time],
+                       per_hour:   tx_params[:per_hour],
+                       coupon_discount: coupon_discount,
+                      )
+      @price_break_down_locals.merge!(is_author: false)
+    end
+    render layout: false
   end
 
 
@@ -224,6 +305,31 @@ class PreauthorizeTransactionsController < ApplicationController
       id: params[:listing_id], community_id: @current_community.id) or render_not_found!("Listing #{params[:listing_id]} not found from community #{@current_community.id}")
   end
 
+  def validate_promo_code
+    if params[:promo_code].present? && params[:payment_type].eql?('coupon_pay')
+      is_booking = is_booking?(listing)
+      quantity = calculate_quantity(tx_params: params, is_booking: is_booking, unit: listing.unit_type)
+      item_total = TransactionService::Validation::ItemTotal.new(
+        unit_price: listing.price,
+        quantity: quantity.to_i)
+      rebate_code = Rebate.where("code =? AND expire_on >= ?", params[:promo_code], Date.today).last
+      if rebate_code.present?
+        @error = "Rebate amount should be less than or equal to offer amount" if rebate_code.amount > item_total.total.to_f
+      else
+        @error = "Code is invalid or expired"
+      end
+      if @error.present?
+        flash[:error] = @error
+        if request.xhr?
+          render json: { redirect_url: listing_path(listing) }
+        else
+          redirect_to listing_path(listing)
+        end
+        return
+      end  
+    end
+  end
+
   def ensure_can_receive_payment
     payment_type = @current_community.active_payment_types || :none
 
@@ -289,6 +395,8 @@ class PreauthorizeTransactionsController < ApplicationController
           unit_selector_tr_key: opts[:listing].unit_selector_tr_key,
           availability: opts[:listing].availability,
           content: opts[:content],
+          rebate_code: @rebate_code.try(:code),
+          rebate_amount: @rebate_code.try(:code).present? ? @coupon_discount : nil,
           payment_gateway: opts[:payment_type].to_sym,
           payment_process: :preauthorize,
           booking_fields: opts[:booking_fields],
@@ -418,10 +526,10 @@ class PreauthorizeTransactionsController < ApplicationController
   end
   def initiated_success(tx_params)
     is_booking = is_booking?(listing)
-    
+
     quantity = calculate_quantity(tx_params: tx_params, is_booking: is_booking, unit: listing.unit_type)
     shipping_total = calculate_shipping_from_listing(tx_params: tx_params, listing: listing, quantity: quantity)
-    
+
     avon_commission = params[:payment_type].eql?('coupon_pay') ? order_commission(tx_params, listing) : Money.new(0, @current_community.currency)
     tx_response = create_preauth_transaction(
       payment_type: params[:payment_type].to_sym,

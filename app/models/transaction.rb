@@ -43,6 +43,8 @@
 #  auto_accept_transaction           :boolean          default(FALSE)
 #  auto_rejected                     :boolean          default(FALSE)
 #  auto_complete_transaction         :boolean          default(FALSE)
+#  rebate_code                       :string(255)
+#  rebate_amount_cents               :integer
 #
 # Indexes
 #
@@ -92,6 +94,7 @@ class Transaction < ApplicationRecord
   monetize :unit_price_cents, with_model_currency: :unit_price_currency
   monetize :avon_commission_cents, with_model_currency: :avon_commission_currency
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :unit_price_currency
+  monetize :rebate_amount_cents, allow_nil: true, with_model_currency: :unit_price_currency
 
   scope :exist, -> { where(deleted: false) }
   scope :for_person, -> (person){
@@ -207,6 +210,10 @@ class Transaction < ApplicationRecord
     else
       starter_skipped_feedback?
     end
+  end
+
+  def coupon_discount
+    rebate_amount_cents.present? ? self.rebate_amount : Money.new(0, self.unit_price_currency)
   end
 
   def testimonial_from_author

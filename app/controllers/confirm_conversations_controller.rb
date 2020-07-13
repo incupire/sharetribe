@@ -83,7 +83,7 @@ class ConfirmConversationsController < ApplicationController
   def refund_coupon_balance
     @listing_transaction.reload
     if params[:full_refund] == 'true' || @listing_transaction.status.eql?('canceled')
-      buyer_gets = order_total(@listing_transaction)
+      buyer_gets = order_total(@listing_transaction) - @listing_transaction.coupon_discount
       buyer = @listing_transaction.starter
       buyer_coupon_bal = buyer.coupon_balance.present? ? ((buyer.coupon_balance_cents/100).to_f + (buyer_gets.cents/100).to_f) : (buyer_gets.cents/100).to_f
       

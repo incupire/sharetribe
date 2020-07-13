@@ -128,6 +128,8 @@ class TransactionMailer < ActionMailer::Base
     payment = TransactionService::Transaction.payment_details(transaction)
     transaction_model ||= Transaction.find(transaction.id)
 
+    promo_code_discount = transaction_model.rebate_amount_cents.present? ? transaction_model.rebate_amount : Money.new(0, transaction_model.unit_price_currency)
+
     prepare_template(community, buyer_model, "email_about_new_payments")
     with_locale(buyer_model.locale, community.locales.map(&:to_sym), community.id) do
 
@@ -153,7 +155,7 @@ class TransactionMailer < ActionMailer::Base
                    duration: transaction.booking.present? ? transaction.listing_quantity : nil,
                    subtotal: MoneyViewUtils.to_humanized(transaction.item_total),
                    shipping_total: MoneyViewUtils.to_humanized(transaction.shipping_price),
-                   payment_total: MoneyViewUtils.to_humanized(payment[:payment_total]),
+                   payment_total: MoneyViewUtils.to_humanized(payment[:payment_total] - promo_code_discount),
                    recipient_full_name: seller_model.name(community),
                    recipient_given_name: PersonViewUtils.person_display_name_for_type(seller_model, "first_name_only"),
                    automatic_confirmation_days: nil,
@@ -163,6 +165,7 @@ class TransactionMailer < ActionMailer::Base
                    avon_commission: MoneyViewUtils.to_humanized(transaction.avon_commission),
                    commission_percentage: transaction.commission_from_seller,
                    auto_complete_transaction: transaction_model.auto_complete_transaction,
+                   promo_code_discount: promo_code_discount
                  }
         }
       }

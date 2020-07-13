@@ -98,12 +98,21 @@
     - if avon_commission.present? && avon_commission > 0
       .initiate-transaction-total-wrapper
         %span.initiate-transaction-total-label
-          - if params[:action].eql?('initiate')
+          - if params[:action].eql?('initiate') || params[:action].eql?('apply_coupon')
             = t("transactions.avon_commission_estimation")
           - else
             = t("transactions.avon_commission", commission_from_seller: @stripe_service[:commission_from_seller])
         %span.initiate-transaction-total-value
-          = MoneyViewUtils.to_humanized(avon_commission)          
+          = MoneyViewUtils.to_humanized(avon_commission)
+
+  - if !is_author && coupon_discount.present? && coupon_discount.to_f > 0
+    .initiate-transaction-total-wrapper
+      %span.initiate-transaction-total-label
+        Instant rebate
+      %span.initiate-transaction-total-value
+        = '-'
+        = image_tag "black_a_img.png"
+        = MoneyViewUtils.to_humanized(coupon_discount).split('$')[1]
 
   - if total.present?
     .initiate-transaction-total-wrapper

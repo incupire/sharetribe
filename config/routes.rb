@@ -144,6 +144,8 @@ Rails.application.routes.draw do
     get "/listings/:listing_id/initiate"   => "preauthorize_transactions#initiate", :as => :initiate_order
     post "/listings/:listing_id/initiated" => "preauthorize_transactions#initiated", :as => :initiated_order
 
+    post "/listings/:listing_id/apply_coupon" => "preauthorize_transactions#apply_coupon", :as => :apply_coupon
+
     # free flow
     post "/listings/:listing_id/create_contact" => "free_transactions#create_contact", :as => :create_contact
     get "/listings/:listing_id/contact" => "free_transactions#contact", :as => :contact_to_listing
