@@ -1373,3 +1373,74 @@ table#admin_listings.new_design {
   text-align: center;
   padding-top: 8px;
 }
+
+.social_contact_box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 0 30px;
+
+  &:nth-last-of-type(1) {
+    margin: 0;
+  }
+
+  .social_contact_row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 0 15px;
+
+    &:nth-last-of-type(1) {
+      margin: 0;
+    }
+
+    .social_img {
+      height: 52px;
+      margin: 0 15px 0 0;
+    }
+  }
+}
+
+.social_link_heading {
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 18px;
+}
+
+.social_link_box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 20px;
+
+  a {
+    margin-left: 10px;
+    margin-right: 10px;
+
+    img {
+      border-radius: 7px;
+      height: 32px;
+    }
+  }
+}
+
+.platform_heading {
+  font-weight: 600;
+  margin: 0 0 15px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.app_store_box {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  a {
+    img {
+      height: 54px;
+      border-radius: 8px;
+    }
+  }
+}

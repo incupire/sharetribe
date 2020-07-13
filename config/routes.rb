@@ -48,6 +48,10 @@ Rails.application.routes.draw do
   get "/listings/new/:type" => "listings#new", :as => :new_request_without_locale # needed for some emails, where locale part is already set
   get "/change_locale" => "i18n#change_locale", :as => :change_locale
 
+  get '/contact_page' => "feedbacks#contact_page"
+  get '/privacy_page' => "infos#privacy_page"
+  get '/terms_and_conditions_page' => "infos#terms_and_condition"
+
   # Internal API
   namespace :int_api do
     post "/create_trial_marketplace" => "marketplaces#create"
