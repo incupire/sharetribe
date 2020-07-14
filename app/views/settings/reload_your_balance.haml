@@ -7,7 +7,7 @@
 
     .icon_row
       .logo_box
-        = image_tag 'avonatge_heart.png', alt: 'logo', class: 'logo_img'
+        = image_tag 'A_logo.png', alt: 'logo', class: 'logo_img'
         .logo_name
           Avontage
       .feedback_box
@@ -42,7 +42,9 @@
           .select_price_box
             = radio_button_tag 'balance', 500, false, id: 'radio4'
             %label{:for => "radio4"} $500
-          = number_field_tag 'custom_balance'
+          .number_field_box
+            .currency $
+            = number_field_tag 'custom_balance', nil, :placeholder=> "Enter an amount...", class: 'balance_input'
 
       .payment_method
         Payment method
@@ -53,7 +55,7 @@
           %span.bold
             Earn
           %span.green
-            Extra 10 Avontage Bucks
+            Extra $10 Avontage Bucks
           When you reload Avontage admin will add your bonus after the reload
       .form-row
         .row

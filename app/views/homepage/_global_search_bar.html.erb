@@ -15,7 +15,7 @@
     <%if params[:controller] == "homepage" && params[:action] == "index"%>
       <div class="reload_your_balance-box">
         <div class="bank_balance">
-          Your Avontage Banks Balance
+          Your Avontage Bucks Balance
           <span class="balance">
             <%= image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon' %>
             <%= (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe %>
