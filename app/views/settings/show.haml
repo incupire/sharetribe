@@ -137,7 +137,7 @@
     %small
       = t("settings.profile.profile_picture_description")
     - if target_user.image.present?
-      = image_tag target_user.image.url, class: "square_image"
+      = image_tag target_user.image.url(:small), class: "square_image"
     = render 'layouts/filename', file_field: target_user.image
     .upload_image
       = "Upload an Image"
@@ -145,10 +145,10 @@
 
     -# About text
     = form.label :description, t("settings.profile.about_you"), :class => "input"
-    = form.text_area :description, :class => "update_profile_description_text_area", required: true
+    = form.text_area :description, :class => "update_profile_description_text_area", required: true, placeholder: "HINT: Our community is built on trust. The best way to build trust is to provide accurate information about your business and the skills that you offer.\n\n 1- Upload your photo or the logo of your business.\n 2- Tell us about your business, your experience, and your passions.\n 3- Enter your website and social media links to built credibility quick.\n\n Your profile is your resume. This is where members come to check you out to make sure you're legit"
     -# Community Description experience
     = form.label :community_description_experience, t("settings.profile.community_experience"), :class => "input"
-    = form.text_area :community_description_experience, :class => "update_profile_description_text_area"
+    = form.text_area :community_description_experience, :class => "update_profile_description_text_area", placeholder: "HINT: I enjoy bartering my services for health, fitness and restaurant offers and love being part of like-minded community of business owners"
 
     = form.label :tags, 'Hashtags', :class => "input"
     = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input"
