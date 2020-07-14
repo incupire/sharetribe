@@ -28,8 +28,9 @@ class PersonMessagesController < ApplicationController
   private
 
   def ensure_authorized_to_post
-    if !@current_user.is_active? || (@current_community.require_verification_to_send_direct_message? && !@current_community_membership.can_send_dms?)
-      flash[:error] = 'You are not authorized to send message'
+    if !@current_user.is_active? || (@current_community.require_verification_to_send_direct_message? && !@current_community_membership.can_send_dms?) &&  !@current_user.has_admin_rights?(@current_community)
+      contact_link = view_context.link_to('please contact Admin to resolve', new_user_feedback_path, target: "_blank")
+      flash[:error] = "You are not authorized to send message, #{contact_link}".html_safe
       redirect_to search_path
       return
     end
