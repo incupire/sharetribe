@@ -40,11 +40,11 @@ module ListingIndexService::Search::DatabaseSearchHelper
         deleted: 0,
         listing_shape_id: Maybe(search[:listing_shape_ids]).or_else(nil)
       })
-
+    sort_order = {'Mon' => 'listings.created_at DESC', 'Tue' => 'listings.title ASC', 'Wed' => 'listings.price_cents ASC', 'Thu' => 'listings.price_cents DESC', 'Fri' => 'listings.created_at ASC', 'Sat' => 'listings.updated_at DESC', 'Sun' => 'listings.updated_at ASC'}
     query = Listing
             .where(where_opts)
             .includes(included_models)
-            .order('RAND()')
+            .order(sort_order[Date.today.strftime("%a")])
             .paginate(per_page: search[:per_page], page: search[:page])
             
     query = query.where(featured: true) if search[:featured]
