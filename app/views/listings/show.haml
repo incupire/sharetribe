@@ -270,17 +270,26 @@
           .parent
             %span
               %h2= t(".profile_info")
-            .profile-about-me.custom_padding
-              .name_text.author_description
-                -# if @listing.author.description && !@listing.author.description.blank?
-                - if @listing.author.description.length > 250
-                  = truncate(markdown(@listing.author.description), length: 250, escape: false)
-                  .more_btn
-                    = link_to 'Read More', '', class: "read-more"
-                - else
-                  = markdown(@listing.author.description)   
+            .profile-about-me
+              .name_text
+                - if @listing.author.community_description_experience.present?
+                  %h3 I enjoy being part of the Avontage community because:
+                  %p
+                    =markdown @listing.author.community_description_experience
+                - if @listing.author.description && !@listing.author.description.blank?
+                  %h3 About us
+                  %p
+                    .author_description
+                      - if @listing.author.description.length > 250
+                        = truncate(markdown(@listing.author.description), length: 250, escape: false)
+                      - else
+                        = markdown(@listing.author.description)
+                    - if @listing.author.description.length > 250
+                      .more_btn
+                        = link_to 'Read More', '', class: "read-more"
+                        = link_to 'Read less', '', class: "read-less"
 
-            -#    
+            -#
               .profile_img
                 = huge_avatar_thumb(@listing.author)                    
     -# Reviews
@@ -365,6 +374,15 @@
     })
 
     $(".read-more").on('click', function(e){
+      $(this).hide()
+      $(".read-less").show();
       e.preventDefault()
       $('.author_description').html("#{escape_javascript markdown(@listing.author.description)}");
+    })
+
+    $(".read-less").on('click', function(e){
+      $(this).hide()
+      $(".read-more").show();
+      e.preventDefault()
+      $('.author_description').html("#{escape_javascript truncate(markdown(@listing.author.description), length: 250, escape: false)}");
     })

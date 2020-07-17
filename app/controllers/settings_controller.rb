@@ -16,7 +16,7 @@ class SettingsController < ApplicationController
 
   def offers_and_request
     @service = Person::SettingsService.new(community: @current_community, params: params)
-    @selected_left_navi_link = "listings"
+    @selected_left_navi_link = "offers_and_request"
     @statuses = %w[open closed expired]
     @listings = resource_scope.order("#{sort_column} #{sort_direction}").paginate(page: params[:page], per_page: 30)
   end
@@ -28,8 +28,8 @@ class SettingsController < ApplicationController
                        payment_intent_requires_action payment_intent_action_expired
                        disputed refunded dismissed]
     @statuses = statuses.map {|status|
-      [status, I18n.t("admin.communities.transactions.status_filter.#{status}"), status_checked?(status)]
-    }.sort_by{|_status, translation, _checked| collator.get_sort_key(translation) }
+      [I18n.t("admin.communities.transactions.status_filter.#{status}"), status]
+    }.sort_by{|translation, _status| collator.get_sort_key(translation) }
 
     @transactions = transactions_scope.paginate(page: params[:page], per_page: 30)
   end
@@ -137,7 +137,8 @@ class SettingsController < ApplicationController
       pattern = "%#{params[:q]}%"
       scope = scope.search_by_party_or_listing_title(pattern)
     end
-    if params[:status].present? && params[:status].is_a?(String) || params[:status]&.reject(&:empty?).present?
+
+    if params[:status].present?
       scope = scope.where(current_state: params[:status])
     end
     if params[:sort].nil? || params[:sort] == "last_activity"
@@ -154,10 +155,6 @@ class SettingsController < ApplicationController
     scope
   end
 
-  def status_checked?(status)
-    params[:status].present? && params[:status].include?(status)
-  end
-
   def find_person_to_unsubscribe(current_user, auth_token)
     current_user || Maybe(AuthToken.find_by_token(auth_token)).person.or_else { nil }
   end
@@ -170,9 +167,9 @@ class SettingsController < ApplicationController
 
     if params[:status].present?
       statuses = []
-      statuses.push(Listing.status_open_active) if params[:status].include?('open')
-      statuses.push(Listing.status_closed) if params[:status].include?('closed')
-      statuses.push(Listing.status_expired) if params[:status].include?('expired')
+      statuses.push(Listing.status_open_active) if params[:status].include?('Open')
+      statuses.push(Listing.status_closed) if params[:status].include?('Closed')
+      statuses.push(Listing.status_expired) if params[:status].include?('Expired')
       if statuses.size.positive?
         status_scope = statuses.slice!(0)
         statuses.map { |x| status_scope = status_scope.or(x) }

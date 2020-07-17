@@ -70,6 +70,7 @@ class Transaction < ApplicationRecord
   has_one :shipping_address, dependent: :destroy
   belongs_to :starter, class_name: "Person", foreign_key: :starter_id
   belongs_to :conversation
+  belongs_to :listing_author, class_name: 'Person'
   has_many :testimonials
   has_one :avon_bucks_history, class_name: "AvonBucksHistory", foreign_key: "transaction_id"
 

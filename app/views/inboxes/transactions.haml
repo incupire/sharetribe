@@ -3,7 +3,7 @@
 
 .undo-mobile-wrapper-margin#conversations
   - if @current_user.present?
-    .new_coupon_work
+    .new_coupon_work.redesign_coupan_work
       .inner_container
         .row.coupan_balances
           %span.people-custom-fields-title.coupan_title Your Avontage Bucks Balance:
@@ -12,21 +12,30 @@
             = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
         .load_balance
           = link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: "button load_button"
-
-    // .row.coupan_balances
-    //   %span.people-custom-fields-title.coupan_title Your Available Avontage Bucks:
-    //   %span.price
-    //     =# image_tag "black_a_img.png"
-    //     =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
     %br
 
-  - if result_rows.present?
+  = form_tag '', :method => :get, id: 'transaction_filter_form' do
+    .row
+      .col-6
+        = text_field_tag :q, params[:q], placeholder: 'Search for a transaction title or other party involved'
+      .col-3
+        = submit_tag 'Search', class: 'button listing-search-button'
+      .col-3
+        = select_tag 'status', options_for_select(@statuses, selected: params[:status]), prompt: 'All statuses', id: 'transaction_status_filter', class: 'listing_status_filter'   
 
+  //%span#admin_transactions_count= page_entries_info(@transactions, :model => "Transaction").html_safe
+  - if result_rows.present?
     = render :partial => "transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
 
     = will_paginate(transactional_inbox_rows)
-    = pageless(transactional_inbox_rows.total_pages, '#conversations', request.path, t('conversations.index.loading_more_messages'))
+    = pageless(transactional_inbox_rows.total_pages, '#conversations', request.url, t('conversations.index.loading_more_messages'))
 
   - else
     #no_conversations
       = t("conversations.index.no_received_messages")
+
+- content_for :extra_javascript do
+  :javascript
+    $("#transaction_status_filter").on('change', function(){
+      $("#transaction_filter_form").submit();
+    })

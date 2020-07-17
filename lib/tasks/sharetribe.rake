@@ -47,6 +47,22 @@ namespace :sharetribe do
     end  
   end
 
+  desc "Update progress bar for existing user"
+  task :update_progress_bar => :environment do
+    Person.find_each do |person|
+      if person.stripe_customer_id.present?
+        person.profile_progress[:enable_purchasing] = 20
+      end
+      if StripeAccount.where(person_id: person.id).present?
+        person.profile_progress[:enable_selling] = 20
+      end
+      person.profile_progress[:notifications] = 20
+      person.profile_progress[:user_profile] = 20 if person.profile_progress[:user_profile] == 14
+      person.save
+    end
+  end
+
+
   namespace :person_custom_fields do
     desc "Copying person's phone number to custom fields"
     task :copy_phone_number_community, [:community_ident] => :environment do |t, args|

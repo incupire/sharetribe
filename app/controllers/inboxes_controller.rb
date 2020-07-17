@@ -1,5 +1,6 @@
 class InboxesController < ApplicationController
   include MoneyRails::ActionViewExtension
+  include Collator
 
   before_action do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_view_your_inbox")
@@ -20,7 +21,7 @@ class InboxesController < ApplicationController
     count = InboxService.inbox_data_count(@current_user.id, @current_community.id)
     # Inbox is used FOR DIRECT MESSAGING/ASK SELLEROPTIONS
     inbox_rows = inbox_rows.select{|item| item[:type].eql?(:conversation)}
-    
+
     inbox_rows = inbox_rows.map { |inbox_row|
       extended_inbox = inbox_row.merge(
         path: path_to_conversation_or_transaction(inbox_row),
@@ -59,33 +60,55 @@ class InboxesController < ApplicationController
   end
 
   def transactions
+    statuses = %w[free confirmed paid canceled preauthorized rejected
+                       payment_intent_requires_action payment_intent_action_expired
+                       disputed refunded dismissed]
+    @statuses = statuses.map {|status|
+      [I18n.t("admin.communities.transactions.status_filter.#{status}"), status]
+    }.sort_by{|translation, _status| collator.get_sort_key(translation) }
+
     params[:page] = 1 unless request.xhr?
     pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
     count = InboxService.inbox_data_count(@current_user.id, @current_community.id)
     transactional_inbox_rows = transactional_inbox_rows(pagination_opts, count)
     sorted_activity_dates = transactional_inbox_rows.pluck(:last_transition_at)
+    pattern = "%#{params[:q]}%"
     if request.xhr?
-      if sorted_activity_dates.present? && transactional_inbox_rows.next_page.present?
-        bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories
-                                                              .where.not(id: session[:avon_bucks_ids])
-                                                              .where(transaction_id: nil)
-                                                              .where("created_at <= ? AND created_at >= ?", 
-                                                                  sorted_activity_dates.first.to_date.end_of_day, sorted_activity_dates.last.to_date.beginning_of_day
-                                                              )
+      unless params[:status].present?
+        bucks_histories_in_between_sorted_activity_dates = []
+        if sorted_activity_dates.present? && transactional_inbox_rows.next_page.present?
+          bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories.joins(:person)
+                                                                .where("people.given_name LIKE '#{pattern}' OR people.family_name LIKE '#{pattern}' OR people.display_name LIKE '#{pattern}'")
+                                                                .where.not(id: session[:avon_bucks_ids])
+                                                                .where(transaction_id: nil)
+                                                                .where("avon_bucks_histories.created_at <= ? AND avon_bucks_histories.created_at >= ?", 
+                                                                    sorted_activity_dates.first.to_date.end_of_day, sorted_activity_dates.last.to_date.beginning_of_day
+                                                                )
+        else
+          bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories.joins(:person)
+                                                                .where("people.given_name LIKE '#{pattern}' OR people.family_name LIKE '#{pattern}' OR people.display_name LIKE '#{pattern}'")
+                                                                .where.not(id: session[:avon_bucks_ids])
+                                                                .where(transaction_id: nil)
+        end
       else
-        bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories
-                                                              .where.not(id: session[:avon_bucks_ids])
-                                                              .where(transaction_id: nil)         
+        bucks_histories_in_between_sorted_activity_dates = []
       end
     else
-      if sorted_activity_dates.present? && transactional_inbox_rows.next_page.present?
-          bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories
+      unless params[:status].present?
+        if sorted_activity_dates.present? && transactional_inbox_rows.next_page.present?
+            bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories.joins(:person)
+                                                                  .where("people.given_name LIKE '#{pattern}' OR people.family_name LIKE '#{pattern}' OR people.display_name LIKE '#{pattern}'")
+                                                                  .where(transaction_id: nil)
+                                                                  .where("avon_bucks_histories.created_at <= ? AND avon_bucks_histories.created_at >= ?", 
+                                                                      sorted_activity_dates.first.to_date.end_of_day, sorted_activity_dates.last.to_date.beginning_of_day
+                                                                  )        
+        else
+          bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories.joins(:person)
                                                                 .where(transaction_id: nil)
-                                                                .where("created_at <= ? AND created_at >= ?", 
-                                                                    sorted_activity_dates.first.to_date.end_of_day, sorted_activity_dates.last.to_date.beginning_of_day
-                                                                )        
+                                                                .where("people.given_name LIKE '#{pattern}' OR people.family_name LIKE '#{pattern}' OR people.display_name LIKE '#{pattern}'")
+        end
       else
-        bucks_histories_in_between_sorted_activity_dates = @current_user.avon_bucks_histories.where(transaction_id: nil) 
+        bucks_histories_in_between_sorted_activity_dates = []
       end     
     end
 
@@ -124,7 +147,7 @@ class InboxesController < ApplicationController
         result_rows: result_rows,
         payments_in_use: @current_community.payments_in_use?
       }
-    end         
+    end
   end
 
   private
@@ -167,7 +190,9 @@ class InboxesController < ApplicationController
       @current_user.id,
       @current_community.id,
       pagination_opts[:limit],
-      pagination_opts[:offset])
+      pagination_opts[:offset],
+      params[:status],
+      params[:q])
 
     inbox_rows = inbox_rows.select{|item| item[:type].eql?(:transaction)}
 

@@ -29,8 +29,8 @@ module InboxService
     query_inbox_data_count(person_id, community_id)
   end
 
-  def inbox_data(person_id, community_id, limit, offset)
-    query_inbox_data(person_id, community_id, limit, offset)
+  def inbox_data(person_id, community_id, limit, offset, status='', q='')
+    query_inbox_data(person_id, community_id, limit, offset, status, q)
   end
 
   def notification_count(person_id, community_id)
@@ -135,17 +135,21 @@ module InboxService
     connection.select_value(sql)
   end  
 
-  def query_inbox_data(person_id, community_id, limit, offset)
+  def query_inbox_data(person_id, community_id, limit, offset, status='', q='')
     conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
     return [] if conversation_ids.empty?
-
+    @pattern = "%#{q}%"
     connection = ActiveRecord::Base.connection
+    statuses = %w[free confirmed paid canceled preauthorized rejected
+                       payment_intent_requires_action payment_intent_action_expired
+                       disputed refunded dismissed]
     sql = SQLUtils.ar_quote(connection, @construct_sql,
       person_id: person_id,
       community_id: community_id,
       limit: limit,
       offset: offset,
-      conversation_ids: conversation_ids
+      conversation_ids: conversation_ids,
+      status: status.present? ? [status] : statuses
     )
 
     result_set = connection.execute(sql).each(as: :hash).map { |row| HashUtils.symbolize_keys(row) }
@@ -400,6 +404,8 @@ module InboxService
       FROM conversations
 
       LEFT JOIN transactions      ON transactions.conversation_id = conversations.id
+      LEFT JOIN people            AS starter ON starter.id = transactions.starter_id
+      LEFT JOIN people            AS listing_author ON listing_author.id = transactions.listing_author_id
       LEFT JOIN listings          ON transactions.listing_id = listings.id
       LEFT JOIN testimonials      ON (testimonials.transaction_id = transactions.id AND testimonials.author_id = #{params[:person_id]})
       LEFT JOIN participations    AS current_participation ON (current_participation.conversation_id = conversations.id AND current_participation.person_id = #{params[:person_id]})
@@ -414,6 +420,14 @@ module InboxService
         transactions.id IS NULL
         OR (transactions.current_state != 'initiated'
             AND transactions.deleted = 0)
+      )
+
+      AND (transactions.current_state IN (#{params[:status].join(',')}))
+      AND ((listings.title like '#{@pattern}')
+           OR
+           (starter.given_name like '#{@pattern}' OR starter.family_name like '#{@pattern}' OR starter.display_name like '#{@pattern}')
+           OR
+           (listing_author.given_name like '#{@pattern}' OR listing_author.family_name like '#{@pattern}' OR listing_author.display_name like '#{@pattern}')
       )
 
       # Order by 'last_activity_at', that is last message or last transition

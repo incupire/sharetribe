@@ -144,6 +144,9 @@ class Person < ApplicationRecord
   has_many :custom_dropdown_field_values, :class_name => "DropdownFieldValue"
   has_many :custom_checkbox_field_values, :class_name => "CheckboxFieldValue"
 
+  has_many :starter_transactions, :class_name => "Transaction", :foreign_key => "starter_id", :dependent => :destroy, :inverse_of => :starter
+  has_many :author_transactions, :class_name => "Transaction", :foreign_key => "listing_author_id", :dependent => :destroy, :inverse_of => :listing_author
+
   deprecate communities: "Use accepted_community instead.",
             community_memberships: "Use community_membership instead.",
             deprecator: MethodDeprecator.new

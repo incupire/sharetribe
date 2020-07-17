@@ -22,6 +22,10 @@
           .icon-with-text-container
             .ss-chat.icon-part
             .ss.text-part= t(".add_description")
+    - if @person.community_description_experience.present?
+      .row.profile-about-me
+        %h2 I enjoy being part of the Avontage community because:
+        %p= raw @person.community_description_experience
 
     - if community_person_custom_fields.any?
       - community_person_custom_fields.each do |custom_field|

@@ -22,24 +22,16 @@
           .load_balance
             = link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: "button load_button"
       %br
-  = form_tag '', :method => :get do
+
+  = form_tag '', :method => :get, id: 'transaction_filter_form' do
     .row
       .col-6
         = text_field_tag :q, params[:q], placeholder: 'Search for a transaction title or other party involved'
-      .col-3.status-select-wrapper
-        .status-select-button
-          = selected_statuses_title
-
-        .status-select-dropdown
-          .status-select-line.reset{data: {status: 'all'}}
-            = selected_statuses_title
-          - @statuses.each do |status, status_translation, checked|
-            .status-select-line{class: checked ? 'selected' : '', data: {status: status}}
-              = check_box_tag "status[]", status, checked, id: "status-#{status}"
-              = status_translation
       .col-3
         = submit_tag 'Search', class: 'button listing-search-button'
-        = link_to 'Show all', transactions_person_settings_path(target_user, sort: "last_activity", direction: "desc")
+        =# link_to 'Show all', transactions_person_settings_path(target_user, sort: "last_activity", direction: "desc")
+      .col-3
+        = select_tag 'status', options_for_select(@statuses, selected: params[:status]), prompt: 'All statuses', id: 'transaction_status_filter', class: 'listing_status_filter' 
 
   %span#admin_transactions_count= page_entries_info(@transactions, :model => "Transaction").html_safe
 
@@ -87,12 +79,15 @@
             - if transaction.show_link?
               = link_to status, person_transaction_path(target_user, transaction.id)
             - else
-              = status  
+              = status
+            = link_to 'View Details', person_transaction_path(target_user, transaction.id), class: 'button'
   .row
     .col-12
       = will_paginate @transactions
 
 - content_for :extra_javascript do
-  = js_t ["admin.communities.transactions.status_filter.all", "admin.communities.transactions.status_filter.selected_js"], true
   :javascript
-    window.ST.initializeTransactionSearchFormSelector();
+    $("#transaction_status_filter").on('change', function(){
+      $("#transaction_filter_form").submit();
+    })
+    

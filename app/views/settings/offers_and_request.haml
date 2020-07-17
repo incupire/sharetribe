@@ -14,25 +14,15 @@
 
 .left-navi-section
 
-  = form_tag '', :method => :get do
+  = form_tag '', :method => :get, id: 'filter_form' do
     .row
       .col-6
         = text_field_tag :q, params[:q], placeholder: 'Search for a listing title'
-      .col-3.status-select-wrapper
-        .status-select-button
-          = listing_search_status_titles
-
-        .status-select-dropdown
-          .status-select-line.reset{data: {status: 'all'}}
-            = listing_search_status_titles
-          - @statuses.each do |status|
-            - checked = params[:status].present? && params[:status].include?(status)
-            .status-select-line{class: checked ? 'selected' : '', data: {status: status}}
-              = check_box_tag "status[]", status, checked, id: "status-#{status}"
-              = t("admin.communities.listings.status.#{status}")
       .col-3
         = submit_tag 'Search', class: 'button listing-search-button'
-        = link_to 'Show all', offers_and_request_person_settings_path(target_user)
+        //=# link_to 'Show all', offers_and_request_person_settings_path(target_user)
+      .col-3
+        = select_tag 'status', options_for_select(['Open', 'Closed', 'Expired'], selected: params[:status]), prompt: 'All statuses', id: 'listing_status_filter', class: 'listing_status_filter'
   %span#admin_listings_count= page_entries_info(@listings, :model => "Listing").html_safe
 
 
@@ -77,6 +67,8 @@
 
 
 - content_for :extra_javascript do
-  = js_t ["admin.communities.listings.status.all", "admin.communities.listings.status.selected_js"], true
   :javascript
-    window.ST.Listings.init();
+    $("#listing_status_filter").on('change', function(){
+      $("#filter_form").submit();
+    })
+
