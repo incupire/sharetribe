@@ -657,12 +657,12 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
   }
 }
 img.square_image {
-    width: 180px;
+    width: 160px;
     height: 160px;
 }
 .upload_image {
   position: relative;
-  width: 190px;
+  width: 160px;
   height: 36px;
   border: 1px solid #ccc;
   border-radius: 3px;
@@ -1132,7 +1132,8 @@ img.square_image {
 .progress_bar_details {
   display: flex;
   justify-content: center;
-  margin: 20px auto;
+  //margin: 20px auto;
+  margin-bottom: 20px;
   padding: 25px 10px 10px 30px;
   color: #fff;
   background: #57a5b1;

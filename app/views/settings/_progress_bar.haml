@@ -1,9 +1,9 @@
 .progress_bar_details
   %span= progress_title
   %span.outer_margin
-    = "#{progress_percent}" +"%"
+    = "#{@current_user.overall_progress}" +"%"
   .progress
-    .bar{:style => "width: #{progress_percent}%"}
+    .bar{:style => "width: #{@current_user.overall_progress}%"}
   %span Next
   %span
-    = link_to link_text, redirect_link, class: 'next_step button'
+    = raw redirect_link

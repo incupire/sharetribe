@@ -18,11 +18,11 @@
       - unless props[:next_step] == :all_done
         - react_component_cache(name: "onboarding_topbar", props: props) do
           = react_component("OnboardingTopBar", props: props, prerender: true)
-    - if @current_user.present?
-      - if params[:controller] == "settings"
+    - if @current_user.present? && @current_user.overall_progress != 100
+      - if params[:controller] == "settings" || params[:controller] == 'payment_settings'
         = yield :profile_progress
       - else
-        = render :partial => "settings/progress_bar", :locals => {progress_title: @current_user.progress_title, redirect_link: redirect_link_call, link_text: @current_user.redirect_link_text, progress_percent: @current_user.overall_progress}
+        = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
 
     - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
       - if(search_mode != :keyword || @view_type.eql?("map"))

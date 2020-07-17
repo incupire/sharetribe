@@ -1,5 +1,6 @@
-- content_for :profile_progress do
-  = render :partial => "settings/progress_bar", :locals => {progress_title: @current_user.progress_title, redirect_link: redirect_link_call, link_text: @current_user.redirect_link_text, progress_percent: @current_user.overall_progress}
+- if @current_user.overall_progress != 100
+  - content_for :profile_progress do
+    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('Enable purchasing')}
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => left_hand_navigation_links }

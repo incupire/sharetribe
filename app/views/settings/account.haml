@@ -1,6 +1,9 @@
 - content_for :javascript do
   initialize_update_account_info_form("#{I18n.locale}","#{t(".change")}","#{t("common.cancel")}","#{t("people.new.email_is_in_use")}", "#{t("people.new.notification_is_mandatory", service_name: service_name)}");
 
+- if @current_user.overall_progress != 100
+  - content_for :profile_progress do
+    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 

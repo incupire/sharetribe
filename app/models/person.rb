@@ -711,37 +711,10 @@ class Person < ApplicationRecord
   end
 
   def overall_progress
-    if self.profile_progress.present?
-      profile_progress[:user_profile] + profile_progress[:notifications] + profile_progress[:enable_purchasing] + profile_progress[:enable_selling]
-    else
-      0
-    end
-  end
-
-  def progress_title
-    if overall_progress == 0
-      "Member Setup progress"
-    elsif overall_progress == 14
-      "Member Setup progress"
-    elsif overall_progress >= 28
-      "Profile Setup progress"
-    else
-      "Profile Setup progress"
-    end
-  end
-
-  def redirect_link_text
-    if overall_progress == 0
-      "Profile Setup"
-    elsif overall_progress == 14
-      "Setup notifications"
-    elsif overall_progress == 28
-      "Activate purchasing"
-    elsif overall_progress == 42
-      "Accept Credit Card payments"
-    else
-      "Post your Offers"
-    end
+    total_progress = 0
+    total_progress = profile_progress[:user_profile] + profile_progress[:notifications] + profile_progress[:enable_purchasing] + profile_progress[:enable_selling] if self.profile_progress.present?
+    total_progress += 20 if self.listings.present?
+    total_progress
   end
 
   private

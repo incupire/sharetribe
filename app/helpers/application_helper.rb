@@ -785,6 +785,71 @@ module ApplicationHelper
     end
   end
 
+  def progress_bar_redirect_link(page_name='other_page')
+    @redirect_link = "<a href="+new_listing_path+" class='next_step button'>Post your Offers</a>"
+    @current_user.profile_progress.each do |key, value|
+      case page_name
+      when 'Profile'
+        if @current_user.profile_progress.values.sum == 0
+          @redirect_link = "<a href="+notifications_person_settings_path(@current_user)+" class='next_step button'>Setup notifications</a>"
+          break
+        else
+          if key != :user_profile && value == 0
+            get_related_link(key)
+            break
+          end
+        end
+      when 'Notification'
+        if @current_user.profile_progress.values.sum == 0
+          @redirect_link = "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
+          break
+        else
+          if key != :notifications && value == 0
+            get_related_link(key)
+            break
+          end
+        end
+      when 'Enable purchasing'
+        if @current_user.profile_progress.values.sum == 0
+          @redirect_link = "<a href="+person_payment_settings_path(@current_user)+" class='next_step button'>Accept Credit Card payments</a>"
+          break
+        else
+          if key != :enable_purchasing && value == 0
+            get_related_link(key)
+            break
+          end
+        end
+      when 'Enable selling'
+        if @current_user.profile_progress.values.sum == 0
+          break
+        else
+          if key != :enable_selling && value == 0
+            get_related_link(key)
+            break
+          end
+        end
+      else
+        if value == 0
+          get_related_link(key)
+          break
+        end
+      end
+    end
+    @redirect_link
+  end
+
+  def get_related_link (key)
+    @redirect_link = if key == :user_profile
+      "<a href="+person_settings_path(@current_user)+" class='next_step button'>Profile Setup</a>"
+    elsif key == :notifications
+      "<a href="+notifications_person_settings_path(@current_user)+" class='next_step button'>Setup notifications</a>"
+    elsif key == :enable_purchasing
+      "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
+    elsif key == :enable_selling
+      "<a href="+person_payment_settings_path(@current_user)+" class='next_step button'>Accept Credit Card payments</a>"
+    end
+  end
+
   def format_local_date(value)
     format = t("datepicker.format").gsub(/([md])[md]+/, '%\1').gsub(/yyyy/, '%Y')
     value.present? ? value.strftime(format) : nil
@@ -849,20 +914,6 @@ module ApplicationHelper
 
   def regex_definition_to_js(string)
     string.gsub('\A', '^').gsub('\z', '$').gsub('\\', '\\\\')
-  end
-
-  def redirect_link_call
-    if @current_user.overall_progress == 0
-      person_settings_path(@current_user)
-    elsif @current_user.overall_progress == 14
-      notifications_person_settings_path(@current_user)
-    elsif @current_user.overall_progress == 28
-       person_stripe_customber_settings_path(@current_user)
-    elsif @current_user.overall_progress == 42
-      person_payment_settings_path(@current_user)
-    else
-      new_listing_path
-    end
   end
 end
 # rubocop:enable Metrics/ModuleLength

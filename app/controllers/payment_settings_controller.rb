@@ -36,7 +36,7 @@ class PaymentSettingsController < ApplicationController
       return
     end
     if target_user.profile_progress[:enable_selling] == 0
-      target_user.profile_progress.update(enable_selling: 29)
+      target_user.profile_progress.update(enable_selling: 20)
       target_user.save
     end
     warn_about_missing_payment_info
@@ -64,7 +64,7 @@ class PaymentSettingsController < ApplicationController
 
     warn_about_missing_payment_info
     if @current_user.profile_progress[:enable_selling] == 0
-      @current_user.profile_progress.update(enable_selling: 71)
+      @current_user.profile_progress.update(enable_selling: 20)
       @current_user.save
     end
     if params[:save_and_next_to_post].present?
@@ -108,7 +108,7 @@ class PaymentSettingsController < ApplicationController
       flash[:error] = 'You are not authorized to perform this action'
       redirect_to '/s'
       return
-    or_else
+    else
       if params[:stripe_token].present?
         begin
           if @target_user.stripe_customer_id.present?
@@ -122,7 +122,7 @@ class PaymentSettingsController < ApplicationController
           end
           @target_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
           if @target_user.profile_progress[:enable_purchasing] == 0
-            @target_user.profile_progress.update(enable_purchasing: 14)
+            @target_user.profile_progress.update(enable_purchasing: 20)
             @target_user.save
           end
           flash[:success] = "Card saved successfully!"

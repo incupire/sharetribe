@@ -1,6 +1,9 @@
 - target_user = @service.person
-- content_for :profile_progress do
-  = render :partial => "settings/progress_bar", :locals => {progress_title: target_user.progress_title, redirect_link: redirect_link_call, link_text: target_user.redirect_link_text, progress_percent: target_user.overall_progress}
+
+- if @current_user.overall_progress != 100
+  - content_for :profile_progress do
+    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
+
 - content_for :title_header do
   %h1= t("layouts.no_tribe.transaction_history")
 

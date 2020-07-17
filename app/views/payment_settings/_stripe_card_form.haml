@@ -12,6 +12,7 @@
           .col-12
 
         = hidden_field_tag :redir_url , params[:redir_url]
+        = hidden_field_tag :save_and_next_to_enable_selling
 
         .row.stripe-payment.mr_0
           %h2= t("payment_settings.stripe_customer.avontage_fee_structure")
@@ -24,7 +25,7 @@
         .col-12.payment-button-wrapper.paypal-button-wrapper
           .inline_buttons
             = button_tag t("settings.save_and_close"), id: "send-add-card", class: 'checkout-with-stripe-buttons'
-            %input.send_button.button{:name => "save_and_next_to_enable_selling", :type => "submit", :value => "Save and Next"}
+            = button_tag 'Save and Next', id: "send-add-card1", class: 'checkout-with-stripe-buttons'
 - content_for :extra_javascript do
   :javascript
     var stripe = Stripe("#{stripe_publishable_key}");
@@ -59,12 +60,18 @@
       }
     });
 
-    $("#send-add-card").on('click', function(event) {
+    $("#send-add-card, #send-add-card1").on('click', function(event) {
       event.preventDefault();
       var form = $("#card-form");
       form.validate();
       if(!form.valid()) {
         return false;
+      }
+
+      if (event.target.id == 'send-add-card1'){
+        $("#save_and_next_to_enable_selling").val('true');
+      }else{
+        $("#save_and_next_to_enable_selling").val(null);
       }
 
       stripe.createToken(card).then(function(result) {

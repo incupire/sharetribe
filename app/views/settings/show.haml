@@ -9,6 +9,18 @@
   = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
 
   :javascript
+    $(".prof-avtar").on('change', function(){
+      var files = event.target.files;
+      var image = files[0]
+      var reader = new FileReader();
+      reader.onload = function (file) {
+        var img = new Image();
+        img.src = file.target.result;
+        $(".square_image").attr('src', img.src)
+      }
+      reader.readAsDataURL(image);
+    })
+
     createHasgtags($(".hashtags_input").val())
 
     $(".hashtags_input").on('focusout', function(){
@@ -34,13 +46,13 @@
         $(".hashtags_input").val(final_string)
       }
     }
-- content_for :profile_progress do
-  = render :partial => "settings/progress_bar", :locals => {progress_title: target_user.progress_title, redirect_link: redirect_link_call, link_text: target_user.redirect_link_text, progress_percent: target_user.overall_progress}
+- if @current_user.overall_progress != 100
+  - content_for :profile_progress do
+    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Profile')}
   %p.profile_text
     = t("settings.profile.profile_complete_info")
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
-
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
@@ -136,12 +148,11 @@
       = icon_tag("information", ["icon-fix"])
     %small
       = t("settings.profile.profile_picture_description")
-    - if target_user.image.present?
-      = image_tag target_user.image.url(:small), class: "square_image"
+    = image_tag target_user.image.present? ? target_user.image.url(:medium) : 'profile_image/small/missing.png', class: "square_image"
     = render 'layouts/filename', file_field: target_user.image
     .upload_image
       = "Upload an Image"
-      = form.file_field :image, :size => 30, :id => "avatar_file", class: "invisible-image"
+      = form.file_field :image, :size => 30, :id => "avatar_file", class: "invisible-image prof-avtar"
 
     -# About text
     = form.label :description, t("settings.profile.about_you"), :class => "input"
@@ -151,7 +162,7 @@
     = form.text_area :community_description_experience, :class => "update_profile_description_text_area", placeholder: "HINT: I enjoy bartering my services for health, fitness and restaurant offers and love being part of like-minded community of business owners"
 
     = form.label :tags, 'Hashtags', :class => "input"
-    = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input"
+    = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input", placeholder: 'HINT: Enter the keywords associated with your business or offers. it will help end user to search your offers'
 
 
     .row

@@ -275,13 +275,15 @@ class PeopleController < Devise::RegistrationsController
       flash[:error] = t("layouts.notifications.update_error")
     end
     #redirect_back(fallback_location: homepage_url)
-    if target_user.profile_progress[:user_profile] == 0
-      target_user.profile_progress.update(user_profile: 14)
-      target_user.save
-    end
+
     if params[:notification_page].present?
       if target_user.profile_progress[:notifications] == 0
-        target_user.profile_progress.update(notifications: 14)
+        target_user.profile_progress.update(notifications: 20)
+        target_user.save
+      end
+    else
+      if target_user.profile_progress[:user_profile] == 0
+        target_user.profile_progress.update(user_profile: 20)
         target_user.save
       end
     end
