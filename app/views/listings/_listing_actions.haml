@@ -103,9 +103,10 @@
             %button.enabled-book-button.custm_buy
               .content
                 = action_button_label(@listing)
-            - if @commission_from_seller > 0 
-              %span.text
-                = "#{@commission_from_seller}%"+" Avontage fee applies"                   
+            - if @commission_from_seller > 0
+              - unless @listing.listing_shape.name.eql?(request_shape_name)
+                %span.text
+                  = "#{@commission_from_seller}%"+" Avontage fee applies" 
 
     - if @listing_presenter.payments_enabled?
       .row

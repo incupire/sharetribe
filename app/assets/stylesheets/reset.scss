@@ -970,6 +970,10 @@ img.square_image {
       }
     }
 
+    .request-offer-image {
+      height: 105px;
+    }
+
     .gray_text_box {
       background: #e8e8e8;
       padding: 20px;
@@ -1526,4 +1530,10 @@ table#admin_listings.new_design {
 .get-started.listing_status_filter.disable-lnk{
   cursor: default;
   background: #ccc;
+}
+
+.request-heading{
+  float: right;
+  font-size: 25px;
+  margin-right: 7px;
 }
