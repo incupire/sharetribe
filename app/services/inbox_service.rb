@@ -29,8 +29,8 @@ module InboxService
     query_inbox_data_count(person_id, community_id)
   end
 
-  def inbox_data(person_id, community_id, limit, offset, status='', q='')
-    query_inbox_data(person_id, community_id, limit, offset, status, q)
+  def inbox_data(person_id, community_id, limit, offset, status='', q='', sort_column='last_transition_at DESC')
+    query_inbox_data(person_id, community_id, limit, offset, status, q, sort_column)
   end
 
   def notification_count(person_id, community_id)
@@ -57,6 +57,7 @@ module InboxService
     [:other_id, :string, :mandatory],
 
     [:should_notify, :mandatory],
+    [:transaction_started_at, :utc_str_to_time, :optional],
 
     [:starter, :mandatory],
     [:current, :mandatory],
@@ -135,7 +136,7 @@ module InboxService
     connection.select_value(sql)
   end  
 
-  def query_inbox_data(person_id, community_id, limit, offset, status='', q='')
+  def query_inbox_data(person_id, community_id, limit, offset, status='', q='', sort_column='last_transition_at DESC')
     conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
     return [] if conversation_ids.empty?
     @pattern = "%#{q}%"
@@ -143,13 +144,15 @@ module InboxService
     statuses = %w[free confirmed paid canceled preauthorized rejected
                        payment_intent_requires_action payment_intent_action_expired
                        disputed refunded dismissed]
+                
     sql = SQLUtils.ar_quote(connection, @construct_sql,
       person_id: person_id,
       community_id: community_id,
       limit: limit,
       offset: offset,
       conversation_ids: conversation_ids,
-      status: status.present? ? [status] : statuses
+      status: status.present? ? [status] : statuses,
+      sort_column: sort_column
     )
 
     result_set = connection.execute(sql).each(as: :hash).map { |row| HashUtils.symbolize_keys(row) }
@@ -235,6 +238,7 @@ module InboxService
     end
 
     payment_gateway = transaction[:payment_gateway]
+    tx_model = Transaction.find(transaction[:transaction_id])
 
     payment_total =
       case payment_gateway.to_sym
@@ -243,7 +247,6 @@ module InboxService
         Maybe(paypal_payments.get_payment(transaction[:community_id], transaction[:transaction_id]))[:data][:authorization_total].or_else(nil)
       when :stripe
         stripe_payments = StripeService::API::Api.payments
-        tx_model = Transaction.find(transaction[:transaction_id])
         stripe_payments.payment_details(tx_model)[:payment_total]
       end
 
@@ -256,6 +259,7 @@ module InboxService
       author: transaction[:other],
       transitions: transitions,
       should_notify: should_notify,
+      transaction_started_at: tx_model.created_at,
       last_transition_at: transaction[:last_transition_at],
       payment_total: payment_total
     )
@@ -431,7 +435,7 @@ module InboxService
       )
 
       # Order by 'last_activity_at', that is last message or last transition
-      ORDER BY last_activity_at DESC
+      ORDER BY #{params[:sort_column]}
 
       # Pagination
       LIMIT #{params[:limit]} OFFSET #{params[:offset]}

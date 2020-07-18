@@ -25,7 +25,19 @@
 
   //%span#admin_transactions_count= page_entries_info(@transactions, :model => "Transaction").html_safe
   - if result_rows.present?
-    = render :partial => "transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
+    %table#admin_transactions
+      %thead
+        %tr
+          %th Type
+          %th= render partial: "layouts/sort_link", locals: { column: "started", direction: sort_link_direction("started"), title: t("admin.communities.transactions.headers.started") }
+          %th= render partial: "layouts/sort_link", locals: { column: "last_activity", direction: sort_link_direction("last_activity"), title: t("admin.communities.transactions.headers.last_activity") }
+          %th Other Member
+          %th= render partial: "layouts/sort_link", locals: { column: "listing", direction: sort_link_direction("listing"), title: 'Offer Title' }
+          %th Sell
+          %th Purchase
+          %th= render partial: "layouts/sort_link", locals: { column: "current_state", direction: sort_link_direction("current_state"), title: 'Status'}
+      %tbody
+        = render :partial => "transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
 
     = will_paginate(transactional_inbox_rows)
     = pageless(transactional_inbox_rows.total_pages, '#conversations', request.url, t('conversations.index.loading_more_messages'))

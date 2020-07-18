@@ -1522,3 +1522,8 @@ table#admin_listings.new_design {
 .listing_status_filter{
   width: 100%;
 }
+
+.get-started.listing_status_filter.disable-lnk{
+  cursor: default;
+  background: #ccc;
+}

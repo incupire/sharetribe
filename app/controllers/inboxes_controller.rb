@@ -150,6 +150,25 @@ class InboxesController < ApplicationController
     end
   end
 
+  def sort_column_for_transaction
+    column = case params[:sort].to_s
+             when "listing"
+              "listings.title"
+             when "started"
+              "created_at"
+              when "current_state"
+                "current_state"
+              else
+                "last_transition_at"
+              end
+    column = "transactions.#{column}" if column.present? && column.index('.').nil?
+    column
+  end
+
+  def sort_direction
+    params[:direction] == 'ASC' ? 'DESC' : 'DESC'
+  end
+
   private
 
   def inbox_title(inbox_item, payment_sum)
@@ -192,7 +211,7 @@ class InboxesController < ApplicationController
       pagination_opts[:limit],
       pagination_opts[:offset],
       params[:status],
-      params[:q])
+      params[:q], "#{sort_column_for_transaction} #{sort_direction}")
 
     inbox_rows = inbox_rows.select{|item| item[:type].eql?(:transaction)}
 
