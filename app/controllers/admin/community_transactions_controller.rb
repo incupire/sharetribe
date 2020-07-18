@@ -1,10 +1,18 @@
 require 'csv'
 
 class Admin::CommunityTransactionsController < Admin::AdminBaseController
+  include Collator
 
   def index
     @selected_left_navi_link = "transactions"
     pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
+    statuses = %w[free confirmed paid canceled preauthorized rejected
+                       payment_intent_requires_action payment_intent_action_expired
+                       disputed refunded dismissed]
+    @statuses = statuses.map {|status|
+      [I18n.t("admin.communities.transactions.status_filter.#{status}"), status]
+    }.sort_by{|translation, _status| collator.get_sort_key(translation) }
+
     params.permit!
     transactions = if params[:sort].nil? || params[:sort] == "last_activity"
       Transaction.for_community_sorted_by_activity(
@@ -12,35 +20,31 @@ class Admin::CommunityTransactionsController < Admin::AdminBaseController
         sort_direction,
         pagination_opts[:limit],
         pagination_opts[:offset],
-        request.format == :csv)
+        request.format == :csv,
+        params)
     else
       Transaction.for_community_sorted_by_column(
         @current_community.id,
         simple_sort_column(params[:sort]),
         sort_direction,
         pagination_opts[:limit],
-        pagination_opts[:offset])
+        pagination_opts[:offset],
+        params)
     end
+
+    for_txn_count = Transaction.exist.by_community(@current_community.id).with_payment_conversation
 
     if params[:start_date].present? && params[:end_date].present?
       start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
       end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
-      transactions = transactions.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+      for_txn_count = for_txn_count.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
     end
 
-    if params[:status].present? && ['confirmed', 'preauthorized'].include?(params[:status])
-      transactions = transactions.where(current_state: params[:status])
-    elsif params[:status].eql?('unresponded')
-      transactions = transactions.where(current_state: 'free')
-      txns = []
-      transactions.each do |txn|
-        txns << txn.id if txn.conversation.present? && txn.conversation.messages.size == 1
-      end
-      transactions = transactions.where(id: txns)
+    if params[:status].present?
+      for_txn_count = for_txn_count.where(current_state: params[:status])
     end
 
-    count = Transaction.exist.by_community(@current_community.id).with_payment_conversation.count
-    transactions = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], count) do |pager|
+    transactions = WillPaginate::Collection.create(pagination_opts[:page], pagination_opts[:per_page], for_txn_count.count) do |pager|
       pager.replace(transactions)
     end
 

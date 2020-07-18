@@ -34,7 +34,7 @@
       .col-3
         = text_field_tag :end_date, params[:end_date], placeholder: 'To date'
       .col-4
-        = select_tag :status, options_for_select([['Completed', 'confirmed'], ['Pending', 'preauthorized'] , ['Unresponded message', 'unresponded']], selected: params[:status]), prompt: 'select status'
+        = select_tag :status, options_for_select(@statuses, selected: params[:status]), prompt: 'select status'
       .col-2
         = submit_tag 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'
   - unless @current_user.is_manager?

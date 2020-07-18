@@ -39,7 +39,9 @@
   %table#admin_transactions
     %thead
       %tr
-        %th= render partial: "layouts/sort_link", locals: { column: "transaction_type", direction: sort_link_direction("transaction_type"), title: 'Type'}
+        %th
+          =# render partial: "layouts/sort_link", locals: { column: "transaction_type", direction: sort_link_direction("transaction_type"), title: 'Type'}
+          Type
         %th= render partial: "layouts/sort_link", locals: { column: "started", direction: sort_link_direction("started"), title: t("admin.communities.transactions.headers.started") }
         %th= render partial: "layouts/sort_link", locals: { column: "last_activity", direction: sort_link_direction("last_activity"), title: t("admin.communities.transactions.headers.last_activity") }
         %th

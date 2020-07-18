@@ -1,3 +1,8 @@
+- content_for :extra_javascript do
+  :javascript
+    $("#start_date").datepicker()
+    $("#end_date").datepicker()
+
 - content_for :title_header do
   %h1
     = t("layouts.admin.admin")
@@ -8,6 +13,16 @@
 
 .left-navi-section
   %h2= t("admin.communities.conversations.conversations", community_name: community.name(I18n.locale))
+  = form_tag '', :method => :get do
+    .row
+      .col-3
+        = text_field_tag :start_date, params[:start_date], placeholder: 'From date'
+      .col-3
+        = text_field_tag :end_date, params[:end_date], placeholder: 'To date'
+      .col-4
+        = select_tag :status, options_for_select([['Unresponded Messages', 'unresponded'], ['All', '']], selected: params[:status]), prompt: 'select status'
+      .col-2
+        = submit_tag 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'
 
   %span#admin_transactions_count= page_entries_info(conversations, :model => "Conversation")
 

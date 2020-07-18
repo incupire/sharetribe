@@ -1,13 +1,22 @@
 class Admin::CommunityConversationsController < Admin::AdminBaseController
+
   def index
     @selected_left_navi_link = "conversations"
     pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
-
-    conversations = Conversation.free_for_community(
-      @current_community,
-      simple_sort_column(params[:sort]),
-      sort_direction)
-      .paginate(page: pagination_opts[:page], per_page: pagination_opts[:per_page])
+    conversations = Conversation.free_for_community(@current_community, simple_sort_column(params[:sort]), sort_direction)
+    if params[:status].present?
+      convers = []
+      conversations.each do |conversation|
+        convers << conversation.id if conversation.messages.size == 1
+      end
+      conversations = conversations.where(id: convers)
+    end
+    if params[:start_date].present? && params[:end_date].present?
+      start_date = Date.strptime(params[:start_date],"%m/%d/%Y")
+      end_date = Date.strptime(params[:end_date],"%m/%d/%Y")
+      conversations = conversations.where(created_at: start_date.beginning_of_day..end_date.end_of_day)
+    end
+    conversations = conversations.order("#{simple_sort_column(params[:sort])} #{sort_direction}").paginate(page: pagination_opts[:page], per_page: pagination_opts[:per_page])
     render "index", { locals: { community: @current_community, conversations: conversations } }
   end
 
