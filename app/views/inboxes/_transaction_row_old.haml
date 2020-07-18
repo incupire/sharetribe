@@ -1,0 +1,157 @@
+-# Mobile View
+- if browser.device.mobile?
+  - if conversation[:type].eql?(:avon_bucks)
+    = render partial: 'inboxes/avon_history', locals: conversation
+  - elsif conversation[:type].eql?(:transaction)
+    = link_to conversation[:path] do
+      - txn  = Transaction.find_by(id: conversation[:transaction_id])
+      .row-with-divider.without-margin.conversation-row{:class => conversation[:should_notify] ? "conversation-unread" : ""}
+        .col-2
+          .conversation-details-container
+            - avatar = conversation[:other].image.present? ? conversation[:other].image.url(:thumb) : missing_avatar(:thumb)
+            = image_tag avatar, :class => "conversation-avatar"
+            .conversation-details
+              .conversation-other-party-name
+                - unless conversation[:other].deleted
+                  = PersonViewUtils.person_display_name(conversation[:other], @current_community)
+              .conversation-last-message-at
+                = conversation[:last_activity_ago]
+
+        %div{class: payments_in_use ? "col-5" : "col-8"}
+          - if conversation[:title].present?
+            = conversation[:title]
+          - else
+            %span.conversation-last-message-content-not-available
+              = t("conversations.conversation.message_content_not_available")
+
+          -# Avon bucks history with the respective transaction
+          - if txn.payment_gateway.eql?(:coupon_pay)
+            -# Buyer Point of view           
+            - if txn.buyer.eql?(@current_user)
+              - if txn.status.eql?('rejected')
+                .conversation-context
+                  = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission - txn.coupon_discount)} Avon"
+              - else  
+                .conversation-context
+                  - avon_commission_charged_to_buyer = txn&.avon_commission.nil? ? Money.new(0, @current_community.currency) : txn&.avon_commission
+                  = "Avontage Fee (charged to your credit card): #{MoneyViewUtils.to_humanized(-avon_commission_charged_to_buyer)}"
+                  %br
+                  = "Offer price (deducted from your Avontage Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission - txn.coupon_discount)} Avon"
+              -# Owner Point of view   
+            - elsif txn.author.eql?(@current_user) && txn.status.eql?('confirmed')
+              .conversation-context
+                = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"     
+
+      -# Avon bucks history with the respective transaction
+      - if txn.payment_gateway.eql?(:coupon_pay)
+        -# Buyer Point of view           
+        - if txn.buyer.eql?(@current_user)
+          - if txn.status.eql?('rejected')
+            .conversation-context
+              = "Offer price (Added to your Avon-Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission - txn.coupon_discount)} Avon"      
+          - else
+            .conversation-context
+              - avon_commission_charged_to_buyer = txn&.avon_commission.nil? ? Money.new(0, @current_community.currency) : txn&.avon_commission
+              = "Avontage Fee (charged to your credit card): #{MoneyViewUtils.to_humanized(-avon_commission_charged_to_buyer)}"
+              %br
+              = "Offer price (deducted from your Avon-Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission - txn.coupon_discount)} Avon"
+          -# Owner Point of view   
+        - elsif txn.author.eql?(@current_user) && txn.status.eql?('confirmed')
+          .conversation-context
+            - if conversation[:listing_url].present?
+              = t("conversations.conversation.about_listing", listing_title: conversation[:listing_deleted] ? '' : conversation[:listing_title]).html_safe
+            - else
+              = t("conversations.conversation.free_message")
+
+        - if payments_in_use
+          .col-3
+            -# Only for transactions
+            - status = conversation[:last_transition_to_state]
+            - if status.present? && status != "free"
+              - status_meta = conversation[:transitions].last[:metadata]
+              - is_author = !conversation[:current_is_starter]
+              - waiting_feedback = conversation[:waiting_feedback]
+              - other_name = PersonViewUtils.person_display_name(conversation[:other], @current_community)
+
+              - icon, status_description = conversation_icon_and_status(status, is_author, other_name, waiting_feedback, status_meta)
+
+              .conversation-list-status-container
+                .conversation-list-status-icon
+                  = icon
+                .conversation-list-status
+                  = status_description
+        .col-2
+          =# link_to conversation[:path] do
+          %button{class: "get-started"}
+            = t("conversations.avon_bucks_history.view_details")
+- else
+  -# Desktop View
+  - if conversation[:type].eql?(:avon_bucks)
+    = render partial: 'inboxes/avon_history', locals: conversation
+  - elsif conversation[:type].eql?(:transaction)
+    - txn  = Transaction.find_by(id: conversation[:transaction_id])
+    .row-with-divider.without-margin.conversation-row{:class => conversation[:should_notify] ? "conversation-unread" : ""}
+      .col-2
+        .conversation-details-container
+          - avatar = conversation[:other].image.present? ? conversation[:other].image.url(:thumb) : missing_avatar(:thumb)
+          = link_to person_path(conversation[:other]) do
+            = image_tag avatar, :class => "conversation-avatar"
+          .conversation-details
+            .conversation-other-party-name
+              = link_to_unless conversation[:other].deleted, PersonViewUtils.person_display_name(conversation[:other], @current_community), person_path(conversation[:other])
+            .conversation-last-message-at
+              = conversation[:last_activity_ago]
+
+      %div{class: payments_in_use ? "col-5" : "col-8"}
+        = link_to conversation[:path], class:(conversation[:should_notify] ? 'conversation-title-link-unread' : 'conversation-title-link') do
+          - if conversation[:title].present?
+            = conversation[:title]
+          - else
+            %span.conversation-last-message-content-not-available
+              = t("conversations.conversation.message_content_not_available")
+
+        -# Avon bucks history with the respective transaction
+        - if txn.payment_gateway.eql?(:coupon_pay)
+          -# Buyer Point of view           
+          - if txn.buyer.eql?(@current_user)
+            - if txn.status.eql?('rejected')
+              .conversation-context
+                = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission - txn.coupon_discount)} Avon"
+            - else  
+              .conversation-context
+                - avon_commission_charged_to_buyer = txn&.avon_commission.nil? ? Money.new(0, @current_community.currency) : txn&.avon_commission
+                = "Avontage Fee (charged to your credit card): #{MoneyViewUtils.to_humanized(-avon_commission_charged_to_buyer)}"
+                %br
+                = "Offer price (deducted from your Avontage Bucks): -#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission - txn.coupon_discount)} Avon"
+            -# Owner Point of view   
+          - elsif txn.author.eql?(@current_user) && txn.status.eql?('confirmed')
+            .conversation-context
+              = "Offer price (Added to your Avontage Bucks): +#{MoneyViewUtils.to_humanized(txn.payment_total - txn.commission)} Avon"     
+
+        .conversation-context
+          - if conversation[:listing_url].present?
+            = t("conversations.conversation.about_listing", listing_title: link_to_unless(conversation[:listing_deleted], conversation[:listing_title], conversation[:listing_url])).html_safe
+          - else
+            = t("conversations.conversation.free_message")
+
+      - if payments_in_use
+        .col-3
+          -# Only for transactions
+          - status = conversation[:last_transition_to_state]
+          - if status.present? && status != "free"
+            - status_meta = conversation[:transitions].last[:metadata]
+            - is_author = !conversation[:current_is_starter]
+            - waiting_feedback = conversation[:waiting_feedback]
+            - other_name = PersonViewUtils.person_display_name(conversation[:other], @current_community)
+
+            - icon, status_description = conversation_icon_and_status(status, is_author, other_name, waiting_feedback, status_meta)
+
+            .conversation-list-status-container
+              .conversation-list-status-icon
+                = icon
+              .conversation-list-status
+                = status_description
+      .col-2
+        = link_to conversation[:path] do
+          %button{class: "get-started"}
+            = t("conversations.avon_bucks_history.view_details")                       
