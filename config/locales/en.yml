@@ -359,6 +359,7 @@ en:
       topbar:
         topbar: "Top bar"
         new_listing_button_label: "Post a new offer button text"
+        new_request_button_label: "Post a new request button text"
         invalid_post_listing_button_label: "Please provide a valid text for \"Post a new offer\" button"
       transactions:
         status_filter:

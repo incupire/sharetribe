@@ -190,7 +190,6 @@ class Admin::CommunitiesController < Admin::AdminBaseController
   def update_topbar
     @community = @current_community
     h_params = params.to_unsafe_hash
-
     menu_links_params = Maybe(params)[:menu_links].permit!.or_else({menu_link_attributes: {}})
 
     if FeatureFlagHelper.feature_enabled?(:topbar_v1) || CustomLandingPage::LandingPageStore.enabled?(@current_community.id)
@@ -199,8 +198,8 @@ class Admin::CommunitiesController < Admin::AdminBaseController
     end
 
     translations = h_params[:post_new_listing_button].map{ |k, v| {locale: k, translation: v}}
-
-    if translations.any?{ |t| t[:translation].blank? }
+    translations1 =  h_params[:post_new_request_button].map{ |k, v| {locale: k, translation: v}}
+    if translations.any?{ |t| t[:translation].blank? } || translations1.any?{ |t| t[:translation].blank?}
       flash[:error] = t("admin.communities.topbar.invalid_post_listing_button_label")
       redirect_to admin_topbar_edit_path and return
     end
@@ -208,7 +207,12 @@ class Admin::CommunitiesController < Admin::AdminBaseController
     translations_group = [{
       translation_key: "homepage.index.post_new_listing",
       translations: translations
+    }, 
+    {
+      translation_key: "homepage.index.post_a_request",
+      translations: translations1
     }]
+
     TranslationService::API::Api.translations.create(@community.id, translations_group)
 
     update(@community,
