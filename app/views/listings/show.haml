@@ -344,7 +344,17 @@
     .close_popup
       = image_tag 'close_popup.svg', alt: 'close'
     .inner_popup_box
-      = image_tag 'varified.png', alt: 'verify', class: 'success_icon'
+      .looking_good_box
+        = image_tag 'popup_banner.png', alt: 'popup banner', class: 'popup_banner_img'
+        %h2.popup_heading
+          Looking good!
+        .popup_text
+          Now let's spread the word and earn $1000's Avontage Bucks! We know that you'll love Avontage and your friends will too! Click below to refer other business owners and earn $100 Avontage Bucks for each business-owner that signs up!
+
+        = link_to @current_community.homepage_graphic_url.present? ? @current_community.homepage_graphic_url : "https://www.avontage.com/blog/referandearn" do
+          = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn_new.png', alt: 'refer and earn', class: 'Refer_Earn_img'
+        .bottom_text.will_do_latter I'll do it later thanks
+
       .success_heading
         Success!
       .posted_text
