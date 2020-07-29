@@ -137,7 +137,8 @@ class PaymentSettingsController < ApplicationController
         flash[:error] = "Stripe could not finalize your request now, please provide valid card information!"
       end
       if params[:save_and_next_to_enable_selling].present?
-        redirect_to person_payment_settings_path(@target_user)
+        redirect_to homepage_without_locale_path
+        #redirect_to person_payment_settings_path(@target_user)
       else
         redirect_to person_edit_stripe_customber_settings_path(@target_user)
       end
