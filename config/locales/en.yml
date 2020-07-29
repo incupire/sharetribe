@@ -2376,6 +2376,7 @@ en:
     notifications:
       email_from_admins: "I accept to receive occasional emails from the %{service_name} team"
       i_want_to_get_email_notification_when: "I want to get an email notification when..."
+      i_want_to_get_sms_notification_when_condition: "I want to get an SMS/Text notification on mobile"
       i_want_to_get_sms_notification_when: "I want to get an SMS/Text notification on mobile #___-___-___ when..."
       i_want_to_get_sms_on_mobile_notification_when: "I want to get an SMS/Text notification on mobile %{mobile} when..."
       newsletters: "Emails from administrators"

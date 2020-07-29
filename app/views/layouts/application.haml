@@ -35,7 +35,7 @@
       .custom_react_navbar
         - cache props do
           = react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
-      - if @current_user.present?
+      - if @current_user.present? && !(@current_user.sign_in_count <= 1 && (params[:controller] == "settings" || params[:controller] == "payment_settings"))
         %div.global_search_bar{ class: is_landing_page ? 'hide_search_field' : ''}
           = render partial: 'homepage/global_search_bar'
     - else

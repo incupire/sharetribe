@@ -1,0 +1,7 @@
+var mobile_number = "<%= target_user.mobile_number %>"
+$(".mobile_details").text(mobile_number);
+$('.cancel_cell').addClass('hidden');
+$('.mobile_field').addClass('hidden');
+$('.mobile_details').removeClass('hidden');
+$('.edit_cell').attr('action_form', 'edit');
+$('.edit_cell').text('Edit Cell #')

@@ -103,6 +103,12 @@ class SettingsController < ApplicationController
     end
   end
 
+  def update_cell
+    target_user = Person.find_by!(username: params[:person_id], community_id: @current_community.id)
+    target_user.update_column(:mobile_number, params[:mobile_number])
+    render locals: {target_user: target_user}, :layout => false
+  end
+
   def sort_column
     case params[:sort]
     when 'started'
