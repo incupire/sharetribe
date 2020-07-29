@@ -415,7 +415,9 @@ class ListingsController < ApplicationController
       order_type = t(order_type[:name_tr_key])
       if @current_community.require_verification_to_post_listings? || @current_community.require_verification_to_post_request?
         if !@current_user.has_admin_rights?(@current_community)
-          if (!order_type.downcase.include?('requests') && !@current_community_membership.can_post_listings?) || (order_type.downcase.include?('requests') && !@current_community_membership.can_post_requests?)
+          if (!order_type.downcase.include?('request') && !@current_community_membership.can_post_listings?) #|| (order_type.downcase.include?('requests') && !@current_community_membership.can_post_requests?)
+            redirect_to verification_required_listings_path
+          elsif (order_type.downcase.include?('request') && !@current_community_membership.can_post_requests?)
             redirect_to verification_required_listings_path
           end
         end
