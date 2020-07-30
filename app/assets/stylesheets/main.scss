@@ -2334,7 +2334,7 @@ figure.fluidratio {
       padding: 0 20px;
       display: flex;
       flex-direction: row;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: center;
 
       @media screen and (max-width: 767px) {
@@ -2526,7 +2526,9 @@ figure.fluidratio {
   color: #3c3c3c;
   font-weight: 600;
   margin: 0;
-
+  @media (min-width: 768px) {
+    margin-top: -70px;
+  }
   &.profile_show_badge {
     font-size: 18px;
 

@@ -90,6 +90,8 @@ class HomepageController < ApplicationController
       viewport = viewport_geometry(params[:boundingbox], params[:lc], @current_community.location)
     end
 
+    featured_listings_main = featured_request_or_offers(params[:transaction_type].eql?(request_shape_name))
+
     if FeatureFlagHelper.feature_enabled?(:searchpage_v1)
       search_result.on_success { |listings|
         render layout: "layouts/react_page.haml", template: "search_page/search_page", locals: { props: searchpage_props(listings, current_page, per_page) }
@@ -126,6 +128,7 @@ class HomepageController < ApplicationController
         current_search_path_without_page: search_path(params.except(:page)),
         viewport: viewport,
         search_params: CustomFieldSearchParams.remove_irrelevant_search_params(params, relevant_search_fields),
+        featured_listings_main: featured_listings_main
       }
 
       search_result.on_success { |listings|
@@ -202,6 +205,12 @@ class HomepageController < ApplicationController
   end
   # rubocop:enable AbcSize
   # rubocop:enable MethodLength
+
+  def featured_request_or_offers check
+    shape = ListingShape.where(name: request_shape_name).last
+    listings = Listing.currently_open.where(featured: true)
+    check ? listings.where(listing_shape_id: shape.id) : listings.where.not(listing_shape_id: shape.id)
+  end
 
   private
 

@@ -1048,17 +1048,22 @@ img.square_image {
       .jobs_row {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        //justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-
+        margin-left: -15px;
+        margin-right: -15px;
+        a {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
         @media screen and (max-width: 767px) {
-          justify-content: space-around;
+          //justify-content: space-around;
         }
 
         .jobs_image {     
-          height: 130px;
-          width: 130px;
+          height: 120px;
+          width: 120px;
           object-fit: cover;
           border-radius: 100%;
           border: 4px solid #45c4cc;
