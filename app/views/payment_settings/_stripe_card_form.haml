@@ -30,7 +30,7 @@
             =t("payment_settings.stripe_customer.content3",commission_from_seller: @stripe_service[:commission_from_seller])      
         .col-12.payment-button-wrapper.paypal-button-wrapper
           .inline_buttons
-            = button_tag t("settings.save_and_close"), id: "send-add-card", class: 'checkout-with-stripe-buttons'
+            = button_tag t("settings.save_and_finish_later"), id: "send-add-card", class: 'checkout-with-stripe-buttons'
             = button_tag 'Save and Next', id: "send-add-card1", class: 'checkout-with-stripe-buttons'
 - content_for :extra_javascript do
   :javascript
