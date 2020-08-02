@@ -29,8 +29,8 @@ module InboxService
     query_inbox_data_count(person_id, community_id)
   end
 
-  def inbox_data(person_id, community_id, limit, offset, status='', q='', sort_column='last_transition_at DESC')
-    query_inbox_data(person_id, community_id, limit, offset, status, q, sort_column)
+  def inbox_data(person_id, community_id, limit, offset, status='', q='', sort_column='last_transition_at DESC', txn_type='')
+    query_inbox_data(person_id, community_id, limit, offset, status, q, sort_column, txn_type)
   end
 
   def notification_count(person_id, community_id)
@@ -136,7 +136,7 @@ module InboxService
     connection.select_value(sql)
   end  
 
-  def query_inbox_data(person_id, community_id, limit, offset, status='', q='', sort_column='last_transition_at DESC')
+  def query_inbox_data(person_id, community_id, limit, offset, status='', q='', sort_column='last_transition_at DESC', txn_type='')
     conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
     return [] if conversation_ids.empty?
     @pattern = "%#{q}%"
@@ -145,7 +145,7 @@ module InboxService
                        payment_intent_requires_action payment_intent_action_expired
                        disputed refunded dismissed]
                 
-    sql = SQLUtils.ar_quote(connection, @construct_sql,
+    sql = SQLUtils.ar_quote(connection, txn_type.eql?('inbox') ? @construct_inbox_sql : @construct_sql,
       person_id: person_id,
       community_id: community_id,
       limit: limit,
@@ -423,6 +423,7 @@ module InboxService
       AND (
         transactions.id IS NULL
         OR (transactions.current_state != 'initiated'
+            AND transactions.current_state != 'free'
             AND transactions.deleted = 0)
       )
 
@@ -459,6 +460,71 @@ module InboxService
         OR (transactions.current_state != 'initiated'
             AND transactions.deleted = 0)
       )
+    "
+  }
+
+  @construct_inbox_sql = ->(params) {
+    "
+      SELECT
+        transactions.id AS transaction_id,
+        conversations.id AS conversation_id,
+
+        GREATEST(COALESCE(transactions.last_transition_at, 0),
+          COALESCE(conversations.last_message_at, 0))     AS last_activity_at,
+
+        transactions.last_transition_at                   AS last_transition_at,
+        transactions.current_state                        AS last_transition_to_state,
+        transactions.payment_gateway                      AS payment_gateway,
+        conversations.last_message_at                     AS last_message_at,
+
+        listings.id                                       AS listing_id,
+        listings.title                                    AS listing_title,
+        listings.deleted                                  AS listing_deleted,
+
+        listings.author_id                                AS author_id,
+        current_participation.person_id                   AS current_id,
+        other_participation.person_id                     AS other_id,
+
+        current_participation.is_read                     AS current_is_read,
+        current_participation.is_starter                  AS current_is_starter,
+
+        transactions.community_id                         AS community_id,
+
+        # Requires actions
+        (
+         (transactions.current_state = 'preauthorized' AND current_participation.is_starter = FALSE) OR
+         (transactions.current_state = 'paid'          AND current_participation.is_starter = TRUE)
+        )                                                 AS current_action_required,
+
+        # Waiting feedback
+        ((transactions.current_state = 'confirmed') AND (
+         (current_participation.is_starter = TRUE AND transactions.starter_skipped_feedback = FALSE AND testimonials.id IS NULL) OR
+         (current_participation.is_starter = FALSE AND transactions.author_skipped_feedback = FALSE AND testimonials.id IS NULL)
+        ))                                                AS waiting_feedback
+      FROM conversations
+
+      LEFT JOIN transactions      ON transactions.conversation_id = conversations.id
+      LEFT JOIN listings          ON transactions.listing_id = listings.id
+      LEFT JOIN testimonials      ON (testimonials.transaction_id = transactions.id AND testimonials.author_id = #{params[:person_id]})
+      LEFT JOIN participations    AS current_participation ON (current_participation.conversation_id = conversations.id AND current_participation.person_id = #{params[:person_id]})
+      LEFT JOIN participations    AS other_participation ON (other_participation.conversation_id = conversations.id AND other_participation.person_id != #{params[:person_id]})
+
+      # Where person and community
+      WHERE conversations.community_id = #{params[:community_id]}
+      AND conversations.id IN (#{params[:conversation_ids].join(',')})
+
+      # Ignore initiated and deleted
+      AND (
+        transactions.id IS NULL
+        OR (transactions.current_state = 'free'
+           AND transactions.deleted = 0)
+      )
+
+      # Order by 'last_activity_at', that is last message or last transition
+      ORDER BY last_activity_at DESC
+
+      # Pagination
+      LIMIT #{params[:limit]} OFFSET #{params[:offset]}
     "
   }
 

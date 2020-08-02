@@ -16,11 +16,11 @@ class InboxesController < ApplicationController
       @current_user.id,
       @current_community.id,
       pagination_opts[:limit],
-      pagination_opts[:offset])
+      pagination_opts[:offset],nil, nil, nil, 'inbox')
 
     count = InboxService.inbox_data_count(@current_user.id, @current_community.id)
     # Inbox is used FOR DIRECT MESSAGING/ASK SELLEROPTIONS
-    inbox_rows = inbox_rows.select{|item| item[:type].eql?(:conversation)}
+    # inbox_rows = inbox_rows.select{|item| item[:type].eql?(:conversation)}
 
     inbox_rows = inbox_rows.map { |inbox_row|
       extended_inbox = inbox_row.merge(
