@@ -14,7 +14,6 @@
       - if card_info.present?
         Payments will be charged to your credit card ending in
         = card_info[0]
-
         = link_to "Edit", person_edit_stripe_customber_settings_path(@target_user)
       - else        
         = render 'payment_settings/stripe_card_form', stripe_publishable_key: stripe_publishable_key

@@ -5,7 +5,7 @@ class FeedbacksController < ApplicationController
   skip_before_action :ensure_consent_given
   skip_before_action :ensure_user_belongs_to_community
   skip_before_action :set_display_expiration_notice
-  before_action      :can_send_dms, except: [:contact_page]
+  before_action      :can_send_dms, except: [:contact_page, :new, :create]
 
   FeedbackForm = FormUtils.define_form("Feedback",
                                        :content,

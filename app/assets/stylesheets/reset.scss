@@ -1048,17 +1048,22 @@ img.square_image {
       .jobs_row {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        //justify-content: space-between;
         align-items: center;
         flex-wrap: wrap;
-
+        margin-left: -15px;
+        margin-right: -15px;
+        a {
+          padding-left: 15px;
+          padding-right: 15px;
+        }
         @media screen and (max-width: 767px) {
-          justify-content: space-around;
+          //justify-content: space-around;
         }
 
         .jobs_image {     
-          height: 130px;
-          width: 130px;
+          height: 120px;
+          width: 120px;
           object-fit: cover;
           border-radius: 100%;
           border: 4px solid #45c4cc;
@@ -1301,33 +1306,68 @@ table#admin_listings.new_design {
     width: 600px;
     background: #fff;
     border-radius: 8px;
-    padding: 30px 50px;
+    padding: 30px;
 
     @media screen and (max-width: 767px) {
       width: 96%;
-      padding: 30px;
+      padding: 10px;
     }
 
     .close_popup {
       position: absolute;
       right: 20px;
       top: 20px;
-      cursor: pointer
+      cursor: pointer;
+      z-index: 10;
     }
     .inner_popup_box {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      padding: 30px 0;
 
-      .success_icon {
-        height: 100px;
-        margin: 0 0 20px;
+      .looking_good_box {
+        background: #fff;
+        width: 100%;
+        border-radius: 8px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .will_do_latter{
+          cursor: pointer
+        }
+
+        .popup_banner_img {
+          @media screen and (max-width: 767px) {
+            height: 190px;
+          }
+        }
+
+        .popup_heading {
+          margin: 0 0 10px;
+          font-weight: 600;
+        }
+        .popup_text {
+          text-align: center;
+          margin: 0 0 10px;
+          font-weight: 600;
+        }
+        .Refer_Earn_img {
+          height: 65px;
+          margin: 0 0 5px;
+
+          @media screen and (max-width: 767px) {
+            height: 52px;
+          }
+        }
       }
       .success_heading {
         font-size: 28px;
         font-weight: 600;
+        margin: 10px 0 0;
       }
       .posted_text {
         font-size: 18px;
@@ -1536,4 +1576,21 @@ table#admin_listings.new_design {
   float: right;
   font-size: 25px;
   margin-right: 7px;
+}
+.edit_cell_heading.cell_change {
+  display: block;
+  span {
+    margin-right: 5px;
+    display: inline-block;
+  }
+}
+.edit_cell.edit_anchor,.cancel_cell {
+  cursor: pointer;
+  color: #03c4cc;
+  font-size: 16px;
+  display: inline-block;
+}
+.mobile_field {
+  padding: 5px;
+  font-size: 16px;
 }
