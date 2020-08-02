@@ -144,23 +144,24 @@
           %p Pos a Request to find intrested parties to trade with you.
           = link_to 'POST A REQUEST', path_for_request_type_listing(@current_community), class: 'post_request_link'
     .right_section
-      .main_heading
-        Featured Offers Section
-      //-# unless params[:transaction_type].eql?(request_shape_name)
-      .jobs_box
-        .heading_box-row
-          .heading_box
-            .jobs_heading
-              Browse for Jobs and Requests
-            .sub_heading
-              Make offers to members needing your help
-          - if featured_listings_main.size > 5
-            = link_to 'view all', search_path(transaction_type: request_shape_name), class: 'view_all_link'
+      = link_to search_path(category: 'featured') do
+        .main_heading
+          Featured Offers Section
+      - unless params[:transaction_type].eql?(request_shape_name)
+        .jobs_box
+          .heading_box-row
+            .heading_box
+              .jobs_heading
+                Browse for Jobs and Requests
+              .sub_heading
+                Make offers to members needing your help
+            - if featured_listings_main.size > 5
+              = link_to 'view all', search_path(transaction_type: request_shape_name), class: 'view_all_link'
 
-        .jobs_row
-          - featured_listings_main.first(5).each do |featured_listing|
-            = link_to listing_path(featured_listing) do
-              = image_tag featured_listing.listing_images.empty? ? 'listing_missing.png' : featured_listing.listing_images.first.image.url(:medium) , alt: 'jobs-img', class: 'jobs_image'
+          .jobs_row
+            - featured_listings_main.first(5).each do |featured_listing|
+              = link_to listing_path(featured_listing) do
+                = image_tag featured_listing.listing_images.empty? ? 'listing_missing.png' : featured_listing.listing_images.first.image.url(:medium) , alt: 'jobs-img', class: 'jobs_image'
   .home-toolbar.redesign_mobile_toolbar
 
     - if listing_shape_menu_enabled || @category_menu_enabled

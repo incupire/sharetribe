@@ -90,7 +90,7 @@ class HomepageController < ApplicationController
       viewport = viewport_geometry(params[:boundingbox], params[:lc], @current_community.location)
     end
 
-    featured_listings_main = featured_request_or_offers(params[:transaction_type].eql?(request_shape_name))
+    featured_listings_main = featured_request_or_offers
 
     if FeatureFlagHelper.feature_enabled?(:searchpage_v1)
       search_result.on_success { |listings|
@@ -206,10 +206,9 @@ class HomepageController < ApplicationController
   # rubocop:enable AbcSize
   # rubocop:enable MethodLength
 
-  def featured_request_or_offers check
+  def featured_request_or_offers
     shape = ListingShape.where(name: request_shape_name).last
-    listings = Listing.currently_open.where(featured: true)
-    check ? listings.where(listing_shape_id: shape.id) : listings.where.not(listing_shape_id: shape.id)
+    Listing.currently_open.where(featured: true, listing_shape_id: shape.id).order("sort_date desc")
   end
 
   private
@@ -225,7 +224,6 @@ class HomepageController < ApplicationController
   end
 
   def find_listings(params:, current_page:, listings_per_page:, filter_params:, includes:, location_search_in_use:, keyword_search_in_use:, relevant_search_fields:)
-
     search = {
       # Add listing_id
       categories: filter_params[:categories],
@@ -240,10 +238,9 @@ class HomepageController < ApplicationController
       locale: I18n.locale,
       include_closed: false,
       sort: params[:sort].present? ? params[:sort].to_sym : nil,
-      featured: params[:category].eql?('featured') ? true : false,
       boundingbox: params[:boundingbox]
     }
-
+    search[:featured] = true if params[:category].eql?('featured')
     # Geolocation add 25 miles radius for map view
     # if @view_type == 'map'
     #   puts "========= #{current_cordinates(request.remote_ip)} ================="

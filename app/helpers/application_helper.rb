@@ -326,13 +326,13 @@ module ApplicationHelper
     links << {
       :text => t('layouts.infos.register_details'),
       :icon_class => icon_class("privacy"),
-      :path => privacy_infos_path,
+      :path => '/privacy_page',
       :name => "privacy"
     }
     links << {
       :text => t('layouts.infos.terms'),
       :icon_class => icon_class("terms"),
-      :path => terms_infos_path,
+      :path => '/terms_and_conditions_page',
       :name => "terms"
     }
   end

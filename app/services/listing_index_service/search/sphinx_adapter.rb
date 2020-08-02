@@ -83,7 +83,6 @@ module ListingIndexService::Search
           with.merge!(geodist: 0.0..limit)
           order = 'geodist ASC'
         end
-
         models = Listing.search(
           Riddle::Query.escape(search[:keywords] || ""),
           sql: {
