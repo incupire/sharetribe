@@ -69,13 +69,26 @@ module ApplicationHelper
     haml_concat add_links(capture_haml(&block)).html_safe
   end
 
+  def request_category
+    request_category = nil
+    Category.where(parent_id: nil).each do | cat|
+      if cat.url.include?('request')
+        request_category = cat
+        break
+      end
+    end
+    request_category
+  end
+
   def path_for_request_type_listing(community)
     request_url = "/en/listings/new"
     shapes = ListingShape.where(community_id: community.id).exist_ordered.all
+
     shapes.each do |shape|
       name = I18n.t(shape.name_tr_key)
       if name.downcase.include?('request')
         request_url = "/en/listings/new?listing_shape=#{shape.id}"
+        request_url += "&category=#{request_category.id}" if request_category.present?
         break
       end
     end
