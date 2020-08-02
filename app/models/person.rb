@@ -155,6 +155,8 @@ class Person < ApplicationRecord
 
   monetize :coupon_balance_cents, :allow_nil => true, with_model_currency: :currency
 
+  after_save :rebuild_sphinx
+
   def to_param
     username
   end
@@ -165,7 +167,11 @@ class Person < ApplicationRecord
 
   def currency
     community.currency
-  end  
+  end
+
+  def rebuild_sphinx
+    Delayed::Job.enqueue(RebuildWhenUpdate.new(community_id))
+  end
 
   DEFAULT_TIME_FOR_COMMUNITY_UPDATES = 7.days
 
