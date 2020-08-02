@@ -339,7 +339,6 @@ class PersonMailer < ActionMailer::Base
     @recipient = person
     recipient = person
     with_locale(recipient.locale, community.locales.map(&:to_sym), community.id) do
-
       @current_community = community
 
       @regular_email = regular_email

@@ -7,6 +7,7 @@ class CommunityMailer < ActionMailer::Base
   include MailUtils
 
   require "truncate_html"
+  add_template_helper(EmailTemplateHelper)
 
   # This task is expected to be run with daily or hourly scheduling
   # It looks through all users and send email to those who want it now
