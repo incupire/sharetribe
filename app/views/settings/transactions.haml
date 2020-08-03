@@ -71,11 +71,20 @@
           %td
             - if transaction.listing_author_id == target_user.id
               = '+'
-              =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""
+              - if transaction.payment_gateway.eql?(:coupon_pay)
+                - if transaction.payment_total
+                  = image_tag "black_a_img.png", width: '14px'
+                  = MoneyViewUtils.to_humanized(transaction.payment_total - transaction.commission).split('$')[1]
+              - else
+                =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total - transaction.commission) : ""
           %td
             - if transaction.listing_author_id != target_user.id
               = '-'
-              =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""    
+              - if transaction.payment_gateway.eql?(:coupon_pay)
+                - coupon_discount = transaction.coupon_discount.present? ? transaction.coupon_discount : Money.new(0, 'USD')
+                =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total - coupon_discount) : ""
+              - else
+                =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""    
           %td
             - status = t("admin.communities.transactions.status.#{transaction.payment_gateway}.#{transaction.status}")
             - if transaction.show_link?

@@ -33,7 +33,8 @@ module TransactionViewUtils
     [:per_hour, :to_bool, default: false],
     [:auto_accept_transaction, :to_bool, default: false],
     [:auto_complete_transaction, :to_bool, default: false],
-    [:coupon_discount, :money, :optional]
+    [:coupon_discount, :money, :optional],
+    [:coupon_code, :string, :optional]
   )
 
 

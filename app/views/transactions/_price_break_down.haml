@@ -108,7 +108,7 @@
   - if !is_author && coupon_discount.present? && coupon_discount.to_f > 0
     .initiate-transaction-total-wrapper
       %span.initiate-transaction-total-label
-        Instant rebate
+        ="Rebate Code: #{coupon_code}"
       %span.initiate-transaction-total-value
         = '-'
         = image_tag "black_a_img.png"

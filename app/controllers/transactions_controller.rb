@@ -391,7 +391,8 @@ class TransactionsController < ApplicationController
         end_time: booking_per_hour ? tx.booking.end_time : nil,
         auto_accept_transaction: tx.auto_accept_transaction,
         auto_complete_transaction: tx.auto_complete_transaction,
-        coupon_discount: tx.coupon_discount
+        coupon_discount: tx.coupon_discount,
+        coupon_code: tx.rebate_code
       })
     end
   end

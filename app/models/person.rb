@@ -170,7 +170,7 @@ class Person < ApplicationRecord
   end
 
   def rebuild_sphinx
-    Delayed::Job.enqueue(RebuildWhenUpdate.new(community_id))
+    # Delayed::Job.enqueue(RebuildWhenUpdate.new(community_id))
   end
 
   DEFAULT_TIME_FOR_COMMUNITY_UPDATES = 7.days

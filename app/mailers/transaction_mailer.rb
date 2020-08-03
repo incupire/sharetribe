@@ -165,7 +165,8 @@ class TransactionMailer < ActionMailer::Base
                    avon_commission: MoneyViewUtils.to_humanized(transaction.avon_commission),
                    commission_percentage: transaction.commission_from_seller,
                    auto_complete_transaction: transaction_model.auto_complete_transaction,
-                   promo_code_discount: promo_code_discount
+                   promo_code_discount: promo_code_discount,
+                   promo_code: transaction_model.rebate_code
                  }
         }
       }

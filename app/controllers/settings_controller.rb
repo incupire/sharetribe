@@ -138,7 +138,7 @@ class SettingsController < ApplicationController
   private
 
   def transactions_scope
-    scope = Transaction.exist.by_community(@current_community.id).for_person(@service.person)
+    scope = Transaction.exist.by_community(@current_community.id).for_person(@service.person).where.not(current_state: 'free')
     if params[:q].present?
       pattern = "%#{params[:q]}%"
       scope = scope.search_by_party_or_listing_title(pattern)

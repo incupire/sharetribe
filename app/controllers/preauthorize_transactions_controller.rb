@@ -150,6 +150,7 @@ class PreauthorizeTransactionsController < ApplicationController
                        end_time:   tx_params[:end_time],
                        per_hour:   tx_params[:per_hour],
                        coupon_discount: coupon_discount,
+                       coupon_code: @rebate_code.try(:code)
                       )
       @price_break_down_locals.merge!(is_author: false)
     end

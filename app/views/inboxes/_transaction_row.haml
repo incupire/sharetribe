@@ -29,11 +29,20 @@
     %td
       - unless conversation[:current_is_starter]
         = '+'
-        = txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total) : ""
+        - if txn.payment_gateway.eql?(:coupon_pay)
+          - if txn.payment_total
+            = image_tag "black_a_img.png", width: '14px'
+            = MoneyViewUtils.to_humanized(txn.payment_total - txn.commission).split('$')[1]
+        - else
+          = txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total - txn.commission) : ""
     %td
       - if conversation[:current_is_starter]
         = '-'
-        =txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total) : ""
+        - if txn.payment_gateway.eql?(:coupon_pay)
+          - coupon_discount = txn.coupon_discount.present? ? txn.coupon_discount : Money.new(0, 'USD')
+          =txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total - coupon_discount) : ""
+        - else
+          =txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total) : ""
     %td
       - status = t("admin.communities.transactions.status.#{txn.payment_gateway}.#{txn.status}")
       - if txn.show_link?

@@ -73,7 +73,7 @@
         - if promo_code_discount.present? && promo_code_discount.to_f > 0
           %tr
             %td
-              Instant rebate
+              ="Rebate Code: #{promo_code}"
             %td
               = '-'
               = image_tag "#{host}/assets/black_a_img.png" , style: "height: 15px; position: relative; top: 1px;"
