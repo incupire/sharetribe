@@ -110,6 +110,7 @@ class PaymentSettingsController < ApplicationController
       return
     else
       if params[:stripe_token].present?
+        @err = true
         begin
           if @target_user.stripe_customer_id.present?
             customer = stripe_api.get_customer_account(community: @current_community, customer_id: @target_user.stripe_customer_id)
@@ -125,9 +126,12 @@ class PaymentSettingsController < ApplicationController
             @target_user.profile_progress.update(enable_purchasing: 20)
             @target_user.save
           end
-          flash[:success] = "Card saved successfully!"
-          redirect_to params[:redir_url]
-          return
+          flash[:notice] = "Card saved successfully!"
+          if params[:redir_url].present?
+            redirect_to params[:redir_url]
+            return
+          end
+          @err = false
         rescue Stripe::CardError => e
           flash[:error] = "Stripe could not finalize your request as: #{e.message}"
         rescue Exception => e
@@ -136,11 +140,12 @@ class PaymentSettingsController < ApplicationController
       else
         flash[:error] = "Stripe could not finalize your request now, please provide valid card information!"
       end
-      if params[:save_and_next_to_enable_selling].present?
-        redirect_to homepage_without_locale_path
-        #redirect_to person_payment_settings_path(@target_user)
+      if params[:save_and_next_to_enable_selling].present? && !@err
+        # redirect_to homepage_without_locale_path
+        redirect_to person_payment_settings_path(@target_user)
       else
-        redirect_to person_edit_stripe_customber_settings_path(@target_user)
+        # redirect_to person_edit_stripe_customber_settings_path(@target_user)
+        redirect_to person_stripe_customber_settings_path(@target_user)
       end
     end
   end

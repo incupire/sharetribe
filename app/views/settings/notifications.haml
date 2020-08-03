@@ -17,17 +17,15 @@
       %span
         = t(".i_want_to_get_sms_notification_when_condition")
       %span
-        = text_field_tag 'mobile_number', target_user.mobile_number.present? ? " #{target_user.mobile_number}" : " #___-___-___", class: 'hidden mobile_field'
+        = text_field_tag 'mobile_number', target_user.mobile_number.present? ? " #{target_user.mobile_number}" : "", class: 'hidden mobile_field'
         .mobile_details
-          = target_user.mobile_number.present? ? " #{target_user.mobile_number}" : " #___-___-___"
+          = target_user.mobile_number.present? ? " #{target_user.mobile_number}" : "#___-___-___"
       %span
         = " when..."
-      //=# link_to update_cell_person_settings_path(target_user, anchor: 'person_mobile_number'), class: 'edit_anchor', remote: true do
-      //=# image_tag 'edit.png', alt: 'edit', class: ''
       .cancel_cell.hidden
         = "cancel"
       .edit_cell.edit_anchor{action_form: "edit"}
-        = 'Edit Cell #'
+        = 'Edit'
 
     = render :partial => "notification_checkbox", :collection => Person::SMS_NOTIFICATION_TYPES, :as => :notification_type, locals: {target_user: target_user}
 
@@ -50,7 +48,7 @@
     $('.edit_cell').click(function(){
       if ($(this).attr('action_form') == "edit") {
         $(this).attr('action_form', 'update');
-        $(this).text('Update Cell #')
+        $(this).text('Update')
         $('.mobile_field').removeClass('hidden');
         $('.mobile_details').addClass('hidden');
         $('.cancel_cell').removeClass('hidden');
@@ -71,5 +69,5 @@
       $('.mobile_field').addClass('hidden');
       $('.mobile_details').removeClass('hidden');
       $('.edit_cell').attr('action_form', 'edit');
-      $('.edit_cell').text('Edit Cell #')
+      $('.edit_cell').text('Edit')
     })
