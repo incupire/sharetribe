@@ -170,7 +170,9 @@ class Person < ApplicationRecord
   end
 
   def rebuild_sphinx
-    # Delayed::Job.enqueue(RebuildWhenUpdate.new(community_id))
+    if tags_changed? || display_name_changed? || is_verified_changed? || total_received_review_changed?
+      Delayed::Job.enqueue(RebuildWhenUpdate.new(community_id))
+    end
   end
 
   DEFAULT_TIME_FOR_COMMUNITY_UPDATES = 7.days
