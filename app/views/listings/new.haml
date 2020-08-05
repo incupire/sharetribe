@@ -4,10 +4,6 @@
       window.ST.initialize_new_listing_form_selectors("#{I18n.locale}", #{raw @listing_presenter.category_tree.to_json}, #{raw listing_form_menu_titles().to_json});
     });
 
-    $('.will_do_latter, .close_popup').on('click', function(){
-      $(".looking_good_popup").addClass('hidden')
-    })
-
 - content_for :extra_javascript do
   - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
   - key_param = maps_key ? "?key=#{maps_key}" : ""
@@ -103,19 +99,5 @@
         - @listing_presenter.shapes.each do |value|
           %a.select.option.hidden{:data => {:id => value[:id]}}
             .link-text= t(value[:name_tr_key])
-
-  .looking_good_popup.hidden
-    .looking_good_box
-      .close_popup
-        = image_tag 'close_popup.svg', alt: 'close', class: 'close_popup_img'
-      = image_tag 'popup_banner.png', alt: 'popup banner', class: 'popup_banner_img'
-      %h2.popup_heading
-        Looking good!
-      .popup_text
-        Now let's spread the word and earn $1000's Avontage Bucks! We know that you'll love Avontage and your friends will too! Click below to refer other business owners and earn $100 Avontage Bucks for each business-owner that signs up!
-
-      = link_to @current_community.homepage_graphic_url.present? ? @current_community.homepage_graphic_url : "https://www.avontage.com/blog/referandearn" do
-        = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn_new.png', alt: 'refer and earn', class: 'Refer_Earn_img'
-      .bottom_text.will_do_latter I'll do it later thanks
 
   .js-form-fields.hidden

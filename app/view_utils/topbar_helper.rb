@@ -108,7 +108,8 @@ module TopbarHelper
         priority: -1
       },
       {
-        link: paths.new_user_feedback_path(locale: locale_param),
+        # link: paths.new_user_feedback_path(locale: locale_param),
+        link: '/contact_page',
         title: I18n.t("header.contact_us"),
         priority: !user_links.empty? ? user_links.last[:priority] + 1 : 1
       }

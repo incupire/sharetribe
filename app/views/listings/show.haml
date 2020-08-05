@@ -339,6 +339,7 @@
           .padding_left
             = render :partial => 'recommended_offers_in_current_category', :locals => {person: @listing.author, listings: @recommended_listings}          
 
+- is_request_shape = t(@listing.listing_shape.name_tr_key).downcase.include?('request')
 .new_offer_popup.hidden
   .new_offer_popup-box
     .close_popup
@@ -347,7 +348,9 @@
       .looking_good_box
         = image_tag 'popup_banner.png', alt: 'popup banner', class: 'popup_banner_img'
         %h2.popup_heading
-          Looking good!
+          Success!
+        .posted_text
+          = "Your #{is_request_shape ? 'request' : 'offer' } has been posted."
         .popup_text
           Now let's spread the word and earn $1000's Avontage Bucks! We know that you'll love Avontage and your friends will too! Click below to refer other business owners and earn $100 Avontage Bucks for each business-owner that signs up!
 
@@ -355,17 +358,10 @@
           = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn_new.png', alt: 'refer and earn', class: 'Refer_Earn_img'
         .bottom_text.will_do_latter I'll do it later thanks
 
-      .success_heading
-        Success!
-      .posted_text
-        Your offer has been posted.
-
-- if @listing.listing_shape.present?
-  - is_offer_shape = t(@listing.listing_shape.name_tr_key).downcase.include?('offer')
-  - if params[:new_offer_posted].present? && is_offer_shape
-    - content_for :extra_javascript do
-      :javascript
-        $(".new_offer_popup").removeClass('hidden')
+- if params[:new_offer_posted].present?
+  - content_for :extra_javascript do
+    :javascript
+      $(".new_offer_popup").removeClass('hidden')
 
 
 - content_for :extra_javascript do

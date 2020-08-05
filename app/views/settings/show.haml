@@ -49,13 +49,14 @@
 - if @current_user.overall_progress != 100
   - content_for :profile_progress do
     = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Profile')}
-  %p.profile_text
-    = t("settings.profile.profile_complete_info")
+
 - content_for :title_header do
   %h1= t("layouts.no_tribe.settings")
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
+  %p.profile_text
+    = t("settings.profile.profile_complete_info")
   %p
     = t("settings.profile.our_promise_for_profile")
     =# link_to(t("settings.profile.profile_page"), target_user) + "."

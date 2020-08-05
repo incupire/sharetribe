@@ -20,12 +20,13 @@
         = text_field_tag 'mobile_number', target_user.mobile_number.present? ? " #{target_user.mobile_number}" : "", class: 'hidden mobile_field'
         .mobile_details
           = target_user.mobile_number.present? ? " #{target_user.mobile_number}" : "#___-___-___"
-      %span
-        = " when..."
-      .cancel_cell.hidden
-        = "cancel"
+      / .cancel_cell.hidden
+      /   = "cancel"
       .edit_cell.edit_anchor{action_form: "edit"}
         = 'Edit'
+    %h2
+      %span
+        = " when..."
 
     = render :partial => "notification_checkbox", :collection => Person::SMS_NOTIFICATION_TYPES, :as => :notification_type, locals: {target_user: target_user}
 
@@ -45,6 +46,11 @@
       %input.send_button.button{:name => "save_and_next_to_enable_purchasing", :type => "submit", :value => "Save and Next"}
 - content_for :extra_javascript do
   :javascript
+    $(".mobile_details").text(function(i, text) {
+        text = text.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, "$1-$2-$3");
+        return text;
+    });
+
     $('.edit_cell').click(function(){
       if ($(this).attr('action_form') == "edit") {
         $(this).attr('action_form', 'update');

@@ -4,4 +4,8 @@ $('.cancel_cell').addClass('hidden');
 $('.mobile_field').addClass('hidden');
 $('.mobile_details').removeClass('hidden');
 $('.edit_cell').attr('action_form', 'edit');
-$('.edit_cell').text('Edit')
+$('.edit_cell').text('Edit');
+$(".mobile_details").text(function(i, text) {
+	text = text.replace(/(\d\d\d)(\d\d\d)(\d\d\d\d)/, "$1-$2-$3");
+	return text;
+});
