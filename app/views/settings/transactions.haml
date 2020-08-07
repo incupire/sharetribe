@@ -36,7 +36,7 @@
   %span#admin_transactions_count= page_entries_info(@transactions, :model => "Transaction").html_safe
 
 
-  %table#admin_transactions
+  %table{style: "width: 900px", id: 'admin_transactions'}
     %thead
       %tr
         %th
@@ -48,10 +48,10 @@
           =# render partial: "layouts/sort_link", locals: { column: "other_member", direction: sort_link_direction("other_member"), title: 'Other Member' }
           Other Member
         %th= render partial: "layouts/sort_link", locals: { column: "listing", direction: sort_link_direction("listing"), title: 'Offer Title' }
-        %th
+        %th{style: "width: 130px"}
           =# render partial: "layouts/sort_link", locals: { column: "sell_amount", direction: sort_link_direction("sell_amount"), title: 'Sell'}
           Sell
-        %th
+        %th{style: "width: 130px"}
           =# render partial: "layouts/sort_link", locals: { column: "purchase_amount", direction: sort_link_direction("purchase_amount"), title: 'Purchase'}
           Purchase
         %th= render partial: "layouts/sort_link", locals: { column: "current_state", direction: sort_link_direction("current_state"), title: 'Status'}
@@ -68,7 +68,7 @@
               =Maybe(transaction.author).map { |p| link_to_unless(p.deleted, PersonViewUtils.person_display_name(p, @current_community), person_path(p.username)) }.or_else("")
           - listing_title = transaction.listing_title || t("admin.communities.transactions.not_available")
           %td=Maybe(transaction.listing).map { |listing| link_to_unless(listing.deleted, listing_title, listing_path(transaction.listing_id)) }.or_else(listing_title)
-          %td{style: "width: 145px"}
+          %td{style: "width: 130px"}
             - if transaction.listing_author_id == target_user.id
               = '+'
               - if transaction.payment_gateway.eql?(:coupon_pay)
@@ -77,7 +77,7 @@
                   = MoneyViewUtils.to_humanized(transaction.payment_total - transaction.commission).split('$')[1]
               - else
                 =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total - transaction.commission) : ""
-          %td{style: "width: 145px"}
+          %td{style: "width: 130px"}
             - if transaction.listing_author_id != target_user.id
               = '-'
               - if transaction.payment_gateway.eql?(:coupon_pay)
