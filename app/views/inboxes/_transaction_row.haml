@@ -7,12 +7,16 @@
       - person = Person.find(conversation[:operator_id])
       = link_to_unless(person.deleted, PersonViewUtils.person_display_name(person, @current_community), person_path(person.username))  
     %td
-    %td
+    %td{style: "width: 145px"}
       - if conversation[:operation].eql?("added") || conversation[:operation].eql?("self added")
-        = "+ #{MoneyViewUtils.to_humanized(conversation[:amount])} Avon"
-    %td
+        = "+"
+        = image_tag "black_a_img.png", width: '14px'
+        = MoneyViewUtils.to_humanized(conversation[:amount]).split('$')[1]
+    %td{style: "width: 145px"}
       - unless conversation[:operation].eql?("added") || conversation[:operation].eql?("self added")
-        = "- #{MoneyViewUtils.to_humanized(conversation[:amount])} Avon"
+        = "-"
+        = image_tag "black_a_img.png", width: '14px'
+        = MoneyViewUtils.to_humanized(conversation[:amount]).split('$')[1]
     %td
       - if conversation[:operation].eql?("added") || conversation[:operation].eql?("self added")
         Added
@@ -40,7 +44,9 @@
         = '-'
         - if txn.payment_gateway.eql?(:coupon_pay)
           - coupon_discount = txn.coupon_discount.present? ? txn.coupon_discount : Money.new(0, 'USD')
-          =txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total - coupon_discount) : ""
+          - if txn.payment_total
+            = image_tag "black_a_img.png", width: '14px'
+            = MoneyViewUtils.to_humanized(txn.payment_total - coupon_discount).split('$')[1]
         - else
           =txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total) : ""
     %td

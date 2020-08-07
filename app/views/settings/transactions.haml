@@ -68,7 +68,7 @@
               =Maybe(transaction.author).map { |p| link_to_unless(p.deleted, PersonViewUtils.person_display_name(p, @current_community), person_path(p.username)) }.or_else("")
           - listing_title = transaction.listing_title || t("admin.communities.transactions.not_available")
           %td=Maybe(transaction.listing).map { |listing| link_to_unless(listing.deleted, listing_title, listing_path(transaction.listing_id)) }.or_else(listing_title)
-          %td
+          %td{style: "width: 145px"}
             - if transaction.listing_author_id == target_user.id
               = '+'
               - if transaction.payment_gateway.eql?(:coupon_pay)
@@ -77,14 +77,17 @@
                   = MoneyViewUtils.to_humanized(transaction.payment_total - transaction.commission).split('$')[1]
               - else
                 =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total - transaction.commission) : ""
-          %td
+          %td{style: "width: 145px"}
             - if transaction.listing_author_id != target_user.id
               = '-'
               - if transaction.payment_gateway.eql?(:coupon_pay)
                 - coupon_discount = transaction.coupon_discount.present? ? transaction.coupon_discount : Money.new(0, 'USD')
-                =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total - coupon_discount) : ""
+                - if transaction.payment_total
+                  = image_tag "black_a_img.png", width: '14px'
+                  = MoneyViewUtils.to_humanized(transaction.payment_total - coupon_discount).split('$')[1]
               - else
-                =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""    
+                =transaction.payment_total ? MoneyViewUtils.to_humanized(transaction.payment_total) : ""
+
           %td
             - status = t("admin.communities.transactions.status.#{transaction.payment_gateway}.#{transaction.status}")
             - if transaction.show_link?

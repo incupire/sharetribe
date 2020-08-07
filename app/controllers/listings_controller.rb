@@ -25,7 +25,7 @@ class ListingsController < ApplicationController
 
   before_action :ensure_is_admin, :only => [ :move_to_top, :show_in_updates_email ]
 
-  before_action :is_authorized_to_post, :only => [ :new, :create, :update, :edit ]
+  before_action :is_authorized_to_post, :only => [ :new, :create, :update]
 
   def index
     @selected_tribe_navi_tab = "home"
@@ -412,27 +412,24 @@ class ListingsController < ApplicationController
       return
     end
 
-    order_type = @listing.try(:listing_shape) || ListingShape.find_by(id: params[:listing_shape_id]) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
-    if params[:action].eql?('new') || params[:action].eql?('create')
-      order_type = ListingShape.find_by(id: params[:listing_shape]) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
-      if order_type.present?
-        listing_shape_id = order_type.id
-        order_type = t(order_type[:name_tr_key])
-        unless @current_user.has_admin_rights?(@current_community)
-          if @current_community.require_verification_to_post_listings? && (!order_type.downcase.include?('request') && !@current_community_membership.can_post_listings?)
-            redirect_to verification_required_listings_path
-            return
-          elsif @current_community.require_verification_to_post_request? && (order_type.downcase.include?('request') && !(@current_community_membership.can_post_requests? || @current_user.listings.status_open_active.where.not(listing_shape_id: listing_shape_id).size > 0))
-            redirect_to verification_required_listings_path
-            return
-          end
+    order_type = ListingShape.find_by(id: params[:listing_shape]) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
+    if order_type.present?
+      listing_shape_id = order_type.id
+      order_type = t(order_type[:name_tr_key])
+      unless @current_user.has_admin_rights?(@current_community)
+        if @current_community.require_verification_to_post_listings? && (!order_type.downcase.include?('request') && !@current_community_membership.can_post_listings?)
+          redirect_to verification_required_listings_path
+          return
+        elsif @current_community.require_verification_to_post_request? && (order_type.downcase.include?('request') && !(@current_community_membership.can_post_requests? || @current_user.listings.status_open_active.where.not(listing_shape_id: listing_shape_id).size > 0))
+          redirect_to verification_required_listings_path
+          return
         end
-      else
-        unless @current_user.has_admin_rights?(@current_community)
-          if @current_community.require_verification_to_post_listings? && !@current_community_membership.can_post_listings?
-            redirect_to verification_required_listings_path
-            return
-          end
+      end
+    else
+      unless @current_user.has_admin_rights?(@current_community)
+        if @current_community.require_verification_to_post_listings? && !@current_community_membership.can_post_listings?
+          redirect_to verification_required_listings_path
+          return
         end
       end
     end
