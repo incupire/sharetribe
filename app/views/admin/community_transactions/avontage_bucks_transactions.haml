@@ -1,0 +1,36 @@
+- content_for :title_header do
+  %h1
+    = t("layouts.admin.admin")
+    = "-"
+    Avontage bucks transactions
+
+= render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
+
+.left-navi-section
+  %span#admin_transactions_count= page_entries_info(@avontage_bucks_txn, :model => "Avontage bucks transactions").html_safe
+
+  %table#admin_transactions
+    %thead
+      %tr
+        %th= render partial: "layouts/sort_link", locals: { column: "operation", direction: sort_link_direction("operation"), title: 'Type'}
+        %th= render partial: "layouts/sort_link", locals: { column: "created_at", direction: sort_link_direction("created_at"), title: 'Created at'}
+        %th Starter
+        %th Other party
+        %th= render partial: "layouts/sort_link", locals: { column: "amount_cents", direction: sort_link_direction("amount_cents"), title: 'Avontage bucks'}
+    %tbody
+      - @avontage_bucks_txn.each do |avontage_bucks_txn|
+        %tr
+          %td
+            - if avontage_bucks_txn.operation.eql?("self added")
+              Reloaded
+            - else
+              =avontage_bucks_txn.operation.try(:humanize)
+          %td=l(avontage_bucks_txn.created_at, format: :short_date)
+          %td=Maybe(avontage_bucks_txn.operator).map { |p| link_to_unless(p.deleted, PersonViewUtils.person_display_name(p, @current_community),person_path(p.username)) }.or_else("")
+          %td=Maybe(avontage_bucks_txn.person).map { |p| link_to_unless(p.deleted, PersonViewUtils.person_display_name(p, @current_community),person_path(p.username)) }.or_else("")
+          %td
+            = image_tag "black_a_img.png", width: '14px'
+            = MoneyViewUtils.to_humanized(avontage_bucks_txn.amount).split('$')[1]
+  .row
+    .col-12
+      = will_paginate @avontage_bucks_txn
