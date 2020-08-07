@@ -1335,7 +1335,8 @@ table#admin_listings.new_design {
         align-items: center;
 
         .will_do_latter{
-          cursor: pointer
+          cursor: pointer;
+          text-decoration: underline;
         }
 
         .popup_banner_img {
@@ -1433,7 +1434,8 @@ table#admin_listings.new_design {
     }
 
     .will_do_latter{
-      cursor: pointer
+      cursor: pointer;
+      text-decoration: underline;
     }
 
     .popup_banner_img {

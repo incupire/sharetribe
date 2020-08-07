@@ -76,6 +76,11 @@ class Admin::CommunityTransactionsController < Admin::AdminBaseController
     end
   end
 
+  def avontage_bucks_transactions
+    @selected_left_navi_link = "avontage_bucks_transactions"
+    @avontage_bucks_txn = AvonBucksHistory.where(transaction_id: nil).paginate(page: params[:page], per_page: 50).order("#{bucks_sort_column} #{sort_direction}")
+  end
+
   def export
     unless @current_user.is_manager?
       @export_result = ExportTaskResult.create
@@ -105,6 +110,14 @@ class Admin::CommunityTransactionsController < Admin::AdminBaseController
       "listings.title"
     when "started"
       "created_at"
+    end
+  end
+
+  def bucks_sort_column
+    if params[:sort].present?
+      params[:sort]
+    else
+      'created_at'
     end
   end
 

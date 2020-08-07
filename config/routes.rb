@@ -299,6 +299,7 @@ Rails.application.routes.draw do
           collection do
             get 'export'
             get 'export_status'
+            get 'avontage_bucks_transactions'
           end
         end
         resources :conversations, controller: :community_conversations, only: [:index, :show]

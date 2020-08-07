@@ -428,6 +428,13 @@ module ApplicationHelper
       },
       {
         :topic => :manage,
+        :text => 'Avontage bucks transactions',
+        :icon_class => icon_class("coins"),
+        :path => avontage_bucks_transactions_admin_community_transactions_path(@current_community),
+        :name => "avontage_bucks_transactions"
+      },
+      {
+        :topic => :manage,
         :text => t("admin.communities.conversations.conversations"),
         :icon_class => icon_class("chat_bubble"),
         :path => admin_community_conversations_path(@current_community, sort: "last_activity", direction: "desc"),

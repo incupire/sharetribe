@@ -208,7 +208,7 @@ class HomepageController < ApplicationController
 
   def featured_request_or_offers
     shape = ListingShape.where(name: request_shape_name).last
-    Listing.currently_open.where(featured: true, listing_shape_id: shape.id).order("sort_date desc")
+    Listing.currently_open.where(listing_shape_id: shape.id).order("sort_date desc")
   end
 
   private

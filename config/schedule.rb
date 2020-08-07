@@ -7,9 +7,9 @@ every 1.day, :at => '12:00 pm' do
 end
 
 every :hour do
-  command "cd /home/ubuntu/apps/avontage && RAILS_ENV=production bundle exec script/delayed_job restart"
+  command "cd /home/ubuntu/apps/avontage && RAILS_ENV=#{Rails.env} bundle exec script/delayed_job restart"
 end
 
 every 2.hours do
-  command "cd /home/ubuntu/apps/avontage && RAILS_ENV=production bundle exec rake ts:rebuild"
+  command "cd /home/ubuntu/apps/avontage && RAILS_ENV=#{Rails.env} bundle exec rake ts:rebuild"
 end

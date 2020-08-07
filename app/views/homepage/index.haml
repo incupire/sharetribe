@@ -145,8 +145,11 @@
           = link_to 'POST A REQUEST', path_for_request_type_listing(@current_community), class: 'post_request_link'
     .right_section
       = link_to search_path(category: 'featured') do
-        .main_heading
-          Featured Offers Section
+        - if @current_community.small_cover_photo.present?
+          = image_tag @current_community.small_cover_photo.url, width: "100%", height: "105px"
+        - else
+          .main_heading
+            Featured Offers Section
       - unless params[:transaction_type].eql?(request_shape_name)
         .jobs_box
           .heading_box-row
@@ -155,7 +158,7 @@
                 Browse for Jobs and Requests
               .sub_heading
                 Make offers to members needing your help
-            - if featured_listings_main.size > 5
+            - if featured_listings_main.size > 0
               = link_to 'view all', search_path(transaction_type: request_shape_name), class: 'view_all_link'
 
           .jobs_row
