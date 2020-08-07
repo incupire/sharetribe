@@ -179,7 +179,7 @@ class ListingsController < ApplicationController
         logger.error("Errors in creating listing: #{@listing.errors.full_messages.inspect}")
         flash[:error] = t(
           "layouts.notifications.listing_could_not_be_saved",
-          :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")
+          :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), contact_page_path, :class => "flash-error-link")
         ).html_safe
         redirect_to new_listing_path
       end
@@ -245,7 +245,7 @@ class ListingsController < ApplicationController
       redirect_to listing_path(id: @listing.to_param)
     else
       logger.error("Errors in editing listing: #{@listing.errors.full_messages.inspect}")
-      flash[:error] = t("layouts.notifications.listing_could_not_be_saved", :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), new_user_feedback_path, :class => "flash-error-link")).html_safe
+      flash[:error] = t("layouts.notifications.listing_could_not_be_saved", :contact_admin_link => view_context.link_to(t("layouts.notifications.contact_admin_link_text"), contact_page_path, :class => "flash-error-link")).html_safe
       redirect_to edit_listing_path(@listing)
     end
   end
@@ -406,19 +406,33 @@ class ListingsController < ApplicationController
 
   def is_authorized_to_post
     unless @current_user.is_active?
-      contact_link = view_context.link_to('please contact Admin to resolve', new_user_feedback_path, target: "_blank")
+      contact_link = view_context.link_to('please contact Admin to resolve', contact_page_path, target: "_blank")
       flash[:error] = "You are not authorized to perform this action, #{contact_link}".html_safe
       redirect_to search_path
       return
     end
-    order_type = @listing.try(:listing_shape) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
-    if order_type.present?
-      order_type = t(order_type[:name_tr_key])
-      unless @current_user.has_admin_rights?(@current_community)
-        if @current_community.require_verification_to_post_listings? && (!order_type.downcase.include?('request') && !@current_community_membership.can_post_listings?)
-          redirect_to verification_required_listings_path
-        elsif @current_community.require_verification_to_post_request? && (order_type.downcase.include?('request') && !@current_community_membership.can_post_requests?)
-          redirect_to verification_required_listings_path
+
+    order_type = @listing.try(:listing_shape) || ListingShape.find_by(id: params[:listing_shape_id]) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
+    if params[:action].eql?('new') || params[:action].eql?('create')
+      order_type = ListingShape.find_by(id: params[:listing_shape]) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
+      if order_type.present?
+        listing_shape_id = order_type.id
+        order_type = t(order_type[:name_tr_key])
+        unless @current_user.has_admin_rights?(@current_community)
+          if @current_community.require_verification_to_post_listings? && (!order_type.downcase.include?('request') && !@current_community_membership.can_post_listings?)
+            redirect_to verification_required_listings_path
+            return
+          elsif @current_community.require_verification_to_post_request? && (order_type.downcase.include?('request') && !(@current_community_membership.can_post_requests? || @current_user.listings.status_open_active.where.not(listing_shape_id: listing_shape_id).size > 0))
+            redirect_to verification_required_listings_path
+            return
+          end
+        end
+      else
+        unless @current_user.has_admin_rights?(@current_community)
+          if @current_community.require_verification_to_post_listings? && !@current_community_membership.can_post_listings?
+            redirect_to verification_required_listings_path
+            return
+          end
         end
       end
     end
@@ -465,7 +479,7 @@ class ListingsController < ApplicationController
       t("listings.new.community_not_configured_for_payments",
         contact_admin_link: view_context.link_to(
           t("listings.new.contact_admin_link_text"),
-          new_user_feedback_path))
+          contact_page_path))
         .html_safe
     end
   end

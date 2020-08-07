@@ -5,7 +5,7 @@ class FeedbacksController < ApplicationController
   skip_before_action :ensure_consent_given
   skip_before_action :ensure_user_belongs_to_community
   skip_before_action :set_display_expiration_notice
-  before_action      :can_send_dms, except: [:contact_page, :new, :create]
+  # before_action      :can_send_dms, except: [:contact_page, :new, :create]
 
   FeedbackForm = FormUtils.define_form("Feedback",
                                        :content,
@@ -55,7 +55,7 @@ class FeedbacksController < ApplicationController
   def can_send_dms
     if @current_community.require_verification_to_send_direct_message? && !(@current_user.present? && @current_user.has_admin_rights?(@current_community))
       if (@current_user.present? && !@current_community_membership.can_send_dms?) || !@current_user.present?
-        contact_link = view_context.link_to('please contact Admin to resolve', new_user_feedback_path, target: "_blank")
+        contact_link = view_context.link_to('please contact Admin to resolve', contact_page_path, target: "_blank")
         flash[:error] = "You are not authorized to send message, #{contact_link}".html_safe
         redirect_to '/s'
       end
