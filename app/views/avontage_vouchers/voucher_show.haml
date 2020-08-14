@@ -1,6 +1,7 @@
 .voucher
   .voucher_top_section
     = image_tag "logo.png", class: "voucher_logo_image"
+    %h3{style: "float: right;"}=@voucher_id
     %p
       = "Dear #{PersonViewUtils.person_display_name_for_type(@transaction.buyer, @community)}, Below is your redeem instruction. Please use this voucher to redeem your Offer."
   .voucher_inner_content
@@ -27,9 +28,15 @@
       - if @instructions.present?
         .instraction_text
           %h3
-            REDEEM INSTRUCTIONS (detailed steps the Buyer needs to follow after purchasing this offer):
+            REDEEM INSTRUCTIONS:
           %p
             = @instructions
+      - if @website_field.present?
+        .instraction_text
+          %h3
+            WEBSITE/REGISTRATION/BOOKING LINK:
+          %p
+            = link_to @website_field, @website_field.include?("http") ? @website_field : "https://#{@website_field}", target: '_blank'
 
     .image_voucher_item
       .voucher_card

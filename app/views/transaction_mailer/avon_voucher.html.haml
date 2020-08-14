@@ -8,19 +8,13 @@
 - ask_seller_url = new_person_person_message_url(@seller, @url_params.merge({listing_id: @listing.id}))
 - print_voucher_url = voucher_show_avontage_voucher_url(@transaction, @url_params.merge({format: :pdf}))
 
-- if Rails.env == "staging"
-  - host = 'http://52.8.132.212'
-- elsif Rails.env == "production"
-  - host = 'https://www.avontage.com'
-- else
-  - host = 'http://lvh.me:3000' 
-
-
 %table{:style => "width: 870px; padding: 0 15px;"}
   %tbody
     %tr
       %td
-        = image_tag "#{host}/assets/logo.png" , style: "height: 26px;"
+        = image_tag "logo.png" , style: "height: 26px;"
+      %td
+        %h5= @voucher_id
     %tr
       %td
         %span{body_font}
@@ -41,11 +35,11 @@
         -# Feedback for seller's listing
         - if received_testimonials.size > 0
           %span{:style => "display: inline-block; position: relative; top: -26px; left: 20px; font-size: 18px;"}
-            %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 15px;"}
+            = image_tag "favourites-filled-star-symbol.png" , style: "height: 15px;"
             = "#{feedback_positive_percentage.to_s}%"+ "positive (#{received_positive_testimonials.size}/#{received_testimonials.size}) Feedback"
         - else          
           %span{:style => "position: relative; top: -26px; left: 20px; font-size: 18px;"}
-            %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 15px;"}
+            = image_tag "favourites-filled-star-symbol.png" , style: "height: 15px;"
             No reviews received
         
         -# Listing image
@@ -66,10 +60,15 @@
 
           -# Listing's Description    
           - if @instructions.present?
-            %p{:style => "    font-size: 20px; font-weight: 500; margin: 0; padding: 36px 0 0px;"}
-              = "REDEEM INSTRUCTIONS (detailed steps the Buyer needs to follow after purchasing this offer):"
+            %p{:style => "font-size: 20px; font-weight: 500; margin: 0; padding: 36px 0 0px;"}
+              = "REDEEM INSTRUCTIONS:"
             %p{:style => "font-size: 14px;"}
               = @instructions
+          - if @website_field.present?
+            %p{:style => "font-size: 20px; font-weight: 500; margin: 0; padding: 36px 0 0px;"}
+              = "WEBSITE/REGISTRATION/BOOKING LINK:"
+            %p{:style => "font-size: 14px;"}
+              = link_to @website_field, @website_field.include?("http") ? @website_field : "https://#{@website_field}", target: '_blank'  
 
       %td{:style => "padding: 10px; padding-top: 200px; color: #616161;"}
         %div{:style => "border-bottom: 1px solid #dadada; border-top: 1px solid #dadada; padding: 10px 0;"}
@@ -101,11 +100,13 @@
         -# seller testimonial
         - if received_testimonials.size > 0
           %div{:style => " border-top: 1px solid #dadada; border-bottom: 1px solid #dadada; margin: 30px 0px 0px; position: relative; padding: 10px 0;"}
-            %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 24px; position: absolute; top: 10px;"}/
+            = image_tag "favourites-filled-star-symbol.png" , style: "height: 24px; position: absolute; top: 10px;"
+
             %span{:style => "padding-left: 38px; display: block; margin-top: -2px; font-size: 16px;"}
               = "#{feedback_positive_percentage.to_s}%"+ "positive (#{received_positive_testimonials.size}/#{received_testimonials.size}) Feedback"
         - else
-          %img{:src => "#{host}/assets/favourites-filled-star-symbol.png", :style => "height: 24px; position: absolute; top: 10px;"}/
+          = image_tag "favourites-filled-star-symbol.png" , style: "height: 24px; position: absolute; top: 10px;"
+
           %span{:style => "padding-left: 38px; display: block; margin-top: -2px; font-size: 16px;"}
             No reviews received
 
@@ -122,13 +123,6 @@
           = t("emails.avon_voucher.follow_the_instructions_on_voucher")
         %p{:style => "font-size: 11px; line-height: 1.3; margin-bottom: 5px; margin-top: 8px;"}
           = t("emails.avon_voucher.enjoy")
-        %div{:style => " padding-top: 5px; margin-left: -4px;"}
-          %div{:style => "float: left;"}
-            %a{:href => "https://www.avontage.com/", :style => "display: block;"}
-              %img{:src => "https://merseyburns.com/appstore.png", :alt => "" , :style => "height: 56px;"}/
-          %div{:style => "float: left; "}
-            %a{:href => "https://www.avontage.com/", :style => "display: block;"}
-              %img{:src => "https://www.bayalarmmedical.com/wp-content/uploads/2017/02/google-play-button.png", :alt => "" , :style => " height: 51px; margin-top: 1px;"}/
       /   %P{:style => "font-size: 17px; font-weight: 300; color: #2a2a2a;     margin: 20px 0;"}
       /     = t("emails.avon_voucher.redeem_at")
       /   %P{:style => "font-size: 11px; margin: 5px 0; line-height: 1;"}
@@ -163,16 +157,16 @@
         %table{:style => " padding: 5px 10px;"}
           %tr
             %td
-              %img{:src => "http://localhost:3000/assets/email_computer.png", :alt => "img" , :style => "height: 14px; margin-right: 10px;"}/
+              = image_tag "email_computer.png" , style: "height: 14px; margin-right: 10px;"
             %td
               %a{:href => "https://www.avontage.com/" , :style => "font-size: 13px; margin-bottom: 10px;"}
                 Visit Avontage.com
           %tr
             %td
-              %img{:src => "http://localhost:3000/assets/small-bookmark.png", :alt => "img" , :style => "height: 14px; margin-right: 10px; transform: rotate(47deg);"}/
+              = image_tag "small-bookmark.png" , style: "height: 14px; margin-right: 10px; transform: rotate(47deg);"
             %td
               %p{:style => "font-size: 13px; margin-bottom: 5px;line-height: 1;"}
-                Call 415-944-9067
+                Call 602-730-1719
               %p{:style => "font-size: 11px;"}
                 Email:  VIPDesk@avontage.com
 

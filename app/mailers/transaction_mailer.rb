@@ -180,11 +180,15 @@ class TransactionMailer < ActionMailer::Base
     @buyer = transaction.buyer
     @seller = transaction.seller
     prepare_template(@community, @buyer)
-    cusotm_field = CustomFieldName.find_by(value: 'REDEEM INSTRUCTIONS (detailed steps the Buyer needs to follow after purchasing this offer)')
+    @voucher_id = "VOUCHER ID # #{@transaction.created_at.strftime('%Y%m%d')}-#{@listing.id}-#{@transaction.id}"
+    cusotm_field = CustomFieldName.find_by(value: 'REDEEM INSTRUCTIONS')
     if cusotm_field.present? && @listing.answer_for(cusotm_field)
       @instructions = @listing.answer_for(cusotm_field).display_value
-    else
-      @instructions = nil
+    end
+
+    website_field = CustomFieldName.find_by(value: 'WEBSITE/REGISTRATION/BOOKING LINK')
+    if website_field.present? && @listing.answer_for(website_field)
+      @website_field = @listing.answer_for(website_field).display_value
     end
 
     with_locale(@buyer.locale, @community.locales.map(&:to_sym), @community.id) do

@@ -10,12 +10,15 @@ class AvontageVouchersController < ApplicationController
 
 
 	def voucher_show
-		custom_field = CustomFieldName.find_by(value: 'REDEEM INSTRUCTIONS (detailed steps the Buyer needs to follow after purchasing this offer)')
+		custom_field = CustomFieldName.find_by(value: 'REDEEM INSTRUCTIONS')
     if custom_field.present? && @transaction.listing.answer_for(custom_field)
       @instructions = @transaction.listing.answer_for(custom_field).display_value
-    else
-      @instructions = nil
     end
+    website_field = CustomFieldName.find_by(value: 'WEBSITE/REGISTRATION/BOOKING LINK')
+    if website_field.present? && @transaction.listing.answer_for(website_field)
+      @website_field = @transaction.listing.answer_for(website_field).display_value
+    end
+    @voucher_id = "VOUCHER ID # #{@transaction.created_at.strftime('%Y%m%d')}-#{@transaction.listing.id}-#{@transaction.id}"
     voucher_name = "voucher_#{@transaction.id}"
     received_testimonials = TestimonialViewUtils.received_testimonials_in_community(@transaction.listing.author, @current_community)
     received_positive_testimonials = TestimonialViewUtils.received_positive_testimonials_in_community(@transaction.listing.author, @current_community)

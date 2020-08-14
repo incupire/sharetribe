@@ -88,7 +88,10 @@
 
 <div class="pfd_main_container">
   <div class="top_part">
-    <%= wicked_pdf_image_tag 'logo.png', style: 'height: 35px; margin-left: -3px;'%>
+    <p>
+      <div><%= wicked_pdf_image_tag 'logo.png', style: 'height: 35px; margin-left: -3px;'%></div>
+      <div style="float:right;"><h3><%=@voucher_id%></h3></div>
+    </p>
     <p style="font-size: 16px; font-weight: 600;">
       <%= "Dear #{PersonViewUtils.person_display_name_for_type(transaction.buyer, @community)}, Below is your redeem instruction. Please use this voucher to redeem your Offer."%></p>
     <div style="padding-top: 15px;">
@@ -117,9 +120,16 @@
       <% end %>
       <h2 style="font-size: 20px; font-weight: normal; margin-top: 24px; margin-bottom: 10px;"><%= transaction.listing.title %></h2>
       <p style="font-size: 15px; margin-top: 0; color: #6e6e6e; text-align: justify;"><%= transaction.listing.description %></p>
-
-      <h2 style="font-size: 20px; font-weight: normal; margin-top: 24px; margin-bottom: 10px;">REDEEM INSTRUCTIONS (detailed steps the Buyer needs to follow after purchasing this offer)</h2>
-      <p style="font-size: 15px; margin-top: 0; color: #6e6e6e; text-align: justify;"><%= @instructions %></p>
+      <%if @instructions.present?%>
+        <h2 style="font-size: 20px; font-weight: normal; margin-top: 24px; margin-bottom: 10px;">REDEEM INSTRUCTIONS:</h2>
+        <p style="font-size: 15px; margin-top: 0; color: #6e6e6e; text-align: justify;"><%= @instructions %></p>
+      <%end%>
+      <%if @website_field.present?%>
+        <h2 style="font-size: 20px; font-weight: normal; margin-top: 24px; margin-bottom: 10px;">WEBSITE/REGISTRATION/BOOKING LINK:</h2>
+        <p style="font-size: 15px; margin-top: 0; color: #6e6e6e; text-align: justify;">
+          <%= link_to @website_field, @website_field.include?("http") ? @website_field : "https://#{@website_field}", target: '_blank', style: "display: block;color:#03c4cc;text-decoration: none;"%>
+        </p>
+      <%end%>
     </div>
 
     <div class="right_side_content">
