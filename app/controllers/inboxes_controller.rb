@@ -211,7 +211,7 @@ class InboxesController < ApplicationController
       pagination_opts[:limit],
       pagination_opts[:offset],
       params[:status],
-      params[:q], "#{sort_column_for_transaction} #{sort_direction}")
+      params[:q])
 
     inbox_rows = inbox_rows.select{|item| item[:type].eql?(:transaction)}
 

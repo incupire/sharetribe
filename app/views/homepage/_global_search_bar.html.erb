@@ -1,33 +1,36 @@
-<div class="sub-header">
-  <div class="custom-search-bar">
-    <form action="/s" method="get" class="search-form">
-      <%
-        placeholder = @current_user.present? ? "Hi #{@current_user.given_name}! #{@community_customization.search_placeholder}" : "#{@community_customization.search_placeholder}"
-      %>
-      <input type="text" name="q" id="search_val" value="<%=params[:q]%>" placeholder="<%= placeholder %>" class="style-for-input">
-      <button type="submit" class="search-btn">
-        <u class="text">Search</u>
-        <div>
-          <svg width="17" height="17" viewBox="336 14 17 17" xmlns="http://www.w3.org/2000/svg"><g opacity=".7" fill="none" fill-rule="evenodd" transform="matrix(-1 0 0 1 352 15)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M11 11l3.494 3.494"></path><circle cx="6" cy="6" r="6"></circle></g></svg>
+<%is_homepage = params[:controller] == "homepage" && params[:action] == "index"%>
+<%if (is_homepage && !browser.device.mobile?) || !is_homepage%>
+  <div class="sub-header">
+    <div class="custom-search-bar">
+      <form action="/s" method="get" class="search-form">
+        <%
+          placeholder = @current_user.present? ? "Hi #{@current_user.given_name}! #{@community_customization.search_placeholder}" : "#{@community_customization.search_placeholder}"
+        %>
+        <input type="text" name="q" id="search_val" value="<%=params[:q]%>" placeholder="<%= placeholder %>" class="style-for-input">
+        <button type="submit" class="search-btn">
+          <u class="text">Search</u>
+          <div>
+            <svg width="17" height="17" viewBox="336 14 17 17" xmlns="http://www.w3.org/2000/svg"><g opacity=".7" fill="none" fill-rule="evenodd" transform="matrix(-1 0 0 1 352 15)" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M11 11l3.494 3.494"></path><circle cx="6" cy="6" r="6"></circle></g></svg>
+          </div>
+        </button>
+      </form>
+      <%if is_homepage && !browser.device.mobile?%>
+        <div class="reload_your_balance-box">
+          <div class="bank_balance">
+            Your Avontage Bucks Balance
+            <span class="balance">
+              <%= image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon' %>
+              <%= (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe %>
+            </span>
+          </div>
+          <%= link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: 'reload_blnce_btn' %>
         </div>
-      </button>
-    </form>
-    <%if params[:controller] == "homepage" && params[:action] == "index"%>
-      <div class="reload_your_balance-box">
-        <div class="bank_balance">
-          Your Avontage Bucks Balance
-          <span class="balance">
-            <%= image_tag 'avonatge_currency.png', alt: 'currency', class: 'currency_icon' %>
-            <%= (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe %>
-          </span>
-        </div>
-        <%= link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: 'reload_blnce_btn' %>
-      </div>
 
-      <div class="badge_review_box">
-        <%=render 'layouts/level_rating_and_verified', user: @current_user%>
-      </div>
-    <%end%>  
-    
+        <div class="badge_review_box">
+          <%=render 'layouts/level_rating_and_verified', user: @current_user%>
+        </div>
+      <%end%>  
+      
+    </div>
   </div>
-</div>
+<%end%>  

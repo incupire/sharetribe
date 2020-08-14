@@ -135,14 +135,15 @@
         = t("homepage.filters.click_on_link")
   
   .home_toolbar_section
-    .left_section
-      = link_to @current_community.homepage_graphic_url.present? ? @current_community.homepage_graphic_url : "https://www.avontage.com/blog/referandearn" do
-        = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn.png', alt: 'offer-img', class: "offer_image #{params[:transaction_type].eql?(request_shape_name) ? 'request-offer-image' : ''}"
-      - unless params[:transaction_type].eql?(request_shape_name)
-        .gray_text_box
-          %p Have a project or in need of a service?
-          %p Pos a Request to find intrested parties to trade with you.
-          = link_to 'POST A REQUEST', path_for_request_type_listing(@current_community), class: 'post_request_link'
+    -unless browser.device.mobile?
+      .left_section
+        = link_to @current_community.homepage_graphic_url.present? ? @current_community.homepage_graphic_url : "https://www.avontage.com/blog/referandearn" do
+          = image_tag @current_community.homepage_graphic.present? ? @current_community.homepage_graphic.url(:original) : 'Refer_&_Earn.png', alt: 'offer-img', class: "offer_image #{params[:transaction_type].eql?(request_shape_name) ? 'request-offer-image' : ''}"
+        - unless params[:transaction_type].eql?(request_shape_name)
+          .gray_text_box
+            %p Have a project or in need of a service?
+            %p Pos a Request to find intrested parties to trade with you.
+            = link_to 'POST A REQUEST', path_for_request_type_listing(@current_community), class: 'post_request_link'
     .right_section
       = link_to search_path(category: 'featured') do
         - if @current_community.small_cover_photo.present?

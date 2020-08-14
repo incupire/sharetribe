@@ -22,7 +22,8 @@
       - if params[:controller] == "settings" || params[:controller] == 'payment_settings'
         = yield :profile_progress
       - else
-        = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
+        - if !browser.device.mobile? && !is_homepage
+          = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
 
     - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
       - if(search_mode != :keyword || @view_type.eql?("map"))

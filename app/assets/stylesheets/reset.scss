@@ -1056,6 +1056,11 @@ img.square_image {
         a {
           padding-left: 15px;
           padding-right: 15px;
+
+          @media screen and (max-width: 767px) {
+            padding-left: 10px;
+            padding-right: 10px;
+          }
         }
         @media screen and (max-width: 767px) {
           //justify-content: space-around;
@@ -1070,12 +1075,12 @@ img.square_image {
           margin: 0 0 16px;
 
           @media screen and (max-width: 767px) {
-            height: 100px;
-            width: 100px;
+            height: 56px;
+            width: 56px;
           }
           @media screen and (min-width: 768px) and (max-width: 992px) {
-            height: 90px;
-            width: 90px;
+            height: 80px;
+            width: 80px;
           }
         }
       }

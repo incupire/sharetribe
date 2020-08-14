@@ -436,7 +436,7 @@ module InboxService
       )
 
       # Order by 'last_activity_at', that is last message or last transition
-      ORDER BY #{params[:sort_column]}
+      ORDER BY last_activity_at DESC
 
       # Pagination
       LIMIT #{params[:limit]} OFFSET #{params[:offset]}
