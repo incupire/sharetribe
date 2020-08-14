@@ -508,7 +508,7 @@ class Person < ApplicationRecord
   end
 
   def should_receive_sms?(sms_type)
-    preferences && preferences[sms_type] && self.mobile_number.present?
+    preferences && preferences[sms_type].present? && self.mobile_number.present?
   end
 
   def profile_info_empty?
