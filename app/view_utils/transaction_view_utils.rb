@@ -147,6 +147,9 @@ module TransactionViewUtils
       raise("Unknown transition to state: #{transition[:to_state]}")
     end
 
+
+    coupon_discount = Transaction.find_by(id: transition[:transaction_id]).try(:coupon_discount) || Money.new(0, 'USD')
+    payment_sum = payment_sum-coupon_discount if payment_sum.present?
     MessageBubble[message.merge(
       created_at: transition[:created_at],
       content: create_content_from_action(transition[:to_state], old_state, payment_sum, payment_gateway, community_id, author)

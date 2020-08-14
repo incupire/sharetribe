@@ -105,7 +105,7 @@
         %span.initiate-transaction-total-value
           = MoneyViewUtils.to_humanized(avon_commission)
 
-  - if !is_author && coupon_discount.present? && coupon_discount.to_f > 0
+  - if ((@transaction.present? && @transaction.starter_id == @current_user.id) || !@transaction.present?) && coupon_discount.present? && coupon_discount.to_f > 0
     .initiate-transaction-total-wrapper
       %span.initiate-transaction-total-label
         ="Rebate Code: #{coupon_code}"
@@ -139,14 +139,18 @@
         %span.initiate-transaction-total-value
           = MoneyViewUtils.to_humanized(-avon_commission)
 
-    - if seller_gets.present? 
+    - if seller_gets.present?
       .initiate-transaction-total-wrapper
         %span.initiate-transaction-total-label
           = t("transactions.offer_price_deducted_from_avon_bucks")
         %span.initiate-transaction-total-value
           = "-"
           = image_tag "black_a_img.png"
-          = "#{MoneyViewUtils.to_humanized(seller_gets).split('$')[1]}"
+
+          - if coupon_discount.present? && coupon_discount.to_f > 0
+            = "#{MoneyViewUtils.to_humanized(seller_gets - coupon_discount).split('$')[1]}"
+          - else
+            = "#{MoneyViewUtils.to_humanized(seller_gets).split('$')[1]}"
 
   -# Not in use
     - elsif @transaction.present? && @transaction.payment_gateway.eql?(:stripe) && !is_author
