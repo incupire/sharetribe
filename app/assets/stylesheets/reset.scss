@@ -1053,13 +1053,22 @@ img.square_image {
         flex-wrap: wrap;
         margin-left: -15px;
         margin-right: -15px;
+
+        @media screen and (max-width: 767px) {
+          margin: 0 0 8px;
+          justify-content: flex-start;
+        }
+
         a {
           padding-left: 15px;
           padding-right: 15px;
 
           @media screen and (max-width: 767px) {
-            padding-left: 10px;
-            padding-right: 10px;
+            padding: 0;
+            width: 20%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
         }
         @media screen and (max-width: 767px) {
@@ -1077,6 +1086,7 @@ img.square_image {
           @media screen and (max-width: 767px) {
             height: 56px;
             width: 56px;
+            margin: 0;
           }
           @media screen and (min-width: 768px) and (max-width: 992px) {
             height: 80px;
