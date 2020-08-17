@@ -1609,3 +1609,85 @@ table#admin_listings.new_design {
   padding: 5px;
   font-size: 16px;
 }
+
+
+.redesign_mobile_wrapper {
+  @media screen and (max-width: 767px) {
+    margin: 0 !important;
+  }
+}
+
+
+.transaction_table_section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  @media screen and (max-width: 992px) {
+    overflow-y: auto;
+  }
+
+  .table_head {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    font-weight: bold;
+
+    @media screen and (max-width: 992px) {
+      width: 1000px;
+    }
+  }
+
+  .table_box {
+    padding: 0.375em 0.75em;
+
+    &.one {
+      width: 100px;
+    }
+    &.two {
+      width: 83px;
+    }
+    &.three {
+      width: 87px;
+    }
+    &.four {
+      width: 94px;
+    }
+    &.five {
+      width: 185px;
+    }
+    &.six {
+      width: 145px;
+    }
+    &.seven {
+      width: 145px;
+    }
+    &.eight {
+      width: 146px;
+    }
+
+    .listing_status_filter {
+      padding: 0.375em 0;
+    }
+  }
+
+  .table_body {
+    display: flex;
+    flex-direction: column;
+
+    @media screen and (max-width: 992px) {
+      width: 1000px;
+    }
+
+    .table_row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      &:nth-child(odd) {
+        background-color: #e8e8e8;
+        border-radius: 5px;
+      }
+    }
+  }
+}

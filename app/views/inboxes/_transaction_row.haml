@@ -1,36 +1,46 @@
-%tr
+.table_row
   - if conversation[:type].eql?(:avon_bucks)
-    %td Avontage Bucks
-    %td=l(conversation[:last_transition_at], format: :short_date)
-    %td=l(conversation[:last_transition_at], format: :short_date)
-    %td
+    .table_box.one
+      Avontage Bucks
+    .table_box.two
+      =l(conversation[:last_transition_at], format: :short_date)
+    .table_box.three
+      =l(conversation[:last_transition_at], format: :short_date)
+    .table_box.four
       - person = Person.find(conversation[:operator_id])
-      = link_to_unless(person.deleted, PersonViewUtils.person_display_name(person, @current_community), person_path(person.username))  
-    %td
-    %td{style: "width: 145px"}
+      = link_to_unless(person.deleted, PersonViewUtils.person_display_name(person, @current_community), person_path(person.username))
+    .table_box.five
+
+    .table_box.six
       - if conversation[:operation].eql?("added") || conversation[:operation].eql?("self added")
         = "+"
         = image_tag "black_a_img.png", width: '14px'
         = MoneyViewUtils.to_humanized(conversation[:amount]).split('$')[1]
-    %td{style: "width: 145px"}
+    .table_box.seven
       - unless conversation[:operation].eql?("added") || conversation[:operation].eql?("self added")
         = "-"
         = image_tag "black_a_img.png", width: '14px'
         = MoneyViewUtils.to_humanized(conversation[:amount]).split('$')[1]
-    %td
+    .table_box.eight
       - if conversation[:operation].eql?("added") || conversation[:operation].eql?("self added")
         Added
       - else
         Deducted
       = link_to 'View Details', "javascript:void(0);", class: 'button get-started listing_status_filter disable-lnk'
+
   - else
     - txn  = Transaction.find_by(id: conversation[:transaction_id])
-    %td=conversation[:current_is_starter] ? "Purchase" : "Sell"
-    %td=l(conversation[:transaction_started_at], format: :short_date)
-    %td=l(conversation[:last_activity_at], format: :short_date)
-    %td= link_to_unless conversation[:other].deleted, PersonViewUtils.person_display_name(conversation[:other], @current_community), person_path(conversation[:other])
-    %td=link_to_unless(conversation[:listing_deleted], conversation[:listing_title], conversation[:listing_url])
-    %td
+    .table_box.one
+      =conversation[:current_is_starter] ? "Purchase" : "Sell"
+    .table_box.two
+      =l(conversation[:transaction_started_at], format: :short_date)
+    .table_box.three
+      =l(conversation[:last_activity_at], format: :short_date)
+    .table_box.four
+      = link_to_unless conversation[:other].deleted, PersonViewUtils.person_display_name(conversation[:other], @current_community), person_path(conversation[:other])
+    .table_box.five
+      =link_to_unless(conversation[:listing_deleted], conversation[:listing_title], conversation[:listing_url])
+    .table_box.six
       - unless conversation[:current_is_starter]
         = '+'
         - if txn.payment_gateway.eql?(:coupon_pay)
@@ -39,7 +49,7 @@
             = MoneyViewUtils.to_humanized(txn.payment_total - txn.commission).split('$')[1]
         - else
           = txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total - txn.commission) : ""
-    %td
+    .table_box.seven
       - if conversation[:current_is_starter]
         = '-'
         - if txn.payment_gateway.eql?(:coupon_pay)
@@ -49,7 +59,7 @@
             = MoneyViewUtils.to_humanized(txn.payment_total - coupon_discount).split('$')[1]
         - else
           =txn.payment_total ? MoneyViewUtils.to_humanized(txn.payment_total) : ""
-    %td
+    .table_box.eight
       - status = t("admin.communities.transactions.status.#{txn.payment_gateway}.#{txn.status}")
       - if txn.show_link?
         = link_to status, person_transaction_path(@current_user, txn.id)

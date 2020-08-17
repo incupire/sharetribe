@@ -1,7 +1,7 @@
 - content_for :title_header do
   %h1= t("layouts.no_tribe.transaction_history")
 
-.undo-mobile-wrapper-margin#conversations
+.undo-mobile-wrapper-margin.redesign_mobile_wrapper#conversations
   - if @current_user.present?
     .new_coupon_work.redesign_coupan_work
       .inner_container
@@ -25,18 +25,26 @@
 
   //%span#admin_transactions_count= page_entries_info(@transactions, :model => "Transaction").html_safe
   - if result_rows.present?
-    %table
-      %thead
-        %tr
-          %th Type
-          %th Started
-          %th Latest activity
-          %th Other Member
-          %th Offer Title
-          %th Sell
-          %th Purchase
-          %th Status
-      %tbody#admin_transactions
+    .transaction_table_section
+      .table_head
+        .table_box.one
+          Type
+        .table_box.two
+          Started
+        .table_box.three
+          Latest activity
+        .table_box.four
+          Other Member
+        .table_box.five
+          Offer Title
+        .table_box.six
+          Sell
+        .table_box.seven
+          Purchase
+        .table_box.eight
+          Status
+
+      .table_body#admin_transactions
         = render :partial => "transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
 
     = will_paginate(transactional_inbox_rows)
