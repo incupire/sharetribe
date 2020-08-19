@@ -169,17 +169,17 @@
     .row
       .col-6
         = form.label :facebook_link, t("settings.profile.facebook_link")
-        = form.text_field :facebook_link, :class => "text_field", :maxlength => "25"
+        = form.text_field :facebook_link, :class => "text_field"
       .col-6
         = form.label :instagram_link, t("settings.profile.instagram_link")
-        = form.text_field :instagram_link, :class => "text_field", :maxlength => "25"
+        = form.text_field :instagram_link, :class => "text_field"
     .row
       .col-6
         = form.label :linkedin_link, t("settings.profile.linkedin_link")
-        = form.text_field :linkedin_link, :class => "text_field", :maxlength => "25"
+        = form.text_field :linkedin_link, :class => "text_field"
       .col-6
         = form.label :twitter_link, t("settings.profile.twitter_link")
-        = form.text_field :twitter_link, :class => "text_field", :maxlength => "25"
+        = form.text_field :twitter_link, :class => "text_field"
 
     = form.fields_for :location do |loc|
       = loc.hidden_field :address, :value => target_user.location.address
