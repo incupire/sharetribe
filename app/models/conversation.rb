@@ -113,7 +113,12 @@ class Conversation < ApplicationRecord
   # TODO This should be removed. It's not model's resp to send emails.
   def send_email_to_participants(community)
     recipients(messages.last.sender).each do |recipient|
-      conversation_url = Rails.application.routes.url_helpers.person_message_url(person_id: recipient.id, :id => messages.last.conversation.id.to_s, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "avontage.com" end)
+      if messages.last.conversation.tx.present?
+        conversation_url = Rails.application.routes.url_helpers.person_transaction_url(person_id: recipient.id, :id => messages.last.conversation.tx.id.to_s, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "avontage.com" end)
+      else
+        conversation_url = Rails.application.routes.url_helpers.single_conversation_url(person_id: recipient.id, :conversation_type => "received", :id => messages.last.conversation.id.to_s, :host => if Rails.env.eql?("development") then "lvh.me:3000" elsif Rails.env.eql?("staging") then "staging.avontage.com" else "avontage.com" end)
+      end
+
       if recipient.should_receive?("email_about_new_messages")
         MailCarrier.deliver_now(PersonMailer.new_message_notification(messages.last, community))
       end
