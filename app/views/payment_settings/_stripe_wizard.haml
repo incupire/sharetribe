@@ -146,7 +146,8 @@
               = text_field_tag 'ein_code'
             .col-12
               .inline_buttons
-                = button_tag t("settings.save_and_finish_later"), class: 'simple_go send_button_account'
+                //=# button_tag t("settings.save_and_finish_later"), class: 'simple_go send_button_account'
+                = link_to 'Skip to Next', new_listing_path, class: 'checkout-with-stripe-buttons button skip_to_nxt'
                 = button_tag t("settings.save_and_next"), class: 'simple_go send_button_account_param'
                 %input.send_button.button.send_button_accoxunt.param_go{:name => "save_and_next_to_post", :type => "hidden", :value => "Save and Next"}
 - if false
