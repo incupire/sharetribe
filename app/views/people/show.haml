@@ -118,16 +118,16 @@
         .website_heading Website
         .website_link_row
           - if @person.facebook_link.present?
-            = link_to @person.facebook_link, class: 'website_link' do
+            = link_to @person.facebook_link.include?("http") ? @person.facebook_link : "https://#{@person.facebook_link}", class: 'website_link' do
               = image_tag 'facebook.png', alt: 'facebook', class: 'link_img'
           - if @person.instagram_link.present?
-            = link_to @person.instagram_link, class: 'website_link' do
+            = link_to @person.instagram_link.include?("http") ? @person.instagram_link : "https://#{@person.instagram_link}", class: 'website_link' do
               = image_tag 'instagram.png', alt: 'instagram', class: 'link_img'
           - if @person.linkedin_link.present?
-            = link_to @person.linkedin_link, class: 'website_link' do
+            = link_to @person.linkedin_link.include?("http") ? @person.linkedin_link : "https://#{@person.linkedin_link}", class: 'website_link' do
               = image_tag 'linkedin.png', alt: 'linkedin', class: 'link_img'
           - if @person.twitter_link.present?
-            = link_to @person.twitter_link, class: 'website_link' do
+            = link_to @person.twitter_link.include?("http") ? @person.twitter_link : "https://#{@person.twitter_link}", class: 'website_link' do
               = image_tag 'twitter.png', alt: 'twitter', class: 'link_img'
       .calendar_row
         = image_tag 'calendar.png', alt: 'calendar', class: 'calendar_img'
