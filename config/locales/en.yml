@@ -63,6 +63,7 @@ en:
         work: Work
         type: Type
         star: Star
+        link: Add testimonial Link
         homepage_updated_successfully: Homepage settings updated successfully.
         testimonial_section: Testimonial Section
         landing_page_settings: Homepage Settings

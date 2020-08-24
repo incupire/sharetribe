@@ -314,6 +314,10 @@
         = form.label :testimonial_column1_content, t("admin.communities.homepage.content")
         = form.text_area :testimonial_column1_content
 
+      .row.lb-mt-mb-15
+        = form.label :testimonial_column1_link, t("admin.communities.homepage.link")
+        = form.text_field :testimonial_column1_link
+
       %h3= t("admin.communities.homepage.column_2")
       .row.lb-mt-mb-15
         .col-4
@@ -336,6 +340,10 @@
         = form.label :testimonial_column2_content, t("admin.communities.homepage.content")
         = form.text_area :testimonial_column2_content
 
+      .row.lb-mt-mb-15
+        = form.label :testimonial_column2_link, t("admin.communities.homepage.link")
+        = form.text_field :testimonial_column2_link
+
       %h3= t("admin.communities.homepage.column_3")
       .row.lb-mt-mb-15
         .col-4
@@ -357,6 +365,10 @@
       .row.lb-mt-mb-15
         = form.label :testimonial_column3_content, t("admin.communities.homepage.content")
         = form.text_area :testimonial_column3_content
+
+      .row.lb-mt-mb-15
+        = form.label :testimonial_column3_link, t("admin.communities.homepage.link")
+        = form.text_field :testimonial_column3_link
     = form.submit "Submit Changes",class: "ver-update-btn acc-change-btn button"
     
 - content_for :extra_javascript do

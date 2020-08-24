@@ -233,7 +233,7 @@
             <div class="members_wrapper ipad">
               <h1 class="our-members"><%= @homepage_dynamic&.testimonial_main_heading %></h1>
               <div class="member-section custom_container">
-                <%=link_to "https://www.avontage.com/en/eic_agency" do%>
+                <%=link_to @homepage_dynamic.testimonial_column1_link.present? ?  (@homepage_dynamic.testimonial_column1_link.include?("http") ? @homepage_dynamic.testimonial_column1_link : "https://#{@homepage_dynamic.testimonial_column1_link}") : 'javascript:void(0);' do%>              
                   <div class="member-box">
                     <div class="inner-box">
                       <div class="testimonial-headshot text-center">
@@ -259,7 +259,7 @@
                     </div>
                   </div>
                 <%end%>
-                <%=link_to "https://www.avontage.com/en/eic_agency" do%>
+                <%=link_to @homepage_dynamic.testimonial_column2_link.present? ?  (@homepage_dynamic.testimonial_column2_link.include?("http") ? @homepage_dynamic.testimonial_column2_link : "https://#{@homepage_dynamic.testimonial_column2_link}") : 'javascript:void(0);' do%>
                   <div class="member-box">
                     <div class="inner-box">
                       <div class="testimonial-headshot text-center">
@@ -284,7 +284,7 @@
                     </div>
                   </div>
                 <% end %>
-                <%=link_to "https://www.avontage.com/en/eic_agency" do%>
+                <%=link_to @homepage_dynamic.testimonial_column3_link.present? ?  (@homepage_dynamic.testimonial_column3_link.include?("http") ? @homepage_dynamic.testimonial_column3_link : "https://#{@homepage_dynamic.testimonial_column3_link}") : 'javascript:void(0);' do%>
                   <div class="member-box">
                     <div class="inner-box">
                       <div class="testimonial-headshot text-center">

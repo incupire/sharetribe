@@ -791,6 +791,9 @@ CREATE TABLE `homepage_sections` (
   `testimonial_column1_name` varchar(255) DEFAULT NULL,
   `testimonial_column1_work` varchar(255) DEFAULT NULL,
   `testimonial_column1_type` varchar(255) DEFAULT NULL,
+  `testimonial_column1_link` text,
+  `testimonial_column2_link` text,
+  `testimonial_column3_link` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2587,6 +2590,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20200629060035'),
 ('20200710060821'),
 ('20200710092930'),
-('20200713051953');
+('20200713051953'),
+('20200824092229');
 
 

@@ -160,6 +160,9 @@
 #  testimonial_column1_name                    :string(255)
 #  testimonial_column1_work                    :string(255)
 #  testimonial_column1_type                    :string(255)
+#  testimonial_column1_link                    :text(65535)
+#  testimonial_column2_link                    :text(65535)
+#  testimonial_column3_link                    :text(65535)
 #
 
 class HomepageSection < ApplicationRecord
