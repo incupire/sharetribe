@@ -114,8 +114,9 @@
       //     =# MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
 
     .website_link_box
+      .website_heading
+        = link_to("Website", @person.website_name.include?("http") ? @person.website_name : "http://#{@person.website_name}") if @person.website_name.present?
       - if @person.facebook_link.present? || @person.instagram_link.present? || @person.linkedin_link.present? || @person.twitter_link.present?
-        .website_heading Website
         .website_link_row
           - if @person.facebook_link.present?
             = link_to @person.facebook_link.include?("http") ? @person.facebook_link : "https://#{@person.facebook_link}", class: 'website_link' do
