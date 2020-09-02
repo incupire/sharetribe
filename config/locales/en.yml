@@ -369,7 +369,7 @@ en:
           selected_js: "Selected statuses: "
           free: "Free transaction"
           confirmed: Completed
-          paid: Paid
+          paid: Accepted
           canceled: Canceled
           disputed: Disputed
           preauthorized: Preauthorized
@@ -427,7 +427,7 @@ en:
             preauthorized: Preauthorized
             accepted: Accepted
             rejected: Rejected
-            paid: Paid
+            paid: Accepted`
             confirmed: Confirmed
             canceled: Canceled
             initiated: "Waiting Stripe payment"
