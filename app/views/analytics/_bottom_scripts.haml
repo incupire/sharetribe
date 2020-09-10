@@ -9,10 +9,10 @@
 
   community_check = "#{@current_community.require_verification_to_send_direct_message?}"
   user_check = "#{(@current_user.present? && @current_community_membership.present? && !@current_community_membership.can_send_dms?) || !@current_user.present?}"
-  if (community_check == 'true')
-    if (user_check == 'true')
+  if (community_check == 'true'){
+    if (user_check == 'true'){
       purechatApi.on('chatbox:ready', function () {
         purechatApi.set('chatbox.unavailableBehavior', 'hide');
       });
-    end
-  end
+    }
+  }

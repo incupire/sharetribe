@@ -52,10 +52,10 @@ class StripeService::API::StripeApiWrapper
       end
     end
 
-    def update_customer(community:, customer_id:)
+    def update_customer(community:, customer_id:, card_token:)
       with_stripe_payment_config(community) do |payment_settings|
         customer = Stripe::Customer.retrieve(customer_id)
-        customer.source = token
+        customer.source = card_token
         customer.save
         customer
       end

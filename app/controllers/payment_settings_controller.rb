@@ -114,7 +114,7 @@ class PaymentSettingsController < ApplicationController
         begin
           if @target_user.stripe_customer_id.present?
             customer = stripe_api.get_customer_account(community: @current_community, customer_id: @target_user.stripe_customer_id)
-            stripe_customer = stripe_api.update_customer(community: @current_community, customer_id: @target_user.stripe_customer_id, token: params[:stripe_token])
+            stripe_customer = stripe_api.update_customer(community: @current_community, customer_id: @target_user.stripe_customer_id, card_token: params[:stripe_token])
           else
             stripe_customer = stripe_api.register_customer(
               community: @current_community,
