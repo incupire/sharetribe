@@ -75,6 +75,16 @@ module TransactionService::Gateway
         transfered_at: nil,
         available_on: nil
       }
+
+      if tx.avon_commission_charge_id.present?
+        stripe_api.cancel_charge(
+          community: tx.community_id,
+          charge_id: tx.avon_commission_charge_id,
+          account_id: nil,
+          reason: reason,
+          metadata: {sharetribe_transaction_id: tx.id}
+        )
+      end
       result = Result::Success.new(payment)
       SyncCompletion.new(result)
     rescue => e

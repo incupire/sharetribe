@@ -37,7 +37,7 @@ module TransactionService::Process
       elsif !completion[:success]
         delete_failed_transaction(tx)
       end
-      completion[:response]
+      completion[:response] rescue nil || completion
     end
 
     def finalize_create(tx:, gateway_adapter:, force_sync:)

@@ -208,7 +208,7 @@ class PreauthorizeTransactionsController < ApplicationController
 
   def handle_tx_response(tx_response, gateway)
     if !tx_response[:success]
-      render_error_response(request.xhr?, t("error_messages.#{gateway}.generic_error"), action: :initiate)
+      render_error_response(request.xhr?, tx_response[:error_msg] || t("error_messages.#{gateway}.generic_error"), search_path)
     elsif (tx_response[:data][:gateway_fields][:redirect_url])
       xhr_json_redirect tx_response[:data][:gateway_fields][:redirect_url]
     elsif gateway == :stripe || :coupon_pay
@@ -216,7 +216,7 @@ class PreauthorizeTransactionsController < ApplicationController
     else
       render json: {
         op_status_url: transaction_op_status_path(tx_response[:data][:gateway_fields][:process_token]),
-        op_error_msg: t("error_messages.#{gateway}.generic_error")
+        op_error_msg: (tx_response[:error_msg] || t("error_messages.#{gateway}.generic_error"))
       }
     end
   end
@@ -271,10 +271,10 @@ class PreauthorizeTransactionsController < ApplicationController
   end
 
   def render_error_response(is_xhr, error_msg, redirect_params)
+    flash[:error] = error_msg
     if is_xhr
-      render json: { error_msg: error_msg }
+      render json: {redirect_url: redirect_params }
     else
-      flash[:error] = error_msg
       redirect_to(redirect_params)
     end
   end
@@ -378,7 +378,6 @@ class PreauthorizeTransactionsController < ApplicationController
           service_name: @current_community.name_with_separator(I18n.locale)
         }
     end
-
     transaction = {
           community_id: opts[:community].id,
           community_uuid: opts[:community].uuid_object,
