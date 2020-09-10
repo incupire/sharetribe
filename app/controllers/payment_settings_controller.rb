@@ -135,7 +135,7 @@ class PaymentSettingsController < ApplicationController
         rescue Stripe::CardError => e
           flash[:error] = "Stripe could not finalize your request as: #{e.message}"
         rescue Exception => e
-          flash[:error] = "Stripe could not finalize your request now, please try later!"
+          flash[:error] = "Stripe could not finalize your request now. There is an error #{e.message}"
         end
       else
         flash[:error] = "Stripe could not finalize your request now, please provide valid card information!"
