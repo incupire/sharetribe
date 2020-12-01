@@ -13,6 +13,11 @@
       .noscript-padding
         -# Noscript content will be positioned here
 
+    - unReadTransactionalMessagesCount = InboxService.transactional_notification_count(@current_user&.id, @current_community&.id)
+
+    - if logged_in?
+      = render partial: "layouts/unread_message_popup"
+
     - if display_onboarding_topbar?
       - props = onboarding_topbar_props
       - unless props[:next_step] == :all_done
@@ -123,6 +128,10 @@
         } else {
           window.FastClick.attach(document.body, { excludeNode: '^pac-'} );
         }
+      });
+
+      $('.close_modal').click(function(){
+        $('.unread_message_popup_modal').hide();
       });
 
     -# Disable animations on tests
