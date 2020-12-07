@@ -437,7 +437,7 @@ class ApplicationController < ActionController::Base
       redirect_to search_path and return
     end
 
-    if @current_user.present? && @current_user.is_manager? && ['admin/community_customizations', 'admin/community_homepage', 'admin/communities', 'admin/categories', 'admin/custom_fields', 'admin/listing_shapes', 'admin/payment_preferences', 'admin/rebates'].include?(params[:controller])
+    if @current_user.present? && @current_user.is_manager? && (['admin/community_customizations', 'admin/community_homepage', 'admin/communities', 'admin/categories', 'admin/custom_fields', 'admin/listing_shapes', 'admin/payment_preferences', 'admin/rebates'].include?(params[:controller]) || (params[:controller] == "admin/community_transactions" && params[:action] == "avontage_bucks_transactions"))
       redirect_to admin_community_community_memberships_path(@current_community, sort: "join_date", direction: "desc") and return
     end
   end

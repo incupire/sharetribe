@@ -23,6 +23,7 @@
         %tr
           %th Rebate Code
           %th Amount $A
+          %th Minimum offer value
           %th Expires on
           %th
       %tbody
@@ -30,6 +31,7 @@
           %tr
             %td= rebate.code
             %td= "-#{rebate.amount} A-bucks"
+            %td= rebate.minimum_amount.present? ? "#{rebate.minimum_amount} A$" : '-'
             %td= rebate.expire_on.strftime("%b %d, %Y")
             %td
               = link_to edit_admin_community_rebate_path(@current_community, rebate), remote: true do

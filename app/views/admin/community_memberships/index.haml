@@ -68,7 +68,7 @@
           %th Verified
           %th Level
           %th Confirm Email
-          %th= t("admin.communities.manage_members.coupon_balance")
+          %th= render partial: "layouts/sort_link", locals: { column: "coupon_balance", direction: sort_link_direction("coupon_balance"), title: t("admin.communities.manage_members.coupon_balance") }
           - unless @current_user.is_manager?
             %th= t("admin.communities.manage_members.add_coupon_balance")
             %th= t("admin.communities.manage_members.deduct_coupon_balance")

@@ -594,6 +594,7 @@ en:
             with_listing_no_payment: "Users who have posted at least one offer but haven't added their payment details"
             with_payment_no_listing: "Users who have added their payment details but haven't posted a offer"
             no_listing_no_payment: "Users who haven't posted a offer and haven't added their payment details"
+            no_active_offer: 'Users who do not have any active offers'
         email_subject: "Email subject"
         email_content: "Email content"
         email_content_placeholder: "What do you want to say to your users?"
