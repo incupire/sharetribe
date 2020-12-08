@@ -108,6 +108,11 @@
 #  homepage_graphic_file_size                  :integer
 #  homepage_graphic_updated_at                 :datetime
 #  homepage_graphic_url                        :string(255)
+#  homepage_graphic2_file_name                 :string(255)
+#  homepage_graphic2_content_type              :string(255)
+#  homepage_graphic2_file_size                 :integer
+#  homepage_graphic2_updated_at                :datetime
+#  homepage_graphic_url2                       :string(255)
 #
 # Indexes
 #

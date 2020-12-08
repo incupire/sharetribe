@@ -1,6 +1,10 @@
 = render :partial => 'layouts/head'
 - is_homepage = params[:controller] == "homepage" && params[:action] == "index"
 - is_landing_page = params[:controller] == "homepage" && params[:action] == "home"
+
+- unless logged_in?
+  :javascript
+    sessionStorage.setItem('notif_popup_close', 'false');
 %body
   %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css", :rel => "stylesheet"}
   %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800", :rel => "stylesheet"}
@@ -13,10 +17,13 @@
       .noscript-padding
         -# Noscript content will be positioned here
 
-    - unReadTransactionalMessagesCount = InboxService.transactional_notification_count(@current_user&.id, @current_community&.id)
-
     - if logged_in?
-      = render partial: "layouts/unread_message_popup"
+      - unReadTransactionalMessagesCount = InboxService.transactional_notification_count(@current_user&.id, @current_community&.id)
+      - unReadDirectMessagesCount = InboxService.direct_conversations_notification_count(@current_user&.id, @current_community&.id)
+      - totalUnreadNotifCount = unReadTransactionalMessagesCount + unReadDirectMessagesCount
+      - if totalUnreadNotifCount > 0
+        .unread_notification_popup.hidden
+          = render partial: "layouts/unread_message_popup", locals: {totalUnreadNotifCount:  totalUnreadNotifCount }
 
     - if display_onboarding_topbar?
       - props = onboarding_topbar_props
@@ -129,10 +136,17 @@
           window.FastClick.attach(document.body, { excludeNode: '^pac-'} );
         }
       });
-
       $('.close_modal').click(function(){
+        sessionStorage.setItem('notif_popup_close', 'true');
+        $('.unread_notification_popup').addClass('hidden');
         $('.unread_message_popup_modal').hide();
       });
+
+      if(sessionStorage.getItem('notif_popup_close') == 'true') {
+        $('.unread_notification_popup').addClass('hidden');
+      }else{
+        $('.unread_notification_popup').removeClass('hidden');
+      }
 
     -# Disable animations on tests
     - if Rails.env.test?

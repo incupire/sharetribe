@@ -66,6 +66,7 @@ class PeopleController < Devise::RegistrationsController
     community_person_custom_fields = @current_community.person_custom_fields.is_public
 
     render locals: { listings: listings,
+                     followers: @person.followers,
                      followed_people: @person.followed_people,
                      received_testimonials: received_testimonials,
                      received_positive_testimonials: received_positive_testimonials,
@@ -225,6 +226,15 @@ class PeopleController < Devise::RegistrationsController
 
   def update
     target_user = Person.find_by!(username: params[:id], community_id: @current_community.id)
+    if params[:member_profile_page].present?
+      target_user.person_categories.destroy_all
+      if params[:person][:category_ids].present?
+        params[:person][:category_ids].reject! { |e| e.to_s.empty? }
+        params[:person][:category_ids].each do |id|
+          target_user.person_categories.create(category_id: id)
+        end
+      end
+    end
     # If setting new location, delete old one first
     if params[:person] && params[:person][:location] && (params[:person][:location][:address].empty? || params[:person][:street_address].blank?)
       params[:person].delete("location")
@@ -253,8 +263,7 @@ class PeopleController < Devise::RegistrationsController
         # This only builds the emails, they will be saved when `update_attributes` is called
         target_user.emails.build(address: new_email_address, community_id: @current_community.id)
       }
-
-      if target_user.update_attributes(person_params.except(:email_attributes))
+      if target_user.update_attributes(person_params.except(:email_attributes, :category_ids))
         if params[:person][:password]
           #if password changed Devise needs a new sign in.
           sign_in target_user, :bypass => true if target_user == @current_user
@@ -281,17 +290,24 @@ class PeopleController < Devise::RegistrationsController
     #redirect_back(fallback_location: homepage_url)
 
     if params[:notification_page].present?
-      if target_user.profile_progress[:notifications] == 0
-        target_user.profile_progress.update(notifications: 20)
+      if target_user.profile_progress_info[:notifications] == 0
+        target_user.profile_progress_info.update(notifications: 20)
+        target_user.save
+      end
+    elsif params[:member_profile_page].present?
+      if target_user.profile_progress_info[:user_profile] == 0
+        target_user.profile_progress_info.update(user_profile: 10)
         target_user.save
       end
     else
-      if target_user.profile_progress[:user_profile] == 0
-        target_user.profile_progress.update(user_profile: 20)
+      if target_user.profile_progress_info[:contact_info] == 0
+        target_user.profile_progress_info.update(contact_info: 10)
         target_user.save
       end
     end
-    if params[:save_and_next].present?
+    if params[:contact_info_page].present? && params[:save_and_next].present?
+      redirect_to person_settings_path(target_user)
+    elsif params[:save_and_next].present?
       redirect_to notifications_person_settings_path(target_user)
     elsif params[:save_and_next_to_enable_purchasing].present?
       redirect_to person_stripe_customber_settings_path(target_user)
@@ -454,6 +470,7 @@ class PeopleController < Devise::RegistrationsController
         :password2,
         :referral_code,
         :min_days_between_community_updates,
+        :average_amount,
         location: [:address, :google_address, :latitude, :longitude],
         send_notifications: [],
         email_attributes: [:address],
@@ -484,7 +501,8 @@ class PeopleController < Devise::RegistrationsController
           :numeric_value,
           :'date_value(1i)', :'date_value(2i)', :'date_value(3i)',
           selected_option_ids: []
-        ]
+        ],
+        category_ids: []
       )
   end
 

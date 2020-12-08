@@ -14,6 +14,12 @@ class SettingsController < ApplicationController
     flash.now[:notice] = t("settings.profile.image_is_processing") if @service.image_is_processing?
   end
 
+  def contact
+    @selected_left_navi_link = "contact"
+    @service = Person::SettingsService.new(community: @current_community, params: params)
+    @service.add_location_to_person
+  end
+
   def offers_and_request
     @service = Person::SettingsService.new(community: @current_community, params: params)
     @selected_left_navi_link = "offers_and_request"
@@ -69,7 +75,7 @@ class SettingsController < ApplicationController
             currency: @current_community.currency,
             stripe_charge_id: res.id
           )
-          flash[:notice] = "Your Avontage Bucks Balance successfully reloaded"
+          flash[:notice] = "Your Saving Account Balance successfully reloaded"
         else
           flash[:error] = "Something went wrong. Please try again"
         end

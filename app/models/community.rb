@@ -108,6 +108,11 @@
 #  homepage_graphic_file_size                  :integer
 #  homepage_graphic_updated_at                 :datetime
 #  homepage_graphic_url                        :string(255)
+#  homepage_graphic2_file_name                 :string(255)
+#  homepage_graphic2_content_type              :string(255)
+#  homepage_graphic2_file_size                 :integer
+#  homepage_graphic2_updated_at                :datetime
+#  homepage_graphic_url2                       :string(255)
 #
 # Indexes
 #
@@ -186,6 +191,16 @@ class Community < ApplicationRecord
                       :original => "600x600>"
                     }
   validates_attachment_content_type :homepage_graphic,
+                                    :content_type => ["image/jpeg",
+                                                      "image/png",
+                                                      "image/gif",
+                                                      "image/pjpeg",
+                                                      "image/x-png"]
+  has_attached_file :homepage_graphic2,
+                    :styles => {
+                      :original => "600x600>"
+                    }
+  validates_attachment_content_type :homepage_graphic2,
                                     :content_type => ["image/jpeg",
                                                       "image/png",
                                                       "image/gif",
@@ -361,7 +376,7 @@ class Community < ApplicationRecord
 
     changes_to_save.select { |attribute, values|
       attachment_name = attribute.chomp("_file_name")
-      attachment_name != 'reload_page_graphic' && attachment_name != 'homepage_graphic' && attribute.end_with?("_file_name") && !send(:"#{attachment_name}_processing") && values[0]
+      attachment_name != 'reload_page_graphic' && attachment_name != 'homepage_graphic' && attachment_name != 'homepage_graphic2' && attribute.end_with?("_file_name") && !send(:"#{attachment_name}_processing") && values[0]
     }.each { |attribute, values|
       attachment_name = attribute.chomp("_file_name")
       # Temporarily store previous attachment file name in cache

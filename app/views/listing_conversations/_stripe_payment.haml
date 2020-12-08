@@ -10,10 +10,12 @@
     .new_coupon_work.for_booking
       .inner_container
         .row.coupan_balances
-          %span.people-custom-fields-title.coupan_title Your Avontage Bucks Balance:
+          %span.people-custom-fields-title.coupan_title Your Saving Account Balance:
           %span.price
             = image_tag "avonatge_currency.png"
             = (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
+        .short_a_bucks
+          Short on Avontage Bucks?
         .load_balance
           = link_to 'Reload Your Balance', reload_your_balance_person_settings_path(@current_user), class: "button load_button"
 
@@ -23,17 +25,17 @@
     //     =# image_tag "black_a_img.png"
     //     =# (MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1]).html_safe
     //    =# MoneyViewUtils.to_humanized(@current_user.coupon_balance).html_safe
-    .bucks_guarantee_data
-      = image_tag 'Avontage_Loves.png', class: 'heart_beat'
-      = image_tag 'safe_bartering.png', class: 'safety_batch'
-      .inner_data
-        .heading
-          The Avontage Bucks Guarantee
-        %ul
-          %li
-            100% no questions asked refund policy, as long as the offer has not been redeemed, no work has begun by the seller, and not Late Canceled or No Show on your part.
-          %li
-            Satisfaction guaranteed for services redeemed. We will do everything in our power to mediate and resolve any issues to your satisfaction or Avontage Bucks credit will be issued.
+    / .bucks_guarantee_data
+    /   = image_tag 'Avontage_Loves.png', class: 'heart_beat'
+    /   = image_tag 'safe_bartering.png', class: 'safety_batch'
+    /   .inner_data
+    /     .heading
+    /       The Avontage Bucks Guarantee
+    /     %ul
+    /       %li
+    /         100% no questions asked refund policy, as long as the offer has not been redeemed, no work has begun by the seller, and not Late Canceled or No Show on your part.
+    /       %li
+    /         Satisfaction guaranteed for services redeemed. We will do everything in our power to mediate and resolve any issues to your satisfaction or Avontage Bucks credit will be issued.
     -# Not in use
       %p.left
         Once you've purchased this Offer using your Avontage Bucks Credits, and the Seller has Accepted, contact the Seller to Redeem your offer. See REDEEM INSTRUCTIONS on the Offer page. Avontage Bucks credits will be charged only if
@@ -41,9 +43,10 @@
         accepts this transaction. If 
         = link_to(PersonViewUtils.person_display_name(@listing.author, @current_community), person_path(username: @listing.author.username)) 
         declines, no charge is applied to your Avontage Bucks balance.
-- if stripe_in_use   
+- if stripe_in_use  
   %span.devide 
-    %span.or OR
+    / %span.or OR
+  .full_amount or pay full amount with credit card
 - if paypal_in_use
   .row
     .col-12

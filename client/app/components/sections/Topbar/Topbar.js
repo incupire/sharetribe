@@ -40,7 +40,7 @@ const profileActions = function profileActions(routes, username) {
     transactionsAction: routes.transactions_person_messages_path(username),
     favoriteAction: routes.person_favorite_listings_path(username),
     profileAction: routes.person_path(username),
-    settingsAction: routes.person_settings_path(username),
+    settingsAction: '/en/'+username+'/settings/contact',
     adminDashboardAction: routes.admin_path(),
     logoutAction: routes.logout_path(),
   } : null;

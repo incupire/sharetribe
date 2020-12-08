@@ -65,6 +65,8 @@
 #  profile_progress                   :string(255)      default({:user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
 #  tags                               :text(65535)
 #  total_received_review              :integer          default(0)
+#  profile_progress_info              :string(255)      default({:contact_info=>0, :user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
+#  average_amount                     :integer
 #
 # Indexes
 #
@@ -110,6 +112,8 @@ class Person < ApplicationRecord
 
   ROLE = ['Admin', 'Manager', 'None']
   USER_LEVEL = {'New' => 0, 'Bronze' => 1, 'Silver' => 2, 'Gold' => 3}
+  OPTIONS = ["Minimum: $500 (Avontage Bucks) in a given month", "$500-$1000 (Avontage Bucks) in a given month", "$1000-$2000 (Avontage Bucks) in a given month", "$2000-$3000 (Avontage Bucks) in a given month", "$3000-$5000 (Avontage Bucks) in a given month", "$5000-$10000 (Avontage Bucks) in a given month", "$10000-$25000 (Avontage Bucks) in a given month", "$25000+ (Avontage Bucks) in a given month"]
+  SHOWOPTIONS = ["A$500", "A$500-A$1000", "A$1000-A$2000", "A$2000-A$3000", "A$3000-A$5000", "A$5000-A$10000", "A$10000-A$25000", "A$25000+"]
   attr_accessor :login
   has_many :avon_bucks_histories, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -146,7 +150,8 @@ class Person < ApplicationRecord
 
   has_many :starter_transactions, :class_name => "Transaction", :foreign_key => "starter_id", :dependent => :destroy, :inverse_of => :starter
   has_many :author_transactions, :class_name => "Transaction", :foreign_key => "listing_author_id", :dependent => :destroy, :inverse_of => :listing_author
-
+  has_many :person_categories
+  has_many :categories, :through => :person_categories
   deprecate communities: "Use accepted_community instead.",
             community_memberships: "Use community_membership instead.",
             deprecator: MethodDeprecator.new
@@ -209,6 +214,8 @@ class Person < ApplicationRecord
 
   serialize :preferences
   serialize :profile_progress
+  serialize :profile_progress_info
+
 
   validates_length_of :phone_number, :maximum => 25, :allow_nil => true, :allow_blank => true
   validates_length_of :username, :within => 3..20
@@ -679,8 +686,6 @@ class Person < ApplicationRecord
   def has_coupon_balance?
     coupon_balance_cents.present? ? true : false
   end
-
-
   # Overrides method injected from Devise::DatabaseAuthenticatable
   # Updates password with password that has been rehashed with new algorithm.
   # Removes legacy password and salt.
@@ -723,7 +728,7 @@ class Person < ApplicationRecord
 
   def overall_progress
     total_progress = 0
-    total_progress = profile_progress[:user_profile] + profile_progress[:notifications] + profile_progress[:enable_purchasing] + profile_progress[:enable_selling] if self.profile_progress.present?
+    total_progress = profile_progress_info[:user_profile] + profile_progress_info[:contact_info] + profile_progress_info[:notifications] + profile_progress_info[:enable_purchasing] + profile_progress_info[:enable_selling] if self.profile_progress_info.present?
     total_progress += 20 if self.listings.present?
     total_progress
   end

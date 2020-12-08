@@ -1,14 +1,9 @@
-<% unReadTransactionalMessagesCount = InboxService.transactional_notification_count(@current_user&.id, @current_community&.id)
- %>
-
 <div class="unread_message_popup_modal">
   <div class="modal_box">
     <span class="close_modal">X</span>
 
     <div class="popup_message">
-      You have 
-      <%= link_to unReadTransactionalMessagesCount, transactions_person_messages_path(@current_user), class: 'message_count' %>
-      Message
+      You have <%= totalUnreadNotifCount%> unread notification
     </div>
   </div>
 </div>

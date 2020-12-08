@@ -35,8 +35,8 @@ class PaymentSettingsController < ApplicationController
       render 'index', locals: index_view_locals
       return
     end
-    if target_user.profile_progress[:enable_selling] == 0
-      target_user.profile_progress.update(enable_selling: 20)
+    if target_user.profile_progress_info[:enable_selling] == 0
+      target_user.profile_progress_info.update(enable_selling: 20)
       target_user.save
     end
     warn_about_missing_payment_info
@@ -63,8 +63,8 @@ class PaymentSettingsController < ApplicationController
     stripe_update_bank_account
 
     warn_about_missing_payment_info
-    if @current_user.profile_progress[:enable_selling] == 0
-      @current_user.profile_progress.update(enable_selling: 20)
+    if @current_user.profile_progress_info[:enable_selling] == 0
+      @current_user.profile_progress_info.update(enable_selling: 20)
       @current_user.save
     end
     if params[:save_and_next_to_post].present?
@@ -122,8 +122,8 @@ class PaymentSettingsController < ApplicationController
               card_token: params[:stripe_token])
           end
           @target_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
-          if @target_user.profile_progress[:enable_purchasing] == 0
-            @target_user.profile_progress.update(enable_purchasing: 20)
+          if @target_user.profile_progress_info[:enable_purchasing] == 0
+            @target_user.profile_progress_info.update(enable_purchasing: 20)
             @target_user.save
           end
           flash[:notice] = "Card saved successfully!"
