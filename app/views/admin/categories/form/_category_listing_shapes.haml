@@ -18,5 +18,6 @@
           .custom-field-categories-checkbox-container
             = check_box_tag "category[listing_shapes][][listing_shape_id]", "#{shape[:id]}", selected_shape_ids.include?(shape[:id]), :id => checkbox_id, :class => "category-listing-shape-checkbox"
             = label_tag checkbox_id, t(shape[:name_tr_key]), :class => "category-listing-shape-checkbox-label"
+ 
 - else
   = hidden_field_tag "category[listing_shapes][][listing_shape_id]", shapes.first[:id]

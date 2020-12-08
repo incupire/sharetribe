@@ -527,6 +527,13 @@ module ApplicationHelper
       },
       {
         :topic => :configure,
+        :text => t("admin.recommend.recommendation_list"),
+        :icon_class => icon_class("list"),
+        :path => admin_recommendation_list_path,
+        :name => "recommendation_list"
+      },
+      {
+        :topic => :configure,
         :text => t("admin.custom_fields.index.listing_fields"),
         :icon_class => icon_class("form"),
         :path => admin_custom_fields_path,

@@ -6,6 +6,10 @@ en:
         delimiter: ","
         format: "%u%n"
   admin:
+    recommend:
+        recommendation_list: "New Recommendation List"
+        create_a_new_recommend: "Add new list:"
+        select_category: "Select upto 4 categories to expand this Recommendation List"
     rebates:
       rebate: 'Rebates & Specials'
     categories:
@@ -111,7 +115,7 @@ en:
         see_how_it_looks_like: "See how it looks"
         verification_to_post_listings_info_content: "Info text to non-verified users"
         verification_to_post_listings_info_content_description: "You currently require your users to be verified manually by you before they can post offers. Here you can set the default text that is shown to non-verified users when they try to post a new offer."
-        verification_to_post_listings_info_content_default: "%{service_name} requires people to be verified manually by admin before they can post offers. You have not yet been verified. Please %{contact_admin_link} to be verified."
+        verification_to_post_listings_info_content_default: "%{service_name} requires people to be verified manually by admin before they can post %{service_type}. You have not yet been verified. Please %{contact_admin_link} to be verified."
         contact_admin_link_text: "contact the %{service_name} team"
         save: "Save settings"
         transaction_agreement: "Transaction agreement"
@@ -1608,7 +1612,7 @@ en:
       transactions: "Transactions"
       favorite: "Favorite Offers"
       avon_buck_history: "Avontage Bucks History"
-      transaction_history: "Transactions History"
+      transaction_history: "Trades History"
     application:
       join_this_community: "Join marketplace"
       read_more: "Read more"
@@ -1805,7 +1809,7 @@ en:
       stripe_payments: "Stripe Payments"
       payments: "Accept Credit Card"
       enable_selling: Enable Selling
-      transactions: 'Transactions'
+      transactions: 'Trade Transactions'
       offers_and_request: My Offers & Requests
       offers_and_request: "Offers and Requests"
   listings:
@@ -1898,7 +1902,7 @@ en:
         location: Location
       price:
         price: Price
-        price_label: "Price"
+        price_label: "Value"
         placeholder: "120"
         text: "(enter the fair market value in $ USD/Avontage Bucks, one Avontage Bucks = 1$ USD)"
         per: per
@@ -2235,6 +2239,7 @@ en:
         other: "The access to %{service_name} is restricted. You need an email address that proves that you are entitled to join."
       family_name: "Last name"
       given_name: "First name"
+      business_name: "Business Name"
       i_accept_the_terms_and_privacy: "I accept the %{terms} and %{privacy}"
       admin_emails_consent: "I accept to receive occasional emails from the %{service_name} team and understand that I can change my mind at any time"
       invalid_invitation_code: "The invitation code is not valid."
@@ -2601,7 +2606,7 @@ en:
         one: "(1 hour)"
         other: "(%{count} hours)"
       start_end_time: "%{start_time} to %{end_time}"
-    price_per_quantity: "Price per %{unit_type}:"
+    price_per_quantity: "Value per %{unit_type}:"
     price: "Price:"
     quantity: "Quantity: %{quantity}"
     unit_price: "Unit price: %{unit_price}"
@@ -2669,7 +2674,7 @@ en:
       signup: "Sign up"
       admin_dashboard: "Admin dashboard"
       language: Language
-      transactions: "Transactions"
+      transactions: "My Trades"
       favorite: "Favorite"
       my_listing: "My Listings"
     utils:

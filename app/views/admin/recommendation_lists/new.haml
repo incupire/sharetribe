@@ -1,0 +1,63 @@
+%script{src: 'https://code.jquery.com/jquery-3.5.1.min.js'}
+%link{:rel => :stylesheet, :href => "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"}
+- content_for :title_header do
+  %h1
+    = t("layouts.admin.admin")
+    = "-"
+    = t("admin.recommend.recommendation_list")
+
+- content_for :javascript do
+  window.ST.initializeCategoriesOrder();
+
+= render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
+
+.left-navi-section
+  = form_tag(admin_new_recommendation_list_path, method: :post, id: "") do
+    = label_tag :recommendation_code, "Recommendation Code (3 chars)"
+    .name-locale-text_field.col-10
+    = text_field_tag(:recommendation_code)
+    = label_tag :recommendation_title,"Recommendation Title (60-chars)" 
+    .name-locale-text_field.col-10
+    = text_field_tag(:recommendation_title) 
+    %br
+    = check_box_tag(:active, class: "checkbox-row-checkbox js-price-enabled")
+    = label_tag(:active, "Active/Enabled", class: "checkbox-row-label js-price-enabled-label")
+    %br
+    
+    %h2
+      = t("admin.recommend.select_category") 
+    - @category.each do |cat|
+      - unless cat.has_subcategories?
+        = check_box_tag(:category, cat.id, class: "checkbox-category",checked: false)
+        = label_tag( :category, cat.display_name(cat), class: "checkbox-row-label js-price-enabled-label")
+      - else
+        - cat.children.each do |c|
+          = check_box_tag(:category, c.id, class: "checkbox-category",checked: false)
+          = label_tag( :category, c.display_name(c),class: "checkbox-row-label js-price-enabled-label")
+    %br
+      = select_tag 'listings[]', options_for_select(Listing.all.map { |s| [s.title, s.id] }), multiple: true, id: 'listing_select', size: 10 
+
+    .row
+      .col-12
+        .inline-button-container
+          = button_tag ("Save")
+        .inline-button-container
+          %a{href: '', class: "cancel-button"}
+            .content
+              = ("Cancel")
+
+
+= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"
+:javascript
+  $("#listing_select").select2({
+    placeholder: "Select listings",
+    allowClear: true
+  });
+  $('.checkbox-category').on("click",function() { 
+    if ($(this).is(':checked')) {
+        console.log("Checked")
+    } 
+    else {
+        console.log("Unchecked")
+    }
+  });

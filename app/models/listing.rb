@@ -103,6 +103,9 @@ class Listing < ApplicationRecord
   has_many :bookings, through: :tx
   has_many :bookings_per_hour, ->{ per_hour_blocked }, through: :tx, source: :booking
 
+  has_many :recommendation_list_listings
+  has_many :recommendation_lists, through: :recommendation_list_listings
+
   monetize :price_cents, :allow_nil => true, with_model_currency: :currency
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency

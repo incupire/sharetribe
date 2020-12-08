@@ -166,6 +166,8 @@
             - featured_listings_main.first(5).each do |featured_listing|
               = link_to listing_path(featured_listing) do
                 = image_tag featured_listing.listing_images.empty? ? 'listing_missing.png' : featured_listing.listing_images.first.image.url(:medium) , alt: 'jobs-img', class: 'jobs_image'
+                .jobs_title
+                  = featured_listing.title
   .home-toolbar.redesign_mobile_toolbar
 
     - if listing_shape_menu_enabled || @category_menu_enabled

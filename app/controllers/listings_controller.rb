@@ -411,24 +411,24 @@ class ListingsController < ApplicationController
       redirect_to search_path
       return
     end
-
+    post_offer = params[:listing_shape].present? && params[:category]
     order_type = ListingShape.find_by(id: params[:listing_shape]) || ListingShape.find_by(id: params[:listing][:listing_shape_id]) rescue nil
     if order_type.present?
       listing_shape_id = order_type.id
       order_type = t(order_type[:name_tr_key])
       unless @current_user.has_admin_rights?(@current_community)
         if @current_community.require_verification_to_post_listings? && (!order_type.downcase.include?('request') && !@current_community_membership.can_post_listings?)
-          redirect_to verification_required_listings_path
+          redirect_to verification_required_listings_path(post_offer: post_offer)
           return
         elsif @current_community.require_verification_to_post_request? && (order_type.downcase.include?('request') && !(@current_community_membership.can_post_requests? || @current_user.listings.status_open_active.where.not(listing_shape_id: listing_shape_id).size > 0))
-          redirect_to verification_required_listings_path
+          redirect_to verification_required_listings_path(post_offer: post_offer)
           return
         end
       end
     else
       unless @current_user.has_admin_rights?(@current_community)
         if @current_community.require_verification_to_post_listings? && !@current_community_membership.can_post_listings?
-          redirect_to verification_required_listings_path
+          redirect_to verification_required_listings_path(post_offer: post_offer)
           return
         end
       end

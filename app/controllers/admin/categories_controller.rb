@@ -44,7 +44,7 @@ class Admin::CategoriesController < Admin::AdminBaseController
     @category = @current_community.categories.find_by_url_or_id(params[:id])
     shapes = @current_community.shapes
     selected_shape_ids = shape_ids_from_params(params)
-
+    
     if @category.update_attributes(category_params)
       update_category_listing_shapes(selected_shape_ids, @category)
       redirect_to admin_categories_path
