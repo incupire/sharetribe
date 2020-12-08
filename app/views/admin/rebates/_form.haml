@@ -18,4 +18,8 @@
               = f.text_field :expire_on, required: true, value: rebate.new_record? ? nil : rebate.expire_on.strftime("%m/%d/%Y")
           .row
             .col-12
+              = f.label :minimum_amount, 'Enter the min Offer value A$ the Rebate can be applied to'
+              = f.text_field :minimum_amount, required: true
+          .row
+            .col-12
               = f.submit 'Submit', class: 'ver-update-btn acc-change-btn button report_submit'

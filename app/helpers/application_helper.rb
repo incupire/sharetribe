@@ -427,7 +427,7 @@ module ApplicationHelper
         :name => "transactions"
       },
       {
-        :topic => :manage,
+        :topic => :configure,
         :text => 'Avontage bucks transactions',
         :icon_class => icon_class("coins"),
         :path => avontage_bucks_transactions_admin_community_transactions_path(@current_community),

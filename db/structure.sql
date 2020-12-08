@@ -1490,6 +1490,7 @@ CREATE TABLE `rebates` (
   `expire_on` date DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `minimum_amount` float DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2626,5 +2627,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20201207161338'),
 ('20201207161515'),
 ('20201208070749');
+('20201203091241');
+
 
 
