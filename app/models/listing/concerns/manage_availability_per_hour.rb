@@ -60,7 +60,7 @@ module ManageAvailabilityPerHour
       config.hours = working_hours_prepare_hash
       config.breaks = {}
       config.holidays = []
-      config.time_zone = 'Etc/UTC'
+      config.time_zone = 'MST'
     end
   end
 

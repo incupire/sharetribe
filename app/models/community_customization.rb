@@ -23,6 +23,8 @@
 #  transaction_agreement_label                :string(255)
 #  transaction_agreement_content              :text(16777215)
 #  offer_success_tips                         :text(65535)
+#  update_mail_title                          :string(255)
+#  update_mail_content                        :text(65535)
 #
 # Indexes
 #
@@ -51,6 +53,8 @@ class CommunityCustomization < ApplicationRecord
   CONTENT_FIELDS = %i(
     blank_slate
     welcome_email_content
+    update_mail_title
+    update_mail_content
     how_to_use_page_content
     about_page_content
     terms_page_content

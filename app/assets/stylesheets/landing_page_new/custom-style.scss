@@ -494,8 +494,10 @@
         .discover-details {
           font-family: 'Source Sans Pro',helvetica,sans-serif;
           color: #171717;
-          font-size: 20px;
-          line-height: 1.25;
+          font-size: 16px;
+          line-height: 2;
+          font-family: open sans,sans-serif;
+          font-weight: 500;
           text-align: left;
           padding-top: 35px;
           &.top-p {

@@ -122,10 +122,11 @@ class PreauthorizeTransactionsController < ApplicationController
 
       @rebate_code = Rebate.where("code =? AND expire_on >= ?", params[:coupon], Date.today).last
       if @rebate_code.present?
-        if item_total.total.to_f >= @rebate_code.amount
+        minimum_rebate_amount = (@rebate_code.minimum_amount.present? && (@rebate_code.minimum_amount >= @rebate_code.amount))  ? @rebate_code.minimum_amount : @rebate_code.amount
+        if item_total.total.to_f >= minimum_rebate_amount
           coupon_discount = Money.new(@rebate_code.amount * 100, listing.currency)
         else
-          @error = "Rebate amount should be less than or equal to offer amount"
+          @error = "Offer amount should be greater than or equal to rebate minimum amount"
           coupon_discount = Money.new(0, listing.currency)
         end
       else
@@ -315,7 +316,8 @@ class PreauthorizeTransactionsController < ApplicationController
         quantity: quantity.to_i)
       rebate_code = Rebate.where("code =? AND expire_on >= ?", params[:promo_code], Date.today).last
       if rebate_code.present?
-        @error = "Rebate amount should be less than or equal to offer amount" if rebate_code.amount > item_total.total.to_f
+        minimum_rebate_amount = (rebate_code.minimum_amount.present? && (rebate_code.minimum_amount >= rebate_code.amount))  ? rebate_code.minimum_amount : rebate_code.amount
+        @error = "Offer amount should be greater than or equal to rebate minimum amount" if item_total.total.to_f < minimum_rebate_amount
       else
         @error = "Code is invalid or expired"
       end

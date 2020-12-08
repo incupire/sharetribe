@@ -23,6 +23,7 @@
         %tr
           %th Rebate Code
           %th Amount $A
+          %th Minimum offer value
           %th Expires on
           %th
       %tbody
@@ -30,6 +31,7 @@
           %tr
             %td= rebate.code
             %td= "-#{rebate.amount} A-bucks"
+            %td= rebate.minimum_amount.present? ? "#{rebate.minimum_amount} A$" : '-'
             %td= rebate.expire_on.strftime("%b %d, %Y")
             %td
               = link_to edit_admin_community_rebate_path(@current_community, rebate), remote: true do
@@ -69,6 +71,21 @@
         .col-12
           URL to Link to
           = text_field_tag 'community[homepage_graphic_url]', @current_community.homepage_graphic_url
+          Open in the same browser/window
+
+      .row
+        .col-12
+          %h2 Homepage Top-Left Special Graphics and URL link #2
+          - if @current_community.homepage_graphic2.present?
+            = image_tag @current_community.homepage_graphic2.url, height: "200px"
+          .graphic-upload
+            %label{for: 'community_homepage_graphic2'}
+              %div.graphics-upload-btn Upload an image
+            = file_field_tag 'community[homepage_graphic2]'
+      .row
+        .col-12
+          URL to Link to
+          = text_field_tag 'community[homepage_graphic_url2]', @current_community.homepage_graphic_url2
           Open in the same browser/window
 
       = submit_tag 'Save', class: 'ver-update-btn button report_submit'    

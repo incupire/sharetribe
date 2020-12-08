@@ -22,7 +22,7 @@
     .icon-with-text-container
       %i.fa.fa-ban.ban_icon{"aria-hidden" => "true"}
       .text-part
-        As soon as you have fullfilled this Order/Offer and it has been Mark as Redeemed by the Buyer, the Avontage Bucks cedits shall be transferred to your balance.
+        As soon as you have fulfilled this Order/Offer and it has been Marked as Redeemed by the Buyer, the Avontage Bucks credits shall be transferred to your balance.
         
   -#Not in use
     - if __transaction_model.payment_gateway.eql?(:coupon_pay) && __transaction_model.status.eql?("paid") && @current_user == __transaction_model.buyer

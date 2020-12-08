@@ -82,7 +82,7 @@ class Admin::CommunityCustomizationsController < Admin::AdminBaseController
   private
 
   def graphics_params
-    params.require(:community).permit(:reload_page_graphic, :homepage_graphic, :homepage_graphic_url)
+    params.require(:community).permit(:reload_page_graphic, :homepage_graphic, :homepage_graphic_url, :homepage_graphic2, :homepage_graphic_url2)
   end
 
   def find_or_initialize_customizations(locales)

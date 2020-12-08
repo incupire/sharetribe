@@ -204,9 +204,15 @@ hr {
       border: 2px solid #55c1c9;
       padding: 0px 15px 0px 15px;
       max-width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       margin-top: 15px;
       color: #171717;
+
+      .load_balance {
+        .load_button {
+          margin: 0 0 0.75em;
+        }
+      }
     }
   }
 
@@ -258,6 +264,7 @@ hr {
   display: flex;
   padding-top: 18px;
   align-items: center;
+
   .coupan_title {
     font-size: 17px;
     text-transform: capitalize;
@@ -303,12 +310,27 @@ hr {
   }
   */
 }
+
+.short_a_bucks, .full_amount {
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 8px;
+  color: black;  
+}
+
+.full_amount{
+  text-align: center;
+}
+
 .pay_with_coupan {
   //max-width: 670px;
   //float: left;
   //padding: 15px;
   //width: 670px;
   //padding-left: 0px;
+
+  margin: 25px 0 0;
+
   @media (min-width: 320px) and (max-width: 480px) {
     width: 100%;
   }
@@ -1763,4 +1785,38 @@ table#admin_listings.new_design {
       }
     }
   }
+}
+
+.people-bios{
+  display: inline-block;
+}
+
+.listing_detail_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+
+  .people-bios {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    font-weight: 600;
+  } 
+}
+
+.person-category{
+  display: inline-block;
+  background: #e8e8e8;
+  margin-right: 10px;
+  padding: 4px;
+}
+
+.following-on-trade-title {
+    font-weight: 900;
+}
+
+.average-amount-title{
+  font-weight: 900; 
 }

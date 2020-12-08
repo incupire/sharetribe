@@ -167,6 +167,9 @@ en:
         edit_text_instructions: "Instruction texts"
       edit_welcome_email:
         welcome_email_content: "Welcome email content"
+        update_email_content: "Newsletter Email Subject and Intro"
+        update_email_content_subject: "Email Subject Line:"
+        update_email_content_description: "Email Intro Paragraph"
         welcome_email_content_description: "The message below will be sent to every new user when they join. You can customize the message to fit your marketplace. By clicking '%{send_test_message_link}' you can send a preview message to your email address, so you can see how it looks in an email client."
         edit_message: "Edit message"
         send_test_message: "Send test message"
@@ -598,6 +601,7 @@ en:
             with_listing_no_payment: "Users who have posted at least one offer but haven't added their payment details"
             with_payment_no_listing: "Users who have added their payment details but haven't posted a offer"
             no_listing_no_payment: "Users who haven't posted a offer and haven't added their payment details"
+            no_active_offer: 'Users who do not have any active offers'
         email_subject: "Email subject"
         email_content: "Email content"
         email_content_placeholder: "What do you want to say to your users?"
@@ -1608,6 +1612,7 @@ en:
     no_tribe:
       inbox: Inbox
       settings: Member Settings
+      contact: Contact Info
       feedback: "Contact the %{service_name} team"
       transactions: "Transactions"
       favorite: "Favorite Offers"
@@ -1804,6 +1809,7 @@ en:
       stripe_customer: "Avontage Fees"
       enable_purchasing: "Enable Purchasing"
       profile: "Profile info"
+      contact: "Contact info"
       settings: Settings
       paypal_payments: "PayPal Payments"
       stripe_payments: "Stripe Payments"
@@ -2269,7 +2275,7 @@ en:
       show_only_open: "Show only open"
       no_image: "No image"
     show:
-      contact: "Contact %{person}"
+      contact: "Message %{person}"
       about_me: "About me:"
       add_description: "Share something about yourself"
       add_location: "Add location"
@@ -2420,7 +2426,7 @@ en:
       family_name: "* Last name"
       given_name: "* First name"
       business_name: "* Business Name"
-      website_name: "Website Name"
+      website_name: "Your Website Address"
       first_name_with_initial: "(only first letter shown to other users)"
       first_name_only: "(not shown to other users)"
       display_name: "Display name"
@@ -2438,6 +2444,7 @@ en:
       profilemap: Mapview
       street_address: "* Business Location"
       these_fields_are_shown_in_your: "This information is visible to all %{service_name} users"
+      these_fields_are_shown_in_contact_info: "Other than First name, Display name, and Website address all other information on this page are private and not visible to other Avontage users."
       our_promise_for_profile: "Our promise to you: Your information will not be sold to any outside agencies for marketing or otherwise."
       profile_complete_info: "Please complete your profile. We all like to know who we do business with. By providing accurate and complete profile information, other members can learn about your business and feel comfortable doing business with you."
       visible_to_everybody: "visible to everybody"

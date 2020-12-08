@@ -22,6 +22,7 @@
           .icon-with-text-container
             .ss-chat.icon-part
             .ss.text-part= t(".add_description")
+
     - if @person.community_description_experience.present?
       .row.profile-about-me
         %h2 I enjoy being part of the Avontage community because:
@@ -45,7 +46,18 @@
                 - else
                   %span.people-custom-fields-value
                     = custom_field_value.display_value
-
+    .row
+      -if @person.categories.count > 0
+        %p.following-on-trade-title I need the following on trade
+        .following-on-trade
+          - @person.categories.each do |cat|
+            .person-category
+              = cat.display_name('en')
+    .row
+      -if @person.average_amount
+        %p.average-amount-title Barter-ometer:
+        .average-amount
+          = "I am available to offer " + Person::SHOWOPTIONS[@person.average_amount] + " of my service of trade in a given month."
     .row
       %h2.people-header
         - if listings.total_entries > 0
@@ -88,6 +100,17 @@
     .row
       .people-image
         = huge_avatar_thumb(@person)
+    .row
+      .listing_detail_row
+        .people-open-offers.people-bios
+          = listings.total_entries
+          %span offers
+        .people-following.people-bios
+          = followers.count
+          %span followers
+        .people-followers.people-bios
+          = followed_people.count
+          %span following
 
     .row
       .profile-action-buttons-desktop
@@ -101,7 +124,7 @@
       .new_coupon_work
         .inner_container
           .row.coupan_balances
-            %span.people-custom-fields-title.coupan_title Your Avontage Bucks Balance:
+            %span.people-custom-fields-title.coupan_title Your Saving Account Balance:
             %span.price
               = image_tag "avonatge_currency.png"
               = MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
@@ -112,30 +135,30 @@
       //   %span.price
       //     =# image_tag "black_a_img.png"
       //     =# MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
-
-    .website_link_box
-      .website_heading
-        = link_to("Website", @person.website_name.include?("http") ? @person.website_name : "http://#{@person.website_name}") if @person.website_name.present?
-      - if @person.facebook_link.present? || @person.instagram_link.present? || @person.linkedin_link.present? || @person.twitter_link.present?
-        .website_link_row
-          - if @person.facebook_link.present?
-            = link_to @person.facebook_link.include?("http") ? @person.facebook_link : "https://#{@person.facebook_link}", class: 'website_link' do
-              = image_tag 'facebook.png', alt: 'facebook', class: 'link_img'
-          - if @person.instagram_link.present?
-            = link_to @person.instagram_link.include?("http") ? @person.instagram_link : "https://#{@person.instagram_link}", class: 'website_link' do
-              = image_tag 'instagram.png', alt: 'instagram', class: 'link_img'
-          - if @person.linkedin_link.present?
-            = link_to @person.linkedin_link.include?("http") ? @person.linkedin_link : "https://#{@person.linkedin_link}", class: 'website_link' do
-              = image_tag 'linkedin.png', alt: 'linkedin', class: 'link_img'
-          - if @person.twitter_link.present?
-            = link_to @person.twitter_link.include?("http") ? @person.twitter_link : "https://#{@person.twitter_link}", class: 'website_link' do
-              = image_tag 'twitter.png', alt: 'twitter', class: 'link_img'
-      .calendar_row
-        = image_tag 'calendar.png', alt: 'calendar', class: 'calendar_img'
-        %span.member_since
-          Member since
-        %span
-          = @person.created_at.strftime("%b %d, %Y")
+    - if @current_user.present? && (@current_user == @person || @person.is_verified)
+      .website_link_box
+        .website_heading
+          = link_to("Website", @person.website_name.include?("http") ? @person.website_name : "http://#{@person.website_name}") if @person.website_name.present?
+        - if @person.facebook_link.present? || @person.instagram_link.present? || @person.linkedin_link.present? || @person.twitter_link.present?
+          .website_link_row
+            - if @person.facebook_link.present?
+              = link_to @person.facebook_link.include?("http") ? @person.facebook_link : "https://#{@person.facebook_link}", class: 'website_link' do
+                = image_tag 'facebook.png', alt: 'facebook', class: 'link_img'
+            - if @person.instagram_link.present?
+              = link_to @person.instagram_link.include?("http") ? @person.instagram_link : "https://#{@person.instagram_link}", class: 'website_link' do
+                = image_tag 'instagram.png', alt: 'instagram', class: 'link_img'
+            - if @person.linkedin_link.present?
+              = link_to @person.linkedin_link.include?("http") ? @person.linkedin_link : "https://#{@person.linkedin_link}", class: 'website_link' do
+                = image_tag 'linkedin.png', alt: 'linkedin', class: 'link_img'
+            - if @person.twitter_link.present?
+              = link_to @person.twitter_link.include?("http") ? @person.twitter_link : "https://#{@person.twitter_link}", class: 'website_link' do
+                = image_tag 'twitter.png', alt: 'twitter', class: 'link_img'
+    .calendar_row
+      = image_tag 'calendar.png', alt: 'calendar', class: 'calendar_img'
+      %span.member_since
+        Member since
+      %span
+        = @person.created_at.strftime("%b %d, %Y")
 
 - content_for :extra_javascript do
   :javascript

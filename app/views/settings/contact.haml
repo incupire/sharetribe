@@ -1,0 +1,112 @@
+- target_user = @service.person
+- content_for :extra_javascript do
+  - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
+  - key_param = maps_key ? "?key=#{maps_key}" : ""
+  - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
+  = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
+
+- if @current_user.overall_progress != 100
+  - content_for :profile_progress do
+    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Contact')}
+
+- content_for :title_header do
+  %h1= t("layouts.no_tribe.contact")
+
+= render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
+
+#person_settings_form.left-navi-section.settings-section
+  %p.profile_text
+    = t("settings.profile.profile_complete_info")
+  %p
+    = t("settings.profile.our_promise_for_profile")
+  %p
+    = t("settings.profile.these_fields_are_shown_in_contact_info")
+
+  = form_for target_user do |form| 
+    = hidden_field_tag "contact_info_page", "contact_info_page"
+    .row
+      .col-6
+        = form.label :given_name, t("settings.profile.given_name")
+        = form.text_field :given_name, :class => "text_field", :maxlength => "30", required: true
+      .col-6
+        .inline-label-container
+          = form.label :family_name, t("settings.profile.family_name"), :class => "inline"
+          %small
+            - if ["first_name_with_initial", "first_name_only"].include? @current_community.name_display_type
+              = t("settings.profile.#{@current_community.name_display_type}")
+          = form.text_field :family_name, :class => "text_field", :maxlength => "30", required: true
+    -# Business and website name
+    .row
+      .col-6
+        = form.label :business_name, t("settings.profile.business_name")
+        = form.text_field :business_name, :class => "text_field", :maxlength => "30", required: true
+      .col-6
+        = form.label :website_name, t("settings.profile.website_name")
+        = form.text_field :website_name, :class => "text_field", :maxlength => "30", :placeholder => "https://www.avontage.com"
+    -# Display name
+    .row
+      .col-6
+        .inline-label-container
+          = form.label :display_name, t("settings.profile.display_name"), class: "inline"
+        %span.alert-box-icon
+          = icon_tag("information", ["icon-fix"])
+        %small
+          = t("settings.profile.display_name_description")
+        = form.text_field :display_name, class: "text_field", :maxlength => "25"
+      .col-6
+        .inline-label-container
+          = form.label :referral_code, t("settings.profile.referral_code"), class: "inline"
+        %span.alert-box-icon
+          = icon_tag("information", ["icon-fix"])
+        %small
+          = t("settings.profile.referral_code_description")
+        = form.text_field :referral_code, class: "text_field", :maxlength => "25"
+
+    -# Phone number
+    - show_phone_number = FeatureFlagHelper.feature_enabled?(:user_fields) ? @service.fixed_phone_field? : true
+    .row
+      .col-6
+        - if show_phone_number
+          .inline-label-container
+            = form.label :phone_number, t("settings.profile.phone_number"), :class => "inline"
+            %small
+              = t('settings.profile.invisible')
+          = form.text_field :phone_number, :class => "text_field", :maxlength => "25", required: true
+      .col-6
+        -# Mobile number
+        .inline-label-container
+          = form.label :mobile_number, t("settings.profile.mobile_number"), :class => "inline"
+          %small
+            = t('settings.profile.invisible')
+        = form.text_field :mobile_number, :class => "text_field", :maxlength => "25", required: true
+
+    -# Location
+    .inline-label-container
+      = form.label :street_address, t("settings.profile.street_address"), :class => "inline"
+      %small
+        = t('settings.profile.default_in_listing')
+    %span.alert-box-icon
+      = icon_tag("information", ["icon-fix"])
+    %small
+      = t("settings.profile.location_description")
+    = form.text_field :street_address, :class => "text_field", :onkeyup => "timed_input(this)", required: true
+    #settings_map_canvas.map
+      - content_for :extra_javascript do
+        :javascript
+          source = document.getElementById("person_street_address");
+          debugger
+          $(document).ready(function(){
+            googlemapMarkerInit("settings_map_canvas","person_location","person_street_address", true, #{tribe_latitude}, #{tribe_longitude});
+            });
+    -# Physical locations
+    = form.fields_for :location do |loc|
+      = loc.hidden_field :address, :value => target_user.location.address
+      = loc.hidden_field :google_address, :value => target_user.location.google_address
+      = loc.hidden_field :latitude, :value => target_user.location.latitude
+      = loc.hidden_field :longitude, :value => target_user.location.longitude
+    .physical_locations
+      = form.label :physical_location, "Number of Physical Locations"
+      = form.select :physical_location, options_for_select([ "None, my business is online only", "One location", "Multiple locations" ], target_user.physical_location), include_blank: "-Select-"
+    .inline_buttons
+      = form.button t("settings.save_and_close"), :class => "send_button"
+      %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}

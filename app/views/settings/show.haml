@@ -1,3 +1,5 @@
+%script{src: 'https://code.jquery.com/jquery-3.5.1.min.js'}
+%link{:rel => :stylesheet, :href => "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"}
 - target_user = @service.person
 - content_for :javascript do
   initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
@@ -55,93 +57,12 @@
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
-  %p.profile_text
-    = t("settings.profile.profile_complete_info")
-  %p
-    = t("settings.profile.our_promise_for_profile")
-    =# link_to(t("settings.profile.profile_page"), target_user) + "."
   %p
     = t("settings.profile.these_fields_are_shown_in_your")
     = link_to(t("settings.profile.profile_page"), target_user) + "."
 
   = form_for target_user do |form| 
-    .row
-      .col-6
-        = form.label :given_name, t("settings.profile.given_name")
-        = form.text_field :given_name, :class => "text_field", :maxlength => "30", required: true
-      .col-6
-        .inline-label-container
-          = form.label :family_name, t("settings.profile.family_name"), :class => "inline"
-          %small
-            - if ["first_name_with_initial", "first_name_only"].include? @current_community.name_display_type
-              = t("settings.profile.#{@current_community.name_display_type}")
-          = form.text_field :family_name, :class => "text_field", :maxlength => "30", required: true
-    -# Business and website name
-    .row
-      .col-6
-        = form.label :business_name, t("settings.profile.business_name")
-        = form.text_field :business_name, :class => "text_field", :maxlength => "30", required: true
-      .col-6
-        = form.label :website_name, t("settings.profile.website_name")
-        = form.text_field :website_name, :class => "text_field", :maxlength => "30"
-    -# Display name
-    .row
-      .col-6
-        .inline-label-container
-          = form.label :display_name, t("settings.profile.display_name"), class: "inline"
-        %span.alert-box-icon
-          = icon_tag("information", ["icon-fix"])
-        %small
-          = t("settings.profile.display_name_description")
-        = form.text_field :display_name, class: "text_field", :maxlength => "25"
-      .col-6
-        .inline-label-container
-          = form.label :referral_code, t("settings.profile.referral_code"), class: "inline"
-        %span.alert-box-icon
-          = icon_tag("information", ["icon-fix"])
-        %small
-          = t("settings.profile.referral_code_description")
-        = form.text_field :referral_code, class: "text_field", :maxlength => "25"
-
-    -# Phone number
-    - show_phone_number = FeatureFlagHelper.feature_enabled?(:user_fields) ? @service.fixed_phone_field? : true
-    .row
-      .col-6
-        - if show_phone_number
-          .inline-label-container
-            = form.label :phone_number, t("settings.profile.phone_number"), :class => "inline"
-            %small
-              = t('settings.profile.invisible')
-          = form.text_field :phone_number, :class => "text_field", :maxlength => "25", required: true
-      .col-6
-        -# Mobile number
-        .inline-label-container
-          = form.label :mobile_number, t("settings.profile.mobile_number"), :class => "inline"
-          %small
-            = t('settings.profile.invisible')
-        = form.text_field :mobile_number, :class => "text_field", :maxlength => "25", required: true
-
-    -# Location
-    .inline-label-container
-      = form.label :street_address, t("settings.profile.street_address"), :class => "inline"
-      %small
-        = t('settings.profile.default_in_listing')
-    %span.alert-box-icon
-      = icon_tag("information", ["icon-fix"])
-    %small
-      = t("settings.profile.location_description")
-    = form.text_field :street_address, :class => "text_field", :onkeyup => "timed_input(this)", required: true
-    #settings_map_canvas.map
-      - content_for :extra_javascript do
-        :javascript
-          source = document.getElementById("person_street_address");
-          $(document).ready(function(){
-            googlemapMarkerInit("settings_map_canvas","person_location","person_street_address", true, #{tribe_latitude}, #{tribe_longitude});
-            });
-    -# Physical locations
-    .physical_locations
-      = form.label :physical_location, "Number of Physical Locations"
-      = form.select :physical_location, options_for_select([ "None, my business is online only", "One location", "Multiple locations" ], target_user.physical_location), include_blank: "-Select-"
+    = hidden_field_tag "member_profile_page", "member_profile_page"
     -# Profile picture
     .inline-label-container
       = form.label :image, t("settings.profile.profile_picture")
@@ -161,7 +82,12 @@
     -# Community Description experience
     = form.label :community_description_experience, t("settings.profile.community_experience"), :class => "input"
     = form.text_area :community_description_experience, :class => "update_profile_description_text_area", placeholder: "HINT: I enjoy bartering my services for health, fitness and restaurant offers and love being part of like-minded community of business owners"
-
+    = form.label :category_ids, "Chose the types of services you need for your business or personal in the near future:(max 10 choices)"
+    .row
+      .col-md-12
+        = form.select :category_ids, Category.display_in_user_profile.all.collect { |t| [t.url, t.id]}, {prompts: "Select Categories"}, id: "category_select", multiple: 'multiple'
+    = form.label :average_amount, "On the average, how much services in total will you be offering on trade?"
+    = form.select :average_amount, options_for_select(Array[*Person::OPTIONS.collect {|v,i| [v,Person::OPTIONS.index(v)] }], target_user.average_amount), required: true, include_blank: "Select one"
     = form.label :tags, 'Hashtags', :class => "input"
     = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input", placeholder: 'HINT: Enter the keywords associated with your business or offers. it will help end user to search your offers'
 
@@ -181,11 +107,6 @@
         = form.label :twitter_link, t("settings.profile.twitter_link")
         = form.text_field :twitter_link, :class => "text_field"
 
-    = form.fields_for :location do |loc|
-      = loc.hidden_field :address, :value => target_user.location.address
-      = loc.hidden_field :google_address, :value => target_user.location.google_address
-      = loc.hidden_field :latitude, :value => target_user.location.latitude
-      = loc.hidden_field :longitude, :value => target_user.location.longitude
     - if FeatureFlagHelper.feature_enabled?(:user_fields) && @service.has_person_custom_fields?
       - @service.custom_field_values.each_with_index do |custom_field_value, index|
         .inline-label-container
@@ -209,3 +130,14 @@
       %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
       =# form.button t("settings.save_and_next"), :class => "send_button"
       =# form.button t("settings.save_and_next"), :class => "send_button"
+= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"
+:javascript
+  $("#category_select").select2({
+    placeholder: "Select categories",
+    allowClear: true
+  });
+  $("select").on('change', function(e) {
+    if (Object.keys($(this).val()).length > 9) {
+      $('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
+    }
+  });

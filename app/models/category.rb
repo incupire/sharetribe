@@ -34,13 +34,14 @@ class Category < ApplicationRecord
 
   has_many :category_custom_fields, :dependent => :destroy
   has_many :custom_fields, -> { order("sort_priority") }, :through => :category_custom_fields
-
+  has_many :person_categories
+  has_many :people, :through => :person_categories
   belongs_to :community
 
   before_save :uniq_url
   before_destroy :can_be_destroyed?
 
-
+  scope :display_in_user_profile, -> { where(display_in_user_profile: true) }
   def translation_attributes=(attributes)
     build_attrs = attributes.map { |locale, values| { locale: locale, values: values } }
     build_attrs.each do |translation|

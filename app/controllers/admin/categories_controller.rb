@@ -14,6 +14,7 @@ class Admin::CategoriesController < Admin::AdminBaseController
   end
 
   def create
+    
     @selected_left_navi_link = "listing_categories"
     @category = Category.new(category_params)
     @category.community = @current_community
@@ -132,7 +133,7 @@ class Admin::CategoriesController < Admin::AdminBaseController
   end
 
   def category_params
-    params.require(:category).slice(:parent_id, :translation_attributes, :sort_priority, :url, :basename).permit!
+    params.require(:category).slice(:parent_id, :translation_attributes, :sort_priority, :url, :basename, :display_in_user_profile).permit!
   end
 
 end

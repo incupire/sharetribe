@@ -40,12 +40,18 @@ class CreateMemberEmailBatchJob < Struct.new(:sender_id, :community_id, :content
         has_no_listings_person_ids(community) - stripe_person_ids(community)
       when :customers
         community.transactions.where(current_state: ['paid', 'confirmed']).select(:starter_id).distinct.map(&:starter_id)
+      when :no_active_offer
+        no_active_offer_person_ids(community)
       else
         []
       end
     else
       []
     end
+  end
+
+  def no_active_offer_person_ids(community)
+    community.members.pluck(:id) - community.listings.status_open.pluck(:author_id).uniq
   end
 
   def paypal_person_ids(community)

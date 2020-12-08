@@ -208,6 +208,45 @@
       .row
         %button{disabled: disabled_attr, class: disabled_class}= t("admin.communities.outgoing_email.send_verification_button")
 
+  %h2= t(".update_email_content", :community_name => @community.name(I18n.locale))
+  .div
+    %h4= t(".update_email_content_subject")
+    %a{:id => "edit_link", :href => "/editor" + request.path, :data => { :save_url => mercury_update_path }}
+      .icon-with-text-container
+        = icon_tag("edit", ["icon-part"])
+        .text-part= t(".edit_message")
+
+    / %a{:href => test_welcome_email_admin_community_path(@community)}
+    /   .icon-with-text-container
+    /     = icon_tag("mail", ["icon-part"])
+    /     .text-part= t(".send_test_message")
+    / %p ***
+    .update-email-subject
+      #welcome_email_content{:data => {:mercury => "full"}}
+        - if @community_customization && @community_customization.update_mail_title
+          = @community_customization.update_email_title.html_safe
+        - else
+          %input{type: :text, value: t("emails.community_updates.hello_to_new_member")}
+  .div
+    %h4= t(".update_email_content_description")
+    %a{:id => "edit_link", :href => "/editor" + request.path, :data => { :save_url => mercury_update_path }}
+      .icon-with-text-container
+        = icon_tag("edit", ["icon-part"])
+        .text-part= t(".edit_message")
+
+    / %a{:href => test_welcome_email_admin_community_path(@community)}
+    /   .icon-with-text-container
+    /     = icon_tag("mail", ["icon-part"])
+    /     .text-part= t(".send_test_message")
+    / %p ***
+    .update-email-intro
+      #welcome_email_content{:data => {:mercury => "full"}}
+        - if @community_customization && @community_customization.update_mail_content
+          = @community_customization.update_email_content.html_safe
+        - else
+          %textarea= t("emails.community_updates.intro_paragraph", :community_link => link_to(t("emails.community_updates.intro_paragraph_link_text", :community_name => @community.full_name(I18n.locale)), search_url(@url_params)), :time_since_last_update => @time_since_last_update).html_safe
+      
+  
   %h2= t(".welcome_email_content", :community_name => @community.name(I18n.locale))
   %p= t(".welcome_email_content_description", :send_test_message_link => t(".send_test_message"))
   %a{:id => "edit_link", :href => "/editor" + request.path, :data => { :save_url => mercury_update_path }}

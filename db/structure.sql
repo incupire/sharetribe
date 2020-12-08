@@ -304,6 +304,11 @@ CREATE TABLE `communities` (
   `homepage_graphic_file_size` int(11) DEFAULT NULL,
   `homepage_graphic_updated_at` datetime DEFAULT NULL,
   `homepage_graphic_url` varchar(255) DEFAULT NULL,
+  `homepage_graphic2_file_name` varchar(255) DEFAULT NULL,
+  `homepage_graphic2_content_type` varchar(255) DEFAULT NULL,
+  `homepage_graphic2_file_size` int(11) DEFAULT NULL,
+  `homepage_graphic2_updated_at` datetime DEFAULT NULL,
+  `homepage_graphic_url2` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `index_communities_on_uuid` (`uuid`),
   KEY `index_communities_on_domain` (`domain`) USING BTREE,
@@ -335,6 +340,8 @@ CREATE TABLE `community_customizations` (
   `transaction_agreement_label` varchar(255) DEFAULT NULL,
   `transaction_agreement_content` mediumtext,
   `offer_success_tips` text,
+  `update_mail_title` varchar(255) DEFAULT NULL,
+  `update_mail_content` text,
   PRIMARY KEY (`id`),
   KEY `index_community_customizations_on_community_id` (`community_id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -1432,6 +1439,8 @@ CREATE TABLE `people` (
   `profile_progress` varchar(255) DEFAULT '---\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
   `tags` text,
   `total_received_review` int(11) DEFAULT '0',
+  `profile_progress_info` varchar(255) DEFAULT '---\n:contact_info: 0\n:user_profile: 0\n:notifications: 0\n:enable_purchasing: 0\n:enable_selling: 0\n',
+  `average_amount` int(11) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -1442,6 +1451,22 @@ CREATE TABLE `people` (
   KEY `index_people_on_facebook_id` (`facebook_id`) USING BTREE,
   KEY `index_people_on_id` (`id`) USING BTREE,
   KEY `index_people_on_username` (`username`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `person_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `person_categories` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `person_id` varchar(255) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_person_categories_on_person_id` (`person_id`),
+  KEY `index_person_categories_on_category_id` (`category_id`),
+  CONSTRAINT `fk_rails_6ceaf09ccd` FOREIGN KEY (`person_id`) REFERENCES `people` (`id`),
+  CONSTRAINT `fk_rails_9fdb91503e` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `prospect_emails`;
@@ -1465,6 +1490,7 @@ CREATE TABLE `rebates` (
   `expire_on` date DEFAULT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
+  `minimum_amount` float DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2625,5 +2651,13 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20201207060549'),
 ('20201207060956'),
 ('20201207101826');
-
+('20201204093639'),
+('20201204123928'),
+('20201207054949'),
+('20201207084531'),
+('20201207122348'),
+('20201207161338'),
+('20201207161515'),
+('20201208070749');
+('20201203091241');
 

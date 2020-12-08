@@ -427,7 +427,7 @@ module ApplicationHelper
         :name => "transactions"
       },
       {
-        :topic => :manage,
+        :topic => :configure,
         :text => 'Avontage bucks transactions',
         :icon_class => icon_class("coins"),
         :path => avontage_bucks_transactions_admin_community_transactions_path(@current_community),
@@ -611,6 +611,13 @@ module ApplicationHelper
   # Settings view left hand navigation content
   def settings_links_for(person, community=nil, is_manager = false)
     links = [
+      {
+        :id => "contact-tab-profile",
+        :text => t("layouts.settings.contact"),
+        :icon_class => icon_class("contact"),
+        :path => contact_person_settings_path(person),
+        :name => "contact"
+      },
       {
         :id => "settings-tab-profile",
         :text => t("layouts.settings.profile"),
@@ -814,10 +821,20 @@ module ApplicationHelper
 
   def progress_bar_redirect_link(page_name='other_page')
     @redirect_link = "<a href="+new_listing_path+" class='next_step button'>Post your Offers</a>"
-    @current_user.profile_progress.each do |key, value|
+    @current_user.profile_progress_info.each do |key, value|
       case page_name
+      when 'Contact'
+        if @current_user.profile_progress_info.values.sum == 0
+          @redirect_link = "<a href="+contact_person_settings_path(@current_user)+" class='next_step button'>Setup notifications</a>"
+          break
+        else
+          if key != :contact_info && value == 0
+            get_related_link(key)
+            break
+          end
+        end
       when 'Profile'
-        if @current_user.profile_progress.values.sum == 0
+        if @current_user.profile_progress_info.values.sum == 0
           @redirect_link = "<a href="+notifications_person_settings_path(@current_user)+" class='next_step button'>Setup notifications</a>"
           break
         else
@@ -827,7 +844,7 @@ module ApplicationHelper
           end
         end
       when 'Notification'
-        if @current_user.profile_progress.values.sum == 0
+        if @current_user.profile_progress_info.values.sum == 0
           @redirect_link = "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
           break
         else
@@ -837,7 +854,7 @@ module ApplicationHelper
           end
         end
       when 'Enable purchasing'
-        if @current_user.profile_progress.values.sum == 0
+        if @current_user.profile_progress_info.values.sum == 0
           @redirect_link = "<a href="+person_payment_settings_path(@current_user)+" class='next_step button'>Accept Credit Card payments</a>"
           break
         else
@@ -847,7 +864,7 @@ module ApplicationHelper
           end
         end
       when 'Enable selling'
-        if @current_user.profile_progress.values.sum == 0
+        if @current_user.profile_progress_info.values.sum == 0
           break
         else
           if key != :enable_selling && value == 0
