@@ -1068,39 +1068,22 @@ img.square_image {
       }
 
       .jobs_row {
-        display: flex;
-        flex-direction: row;
-        //justify-content: space-between;
-        align-items: center;
+        display: inline-flex;
         flex-wrap: wrap;
-        margin-left: -15px;
-        margin-right: -15px;
+        gap: 15px;
 
         @media screen and (max-width: 767px) {
           margin: 0 0 8px;
-          justify-content: flex-start;
+          gap: 6px;
         }
 
         a {
-          padding-left: 15px;
-          padding-right: 15px;
           text-align: center;
+          width: calc(20% - 12px);
 
           @media screen and (max-width: 767px) {
-            padding: 0;
-            width: 20%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
+            width: calc(20% - 5px);
           }
-          @media screen and (min-width: 768px) and (max-width: 992px) {
-            padding-left: 10px;
-            padding-right: 10px;
-          }
-        }
-        @media screen and (max-width: 767px) {
-          //justify-content: space-around;
         }
 
         .jobs_image {     
@@ -1124,7 +1107,6 @@ img.square_image {
 
         .jobs_title {
           word-break: break-word;
-          max-width: fit-content;
           font-size: 16px;
           color: #464646;
           line-height: 1.2;
