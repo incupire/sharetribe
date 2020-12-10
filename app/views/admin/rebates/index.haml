@@ -82,6 +82,7 @@
             %label{for: 'community_homepage_graphic2'}
               %div.graphics-upload-btn Upload an image
             = file_field_tag 'community[homepage_graphic2]'
+            .homepage-select-file-name2
       .row
         .col-12
           URL to Link to
@@ -98,4 +99,8 @@
 
     $('#community_homepage_graphic').change(function(e){
       $('.homepage-select-file-name').text(e.target.files[0].name);
+    });
+
+    $('#community_homepage_graphic2').change(function(e){
+      $('.homepage-select-file-name2').text(e.target.files[0].name);
     });
