@@ -1,5 +1,3 @@
-%script{src: 'https://code.jquery.com/jquery-3.5.1.min.js'}
-%link{:rel => :stylesheet, :href => "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css"}
 - target_user = @service.person
 - content_for :javascript do
   initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
@@ -130,14 +128,14 @@
       %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
       =# form.button t("settings.save_and_next"), :class => "send_button"
       =# form.button t("settings.save_and_next"), :class => "send_button"
-= javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"
-:javascript
-  $("#category_select").select2({
-    placeholder: "Select categories",
-    allowClear: true
-  });
-  $("select").on('change', function(e) {
-    if (Object.keys($(this).val()).length > 9) {
-      $('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
-    }
-  });
+- content_for :extra_javascript do
+  :javascript
+    $("#category_select").select2({
+      placeholder: "Select categories",
+      allowClear: true
+    });
+    $("select").on('change', function(e) {
+      if (Object.keys($(this).val()).length > 9) {
+        $('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
+      }
+    });

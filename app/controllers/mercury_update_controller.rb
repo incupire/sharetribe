@@ -25,4 +25,18 @@ class MercuryUpdateController < ApplicationController
     render plain: ""
   end
 
+  def update_email_subject
+    @community = @current_community
+    if @community_customization
+      if !@community_customization.update(update_mail_title: params[:email_intro_subject])
+        flash[:error] = "Something went wrong"
+      end
+    end
+    @subjectitle = @community_customization.update_mail_title
+    respond_to do |f|
+      f.js { render layout: false, content_type: 'text/javascript', locals: {subjecttitle: @subjecttitle} }
+      f.html
+    end
+  end
+
 end

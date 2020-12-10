@@ -101,4 +101,5 @@
 //= require stripe_form
 //= require analytics
 //= require social-insurance-number
+//= require select2.min
 //= require_self

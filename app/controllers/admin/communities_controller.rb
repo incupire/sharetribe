@@ -29,6 +29,8 @@ class Admin::CommunitiesController < Admin::AdminBaseController
     @selected_left_navi_link = "welcome_email"
     @community = @current_community
     @recipient = @current_user
+    @time_since_last_update = t("timestamps.days_since",
+                                  :count => time_difference_in_days(@recipient.last_community_updates_at))
     @url_params = {
       :host => @current_community.full_domain,
       :ref => "welcome_email",
@@ -40,8 +42,10 @@ class Admin::CommunitiesController < Admin::AdminBaseController
     ses_in_use = EmailService::API::Api.ses_client.present?
 
     enqueue_status_sync!(user_defined_address)
-
+    @title_link_text = t("emails.community_updates.title_link_text",
+                           :community_name => @community.full_name(@recipient.locale))
     render "edit_welcome_email", locals: {
+             title_link_text: @title_link_text,
              status_check_url: check_email_status_admin_community_path,
              resend_url: Maybe(user_defined_address).map { |address| resend_verification_email_admin_community_path(address_id: address[:id]) }.or_else(nil),
              support_email: APP_CONFIG.support_email,
@@ -54,6 +58,13 @@ class Admin::CommunitiesController < Admin::AdminBaseController
              show_branding_info: !@current_plan[:features][:whitelabel],
              link_to_sharetribe: "https://www.sharetribe.com/?utm_source=#{@current_community.ident}.sharetribe.com&utm_medium=referral&utm_campaign=nowl-admin-panel"
            }
+  end
+
+  def time_difference_in_days(from_time, to_time = Time.now)
+    return nil if from_time.nil?
+    from_time = from_time.to_time if from_time.respond_to?(:to_time)
+    to_time = to_time.to_time if to_time.respond_to?(:to_time)
+    distance_in_minutes = (((to_time - from_time).abs/60)/1440.0).round
   end
 
   def create_sender_address
@@ -229,6 +240,14 @@ class Admin::CommunitiesController < Admin::AdminBaseController
 
   def test_welcome_email
     MailCarrier.deliver_later(PersonMailer.welcome_email(@current_user, @current_community, true, true))
+    flash[:notice] = t("layouts.notifications.test_welcome_email_delivered_to", :email => @current_user.confirmed_notification_email_to)
+    redirect_to edit_welcome_email_admin_community_path(@current_community)
+  end
+
+  def test_newsletter_email
+    listings_to_send = @current_community.get_new_listings_to_update_email(@current_user)
+    token = AuthToken.create_unsubscribe_token(person_id: @current_user.id).token
+    MailCarrier.deliver_later(CommunityMailer.community_updates(recipient: @current_user, community: @current_community, listings: listings_to_send, unsubscribe_token: token))
     flash[:notice] = t("layouts.notifications.test_welcome_email_delivered_to", :email => @current_user.confirmed_notification_email_to)
     redirect_to edit_welcome_email_admin_community_path(@current_community)
   end

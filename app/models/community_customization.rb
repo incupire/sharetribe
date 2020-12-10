@@ -53,7 +53,6 @@ class CommunityCustomization < ApplicationRecord
   CONTENT_FIELDS = %i(
     blank_slate
     welcome_email_content
-    update_mail_title
     update_mail_content
     how_to_use_page_content
     about_page_content

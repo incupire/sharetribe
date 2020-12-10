@@ -45,7 +45,6 @@ class CommunityMailer < ActionMailer::Base
     @current_community = community
     @recipient = recipient
     @listings = listings
-
     unless @recipient.member_of?(@community)
       logger.info "Trying to send community updates to a person who is not member of the given community. Skipping."
       return
@@ -66,8 +65,12 @@ class CommunityMailer < ActionMailer::Base
 
       @title_link_text = t("emails.community_updates.title_link_text",
                            :community_name => @community.full_name(@recipient.locale))
-      subject = t("emails.community_updates.update_mail_title", :title_link => @title_link_text)
-
+      customization = @current_community.community_customizations.find_by_locale(@url_params[:locale])
+      if customization && !customization.update_mail_title.blank?
+        subject = customization.update_mail_title
+      else
+        subject = t("emails.community_updates.update_mail_title", :title_link => @title_link_text)
+      end
       delivery_method = APP_CONFIG.mail_delivery_method.to_sym unless Rails.env.test?
 
       premailer_mail(:to => @recipient.confirmed_notification_emails_to,
