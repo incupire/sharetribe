@@ -1783,8 +1783,9 @@ table#admin_listings.new_design {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-end;
+    align-items: center;
     font-weight: 600;
+    text-transform: capitalize;
   } 
 }
 
