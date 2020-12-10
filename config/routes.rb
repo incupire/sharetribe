@@ -190,7 +190,8 @@ Rails.application.routes.draw do
 
     namespace :admin do
       get '' => "getting_started_guide#index"
-
+      get "/index", to: 'recommendation_lists#index', as: :recommendation_list
+      get "/new", to: 'recommendation_lists#new', as: :new_recommendation_list
       # Payments
       resources :payment_preferences, only: [:index], param: :payment_gateway do
         collection do
@@ -568,6 +569,8 @@ Rails.application.routes.draw do
     get '/:person_id/settings/profile', to: redirect("/%{person_id}/settings") #needed to keep old links working
 
     get '/:person_id/favorite_listings', to: 'favorites#index', as: :person_favorite_listings
+  
+
   end # scope locale
 
   id_to_username = Proc.new do |params, req|
@@ -583,6 +586,8 @@ Rails.application.routes.draw do
   get "(/:locale)/people/:person_id(*path)" => redirect(id_to_username), :constraints => { :locale => locale_matcher, :person_id => /[a-zA-Z0-9_-]{22}/ }
 
   get "(/:locale)/:person_id(*path)" => redirect(id_to_username), :constraints => { :locale => locale_matcher, :person_id => /[a-zA-Z0-9_-]{22}/ }
+
+
 
   #keep this matcher last
   #catches all non matched routes, shows 404 and logs more reasonably than the alternative RoutingError + stacktrace

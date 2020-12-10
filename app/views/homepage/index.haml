@@ -170,6 +170,8 @@
             - featured_listings_main.first(5).each do |featured_listing|
               = link_to listing_path(featured_listing) do
                 = image_tag featured_listing.listing_images.empty? ? 'listing_missing.png' : featured_listing.listing_images.first.image.url(:medium) , alt: 'jobs-img', class: 'jobs_image'
+                .jobs_title
+                  = featured_listing.title
   .home-toolbar.redesign_mobile_toolbar
 
     - if listing_shape_menu_enabled || @category_menu_enabled
@@ -270,7 +272,7 @@
 
         - if @show_categories
           .row
-            .col-12
+            .col-12.homepage_category
               = link_to t("homepage.filters.all_categories"), search_path(search_params.merge({category: "all"})), :class => "home-categories-main custom-categories-btn button #{if selected_category.nil? then 'selected' end}"
               - @main_categories.each do |category|
                 - show_subcategories = show_subcategory_list(category, Maybe(selected_category).id.to_i.or_else(nil))

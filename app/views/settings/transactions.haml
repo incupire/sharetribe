@@ -26,7 +26,7 @@
   = form_tag '', :method => :get, id: 'transaction_filter_form' do
     .row
       .col-6
-        = text_field_tag :q, params[:q], placeholder: 'Search for a transaction title or other party involved'
+        = text_field_tag :q, params[:q], placeholder: 'Search for a trade title or other party involved'
       .col-3
         = submit_tag 'Search', class: 'button listing-search-button'
         =# link_to 'Show all', transactions_person_settings_path(target_user, sort: "last_activity", direction: "desc")

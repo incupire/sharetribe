@@ -135,7 +135,8 @@
       //   %span.price
       //     =# image_tag "black_a_img.png"
       //     =# MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe
-    - if @current_user.present? && (@current_user == @person || @person.is_verified)
+
+    - if @current_user.present? && (@current_user == @person || @current_user.is_verified || @current_user.has_admin_rights?(@current_community))
       .website_link_box
         .website_heading
           = link_to("Website", @person.website_name.include?("http") ? @person.website_name : "http://#{@person.website_name}") if @person.website_name.present?

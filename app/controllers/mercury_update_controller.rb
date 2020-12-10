@@ -33,10 +33,7 @@ class MercuryUpdateController < ApplicationController
       end
     end
     @subjectitle = @community_customization.update_mail_title
-    respond_to do |f|
-      f.js { render layout: false, content_type: 'text/javascript', locals: {subjecttitle: @subjecttitle} }
-      f.html
-    end
+    render layout: false
   end
 
 end

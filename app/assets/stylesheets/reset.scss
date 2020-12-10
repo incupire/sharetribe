@@ -1068,37 +1068,22 @@ img.square_image {
       }
 
       .jobs_row {
-        display: flex;
-        flex-direction: row;
-        //justify-content: space-between;
-        align-items: center;
+        display: inline-flex;
         flex-wrap: wrap;
-        margin-left: -15px;
-        margin-right: -15px;
+        gap: 15px;
 
         @media screen and (max-width: 767px) {
           margin: 0 0 8px;
-          justify-content: flex-start;
+          gap: 6px;
         }
 
         a {
-          padding-left: 15px;
-          padding-right: 15px;
+          text-align: center;
+          width: calc(20% - 12px);
 
           @media screen and (max-width: 767px) {
-            padding: 0;
-            width: 20%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: calc(20% - 5px);
           }
-          @media screen and (min-width: 768px) and (max-width: 992px) {
-            padding-left: 10px;
-            padding-right: 10px;
-          }
-        }
-        @media screen and (max-width: 767px) {
-          //justify-content: space-around;
         }
 
         .jobs_image {     
@@ -1107,7 +1092,7 @@ img.square_image {
           object-fit: cover;
           border-radius: 100%;
           border: 4px solid #45c4cc;
-          margin: 0 0 16px;
+          margin: 0 0 2px;
 
           @media screen and (max-width: 767px) {
             height: 56px;
@@ -1117,6 +1102,17 @@ img.square_image {
           @media screen and (min-width: 768px) and (max-width: 992px) {
             height: 80px;
             width: 80px;
+          }
+        }
+
+        .jobs_title {
+          word-break: break-word;
+          font-size: 16px;
+          color: #464646;
+          line-height: 1.2;
+
+          @media screen and (max-width: 767px) {
+            font-size: 14px;
           }
         }
       }
@@ -1725,14 +1721,13 @@ table#admin_listings.new_design {
 .unread_message_popup_modal {
   position: fixed;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
+  right: 0;
   z-index: 1050;
-  /* background: rgba(0, 0, 0, 0.5); */
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+  max-width: 340px;
+  width: 100%;
 
   .modal_box {
     max-width: 340px;
@@ -1822,4 +1817,12 @@ table#admin_listings.new_design {
 .subject_line{
   margin-left: 10px;
   display: inline-block;
+}
+
+.select2{
+    width: 100% !important;
+}
+
+.homepage_category{
+  line-height: 30px;
 }

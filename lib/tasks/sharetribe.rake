@@ -62,6 +62,18 @@ namespace :sharetribe do
     end
   end
 
+  desc "Update progress bar for existing user with new column"
+  task :update_progress_bar_with_new_field => :environment do
+    Person.find_each do |person|
+      person.profile_progress_info[:contact_info]      = person.profile_progress[:user_profile]/2
+      person.profile_progress_info[:user_profile]      = person.profile_progress[:user_profile]/2
+      person.profile_progress_info[:notifications]     = person.profile_progress[:notifications]
+      person.profile_progress_info[:enable_purchasing] = person.profile_progress[:enable_purchasing]
+      person.profile_progress_info[:enable_selling]    =  person.profile_progress[:enable_selling]
+      person.save
+      puts "==============#{person.username}============profile_progress_info: #{person.profile_progress_info}"
+    end
+  end
 
   namespace :person_custom_fields do
     desc "Copying person's phone number to custom fields"

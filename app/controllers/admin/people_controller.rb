@@ -31,7 +31,7 @@ class Admin::PeopleController < Admin::AdminBaseController
     end
 
     @person, email = new_person(params, @current_community)
-
+  
     # Make person a member of the current community
     if @current_community
       membership = CommunityMembership.new(:person => @person, :community => @current_community, :consent => @current_community.consent)

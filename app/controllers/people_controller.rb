@@ -421,6 +421,7 @@ class PeopleController < Devise::RegistrationsController
         :image,
         :description,
         :location,
+        :business_name,
         :password,
         :password2,
         :locale,

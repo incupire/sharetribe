@@ -802,6 +802,8 @@ CREATE TABLE `homepage_sections` (
   `testimonial_column1_link` text,
   `testimonial_column2_link` text,
   `testimonial_column3_link` text,
+  `cta_link` text,
+  `cta_text` text,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -1491,6 +1493,33 @@ CREATE TABLE `rebates` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `minimum_amount` float DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `recommendation_list_listings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recommendation_list_listings` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `recommendation_list_id` bigint(20) DEFAULT NULL,
+  `listing_id` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `index_recommendation_list_listings_on_recommendation_list_id` (`recommendation_list_id`),
+  KEY `index_recommendation_list_listings_on_listing_id` (`listing_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `recommendation_lists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recommendation_lists` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `recommendation_code` varchar(255) DEFAULT NULL,
+  `recommendation_title` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `active` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2622,11 +2651,16 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20201203091241'),
 ('20201204093639'),
 ('20201204123928'),
+('20201207050344'),
 ('20201207054949'),
+('20201207060549'),
+('20201207060956'),
 ('20201207084531'),
+('20201207101826'),
 ('20201207122348'),
 ('20201207161338'),
 ('20201207161515'),
-('20201208070749');
+('20201208070749'),
+('20201210051351');
 
 

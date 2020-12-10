@@ -103,6 +103,9 @@ class Listing < ApplicationRecord
   has_many :bookings, through: :tx
   has_many :bookings_per_hour, ->{ per_hour_blocked }, through: :tx, source: :booking
 
+  has_many :recommendation_list_listings
+  has_many :recommendation_lists, through: :recommendation_list_listings
+
   monetize :price_cents, :allow_nil => true, with_model_currency: :currency
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :currency
   monetize :shipping_price_additional_cents, allow_nil: true, with_model_currency: :currency
@@ -389,6 +392,22 @@ class Listing < ApplicationRecord
 
   def logger_metadata
     { listing_id: id }
+  end
+
+  def listing_category
+    if category.is_subcategory?
+      category.parent.display_name("en")
+    else
+      category.display_name("en")
+    end
+  end
+
+  def listing_subcategory
+    if category.is_subcategory?
+      category.display_name("en")
+    else
+      'N/A'
+    end
   end
 
   def self.delete_by_author(author_id)
