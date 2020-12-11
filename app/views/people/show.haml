@@ -56,7 +56,7 @@
     .row
       -if @person.average_amount
         %p.average-amount-title Barter-ometer:
-        .average-amount
+        .average-amount.person-category
           = "I am available to offer " + Person::SHOWOPTIONS[@person.average_amount] + " of my service of trade in a given month."
     .row
       %h2.people-header

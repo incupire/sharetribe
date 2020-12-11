@@ -15,6 +15,6 @@
 #
 
 class RecommendationListListing < ApplicationRecord
-	belong_to :listing
-	belong_to :recommendation_list
+	belongs_to :listing
+	belongs_to :recommendation_list
 end
