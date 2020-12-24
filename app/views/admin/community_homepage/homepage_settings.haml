@@ -287,6 +287,15 @@
         = form.text_area :advantage_col3_content
 
     %h2.crf-acc-trigger
+      = t("admin.communities.homepage.hero_section")
+    .crf-accrodian-content
+      .lb-mt-mb-15
+        = form.label :cta_link, t("admin.communities.homepage.cta_link_label")
+        = form.text_field :cta_link
+      .lb-mt-mb-15
+        = form.label :cta_text, t("admin.communities.homepage.cta_text_label")
+        = form.text_field :cta_text
+    %h2.crf-acc-trigger
       = t("admin.communities.homepage.testimonial_section")
     .crf-accrodian-content
       .lb-mt-mb-15

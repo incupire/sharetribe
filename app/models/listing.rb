@@ -394,6 +394,22 @@ class Listing < ApplicationRecord
     { listing_id: id }
   end
 
+  def listing_category
+    if category.is_subcategory?
+      category.parent.display_name("en")
+    else
+      category.display_name("en")
+    end
+  end
+
+  def listing_subcategory
+    if category.is_subcategory?
+      category.display_name("en")
+    else
+      'N/A'
+    end
+  end
+
   def self.delete_by_author(author_id)
     listings = Listing.where(author_id: author_id)
     listings.update_all(

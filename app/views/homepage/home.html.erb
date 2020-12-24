@@ -8,8 +8,8 @@
       <h1 class="main_cover_title">
         <%= community_slogan.html_safe %>
       </h1>
-      <%= link_to sign_up_path do %>
-        <%= button_tag 'JOIN OUR COMMUNITY',class: 'community_tab' %>
+      <%= link_to @homepage_dynamic.cta_link.present? ? @homepage_dynamic.cta_link : sign_up_path do %>
+        <%= button_tag @homepage_dynamic.cta_text.present? ? @homepage_dynamic.cta_text : 'JOIN OUR COMMUNITY', class: 'community_tab' %>
       <% end %>
       <p class="under_main_title">
         <%= community_description.html_safe %>

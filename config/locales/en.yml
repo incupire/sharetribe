@@ -73,6 +73,9 @@ en:
         link: Add testimonial Link
         homepage_updated_successfully: Homepage settings updated successfully.
         testimonial_section: Testimonial Section
+        hero_section: Hero Image Section
+        cta_link_label: CTA Link
+        cta_text_label: CTA Text
         landing_page_settings: Homepage Settings
         section_1: Section 1
         section_2: Section 2
@@ -2448,7 +2451,7 @@ en:
       street_address: "* Business Location"
       these_fields_are_shown_in_your: "This information is visible to all %{service_name} users"
       these_fields_are_shown_in_contact_info: "Other than First name, Display name, and Website address all other information on this page are private and not visible to other Avontage users."
-      our_promise_for_profile: "Our promise to you: Your information will not be sold to any outside agencies for marketing or otherwise."
+      our_promise_for_profile: "<strong>Our promise to you:</strong> Your information will not be sold to any outside agencies for marketing or otherwise."
       profile_complete_info: "Please complete your profile. We all like to know who we do business with. By providing accurate and complete profile information, other members can learn about your business and feel comfortable doing business with you."
       visible_to_everybody: "visible to everybody"
       visible_to_registered_users: "(visible to users that have logged in)"

@@ -66,6 +66,8 @@ class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :expor
        transaction_id
        listing_id
        listing_title
+       Category
+       Subcategory
        status
        currency
        sum
@@ -82,6 +84,8 @@ class ExportTransactionsJob < Struct.new(:current_user_id, :community_id, :expor
          transaction.id,
          transaction.listing ? transaction.listing.id : "N/A",
          transaction.listing ? transaction.listing_title : "N/A",
+         transaction.listing ? transaction.listing.listing_category : "N/A",
+         transaction.listing ? transaction.listing.listing_subcategory : "N/A",
          transaction.status,
          transaction.payment_total.is_a?(Money) ? transaction.payment_total.currency : "N/A",
          transaction.payment_total,

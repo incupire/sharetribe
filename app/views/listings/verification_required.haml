@@ -3,6 +3,10 @@
 - post_offer = params[:post_offer].eql?('true') ? 'offers' : 'requests'
 .centered-section
   - if @community_customization && @community_customization.verification_to_post_listings_info_content
-    = @community_customization.verification_to_post_listings_info_content.html_safe
+    - if post_offer == 'offers'
+      - content = @community_customization.verification_to_post_listings_info_content.sub 'request', 'offers'
+    - else
+      - content = @community_customization.verification_to_post_listings_info_content.sub 'offers', 'request'
+    = content.html_safe
   - else
-    = t("admin.communities.edit_details.verification_to_post_listings_info_content_default",service_type: post_offer, :contact_admin_link => link_to(t("admin.communities.edit_details.contact_admin_link_text"), contact_page_path)).html_safe
+    = t("admin.communities.edit_details.verification_to_post_listings_info_content_default", service_type: post_offer, :contact_admin_link => link_to(t("admin.communities.edit_details.contact_admin_link_text"), contact_page_path)).html_safe

@@ -209,24 +209,32 @@
         %button{disabled: disabled_attr, class: disabled_class}= t("admin.communities.outgoing_email.send_verification_button")
 
   %h2= t(".update_email_content", :community_name => @community.name(I18n.locale))
-  .div
-    %h4= t(".update_email_content_subject")
-    %a{:id => "edit_link", :href => "/editor" + request.path, :data => { :save_url => mercury_update_path }}
-      .icon-with-text-container
-        = icon_tag("edit", ["icon-part"])
-        .text-part= t(".edit_message")
+  = form_tag update_email_subject_path, method: :post, remote: true do
 
-    / %a{:href => test_welcome_email_admin_community_path(@community)}
-    /   .icon-with-text-container
-    /     = icon_tag("mail", ["icon-part"])
-    /     .text-part= t(".send_test_message")
-    / %p ***
-    .update-email-subject
-      #welcome_email_content{:data => {:mercury => "full"}}
-        - if @community_customization && @community_customization.update_mail_title
-          = @community_customization.update_email_title.html_safe
-        - else
-          %input{type: :text, value: t("emails.community_updates.hello_to_new_member")}
+    .div
+      %h4.hheading= t(".update_email_content_subject")
+      - if @community_customization && @community_customization.update_mail_title
+        %p.subject_line{id: 'subject_line'}= @community_customization.update_mail_title
+      -else
+        %p.subject_line{id: 'subject_line'}= t("emails.community_updates.update_mail_title", :title_link => @title_link_text)
+      %br
+      %a{:id => "edit_subject_link", :type => "submit", :class => "edit-email-subject-link"}
+        .icon-with-text-container
+          = icon_tag("edit", ["icon-part"])
+          .text-part= t(".edit_message")
+
+      %a{:href => test_newsletter_email_admin_community_path(@community)}
+        .icon-with-text-container
+          = icon_tag("mail", ["icon-part"])
+          .text-part= t(".send_test_message")
+      .update-email-subject.hidden
+        #welcome_email_content{:data => {:mercury => "full"}}
+          - if @community_customization && @community_customization.update_mail_title
+            %input{name: "email_intro_subject", type: :text, :id => "update-email-subject", value: @community_customization.update_mail_title}
+          - else
+            %input{name: "email_intro_subject", type: :text, :id => "update-email-subject", value: t("emails.community_updates.update_mail_title", :title_link => title_link_text)}
+        %button{:class => "btn-custom", :id => "save_update_subject"} Save
+        = link_to 'Cancel', 'javascript:;', class: 'cancel_btn btn-custom'
   .div
     %h4= t(".update_email_content_description")
     %a{:id => "edit_link", :href => "/editor" + request.path, :data => { :save_url => mercury_update_path }}
@@ -234,18 +242,17 @@
         = icon_tag("edit", ["icon-part"])
         .text-part= t(".edit_message")
 
-    / %a{:href => test_welcome_email_admin_community_path(@community)}
-    /   .icon-with-text-container
-    /     = icon_tag("mail", ["icon-part"])
-    /     .text-part= t(".send_test_message")
-    / %p ***
-    .update-email-intro
-      #welcome_email_content{:data => {:mercury => "full"}}
+    %a{:href => test_newsletter_email_admin_community_path(@community)}
+      .icon-with-text-container
+        = icon_tag("mail", ["icon-part"])
+        .text-part= t(".send_test_message")
+    .update-email-intro.welcome-email-editor-background
+      #update_mail_content{:data => {:mercury => "full"}}
         - if @community_customization && @community_customization.update_mail_content
-          = @community_customization.update_email_content.html_safe
+          = @community_customization.update_mail_content.html_safe
         - else
-          %textarea= t("emails.community_updates.intro_paragraph", :community_link => link_to(t("emails.community_updates.intro_paragraph_link_text", :community_name => @community.full_name(I18n.locale)), search_url(@url_params)), :time_since_last_update => @time_since_last_update).html_safe
-      
+          %p= t("emails.community_updates.hello_to_new_member")
+          %p= t("emails.community_updates.intro_paragraph", :community_link => link_to(t("emails.community_updates.intro_paragraph_link_text", :community_name => @community.full_name(I18n.locale)), search_url(@url_params)), :time_since_last_update => @time_since_last_update).html_safe
   
   %h2= t(".welcome_email_content", :community_name => @community.name(I18n.locale))
   %p= t(".welcome_email_content_description", :send_test_message_link => t(".send_test_message"))
@@ -273,3 +280,14 @@
         =t("layouts.branding.powered_by", sharetribe_link: sharetribe_link).html_safe
         =t("layouts.branding.create_own", learn_more: learn_more).html_safe
 
+- content_for :extra_javascript do
+  :javascript
+    $(".edit-email-subject-link").click(function() {
+      $(".update-email-subject").removeClass('hidden');
+      $(".subject_line").addClass('hidden');
+    });
+    $(".cancel_btn").click(function() {
+      $(".update-email-subject").addClass('hidden');
+      $(".subject_line").removeClass('hidden');
+    });
+    

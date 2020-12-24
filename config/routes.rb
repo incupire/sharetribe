@@ -127,6 +127,7 @@ Rails.application.routes.draw do
   scope "(/:locale)", :constraints => { :locale => locale_matcher } do
 
     put '/mercury_update' => "mercury_update#update", :as => :mercury_update
+    post '/update_email_subject' => "mercury_update#update_email_subject", :as => :update_email_subject
 
     get "/transactions/op_status/:process_token" => "paypal_service/checkout_orders#paypal_op_status", as: :paypal_op_status
     get "/transactions/transaction_op_status/:process_token" => "transactions#transaction_op_status", :as => :transaction_op_status
@@ -252,6 +253,7 @@ Rails.application.routes.draw do
           get :edit_text_instructions
           get :edit_text_instructions_only
           get :edit_offer_success_tips
+          get :test_newsletter_email
           get :test_welcome_email
           get :social_media
           get :analytics

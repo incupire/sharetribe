@@ -651,6 +651,14 @@ module ApplicationHelper
       }
     end
 
+    links << {
+      :id => "settings-tab-offers_and_request",
+      :text => t("layouts.settings.offers_and_request"),
+      :icon_class => icon_class("coins"),
+      :path => offers_and_request_person_settings_path(person),
+      :name => "offers_and_request"
+    }
+
     paypal_ready = PaypalHelper.community_ready_for_payments?(@current_community.id)
     stripe_ready = StripeHelper.community_ready_for_payments?(@current_community.id)
 
@@ -663,14 +671,6 @@ module ApplicationHelper
         :name => "payments"
       }
     end
-
-    links << {
-      :id => "settings-tab-offers_and_request",
-      :text => t("layouts.settings.offers_and_request"),
-      :icon_class => icon_class("coins"),
-      :path => offers_and_request_person_settings_path(person),
-      :name => "offers_and_request"
-    }
 
     links << {
       :id => "settings-tab-payments",

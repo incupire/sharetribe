@@ -6,7 +6,7 @@
     .new_coupon_work.redesign_coupan_work
       .inner_container
         .row.coupan_balances
-          %span.people-custom-fields-title.coupan_title Your Saving Account Balance:
+          %span.people-custom-fields-title.coupan_title Your Avontage Bucks Savings Account Balance:
           %span.price
             = image_tag "avonatge_currency.png"
             = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe
@@ -17,7 +17,7 @@
   = form_tag '', :method => :get, id: 'transaction_filter_form' do
     .row
       .col-6
-        = text_field_tag :q, params[:q], placeholder: 'Search for a transaction title or other party involved'
+        = text_field_tag :q, params[:q], placeholder: 'Search for a trade title or other party involved'
       .col-3
         = submit_tag 'Search', class: 'button listing-search-button'
       .col-3

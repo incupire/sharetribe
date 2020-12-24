@@ -449,6 +449,9 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def person_update_params(params)
+    if params[:person].present? && params[:person][:website_name].present? && !params[:person][:website_name].include?('http')
+      params[:person][:website_name] = "http://#{params[:person][:website_name]}"
+    end
     params.require(:person).permit(
         :given_name,
         :family_name,

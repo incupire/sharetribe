@@ -358,6 +358,7 @@ function initialize_signup_form(locale, username_in_use_message, invalid_usernam
       "person[username]": {required: true, minlength: 3, maxlength: 20, valid_username: true, remote: "/people/check_username_availability"},
       "person[given_name]": {required: name_required, maxlength: 30},
       "person[family_name]": {required: name_required, maxlength: 30},
+      "person[business_name]": {required: true},
       "person[email]": {required: true, email_remove_spaces: true, remote: "/people/check_email_availability_and_validity"},
       "person[terms]": "required",
       "person[password]": { required: true, minlength: 4 },
@@ -395,6 +396,7 @@ function initialize_update_profile_info_form(locale, person_id, name_required) {
       "person[family_name]": {required: true, maxlength: 30},
       "person[phone_number]": {required: true, maxlength: 25},
       "person[mobile_number]": {required: true, maxlength: 25},
+      "person[average_amount]":{required: true},
       "person[description]": {required: true},
       "person[business_name]": {required: true},
       "person[image]": { accept: "(jpe?g|gif|png)" }

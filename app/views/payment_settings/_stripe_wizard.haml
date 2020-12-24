@@ -63,9 +63,9 @@
             %p= "All banking information are encrypted and securely stored on Stripe.com servers. Avontage does not host any of the credit card or banking information."
             %p.next_color= "Per IRS code, business sales and barter trades need to be reported as income and expenses. Please consult your tax advisor for details."
             .enter_ein
-              = label_tag 'ein_code','Enter EIN or SSN'
+              = label_tag 'ein_code','* Enter EIN or SSN'
             .ein_text
-              = text_field_tag 'ein_code',stripe_ein_account.ein_code.present? ? stripe_ein_account.ein_code : ''
+              = text_field_tag 'ein_code',stripe_ein_account.try(:ein_code), required: true
             .col-12
               .inline_buttons
                 = link_to t('stripe_accounts.form_new.cancel'), person_payment_settings_path(@target_user), style: 'float: right; margin-top: 1.5em', class: 'cancel_link'
@@ -141,9 +141,9 @@
             %p= "All banking information are encrypted and securely stored on Stripe.com servers. Avontage does not host any of the credit card or banking information."
             %p= "Per IRS code, business sales and barter trades need to be reported as income and expenses. Please consult your tax advisor for details."
             .enter_ein
-              = label_tag 'ein_code','Enter EIN or SSN'
+              = label_tag 'ein_code','* Enter EIN or SSN'
             .ein_text
-              = text_field_tag 'ein_code'
+              = text_field_tag 'ein_code', stripe_ein_account.try(:ein_code), required: true
             .col-12
               .inline_buttons
                 //=# button_tag t("settings.save_and_finish_later"), class: 'simple_go send_button_account'

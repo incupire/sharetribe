@@ -163,6 +163,8 @@
 #  testimonial_column1_link                    :text(65535)
 #  testimonial_column2_link                    :text(65535)
 #  testimonial_column3_link                    :text(65535)
+#  cta_link                                    :text(65535)
+#  cta_text                                    :text(65535)
 #
 
 class HomepageSection < ApplicationRecord
