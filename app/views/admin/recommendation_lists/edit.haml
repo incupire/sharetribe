@@ -18,24 +18,28 @@
     .name-locale-text_field.col-10
     = f.text_field(:recommendation_title, maxlength: 60) 
     %br
+    %br
     = f.check_box(:active, class: "checkbox-row-checkbox js-price-enabled")
     = f.label(:active, "Active/Enabled", class: "checkbox-row-label js-price-enabled-label")
     %br
-    
+    %br
     %h2
       = t("admin.recommend.select_category") 
+
     - @category.each do |cat|
       - unless cat.has_subcategories?
-        = check_box_tag(:category,  cat.id, false, class: 'checkbox-category')
-        = f.label( :category,  cat.display_name(cat), class: "checkbox-row-label js-price-enabled-label")
+        .col-4
+          = check_box_tag(:category,  cat.id, @selected_category.present? && @selected_category.include?(cat.id) ? true : false, class: 'checkbox-category')
+          = f.label( :category,  cat.display_name(cat), class: "checkbox-row-label js-price-enabled-label")
       - else
         - cat.children.each do |c|
-          = check_box_tag(:category, c.id, false, class: 'checkbox-category')
-          = f.label( :category,  c.display_name(c),class: "checkbox-row-label js-price-enabled-label")
+          .col-4
+            = check_box_tag(:category, c.id, @selected_category.present? && @selected_category.include?(cat.id) ? true : false, class: 'checkbox-category')
+            = f.label( :category,  c.display_name(c),class: "checkbox-row-label js-price-enabled-label")
     %br
-      .drop-down
-        %div
-          = f.select :listing_ids, @recommendation_list.listings.collect { |t| [t.title, t.id]}, {}, multiple: 'multiple'
+    .drop-down
+      %div
+        = f.select :listing_ids, @recommendation_list.listings.collect { |t| [t.title, t.id]}, {}, multiple: 'multiple'
     .row
       .col-12
         .inline-button-container
