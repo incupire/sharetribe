@@ -218,6 +218,8 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
       display_name
       username
       phone_number
+      total_offering_on_trade
+      EIN_or_SSN
       address
       email_address
       email_address_confirmed
@@ -246,6 +248,8 @@ class Admin::CommunityMembershipsController < Admin::AdminBaseController
             display_name: user.display_name,
             username: user.username,
             phone_number: user.phone_number,
+            total_offering_on_trade: user.average_amount.present? ? Person::SHOWOPTIONS[user.average_amount] : 'N/A',
+            EIN_or_SSN: StripeAccount.find_by(person_id: user.id).try(:ein_code),
             address: user.location ? user.location.address : "",
             email_address: nil,
             email_address_confirmed: nil,

@@ -1523,6 +1523,7 @@ CREATE TABLE `recommendation_lists` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `active` tinyint(1) DEFAULT '0',
+  `sortpriorty` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -2668,5 +2669,4 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20201210051351'),
 ('20201222065634'),
 ('20201223053156');
-
-
+('20201211040700');

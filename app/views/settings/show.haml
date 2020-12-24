@@ -83,27 +83,26 @@
     = form.label :category_ids, "Chose the types of services you need for your business or personal in the near future:(max 10 choices)"
     .row
       .col-md-12
-        = form.select :category_ids, Category.display_in_user_profile.all.collect { |t| [t.url, t.id]}, {prompts: "Select Categories"}, id: "category_select", multiple: 'multiple'
-    = form.label :average_amount, "On the average, how much services in total will you be offering on trade?"
-    = form.select :average_amount, options_for_select(Array[*Person::OPTIONS.collect {|v,i| [v,Person::OPTIONS.index(v)] }], target_user.average_amount), required: true, include_blank: "Select one"
+        = form.select :category_ids, Category.display_in_user_profile.collect { |t| [t.display_name('en'), t.id]}, {prompts: "Select Categories"}, id: "category_select", multiple: 'multiple'
+    = form.label :average_amount, "* On the average, how much services in total will you be offering on trade?"
+    = form.select :average_amount, options_for_select(Array[*Person::OPTIONS.collect {|v,i| [v,Person::OPTIONS.index(v)] }], target_user.average_amount), required: true, include_blank: "-Select-"
     = form.label :tags, 'Hashtags', :class => "input"
     = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input", placeholder: 'HINT: Enter the keywords associated with your business or offers. it will help end user to search your offers'
-
 
     .row
       .col-6
         = form.label :facebook_link, t("settings.profile.facebook_link")
-        = form.text_field :facebook_link, :class => "text_field"
+        = form.text_field :facebook_link, :class => "text_field", placeholder: "i.e. https://www.facebook.com/avontage/"
       .col-6
         = form.label :instagram_link, t("settings.profile.instagram_link")
-        = form.text_field :instagram_link, :class => "text_field"
+        = form.text_field :instagram_link, :class => "text_field", placeholder: "i.e. https://www.instagram.com/avontage"
     .row
       .col-6
         = form.label :linkedin_link, t("settings.profile.linkedin_link")
-        = form.text_field :linkedin_link, :class => "text_field"
+        = form.text_field :linkedin_link, :class => "text_field", placeholder: "i.e. https://www.linkedin.com/avontage"
       .col-6
         = form.label :twitter_link, t("settings.profile.twitter_link")
-        = form.text_field :twitter_link, :class => "text_field"
+        = form.text_field :twitter_link, :class => "text_field", placeholder: "i.e. https://twitter.com/avontagebiz/"
 
     - if FeatureFlagHelper.feature_enabled?(:user_fields) && @service.has_person_custom_fields?
       - @service.custom_field_values.each_with_index do |custom_field_value, index|

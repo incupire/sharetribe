@@ -175,7 +175,7 @@ class Person < ApplicationRecord
   end
 
   def rebuild_sphinx
-    if tags_changed? || display_name_changed? || is_verified_changed? || total_received_review_changed?
+    if true#tags_changed? || display_name_changed? || is_verified_changed? || total_received_review_changed?
       Delayed::Job.enqueue(RebuildWhenUpdate.new(community_id))
     end
   end

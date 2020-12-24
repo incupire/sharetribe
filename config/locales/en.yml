@@ -7,9 +7,12 @@ en:
         format: "%u%n"
   admin:
     recommend:
-        recommendation_list: "New Recommendation List"
-        create_a_new_recommend: "Add new list:"
-        select_category: "Select upto 4 categories to expand this Recommendation List"
+      recommendation_list: "Recommendation Lists"
+      create_a_new_recommend: "Add new list:"
+      select_category: "Select upto 4 categories to expand this Recommendation List"
+      save_order_error: "An error occurred while saving recommendation list order. Please refresh the page and try again."
+      save_order_successful: "Successfully saved recommendation list order"
+      saving_order: "Saving recommendation list order"
     rebates:
       rebate: 'Rebates & Specials'
     categories:
@@ -2466,7 +2469,7 @@ en:
       street_address: "* Business Location"
       these_fields_are_shown_in_your: "This information is visible to all %{service_name} users"
       these_fields_are_shown_in_contact_info: "Other than First name, Display name, and Website address all other information on this page are private and not visible to other Avontage users."
-      our_promise_for_profile: "Our promise to you: Your information will not be sold to any outside agencies for marketing or otherwise."
+      our_promise_for_profile: "<strong>Our promise to you:</strong> Your information will not be sold to any outside agencies for marketing or otherwise."
       profile_complete_info: "Please complete your profile. We all like to know who we do business with. By providing accurate and complete profile information, other members can learn about your business and feel comfortable doing business with you."
       visible_to_everybody: "visible to everybody"
       visible_to_registered_users: "(visible to users that have logged in)"

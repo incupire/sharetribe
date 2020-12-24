@@ -536,8 +536,8 @@ module ApplicationHelper
         :topic => :configure,
         :text => t("admin.recommend.recommendation_list"),
         :icon_class => icon_class("list"),
-        :path => admin_recommendation_list_path,
-        :name => "recommendation_list"
+        :path => admin_recommendation_lists_path,
+        :name => "recommendation_lists"
       },
       {
         :topic => :configure,
@@ -658,6 +658,14 @@ module ApplicationHelper
       }
     end
 
+    links << {
+      :id => "settings-tab-offers_and_request",
+      :text => t("layouts.settings.offers_and_request"),
+      :icon_class => icon_class("coins"),
+      :path => offers_and_request_person_settings_path(person),
+      :name => "offers_and_request"
+    }
+
     paypal_ready = PaypalHelper.community_ready_for_payments?(@current_community.id)
     stripe_ready = StripeHelper.community_ready_for_payments?(@current_community.id)
 
@@ -670,14 +678,6 @@ module ApplicationHelper
         :name => "payments"
       }
     end
-
-    links << {
-      :id => "settings-tab-offers_and_request",
-      :text => t("layouts.settings.offers_and_request"),
-      :icon_class => icon_class("coins"),
-      :path => offers_and_request_person_settings_path(person),
-      :name => "offers_and_request"
-    }
 
     links << {
       :id => "settings-tab-payments",

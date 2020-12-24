@@ -396,6 +396,7 @@ function initialize_update_profile_info_form(locale, person_id, name_required) {
       "person[family_name]": {required: true, maxlength: 30},
       "person[phone_number]": {required: true, maxlength: 25},
       "person[mobile_number]": {required: true, maxlength: 25},
+      "person[average_amount]":{required: true},
       "person[description]": {required: true},
       "person[business_name]": {required: true},
       "person[image]": { accept: "(jpe?g|gif|png)" }

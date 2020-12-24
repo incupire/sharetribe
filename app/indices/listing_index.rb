@@ -16,6 +16,7 @@ if APP_CONFIG.use_thinking_sphinx_indexing.to_s.casecmp("true") == 0
     indexes custom_field_values(:text_value), :as => :custom_text_fields
     indexes origin_loc.google_address
     indexes author.display_name, :as => :display_name
+    indexes author.given_name, :as => :first_name
     indexes author.tags, :as => :author_tags
     indexes tags
 
@@ -41,7 +42,8 @@ if APP_CONFIG.use_thinking_sphinx_indexing.to_s.casecmp("true") == 0
       :tags        => 9,
       :category    => 8,
       :display_name => 7,
-      :author_tags => 6,
+      :first_name  => 6,
+      :author_tags => 5,
       :description => 3
     }
     group_by 'latitude', 'longitude'

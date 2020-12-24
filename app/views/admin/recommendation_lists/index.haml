@@ -5,13 +5,71 @@
     = t("admin.recommend.recommendation_list")
 
 - content_for :javascript do
-  window.ST.initializeCategoriesOrder();
+  window.ST.initializeRecommendationListsOrder();
 
 = render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
-
-
 .left-navi-section
   .row
     .col-12
-      = link_to t("admin.recommend.create_a_new_recommend"), admin_new_recommendation_list_path
+      .row
+        .col-10
+          .col-2
+            %h4 Code
+          .col-8
+            %h4 Title
+          .col-2
+            %h4 Enabled
+        .col-2
+          %h4 Action
+      %form
+        - @recommendation_list.each do |list|
+          .list-container{data: {id: list.id}}
+            .row.list-row
+              .row.category-row
+                .col-10.listed-category-col
+                  .row{:id => "list-#{list.recommendation_code.squish.downcase.tr(" ","_")}"}
+                    .col-2.listed-category-col
+                      = list.recommendation_code
+                    .col-8.listed-category-col
+                      = list.recommendation_title
+                    .col-2.listed-category-col
+                      = check_box_tag "active",list.id, list.active, id: "enabled_#{list.id}", class: "check-box"
+                .col-2.listed-category-col
+                  = link_to edit_admin_recommendation_list_path(list) do
+                    = icon_tag("edit")
+                  = link_to admin_recommendation_list_path(list), method: 'delete', data: {confirm: "Are you sure?"} do
+                    %i.fa.fa-trash
+                  - sort_disabled_class = @recommendation_list.count == 1 ? 'disabled' : ''
+                  = link_to "#",:class => "list-action-up #{sort_disabled_class}" do
+                    = icon_tag("directup", ["icon-fix"])
+                  = link_to "#",:class => "list-action-down #{sort_disabled_class}" do
+                    = icon_tag("directdown", ["icon-fix"])
 
+  #list-ajax-status
+    .ajax-notification.ajax-notice.category-ajax-status-message#list-ajax-saving
+      .ajax-icon{:class => icon_class("loading")}
+      .ajax-text
+        = t("admin.recommend.saving_order")
+    .ajax-notification.ajax-success.category-ajax-status-message#list-ajax-success
+      .ajax-icon{:class => icon_class("check")}
+      .ajax-text
+        = t("admin.recommend.save_order_successful")
+    .ajax-notification.ajax-error.category-ajax-status-message#list-ajax-error
+      = t("admin.recommend.save_order_error")
+
+  .row
+    .col-12
+      = link_to t("admin.recommend.create_a_new_recommend"), new_admin_recommendation_list_path
+      
+
+- content_for :extra_javascript do 
+  :javascript
+    $('.check-box').click(function(){
+      var recommend_id = $(this).val()
+      console.log(recommend_id)
+      $.ajax({
+        url:  "#{admin_recommendation_lists_path}",
+        type: "get",
+        data: {recommend_id: recommend_id}
+      });  
+    });
