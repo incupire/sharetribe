@@ -11,6 +11,7 @@ class PreauthorizeTransactionsController < ApplicationController
   before_action :ensure_authorized_to_reply
   before_action :ensure_can_receive_payment
   before_action :validate_promo_code
+  before_action :ensure_listing_is_not_private
 
   def initiate
     @stripe_service = stripe_settings
@@ -299,6 +300,15 @@ class PreauthorizeTransactionsController < ApplicationController
     if listing.closed?
       flash[:error] = t("layouts.notifications.you_cannot_reply_to_a_closed_offer")
       redirect_to(session[:return_to_content] || search_path)
+      return
+    end
+  end
+
+  def ensure_listing_is_not_private
+    if listing.is_private && listing.author_id != @current_user.id && listing.buyer_id != @current_user.id
+      flash[:error] = t("layouts.notifications.you_cannot_access_private_offer")
+      redirect_to(session[:return_to_content] || search_path)
+      return
     end
   end
 

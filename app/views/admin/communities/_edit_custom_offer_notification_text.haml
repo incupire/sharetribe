@@ -1,0 +1,14 @@
+%h2 Custom Offer Notification Text
+.edit-community-details-edit-link
+  %a{:id => "edit_link", :href => "/editor/en/admin/communities/#{@current_community.id}/edit_custom_offer_notification_text", :data => { :save_url => mercury_update_path }}
+    .icon-with-text-container 
+      = icon_tag("edit", ["icon-part"])
+      .text-part= t("admin.communities.edit_details.edit_info")
+
+.edit-community-details-field
+  #custom_offer_text{:data => {:mercury => "full"}}
+    - if @community_customization && @community_customization.custom_offer_text
+      = @community_customization.custom_offer_text.html_safe
+    - else
+      %p Here is the link to the Custom Offer created for you
+      %p please click below to view the details and proceed to purchase.

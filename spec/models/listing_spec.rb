@@ -52,6 +52,8 @@
 #  auto_accept_transaction         :boolean          default(FALSE)
 #  auto_complete_transaction       :boolean          default(FALSE)
 #  tags                            :text(65535)
+#  is_private                      :boolean          default(FALSE)
+#  buyer_id                        :string(255)
 #
 # Indexes
 #

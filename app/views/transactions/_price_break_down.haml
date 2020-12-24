@@ -64,7 +64,11 @@
           = image_tag "black_a_img.png"
           = MoneyViewUtils.to_humanized(subtotal).split('$')[1]
         - else
-          = MoneyViewUtils.to_humanized(subtotal)
+          - if avon_commission.present? && avon_commission > 0
+            = image_tag "black_a_img.png"
+            = MoneyViewUtils.to_humanized(subtotal).split('$')[1]
+          - else
+            = MoneyViewUtils.to_humanized(subtotal)
 
   - if shipping_price.present?
     .initiate-transaction-shipping-price-wrapper
@@ -79,8 +83,12 @@
         = t("transactions.total_to_pay")
       %span.initiate-transaction-sum-value
         - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
-          = image_tag "black_a_img.png"
-          = MoneyViewUtils.to_humanized(total).split('$')[1]
+          - if @transaction.commission_from_seller.present?
+            = image_tag "black_a_img.png"
+            = MoneyViewUtils.to_humanized(total)
+          - else
+            = image_tag "black_a_img.png"
+            = MoneyViewUtils.to_humanized(total).split('$')[1]
         - else
           = MoneyViewUtils.to_humanized(total)
 
@@ -123,10 +131,19 @@
           = t("transactions.total")
       %span.initiate-transaction-total-value
         - if @transaction.present? && @transaction.payment_gateway.eql?(:coupon_pay)
-          = image_tag "black_a_img.png"
-          = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total).split('$')[1]      
+          - if avon_commission.present? && avon_commission > 0
+            = image_tag "black_a_img.png"
+            = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total)
+          - else
+            = image_tag "black_a_img.png"
+            = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total).split('$')[1]
         - else
-          = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total)
+          - if avon_commission.present? && avon_commission > 0
+            = image_tag "black_a_img.png"
+            = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total)
+          - else
+            = image_tag "black_a_img.png"
+            = MoneyViewUtils.to_humanized(@transaction.present? && @transaction.author == @current_user ? seller_gets : total).split('$')[1]
 
   -#For Buyer
   - if (@transaction.present? && !@transaction.auto_accept_transaction) && (@transaction.payment_gateway.eql?(:coupon_pay) && !is_author)
@@ -148,9 +165,15 @@
           = image_tag "black_a_img.png"
 
           - if coupon_discount.present? && coupon_discount.to_f > 0
-            = "#{MoneyViewUtils.to_humanized(seller_gets - coupon_discount).split('$')[1]}"
+            - if @transaction.commission_from_seller.present? && @transaction.commission_from_seller > 0
+              = "#{MoneyViewUtils.to_humanized(seller_gets - coupon_discount)}"
+            - else
+              = "#{MoneyViewUtils.to_humanized(seller_gets - coupon_discount).split('$')[1]}"
           - else
-            = "#{MoneyViewUtils.to_humanized(seller_gets).split('$')[1]}"
+            - if @transaction.commission_from_seller.present? && @transaction.commission_from_seller > 0
+              = "#{MoneyViewUtils.to_humanized(seller_gets)}"
+            - else
+              = "#{MoneyViewUtils.to_humanized(seller_gets).split('$')[1]}"
 
   -# Not in use
     - elsif @transaction.present? && @transaction.payment_gateway.eql?(:stripe) && !is_author

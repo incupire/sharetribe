@@ -248,6 +248,7 @@ Rails.application.routes.draw do
           get :edit_text_instructions
           get :edit_text_instructions_only
           get :edit_offer_success_tips
+          get :edit_custom_offer_notification_text
           get :test_newsletter_email
           get :test_welcome_email
           get :social_media
@@ -376,7 +377,6 @@ Rails.application.routes.draw do
       resource :plan, only: [:show]
       resources :people, only: [:new, :create, :destroy] do
         collection do
-          get :autocomplete_person_emails
           get :validate_listing_author
         end
       end
@@ -407,6 +407,8 @@ Rails.application.routes.draw do
         get :browse
         get :locations_json
         get :verification_required
+        get :autocomplete_person_emails
+        get :validate_listing_buyer
       end
     resources :favorites, only: []  do
       collection do

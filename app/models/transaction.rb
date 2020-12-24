@@ -97,6 +97,13 @@ class Transaction < ApplicationRecord
   monetize :shipping_price_cents, allow_nil: true, with_model_currency: :unit_price_currency
   monetize :rebate_amount_cents, allow_nil: true, with_model_currency: :unit_price_currency
 
+  scope :skipped_feedback, -> { where('starter_skipped_feedback OR author_skipped_feedback') }
+
+  scope :waiting_feedback, -> {
+    where("NOT starter_skipped_feedback AND NOT #{Testimonial.with_tx_starter.select('1').arel.exists.to_sql}
+           OR NOT author_skipped_feedback AND NOT #{Testimonial.with_tx_author.select('1').arel.exists.to_sql}")
+  }
+
   scope :exist, -> { where(deleted: false) }
   scope :for_person, -> (person){
     joins(:listing)
@@ -118,10 +125,33 @@ class Transaction < ApplicationRecord
   scope :for_csv_export, -> {
     includes(:starter, :booking, :testimonials, :transaction_transitions, :conversation => [{:messages => :sender}, :listing, :participants], :listing => :author)
   }
+  # scope :for_testimonials, -> {
+  #   includes(:testimonials, testimonials: [:author, :receiver], listing: :author)
+  #   .where(current_state: ['confirmed', 'canceled']).where.not(listings: {id: nil})
+  # }
+
   scope :for_testimonials, -> {
     includes(:testimonials, testimonials: [:author, :receiver], listing: :author)
-    .where(current_state: ['confirmed', 'canceled']).where.not(listings: {id: nil})
+    .where(current_state: ['confirmed', 'canceled'])
   }
+
+  scope :search_for_testimonials, ->(community, pattern) do
+    with_testimonial_ids = by_community(community.id)
+    .left_outer_joins(testimonials: [:author, :receiver])
+    .where("
+      testimonials.text like :pattern
+      OR #{Person.search_by_pattern_sql('people')}
+      OR #{Person.search_by_pattern_sql('receivers_testimonials')}
+    ", pattern: pattern).select("`transactions`.`id`")
+
+    for_testimonials.joins(:listing, :starter, :listing_author)
+    .where("
+      `listings`.`title` like :pattern
+      OR #{Person.search_by_pattern_sql('people')}
+      OR #{Person.search_by_pattern_sql('listing_authors_transactions')}
+      OR `transactions`.`id` IN (#{with_testimonial_ids.to_sql})
+      ", pattern: pattern).distinct
+  end
 
   scope :search_by_party_or_listing_title, ->(pattern) {
     joins(:starter, :listing_author)

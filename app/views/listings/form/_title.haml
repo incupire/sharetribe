@@ -1,3 +1,6 @@
-= form.label :title, t(".listing_title") + "*", :class => "input"
+- if params[:offer_type].present?
+	= form.label :title, t(".custom_listing_title") + "*", :class => "input"
+- else
+	= form.label :title, t(".listing_title") + "*", :class => "input"
 = render partial: "layouts/title_info_text", locals: { text: t("listings.form.title.text") }
 = form.text_field(:title, :class => "title_text_field", placeholder: t("listings.form.title.placeholder"), :maxlength => "60")

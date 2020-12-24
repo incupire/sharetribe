@@ -124,6 +124,11 @@ storiesOf('Top bar')
               url: 'www.example.com/post',
               mobileLayoutOnly: true,
             },
+            newListingButtonThree: {
+              text: 'Post a new custom offer',
+              url: 'www.example.com/post',
+              mobileLayoutOnly: true,
+            },
           }
         ),
         containerStyle

@@ -37,6 +37,7 @@ const loadStories = function loadStories() {
   require('../app/components/elements/MenuItem/MenuItem.story.js');
   require('../app/components/elements/AddNewListingButton/AddNewListingButton.story.js');
   require('../app/components/elements/AddNewListingButtonTwo/AddNewListingButtonTwo.story.js');
+  require('../app/components/elements/AddNewListingButtonThree/AddNewListingButtonThree.story.js');
   require('../app/components/elements/RoundButton/RoundButton.story.js');
 };
 

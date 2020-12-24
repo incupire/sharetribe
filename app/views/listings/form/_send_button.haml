@@ -1,3 +1,6 @@
 = form.hidden_field(:category_id, :value => @listing.category_id)
 = form.hidden_field(:listing_shape_id, :value => @listing.listing_shape_id)
-= form.button t(".save_listing"), :class => "send_button"
+- if params[:offer_type].present?
+	= form.button t(".save_custom_offer"), :class => "send_button"
+- else
+	= form.button t(".save_listing"), :class => "send_button"

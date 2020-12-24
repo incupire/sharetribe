@@ -47,7 +47,7 @@ module TransactionViewUtils
     (messages + transitions).sort_by { |hash| hash[:created_at] }
   end
 
-  def create_messages_from_actions(transitions, author, starter, payment_sum, payment_gateway, community_id)
+  def create_messages_from_actions(transitions, author, starter, payment_sum, payment_gateway, community_id, currency_type = "")
     return [] if transitions.blank?
 
     ignored_transitions = [
@@ -70,7 +70,7 @@ module TransactionViewUtils
         ignored_transitions.include? transition[:to_state]
       }
       .map { |(transition, previous_state)|
-        create_message_from_action(transition, previous_state, author, starter, payment_sum, payment_gateway, community_id)
+        create_message_from_action(transition, previous_state, author, starter, payment_sum, payment_gateway, community_id, currency_type)
       }
   end
 
@@ -87,17 +87,26 @@ module TransactionViewUtils
 
   def transition_messages(transaction, conversation, name_display_type)
     if transaction.present?
+      if transaction.payment_gateway.eql?(:coupon_pay)
+        if transaction.commission_from_seller.present? && transaction.commission_from_seller > 0
+          currency_type = "avontage_bucks_usd"
+        else
+          currency_type = "avontage_bucks"
+        end
+      else
+        currency_type = "usd"
+      end
       transitions = transaction.transaction_transitions
       payment_sum = transaction.payment_total
       payment_gateway = transaction.payment_gateway
       community_id = transaction.community_id
-      create_messages_from_actions(transitions, transaction.author, transaction.starter, payment_sum, payment_gateway, community_id)
+      create_messages_from_actions(transitions, transaction.author, transaction.starter, payment_sum, payment_gateway, community_id, currency_type)
     else
       []
     end
   end
 
-  def create_message_from_action(transition, old_state, author, starter, payment_sum, payment_gateway, community_id)
+  def create_message_from_action(transition, old_state, author, starter, payment_sum, payment_gateway, community_id, currency_type)
     preauthorize_accepted = ->(new_state) { new_state == "paid" && old_state == "preauthorized" }
     post_pay_accepted = ->(new_state) {
       # The condition here is simply "if new_state is paid", since due to migrations from old system there might be
@@ -152,18 +161,25 @@ module TransactionViewUtils
     payment_sum = payment_sum-coupon_discount if payment_sum.present?
     MessageBubble[message.merge(
       created_at: transition[:created_at],
-      content: create_content_from_action(transition[:to_state], old_state, payment_sum, payment_gateway, community_id, author)
+      content: create_content_from_action(transition[:to_state], old_state, payment_sum, payment_gateway, community_id, author, currency_type)
     )]
   end
 
-  def create_content_from_action(state, old_state, payment_sum, payment_gateway, community_id, author)
+  def create_content_from_action(state, old_state, payment_sum, payment_gateway, community_id, author, currency_type)
     preauthorize_accepted = ->(new_state) { new_state == "paid" && old_state == "preauthorized" }
     post_pay_accepted = ->(new_state) {
       # The condition here is simply "if new_state is paid", since due to migrations from old system there might be
       # transitions in "paid" state without previous state.
       new_state == "paid"
     }
-    amount = MoneyViewUtils.to_humanized(payment_sum)
+    amount = case currency_type
+    when "avontage_bucks_usd"
+      "<img src='/../assets/A_Buck_Currency_white.png' width='15' height='15'>" + MoneyViewUtils.to_humanized(payment_sum)
+    when "avontage_bucks"
+      "<img src='/../assets/A_Buck_Currency_white.png' width='15' height='15'>" + MoneyViewUtils.to_humanized(payment_sum).split("$")[1]
+    else
+      MoneyViewUtils.to_humanized(payment_sum)
+    end
     community_name = community_id.present? ? Community.find(community_id).name_with_separator(I18n.locale) : ''
 
     message = case state

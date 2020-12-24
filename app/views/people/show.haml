@@ -48,14 +48,14 @@
                     = custom_field_value.display_value
     .row
       -if @person.categories.count > 0
-        %p.following-on-trade-title I need the following on trade
+        %h2 I need the following on trade
         .following-on-trade
           - @person.categories.each do |cat|
             .person-category
               = cat.display_name('en')
     .row
       -if @person.average_amount
-        %p.average-amount-title Barter-ometer:
+        %h2 Barter-ometer:
         .average-amount
           = "I am available to offer " + Person::SHOWOPTIONS[@person.average_amount] + " of my service of trade in a given month."
     .row
@@ -124,7 +124,7 @@
       .new_coupon_work
         .inner_container
           .row.coupan_balances
-            %span.people-custom-fields-title.coupan_title Your Saving Account Balance:
+            %span.people-custom-fields-title.coupan_title Your Savings Account Balance:
             %span.price
               = image_tag "avonatge_currency.png"
               = MoneyViewUtils.to_humanized(@person.coupon_balance).split('$')[1].html_safe

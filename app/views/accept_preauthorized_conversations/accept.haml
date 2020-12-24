@@ -108,8 +108,12 @@
           = t("conversations.accept.sum_label")
         %span.conversation-sum-value
           - if @transaction.payment_gateway.eql?(:coupon_pay)
-            = image_tag "black_a_img.png" , class: 'price_small_a_icon'
-            = MoneyViewUtils.to_humanized(sum).split('$')[1]
+            - if @transaction.commission_from_seller.present? && @transaction.commission_from_seller > 0
+              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+              = MoneyViewUtils.to_humanized(sum)
+            - else
+              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+              = MoneyViewUtils.to_humanized(sum).split('$')[1]
           - else
             = MoneyViewUtils.to_humanized(sum)
       .conversation-service-fee-wrapper
@@ -154,8 +158,12 @@
             = t("conversations.accept.total_label")
           %span.conversation-total-paypal-value
             - if @transaction.payment_gateway.eql?(:coupon_pay)
-              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
-              = t("conversations.accept.total_value_#{@transaction.payment_gateway}", seller_gets: MoneyViewUtils.to_humanized(seller_gets).split('$')[1])
+              - if @transaction.commission_from_seller.present? && @transaction.commission_from_seller > 0
+                = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+                = t("conversations.accept.total_value_#{@transaction.payment_gateway}", seller_gets: MoneyViewUtils.to_humanized(seller_gets))
+              - else
+                = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+                = t("conversations.accept.total_value_#{@transaction.payment_gateway}", seller_gets: MoneyViewUtils.to_humanized(seller_gets).split('$')[1])
             - else
               = t("conversations.accept.total_value_#{@transaction.payment_gateway}", seller_gets: MoneyViewUtils.to_humanized(seller_gets))
 
@@ -165,8 +173,12 @@
             = t("conversations.accept.you_will_get_label")
           %span.conversation-total-value
             - if @transaction.payment_gateway.eql?(:coupon_pay)
-              = image_tag "black_a_img.png" , class: 'price_small_a_icon'
-              = MoneyViewUtils.to_humanized(seller_gets).split('$')[1]
+              - if @transaction.commission_from_seller.present? && @transaction.commission_from_seller > 0
+                = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+                = MoneyViewUtils.to_humanized(seller_gets)
+              - else
+                = image_tag "black_a_img.png" , class: 'price_small_a_icon'
+                = MoneyViewUtils.to_humanized(seller_gets).split('$')[1]
             - else
               = MoneyViewUtils.to_humanized(seller_gets)
 

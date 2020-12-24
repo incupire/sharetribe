@@ -75,7 +75,7 @@ class SettingsController < ApplicationController
             currency: @current_community.currency,
             stripe_charge_id: res.id
           )
-          flash[:notice] = "Your Saving Account Balance successfully reloaded"
+          flash[:notice] = "Your Savings Account Balance successfully reloaded"
         else
           flash[:error] = "Something went wrong. Please try again"
         end

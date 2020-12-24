@@ -57,6 +57,9 @@ module TopbarHelper
       newListingButtonTwo: {
         text: I18n.t("homepage.index.post_a_request"),
       },
+      newListingButtonThree: {
+        text: I18n.t("homepage.index.post_a_custom_offer"),
+      },
       i18n: {
         locale: I18n.locale,
         defaultLocale: I18n.default_locale
@@ -73,7 +76,8 @@ module TopbarHelper
       unReadTransactionalMessagesCount: InboxService.transactional_notification_count(user&.id, community.id),
       unReadDirectMessageCount: InboxService.direct_conversations_notification_count(user&.id, community.id),
       avontageBalance: user&.coupon_balance.present? ? MoneyViewUtils.to_humanized(user.coupon_balance).split('$')[1] : '',
-      requestBtnUrl: ApplicationController.helpers.path_for_request_type_listing(community)
+      requestBtnUrl: ApplicationController.helpers.path_for_request_type_listing(community),
+      customBtnUrl: ApplicationController.helpers.path_for_custom_offer_listing
     }
   end
 

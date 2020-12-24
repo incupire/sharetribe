@@ -477,6 +477,7 @@ window.ST = window.ST || {};
       debug: false,
       rules: _.extend(numericRules, {
         "listing[author_id]": {required: true, remote: "/admin/people/validate_listing_author"},
+        "listing[buyer_id]": {required: true, remote: "/listings/validate_listing_buyer"},
         "listing[title]": {required: true, minlength: 2, maxlength: 60},
         "listing[origin]": {address_validator: true},
         "listing[price]": {required: pr, money: true, minimum_price_required: [minimum_price, subunit_to_unit]},
@@ -486,6 +487,7 @@ window.ST = window.ST || {};
       }),
       messages: {
         "listing[author_id]": {remote: "Please select a valid user!"},
+        "listing[buyer_id]": {remote: "Please select a valid buyer!"},
         "listing[valid_until(1i)]": { min_date: date_message, max_date: date_message },
         "listing[price]": { money: "Enter numbers only, no Symbols.", minimum_price_required: minimum_price_message },
         "listing[shipping_price]": {money: "Enter numbers only, no Symbols."},

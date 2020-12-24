@@ -13,51 +13,52 @@
 - content_for :title_header do
   - unless @community_customization.try(:offer_success_tips).present?
     %h1= t("homepage.index.post_new_listing")
-.text_messege
-  - if @community_customization.try(:offer_success_tips).present?
-    =raw @community_customization.try(:offer_success_tips)
-  - else
-    %h2= t("homepage.index.success_tips")
-    %ul.custom_bullets
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip1")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip2")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip3")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip4")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip5")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip6")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        =# t("homepage.index.tip7")
-        You can trade your offers using our internal currency called Avontage-Bucks
-        = image_tag "black_a_img.png", class: "text_icon"
-        ,or sell via credit card payments.
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        =# t("homepage.index.tip8")
-        1 Avontage Bucks 
-        = image_tag "black_a_img.png", class: "text_icon"
-        is equal to 1 USD$.
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip9")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip10")
-      %li
-        %img{:src => "/assets/circle-outline.png"}
-        = t("homepage.index.tip11")
+- unless params[:offer_type].present?
+  .text_messege
+    - if @community_customization.try(:offer_success_tips).present?
+      =raw @community_customization.try(:offer_success_tips)
+    - else
+      %h2= t("homepage.index.success_tips")
+      %ul.custom_bullets
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip1")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip2")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip3")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip4")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip5")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip6")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          =# t("homepage.index.tip7")
+          You can trade your offers using our internal currency called Avontage-Bucks
+          = image_tag "black_a_img.png", class: "text_icon"
+          ,or sell via credit card payments.
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          =# t("homepage.index.tip8")
+          1 Avontage Bucks 
+          = image_tag "black_a_img.png", class: "text_icon"
+          is equal to 1 USD$.
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip9")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip10")
+        %li
+          %img{:src => "/assets/circle-outline.png"}
+          = t("homepage.index.tip11")
 #new_listing_form.new-listing-form.centered-section
 
   #selected-groups

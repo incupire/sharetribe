@@ -15,7 +15,7 @@
       .new_coupon_work.redesign_coupan_work
         .inner_container
           .row.coupan_balances
-            %span.people-custom-fields-title.coupan_title Your Saving Account Balance:
+            %span.people-custom-fields-title.coupan_title Your Savings Account Balance:
             %span.price
               = image_tag "avonatge_currency.png"
               = MoneyViewUtils.to_humanized(@current_user.coupon_balance).split('$')[1].html_safe

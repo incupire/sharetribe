@@ -12,6 +12,7 @@ import styleVariables from '../../../assets/styles/variables';
 // elements
 import AddNewListingButton from '../../elements/AddNewListingButton/AddNewListingButton';
 import AddNewListingButtonTwo from '../../elements/AddNewListingButtonTwo/AddNewListingButtonTwo';
+import AddNewListingButtonThree from '../../elements/AddNewListingButtonThree/AddNewListingButtonThree';
 import Logo from '../../elements/Logo/Logo';
 import NotificationBadge from '../../elements/NotificationBadge/NotificationBadge';
 
@@ -240,6 +241,9 @@ class Topbar extends Component {
         newListingButtonTwo: this.props.newListingButtonTwo ?
           { ...this.props.newListingButtonTwo, url: newListingRoute, mobileLayoutOnly: true } :
           null,
+        newListingButtonThree: this.props.newListingButtonThree ?
+          { ...this.props.newListingButtonThree, url: newListingRoute, mobileLayoutOnly: true } :
+          null,
         loginLinks: {
           loginUrl: loginRoute,
           signupUrl: signupRoute,
@@ -307,6 +311,15 @@ class Topbar extends Component {
         }) :
       null,
 
+      this.props.newListingButtonThree ?
+        r(AddNewListingButtonThree, {
+          ...this.props.newListingButtonThree,
+          className: css.topbarListingButton,
+          url: this.props.customBtnUrl,
+          customColor: marketplaceColor1,
+        }) :
+      null,
+
       this.props.avatarDropdown && loggedInUsername ?
         r(AvatarDropdown, {
           ...avatarDropdownProps(this.props.avatarDropdown, marketplaceColor1,
@@ -361,6 +374,12 @@ Topbar.propTypes = {
     marketplaceColor1: string,
     location: string,
   }),
+  newListingButtonThree: object,
+  routes: routesProp,
+  marketplace: PropTypes.shape({
+    marketplaceColor1: string,
+    location: string,
+  }),
   user: PropTypes.shape({
     loggedInUsername: string,
     isAdmin: PropTypes.bool,
@@ -369,7 +388,8 @@ Topbar.propTypes = {
   unReadTransactionalMessagesCount: PropTypes.number,
   unReadDirectMessageCount: PropTypes.number,
   avontageBalance: PropTypes.string,
-  requestBtnUrl: PropTypes.string
+  requestBtnUrl: PropTypes.string,
+  customBtnUrl: PropTypes.string
 };
 
 export default Topbar;

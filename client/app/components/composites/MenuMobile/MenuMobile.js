@@ -72,6 +72,7 @@ class MenuMobile extends Component {
         avatar: this.props.avatar,
         newListingButton: this.props.newListingButton,
         newListingButtonTwo: this.props.newListingButtonTwo,
+        newListingButtonThree: this.props.newListingButtonThree,
         loginLinks: this.props.loginLinks,
       }),
     ]);

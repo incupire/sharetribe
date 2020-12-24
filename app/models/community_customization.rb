@@ -25,6 +25,7 @@
 #  offer_success_tips                         :text(65535)
 #  update_mail_title                          :string(255)
 #  update_mail_content                        :text(65535)
+#  custom_offer_text                          :text(65535)
 #
 # Indexes
 #
@@ -65,6 +66,7 @@ class CommunityCustomization < ApplicationRecord
     transaction_agreement_label
     transaction_agreement_content
     offer_success_tips
+    custom_offer_text
   )
 
 end

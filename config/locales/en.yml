@@ -371,6 +371,7 @@ en:
         topbar: "Top bar"
         new_listing_button_label: "Post a new offer button text"
         new_request_button_label: "Post a new request button text"
+        new_custom_offer_button_label: "Post a new custom offer button text"
         invalid_post_listing_button_label: "Please provide a valid text for \"Post a new offer\" button"
       transactions:
         status_filter:
@@ -467,6 +468,9 @@ en:
         profile: "%{author}'s Profile"
       testimonials:
         testimonials: Reviews
+        search: Search
+        reset_search: Show all
+        search_keyword: Search for a name, email or keyword
         no_testimonials_found: "No reviews found"
         displaying_xx_reviews: "Displaying <b>%{count}</b> reviews in transactions %{tx_from} - %{tx_to} of <b>%{all_count}</b> reviews in total"
         headers:
@@ -480,6 +484,16 @@ en:
           waiting: "Waiting for review"
           skipped: Skipped
           published: Published
+        status_filter:
+          selected: "Selected filters: %{count}"
+          all: Filters
+          published: Published
+          positive: Positive
+          negative: Negative
+          skipped: Skipped
+          waiting: Waiting
+          blocked: Blocked
+          selected_js: "Selected filters: "
       listings:
         listings: Offers
         my_offers: My Offers & Requests
@@ -1520,6 +1534,7 @@ en:
       what_do_you_need: "What are you looking for?"
       post_new_listing: "POST AN OFFER"
       post_a_request: "POST A REQUEST"
+      post_a_custom_offer: "POST A CUSTOM OFFER"
       success_tips: "Succes Tips:"
       tip1: Remember, to be visible on Avontage Marketplace you must have at least one Offer posted and active.
       tip2: Your Offers are the magnet to attract your ideal clients, post several of your most popular services to see which one works best.
@@ -1770,6 +1785,7 @@ en:
       listing_closed: "This offer has been closed"
       send_instructions: "You will receive an email with instructions on how to reset your password in a few minutes."
       you_cannot_reply_to_a_closed_offer: "You cannot reply to a closed offer"
+      you_cannot_access_private_offer: "You cannot access private offer"
       you_cannot_send_message_to_yourself: "You cannot send a message to yourself"
       you_followed_listing: "You are now following this offer"
       you_have_already_given_feedback_about_this_event: "You have already given feedback about this event"
@@ -1937,6 +1953,7 @@ en:
         origin: Origin
       send_button:
         save_listing: "Save and Post offer"
+        save_custom_offer: "Save and Send Link to the Buyer"
       share_type:
         select: Select
         borrow: Borrowing
@@ -1957,6 +1974,7 @@ en:
         tags: Tags
       title:
         listing_title: "Offer title"
+        custom_listing_title: "Custom Offer's Title"
         text: "(enter a catchy and descriptive title for your Offer)"
         placeholder: "i.e. 3-Months of Gym Membership"
         listing_title_placeholder: "Please enter Title of your Offer"

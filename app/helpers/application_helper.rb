@@ -96,6 +96,13 @@ module ApplicationHelper
     return request_url
   end
 
+  def path_for_custom_offer_listing
+    request_url = "/en/listings/new"
+    offer_type = "private"
+    request_url = "/en/listings/new?offer_type=#{offer_type}"
+    return request_url
+  end
+
   def request_shape_name
     shape_name = 'all'
     shapes = ListingShape.where(community_id: @current_community.id).exist_ordered.all

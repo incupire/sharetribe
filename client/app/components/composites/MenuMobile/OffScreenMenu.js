@@ -9,6 +9,7 @@ import LanguagesMobile from './LanguagesMobile';
 import Avatar from '../../elements/Avatar/Avatar';
 import AddNewListingButton from '../../elements/AddNewListingButton/AddNewListingButton';
 import AddNewListingButtonTwo from '../../elements/AddNewListingButtonTwo/AddNewListingButtonTwo';
+import AddNewListingButtonThree from '../../elements/AddNewListingButtonThree/AddNewListingButtonThree';
 import LoginLinks from '../../composites/LoginLinks/LoginLinks';
 
 class OffScreenMenu extends Component {
@@ -24,6 +25,8 @@ class OffScreenMenu extends Component {
       this.props.newListingButton ? r(AddNewListingButton, { ...this.props.newListingButton, ...buttonExtras }) : null,
 
       this.props.newListingButtonTwo ? r(AddNewListingButtonTwo, { ...this.props.newListingButtonTwo, ...buttonExtras }) : null,
+
+      this.props.newListingButtonThree ? r(AddNewListingButtonThree, { ...this.props.newListingButtonThree, ...buttonExtras }) : null,
 
     ] : [
       r(LoginLinks, this.props.loginLinks),
@@ -103,6 +106,7 @@ OffScreenMenu.propTypes = {
   avatar: object, // eslint-disable-line react/forbid-prop-types
   newListingButton: object, // eslint-disable-line react/forbid-prop-types
   newListingButtonTwo: object, // eslint-disable-line react/forbid-prop-types
+  newListingButtonThree: object, // eslint-disable-line react/forbid-prop-types
   loginLinks: object, // eslint-disable-line react/forbid-prop-types
 };
 

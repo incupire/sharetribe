@@ -1,10 +1,11 @@
-- if @current_community.auto_accept_orders?
-  .row.checkbox-group-container
-    .checkbox-container
-      = form.check_box :auto_accept_transaction, checked: @listing.new_record? || @listing.auto_accept_transaction
-      = form.label :auto_accept_transaction, t("listings.form.auto_accept"), class: 'light'
+- auto_accept_class = params[:offer_type].present? ? "hidden" : ""
+- if @current_community.auto_accept_orders? || params[:offer_type].present?
+	.row.checkbox-group-container
+		.checkbox-container{:class => auto_accept_class}
+			= form.check_box :auto_accept_transaction, checked: @listing.new_record? || @listing.auto_accept_transaction
+			= form.label :auto_accept_transaction, t("listings.form.auto_accept"), class: 'light'
 - if @current_user.has_admin_rights?(@current_community)
-  .row.checkbox-group-container
-    .checkbox-container
-      = form.check_box :auto_complete_transaction, checked: @listing.new_record? || @listing.auto_complete_transaction
-      = form.label :auto_complete_transaction, "Auto-Complete, to eliminate the Mark complete/Mark redeem step", class: 'light'
+	.row.checkbox-group-container
+		.checkbox-container
+			= form.check_box :auto_complete_transaction, checked: @listing.new_record? || @listing.auto_complete_transaction
+			= form.label :auto_complete_transaction, "Auto-Complete, to eliminate the Mark complete/Mark redeem step", class: 'light'

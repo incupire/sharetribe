@@ -44,18 +44,6 @@ class Admin::PeopleController < Admin::AdminBaseController
     redirect_to admin_community_community_memberships_path(@current_community)
   end
 
-  def autocomplete_person_emails
-    term  = params[:term]
-    people = Person.left_outer_joins(:emails)
-                .where("(emails.address LIKE ? OR people.username LIKE ?)", "%#{term}%", "%#{term}%")
-                .where.not(emails: {confirmed_at: nil})
-    if people.present?        
-      render :json => people.map { |person| {:id => person.id, :label => person&.primary_email&.address, value: person&.primary_email&.address} }          
-    else
-      render :json =>  [{:label => "No Such user exists!", :value => " "}]
-    end
-  end
-
   def validate_listing_author
     author = Person.joins(:emails).where(emails: {address: params[:listing][:author_id]}).first
     respond_to do |format|

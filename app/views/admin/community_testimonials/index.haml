@@ -1,39 +1,67 @@
+- content_for :javascript do
+	ST.Testimonials.init();
 - content_for :title_header do
-  %h1
-    = t("layouts.admin.admin")
-    = "-"
-    = t("admin.communities.testimonials.testimonials")
+	%h1
+		= t("layouts.admin.admin")
+		= "-"
+		= t("admin.communities.testimonials.testimonials")
 
 = render :partial => "admin/left_hand_navigation", :locals => { :links => admin_links_for(@current_community) }
 
 .left-navi-section
-  %h2= t("admin.communities.testimonials.testimonials")
+	%h2= t("admin.communities.testimonials.testimonials")
+	
+	= form_tag '', :method => :get do
+		.row
+			.col-5
+				= text_field_tag :q, params[:q], placeholder: t('admin.communities.testimonials.search_keyword')
+			.col-3.status-select-wrapper
+				.status-select-button
+					= @service.selected_statuses_title
 
-  %span#admin_testimonials_count
-    - pages = @testimonials[:tx_total_pages]
-    - if pages == 0
-      = t('admin.communities.testimonials.no_reviews_found')
-    - else
-      = raw t('admin.communities.testimonials.displaying_xx_reviews', count: @testimonials[:page_count], all_count: @testimonials[:all_count], tx_from: @testimonials[:tx_from], tx_to: @testimonials[:tx_to])
+				.status-select-dropdown
+					.status-select-line.reset{data: {status: 'all'}}
+						= @service.selected_statuses_title
+					- @service.sorted_statuses.each do |status, translation, checked|
+						.status-select-line{class: checked ? 'selected' : '', data: {status: status}}
+							= check_box_tag "status[]", status, checked, id: "status-#{status}"
+							= translation
+			.col-4
+				= submit_tag t("admin.communities.testimonials.search"), class: 'button search-button'
+				= link_to t("admin.communities.testimonials.reset_search"), admin_community_testimonials_path(@current_community.id)
 
-  %table#admin_testimonials
-    %thead
-      %tr
-        %th
-          = render partial: "layouts/sort_link", locals: { column: "started",
-            direction: sort_link_direction("started"),
-            title: t("admin.communities.testimonials.headers.transaction") }
-        %th= t("admin.communities.testimonials.headers.author")
-        %th= t("admin.communities.testimonials.headers.receiver")
-        %th= t("admin.communities.testimonials.headers.status")
-        %th= t("admin.communities.testimonials.headers.grade")
-        %th= t("admin.communities.testimonials.headers.note")
+	%span#admin_testimonials_count
+		- pages = @service.testimonials[:tx_total_pages]
+		- if pages == 0
+			= t('admin.communities.testimonials.no_reviews_found')
+		- else
+			= raw t('admin.communities.testimonials.displaying_xx_reviews', count: @service.testimonials[:page_count], all_count: @service.testimonials[:all_count], tx_from: @service.testimonials[:tx_from], tx_to: @service.testimonials[:tx_to])
 
-    %tbody
-      - @transactions.each do |tx|
-        - [:starter, :author].each do |participant|
-          = render 'testimonial', tx: tx, participant: participant
+	%table#admin_testimonials
+		%thead
+			%tr
+				%th
+					= render partial: "layouts/sort_link", locals: { column: "started",
+						direction: sort_link_direction("started"),
+						title: t("admin.communities.testimonials.headers.transaction") }
+				%th= t("admin.communities.testimonials.headers.author")
+				%th= t("admin.communities.testimonials.headers.receiver")
+				%th= t("admin.communities.testimonials.headers.status")
+				%th= t("admin.communities.testimonials.headers.grade")
+				%th= t("admin.communities.testimonials.headers.note")
 
-  .row
-    .col-12
-      = will_paginate @transactions
+		%tbody
+			- @service.transactions.each do |tx|
+				- [:starter, :author].each do |participant|
+					= render 'testimonial', tx: tx, participant: participant
+
+	.row
+		.col-12
+			= will_paginate @service.transactions
+
+- content_for :extra_javascript do
+	= js_t ["admin.communities.testimonials.status_filter.all", "admin.communities.testimonials.status_filter.selected_js"], true
+	:javascript
+		$("#reviews_status_filter").on('change', function(){
+			$("#reviews_filter_form").submit();
+		})  

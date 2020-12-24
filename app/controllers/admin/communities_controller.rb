@@ -20,6 +20,11 @@ class Admin::CommunitiesController < Admin::AdminBaseController
     @community = @current_community
   end
 
+  def edit_custom_offer_notification_text
+    @selected_left_navi_link = "text_instructions"
+    @community = @current_community
+  end
+
   def edit_text_instructions_only
     @selected_left_navi_link = "text_instructions"
     @community = @current_community
@@ -210,7 +215,8 @@ class Admin::CommunitiesController < Admin::AdminBaseController
 
     translations = h_params[:post_new_listing_button].map{ |k, v| {locale: k, translation: v}}
     translations1 =  h_params[:post_new_request_button].map{ |k, v| {locale: k, translation: v}}
-    if translations.any?{ |t| t[:translation].blank? } || translations1.any?{ |t| t[:translation].blank?}
+    translations2 =  h_params[:post_new_custom_offer_button].map{ |k, v| {locale: k, translation: v}}
+    if translations.any?{ |t| t[:translation].blank? } || translations1.any?{ |t| t[:translation].blank?} || translations2.any?{ |t| t[:translation].blank?}
       flash[:error] = t("admin.communities.topbar.invalid_post_listing_button_label")
       redirect_to admin_topbar_edit_path and return
     end
@@ -222,6 +228,10 @@ class Admin::CommunitiesController < Admin::AdminBaseController
     {
       translation_key: "homepage.index.post_a_request",
       translations: translations1
+    },
+    {
+      translation_key: "homepage.index.post_a_custom_offer",
+      translations: translations2
     }]
 
     TranslationService::API::Api.translations.create(@community.id, translations_group)
