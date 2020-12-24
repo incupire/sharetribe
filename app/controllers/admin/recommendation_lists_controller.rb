@@ -6,6 +6,7 @@ class Admin::RecommendationListsController < Admin::AdminBaseController
       @recommendation_list.active ? @recommendation_list.update(active: false) : @recommendation_list.update(active: true)
       render layout: false
     end
+    @selected_left_navi_link = 'recommendation_lists'
   end
 
   def new
@@ -19,6 +20,7 @@ class Admin::RecommendationListsController < Admin::AdminBaseController
 
   def edit
     @recommendation_list = RecommendationList.find(params[:id])
+    @selected_category = @recommendation_list.listings.pluck(:category_id).uniq
     @category = Category.all
     if params[:category_id].present?
       @listing = Listing.where(category_id: params[:category_id]) 
