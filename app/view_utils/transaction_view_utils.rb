@@ -174,9 +174,9 @@ module TransactionViewUtils
     }
     amount = case currency_type
     when "avontage_bucks_usd"
-      "<img src='/../assets/A_Buck_Currency_white.png' width='15' height='15'>" + MoneyViewUtils.to_humanized(payment_sum)
+      "<img src='/../assets/A_Buck_Currency_white.png' width='17' height='17' style='position: relative;top: 2px;'>" + MoneyViewUtils.to_humanized(payment_sum)
     when "avontage_bucks"
-      "<img src='/../assets/A_Buck_Currency_white.png' width='15' height='15'>" + MoneyViewUtils.to_humanized(payment_sum).split("$")[1]
+      "<img src='/../assets/A_Buck_Currency_white.png' width='17' height='17' style='position: relative;top: 2px;'>" + MoneyViewUtils.to_humanized(payment_sum).split("$")[1]
     else
       MoneyViewUtils.to_humanized(payment_sum)
     end

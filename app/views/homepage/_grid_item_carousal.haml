@@ -1,0 +1,30 @@
+-# frontpage_fragment_cache("grid_item", listing) do
+.home-fluid-thumbnail-grid-item.redesign_grid_item
+  %div.inner_grid_item
+    .card-header
+      = render :partial => "layouts/grid_image_part", :locals => {listing: listing}
+
+    .card-body
+      .card-content
+        .home-fluid-thumbnail-grid-author.custom_grid_author
+          .card-title
+            .fluid-thumbnail-grid-image-title.custom_title
+              = listing.title
+          .home-fluid-thumbnail-grid-author-avatar.left.custom_left
+            .left_user
+              = link_to(person_path(username: listing.author.username)) do
+                = image_tag(listing.author.image.url, alt: 'avtar', :class => "home-fluid-thumbnail-grid-author-avatar-image")
+
+              - name = PersonViewUtils.person_entity_display_name(listing.author, @current_community.name_display_type)
+              = link_to(person_path(username: listing.author.username), :class => "home-fluid-thumbnail-grid-author-name", title: name) do
+                = name
+            .right_price
+              - if listing.price
+                .offer_price
+                  = image_tag "black_a_img.png", class: "avon_small_icon_img"
+                  = MoneyViewUtils.to_humanized(listing.price).split('$')[1]
+
+          .badge_review_box
+            = render 'layouts/level_rating_and_verified', user: listing.author
+
+

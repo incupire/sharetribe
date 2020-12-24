@@ -196,7 +196,7 @@ default: &default_settings
   # The address where the notifications of feedbacks from Sharetribe UI are sent
   feedback_mailer_recipients:  'admins@example.com'
 
-  grid_listings_limit: 24
+  grid_listings_limit: 16
   map_listings_limit: 10000
 
   # DEPRECATED, use Google Tag Manager instead

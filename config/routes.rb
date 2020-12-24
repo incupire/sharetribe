@@ -398,6 +398,9 @@ Rails.application.routes.draw do
         get :sign_in
         post :join
       end
+      member do
+        get :recommendation_list_listings
+      end
     end
 
     resources :listings do

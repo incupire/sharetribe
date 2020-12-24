@@ -15,6 +15,7 @@ class HomepageController < ApplicationController
   end
 
   def index
+    @rec_lists = RecommendationList.where(active: true)
     params = unsafe_params_hash.select{|k, v| v.present? }
     redirect_to landing_page_path and return if no_current_user_in_private_clp_enabled_marketplace?
 
@@ -56,7 +57,6 @@ class HomepageController < ApplicationController
     compact_filter_params = HashUtils.compact(filter_params)
 
     per_page = @view_type == "map" ? APP_CONFIG.map_listings_limit : APP_CONFIG.grid_listings_limit
-
     includes =
       case @view_type
       when "grid"
@@ -143,6 +143,10 @@ class HomepageController < ApplicationController
                  seo_pagination_links: seo_pagination_links(params, @listings.current_page, @listings.total_pages))
       }
     end
+  end
+
+  def recommendation_list_listings
+    @rec_list = RecommendationList.find(params[:id])
   end
 
   def explore

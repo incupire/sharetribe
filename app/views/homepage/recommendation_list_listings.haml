@@ -1,0 +1,7 @@
+.row
+	%div.col-12
+		%h1= @rec_list.recommendation_title	
+		- @rec_list.listings.each do |listing|
+			.home-fluid-thumbnail-grid
+				.home-fluid-thumbnail-grid-wide
+					= render partial: "grid_item_carousal", locals: { show_distance: false,listing: listing }

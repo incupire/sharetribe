@@ -98,6 +98,7 @@
 //= require transactions
 //= require listing_form
 //= require radio_buttons
+//= require slick.min
 //= require new_layout
 //= require stripe_form
 //= require analytics
