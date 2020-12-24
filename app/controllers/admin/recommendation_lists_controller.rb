@@ -6,6 +6,7 @@ class Admin::RecommendationListsController < Admin::AdminBaseController
       @recommendation_list.active ? @recommendation_list.update(active: false) : @recommendation_list.update(active: true)
       render layout: false
     end
+    @selected_left_navi_link = 'recommendation_lists'
   end
 
   def new
