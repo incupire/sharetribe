@@ -529,8 +529,8 @@ module ApplicationHelper
         :topic => :configure,
         :text => t("admin.recommend.recommendation_list"),
         :icon_class => icon_class("list"),
-        :path => admin_recommendation_list_path,
-        :name => "recommendation_list"
+        :path => admin_recommendation_lists_path,
+        :name => "recommendation_lists"
       },
       {
         :topic => :configure,

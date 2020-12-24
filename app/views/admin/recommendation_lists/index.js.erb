@@ -1,0 +1,5 @@
+<% if @recommendation_list.active %>
+	$('#enabled_<%= @recommendation_list.id %>').prop('checked', true);
+<% else %>
+	$('#enabled_<%= @recommendation_list.id %>').prop('checked', false);
+<% end %>

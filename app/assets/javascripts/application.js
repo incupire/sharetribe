@@ -69,6 +69,7 @@
 //= require admin/expiration_notice
 //= require admin/custom_fields
 //= require admin/categories
+//= require admin/recommendation_list
 //= require admin/manage_listings
 //= require admin/manage_members
 //= require admin/topbar_menu
@@ -101,4 +102,5 @@
 //= require stripe_form
 //= require analytics
 //= require social-insurance-number
+//= require select2.min
 //= require_self

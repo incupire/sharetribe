@@ -7,9 +7,12 @@ en:
         format: "%u%n"
   admin:
     recommend:
-        recommendation_list: "New Recommendation List"
-        create_a_new_recommend: "Add new list:"
-        select_category: "Select upto 4 categories to expand this Recommendation List"
+      recommendation_list: "Recommendation Lists"
+      create_a_new_recommend: "Add new list:"
+      select_category: "Select upto 4 categories to expand this Recommendation List"
+      save_order_error: "An error occurred while saving recommendation list order. Please refresh the page and try again."
+      save_order_successful: "Successfully saved recommendation list order"
+      saving_order: "Saving recommendation list order"
     rebates:
       rebate: 'Rebates & Specials'
     categories:

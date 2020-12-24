@@ -189,8 +189,13 @@ Rails.application.routes.draw do
 
     namespace :admin do
       get '' => "getting_started_guide#index"
-      get "/index", to: 'recommendation_lists#index', as: :recommendation_list
-      get "/new", to: 'recommendation_lists#new', as: :new_recommendation_list
+      # For recpmmendation lists
+      # get 'index', to: 'recommendation_lists#index' ,as: 'recommendation_list'
+      resources :recommendation_lists do
+        collection do
+          post :order
+        end
+      end
       # Payments
       resources :payment_preferences, only: [:index], param: :payment_gateway do
         collection do
