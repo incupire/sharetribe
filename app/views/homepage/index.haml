@@ -317,12 +317,10 @@
 
       - if @rec_lists.count > 0
         - @rec_lists.each do |rec_list|
-          .row.rec-list
-            .col-10
-              %h2= rec_list.recommendation_title
-            .col-2  
-              = link_to "View all", recommendation_list_listings_homepage_path(rec_list), class: 'view-link'
-          .category_carausel       
+          .rec-list.customize_rec_list
+            %h2= rec_list.recommendation_title  
+            = link_to "View all", recommendation_list_listings_homepage_path(rec_list), class: 'view_link'
+          .category_carausel.customize_carausel       
             - rec_list.listings.each do |listing|
               .card
                 = render partial: "grid_item_carousal", locals: { show_distance: false,listing: listing }
@@ -345,8 +343,9 @@
       slidesToScroll: 1,
       autoplay: true,
       autoplaySpeed: 2000,
-      dots:true,
-      centerMode: true,
+      dots: false,
+      centerMode: false,
+     
       responsive: [{
         breakpoint: 1024,
         settings: {
@@ -361,19 +360,20 @@
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
-          dots: true,
+          dots: false,
           infinite: true,
 
         }
       },  {
         breakpoint: 480,
         settings: {
+          speed: 1000,
           slidesToShow: 1,
           slidesToScroll: 1,
-          dots: true,
+          dots: false,
           infinite: true,
           autoplay: true,
-          autoplaySpeed: 2000,
+          autoplaySpeed: 4000,
         }
       }]
     });
