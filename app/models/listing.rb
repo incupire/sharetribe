@@ -125,7 +125,6 @@ class Listing < ApplicationRecord
   scope :status_active, -> { where('valid_until > ? or valid_until is null', DateTime.now) }
   scope :status_open_active, -> { status_open.status_active}
 
-
   scope :search_title_author_category, ->(pattern) do
     joins(:author)
       .joins(:category => :translations)

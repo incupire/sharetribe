@@ -832,7 +832,7 @@ module ApplicationHelper
       case page_name
       when 'Contact'
         if @current_user.profile_progress_info.values.sum == 0
-          @redirect_link = "<a href="+contact_person_settings_path(@current_user)+" class='next_step button'>Setup notifications</a>"
+          @redirect_link = "<a href="+person_settings_path(@current_user)+" class='next_step button'>Setup profile info</a>"
           break
         else
           if key != :contact_info && value == 0
@@ -862,7 +862,7 @@ module ApplicationHelper
         end
       when 'Enable purchasing'
         if @current_user.profile_progress_info.values.sum == 0
-          @redirect_link = "<a href="+person_payment_settings_path(@current_user)+" class='next_step button'>Accept Credit Card payments</a>"
+          @redirect_link = "<a href="+offers_and_request_person_settings_path(@current_user)+" class='next_step button'>Post offers</a>"
           break
         else
           if key != :enable_purchasing && value == 0

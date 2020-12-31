@@ -32,18 +32,17 @@
                       %td{:width => "5%"}
                     %tr
                       %td{:width => "5%"}
-                      %td
-                        .new_coupon_work.redesign_coupan_work
-                          .inner_container{style: "padding: 6px 5px 6px 5px;max-width: 100%;margin-bottom: 20px;margin-top: 15px;color: #171717;border: 2px solid #55c1c9;display: flex;justify-content: space-between;align-items: center;    font-size: 12px;"}
-                            .coupan_balances{style: "display: flex;flex-direction: row;justify-content: flex-start;align-items: center;width: 50%;justify-content: space-around;margin-top: 5px;"}
-                              %span.coupan_title Your Savings Account Balance:;
-                              %span.price{style: "color: #397f3d;display: flex;justify-content: flex-start;align-items: center;margin-top: -2px;"}
-                                = image_tag "avonatge_currency.png", style: 'height: 16px;margin: 0 0 0 2px;'
-                                %span{style: "display:block; margin-top: 3px;"}
-                                  = MoneyViewUtils.to_humanized(@recipient.coupon_balance).split('$')[1].html_safe
-                            %div{style: 'display: flex;justify-content: flex-start;align-items: center;font-size: 12px;width: 50%;justify-content: space-around;'}
-                              %b Need more A-Bucks?
-                              = link_to 'Reload Your Balance', reload_your_balance_person_settings_url(@recipient, @url_params), style: 'color: #03C4CC;text-decoration: none;background: #f0d590;color: #000;font-weight: 600;padding: 5px;display: flex;justify-content: center;align-items: center;width: fit-content;font-size: 12px;margin: 0 0 0 5px;'
+                      %td{style: 'color: #171717; border: 2px solid #55c1c9; font-size: 12px; display: table; width: 100%; padding: 5px;'}
+                        %div{style: 'float: left; width: 50%;padding: 5px 0;'}
+                          %div{style: 'float: left;'} Your Savings Account Balance:
+                          %div{style: "color: #397f3d;display: flex;justify-content: flex-start;align-items: center;margin-top: -2px;"}
+                            = image_tag "avonatge_currency.png", style: 'height: 16px;margin: 0 0 0 2px;'
+                            %span{style: "display:block; margin-top: 3px;"}
+                              = MoneyViewUtils.to_humanized(@recipient.coupon_balance).split('$')[1].html_safe
+                        %div{style: 'float: left; width: 50%;'}
+                          %div{style: 'float: right;'}
+                            %div{style: 'float: left; padding: 5px; font-weight: bold;'} Need more A-Bucks?
+                            = link_to 'Reload Your Balance', reload_your_balance_person_settings_url(@recipient, @url_params), style: 'color: #03C4CC;text-decoration: none;background: #f0d590;color: #000;font-weight: 600;padding: 5px;display: flex;justify-content: center;align-items: center;width: fit-content;font-size: 12px;margin: 0 0 0 5px;'
                       %td{:width => "5%"}
                     %tr
                       %td{:width => "5%"}

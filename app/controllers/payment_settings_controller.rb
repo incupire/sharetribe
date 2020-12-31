@@ -35,10 +35,10 @@ class PaymentSettingsController < ApplicationController
       render 'index', locals: index_view_locals
       return
     end
-    if target_user.profile_progress_info[:enable_selling] == 0
-      target_user.profile_progress_info.update(enable_selling: 20)
-      target_user.save
-    end
+    # if target_user.profile_progress_info[:enable_selling] == 0
+    #   target_user.profile_progress_info.update(enable_selling: 20)
+    #   target_user.save
+    # end
     warn_about_missing_payment_info
 
     if params[:save_and_next_to_post].present?
@@ -63,10 +63,10 @@ class PaymentSettingsController < ApplicationController
     stripe_update_bank_account
 
     warn_about_missing_payment_info
-    if @current_user.profile_progress_info[:enable_selling] == 0
-      @current_user.profile_progress_info.update(enable_selling: 20)
-      @current_user.save
-    end
+    # if @current_user.profile_progress_info[:enable_selling] == 0
+    #   @current_user.profile_progress_info.update(enable_selling: 20)
+    #   @current_user.save
+    # end
     if params[:save_and_next_to_post].present?
       redirect_to new_listing_path
     else
@@ -142,7 +142,7 @@ class PaymentSettingsController < ApplicationController
       end
       if params[:save_and_next_to_enable_selling].present? && !@err
         # redirect_to homepage_without_locale_path
-        redirect_to person_payment_settings_path(@target_user)
+        redirect_to offers_and_request_person_settings_path(@target_user)
       else
         # redirect_to person_edit_stripe_customber_settings_path(@target_user)
         redirect_to person_stripe_customber_settings_path(@target_user)

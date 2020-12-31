@@ -79,7 +79,7 @@ class CommunityMembershipsController < ApplicationController
 
       flash[:notice] = t("layouts.notifications.you_are_now_member")
 
-      redirect_to person_settings_path(@current_user)
+      redirect_to contact_person_settings_path(@current_user)
       # if session[:return_to]
       #   redirect_to session[:return_to]
       #   session[:return_to] = nil

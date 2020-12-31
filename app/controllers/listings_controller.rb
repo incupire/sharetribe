@@ -179,21 +179,22 @@ class ListingsController < ApplicationController
 						return
 					else
 						if @listing.update(is_private: true, buyer_id: buyer.id)
-							buyer_display_name = buyer.name_or_username
+							buyer_display_name = PersonViewUtils.person_display_name(buyer, @current_community)
+							seller_display_name = PersonViewUtils.person_display_name(@listing.author, @current_community)
 							if @community_customization && @community_customization.custom_offer_text
 								content = @community_customization.custom_offer_text
 							else
 								content = "<p>Here is the link to the Custom Offer created for you</p>
-								<p>please click below to view the details and proceed to purchase.</p>"
+								<p>Please click below to view the details and proceed to purchase.</p>"
 							end
 							@url_params = {}
-				      @url_params[:host] = @current_community.full_domain.to_s
-				      @url_params[:locale] = buyer.locale
+							@url_params[:host] = @current_community.full_domain.to_s
+							@url_params[:locale] = buyer.locale
 							@listing_url = listing_url(@url_params.merge({:id => @listing.id}))
 							conversation_params = {}
 							conversation_params[:listing_id] = @listing.id
 							conversation_params[:message_attributes] = {}
-							conversation_params[:message_attributes][:content] = "Hello #{buyer_display_name} #{content} #{@listing_url} <br><br> Happy Collaborating!<br> The Avontage Success Team"
+							conversation_params[:message_attributes][:content] = "Hello #{buyer_display_name} #{content} #{@listing_url} <br><br> Happy Collaborating!<br> #{seller_display_name}"
 							conversation_params[:starting_page] = ::Conversation::PROFILE
 							conversation_params[:message_attributes][:sender_id] = @current_user.id
 

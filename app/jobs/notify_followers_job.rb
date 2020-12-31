@@ -13,7 +13,7 @@ class NotifyFollowersJob < Struct.new(:listing_id, :community_id)
   end
 
   def perform
-    return if !listing || listing.closed? || !author
+    return if !listing || listing.closed? || !author || listing.is_private
     followers_to_notify.map do |follower|
       MailCarrier.deliver_now(PersonMailer.new_listing_by_followed_person(listing, follower, community))
     end

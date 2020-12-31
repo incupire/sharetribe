@@ -317,13 +317,14 @@
 
       - if @rec_lists.count > 0
         - @rec_lists.each do |rec_list|
-          .rec-list.customize_rec_list
-            %h2= rec_list.recommendation_title  
-            = link_to "View all", recommendation_list_listings_homepage_path(rec_list), class: 'view_link'
-          .category_carausel.customize_carausel       
-            - rec_list.listings.each do |listing|
-              .card
-                = render partial: "grid_item_carousal", locals: { show_distance: false,listing: listing }
+          .row.extra-margin-top
+            .rec-list.customize_rec_list
+              %h2= rec_list.recommendation_title  
+              = link_to "View all", recommendation_list_listings_homepage_path(rec_list), class: 'view_link'
+            .category_carausel.customize_carausel       
+              - rec_list.listings.each do |listing|
+                .card
+                  = render partial: "grid_item_carousal", locals: { show_distance: false,listing: listing }
 
 - content_for :extra_javascript do
   :javascript
@@ -341,7 +342,7 @@
       speed: 500,
       slidesToShow: 4,
       slidesToScroll: 1,
-      autoplay: true,
+      autoplay: false,
       autoplaySpeed: 2000,
       dots: false,
       centerMode: false,

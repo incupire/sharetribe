@@ -38,6 +38,7 @@ class PeopleController < Devise::RegistrationsController
       per_page: 6
     }
 
+    search.merge!(show_private: @current_user == @person)
     includes = [:author, :listing_images]
     raise_errors = Rails.env.development?
 
@@ -128,6 +129,7 @@ class PeopleController < Devise::RegistrationsController
     # Make person a member of the current community
     if @current_community
       membership = CommunityMembership.new(person: @person, community: @current_community, consent: @current_community.consent)
+      membership.can_post_listings = true
       membership.status = "pending_email_confirmation"
       membership.invitation = invitation if invitation.present?
       # If the community doesn't have any members, make the first one an admin
@@ -150,7 +152,7 @@ class PeopleController < Devise::RegistrationsController
     if APP_CONFIG.skip_email_confirmation
       email.confirm!
 
-      redirect_to search_path
+      redirect_to contact_person_settings_path(@person)
     else
       Email.send_confirmation(email, @current_community)
 

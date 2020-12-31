@@ -24,7 +24,7 @@
             .ss.text-part= t(".add_description")
 
     - if @person.community_description_experience.present?
-      .row.profile-about-me
+      .row.profile-about-me.extra-margin-bottom
         %h2 I enjoy being part of the Avontage community because:
         %p= raw @person.community_description_experience
 
@@ -46,14 +46,14 @@
                 - else
                   %span.people-custom-fields-value
                     = custom_field_value.display_value
-    .row
+    .row.extra-margin-bottom
       -if @person.categories.count > 0
         %h2 I need the following on trade
         .following-on-trade
           - @person.categories.each do |cat|
             .person-category
               = cat.display_name('en')
-    .row
+    .row.extra-margin-bottom
       -if @person.average_amount
         %h2 Barter-ometer:
         .average-amount

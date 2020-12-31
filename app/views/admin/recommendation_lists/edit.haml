@@ -11,9 +11,9 @@
 
 .left-navi-section
   = form_for [:admin, @recommendation_list] do |f|
-    = f.label :recommendation_code, "Recommendation Code (3 chars)"
+    = f.label :recommendation_code, "Recommendation Code (5 chars)"
     .name-locale-text_field.col-10
-    = f.text_field(:recommendation_code, maxlength: 3)
+    = f.text_field(:recommendation_code, maxlength: 5)
     = f.label :recommendation_title,"Recommendation Title (60-chars)" 
     .name-locale-text_field.col-10
     = f.text_field(:recommendation_title, maxlength: 60) 
@@ -39,13 +39,13 @@
     %br
     .drop-down
       %div
-        = f.select :listing_ids, @recommendation_list.listings.collect { |t| [t.title, t.id]}, {}, multiple: 'multiple'
+        = f.select :listing_ids, @category_listings.collect { |t| [t.title, t.id]}, {}, multiple: 'multiple'
     .row
       .col-12
         .inline-button-container
           = f.submit ("Update"), class: 'button' 
         .inline-button-container
-          %a{href: 'admin_recommendation_lists', class: "cancel-button"}
+          %a{href: admin_recommendation_lists_path, class: "cancel-button"}
             .content
               = ("Cancel")
 
@@ -57,6 +57,16 @@
     });
     $(document).ready(function(){
       var category_id = [];
+      $('.checkbox-category').each(function(index,item){
+        category_id.push(item.value)
+        if(item.checked == true){
+          $(item).html(index+1);
+        }else{
+          category_id = jQuery.grep(category_id, function(value) {
+          return value != item.value;
+          });
+        }
+      });
       $('.checkbox-category').click(function(){
         $('#recommendation_list_listing_ids').html("")
         $('.checkbox-category').each(function(index,item){
@@ -64,18 +74,16 @@
             $(item).html(index+1);
           }
         });
-        if ($("input:checkbox:checked").length > 4){
-          return false;
-        }
-
-        $(".drop-down").removeClass('hidden')
-        if($(this).prop("checked") == true){
-          category_id.push($(this).val());
+        if ($(".checkbox-category:checkbox:checked").length > 4){
           $.ajax({
             url:  "#{edit_admin_recommendation_list_path(@recommendation_list.id)}",
             type: "get",
             data: {category_id: category_id}
           });
+          return false;
+        }
+        if($(this).prop("checked") == true){
+          category_id.push($(this).val());
         }
         else if($(this).prop("checked") == false){
           var removeItem = $(this).val()
@@ -84,10 +92,9 @@
           });
         }
         $.ajax({
-            url:  "#{edit_admin_recommendation_list_path(@recommendation_list.id)}",
-            type: "get",
-            data: {category_id: category_id}
+          url:  "#{edit_admin_recommendation_list_path(@recommendation_list.id)}",
+          type: "get",
+          data: {category_id: category_id}
         });
-        console.log(category_id)
       });
     });

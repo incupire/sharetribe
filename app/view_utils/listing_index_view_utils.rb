@@ -18,6 +18,7 @@ module ListingIndexViewUtils
     :quantity,
     :shape_name_tr_key,
     :listing_shape_id,
+    :is_private,
     :icon_name)
 
   Author = Struct.new(
@@ -87,6 +88,7 @@ module ListingIndexViewUtils
         l[:quantity],
         l[:shape_name_tr_key],
         l[:listing_shape_id],
+        l[:is_private],
         l[:icon_name]
       )
     }

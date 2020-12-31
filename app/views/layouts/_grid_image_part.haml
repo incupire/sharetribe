@@ -1,25 +1,23 @@
 - if @current_user.present? && @current_user.id != listing.author.id
-  %div.custom-favorite.cust_fav{id: "favorite_#{listing.id}"}
-    = render :partial => 'favorites/favorite_select_unselect', :locals => {:listing_id => listing.id}
+	%div.custom-favorite.cust_fav{id: "favorite_#{listing.id}"}
+		= render :partial => 'favorites/favorite_select_unselect', :locals => {:listing_id => listing.id}
 = link_to '', :class => "fluid-thumbnail-grid-image-item-link" do
-  .fluid-thumbnail-grid-image-image-container{:class => ""}
-    - if listing.listing_images.last.present?
-      / - binding.pry
-      - with_first_listing_image(listing) do |first_image_url|
-        = image_tag first_image_url, {:alt => listed_listing_title(listing), :class => "#{modifier_class} fluid-thumbnail-grid-image-image mobile_image"}
+	.fluid-thumbnail-grid-image-image-container{:class => ""}
+		- if listing.listing_images.last.present?
+			= image_tag listing.listing_images.first.image.url, {:alt => listed_listing_title(listing), :class => "fluid-thumbnail-grid-image-image mobile_image carasel-image"}
 .home-fluid-thumbnail-grid-author.custom_grid_author.profile_show_author
-  .fluid-thumbnail-grid-image-title.custom_title.custom_parent
-    = listing.title if listing.title.present?
-  .fluid-thumbnail-grid-image-price-container.modify_price.custom_price
-    - if listing.price
-      %span.fluid-thumbnail-grid-image-price.custom_price
-        = image_tag "black_a_img.png", class: "avon_small_icon_img"
-        = MoneyViewUtils.to_humanized(listing.price).split('$')[1]
-        - price_unit = price_quantity_slash_unit(listing)
-      - if !price_unit.blank?
-        - price_text = " " + price_unit
-        %span.fluid-thumbnail-grid-image-quantity{:title => price_text}
-          = price_text
-    - else
-      %span.fluid-thumbnail-grid-image-type
-        = shape_name(listing)
+	.fluid-thumbnail-grid-image-title.custom_title.custom_parent
+		= listing.title if listing.title.present?
+	.fluid-thumbnail-grid-image-price-container.modify_price.custom_price
+		- if listing.price
+			%span.fluid-thumbnail-grid-image-price.custom_price
+				= image_tag "black_a_img.png", class: "avon_small_icon_img"
+				= MoneyViewUtils.to_humanized(listing.price).split('$')[1]
+				- price_unit = price_quantity_slash_unit(listing)
+			- if !price_unit.blank?
+				- price_text = " " + price_unit
+				%span.fluid-thumbnail-grid-image-quantity{:title => price_text}
+					= price_text
+		- else
+			%span.fluid-thumbnail-grid-image-type
+				= shape_name(listing)

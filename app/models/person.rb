@@ -727,8 +727,8 @@ class Person < ApplicationRecord
   end
 
   def overall_progress
-    total_progress = 0
-    total_progress = profile_progress_info[:user_profile] + profile_progress_info[:contact_info] + profile_progress_info[:notifications] + profile_progress_info[:enable_purchasing] + profile_progress_info[:enable_selling] if self.profile_progress_info.present?
+    total_progress = 20
+    total_progress = total_progress + profile_progress_info[:contact_info] + profile_progress_info[:user_profile] + profile_progress_info[:notifications] + profile_progress_info[:enable_purchasing] if self.profile_progress_info.present?
     total_progress += 20 if self.listings.present?
     total_progress
   end

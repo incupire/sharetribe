@@ -11,9 +11,9 @@
 
 .left-navi-section
   = form_for [:admin, @recommendation_list] do |f|
-    = f.label :recommendation_code, "Recommendation Code (3 chars)"
+    = f.label :recommendation_code, "Recommendation Code (5 chars)"
     .name-locale-text_field.col-10
-    = f.text_field(:recommendation_code, maxlength: 3)
+    = f.text_field(:recommendation_code, maxlength: 5)
     = f.label :recommendation_title,"Recommendation Title (60-chars)" 
     .name-locale-text_field.col-10
     = f.text_field(:recommendation_title, maxlength: 60) 
@@ -44,7 +44,7 @@
         .inline-button-container
           = f.submit ("Save"),class: 'button' 
         .inline-button-container
-          %a{href: 'admin_recommendation_lists', class: "cancel-button"}
+          %a{href: admin_recommendation_lists_path, class: "cancel-button"}
             .content
               = ("Cancel")
 
@@ -63,18 +63,17 @@
             $(item).html(index+1);
           }
         });
-        if ($("input:checkbox:checked").length > 4){
-          return false;
-        }
-
-        $(".drop-down").removeClass('hidden')
-        if($(this).prop("checked") == true){
-          category_id.push($(this).val());
+        if ($(".checkbox-category:checkbox:checked").length > 4){
           $.ajax({
             url:  "#{new_admin_recommendation_list_path}",
             type: "get",
             data: {category_id: category_id}
           });
+          return false;
+        }
+        $(".drop-down").removeClass('hidden')
+        if($(this).prop("checked") == true){
+          category_id.push($(this).val());
         }
         else if($(this).prop("checked") == false){
           var removeItem = $(this).val()
@@ -83,9 +82,9 @@
           });
         }
         $.ajax({
-            url:  "#{new_admin_recommendation_list_path}",
-            type: "get",
-            data: {category_id: category_id}
+          url:  "#{new_admin_recommendation_list_path}",
+          type: "get",
+          data: {category_id: category_id}
         });
         console.log(category_id)
       });

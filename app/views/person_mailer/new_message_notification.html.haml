@@ -6,5 +6,5 @@
       %b{:style => "font-size:21px;line-height: 1.1;"}= t("emails.new_message.has_sent_you_a_message_in_kassi", :sender => PersonViewUtils.person_display_name(@message.sender, @current_community), :receiver => PersonViewUtils.person_display_name(@recipient, @current_community))
 
 
-= render :partial => "quote", :locals => { :quote => @message.content }
+= render :partial => "quote", :locals => { :quote => @message.content.html_safe }
 = render :partial => "action_button", :locals => { :text => t("emails.new_message.view_message"), :url => url}

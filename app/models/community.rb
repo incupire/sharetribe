@@ -564,7 +564,7 @@ class Community < ApplicationRecord
 
     selected_listings = listings
       .currently_open
-      .where("updates_email_at > ? AND updates_email_at > created_at", latest)
+      .where("updates_email_at > ? AND updates_email_at > created_at AND is_private = '0'", latest)
       .order("updates_email_at DESC")
       .to_a
 
@@ -573,7 +573,7 @@ class Community < ApplicationRecord
       if additional_listings > 0
         listings
           .currently_open
-          .where("updates_email_at > ? AND updates_email_at = created_at", latest)
+          .where("updates_email_at > ? AND updates_email_at = created_at AND is_private = '0'", latest)
           .order("updates_email_at DESC")
           .limit(additional_listings)
           .to_a

@@ -13,7 +13,7 @@ class Admin::RecommendationListsController < Admin::AdminBaseController
     @recommendation_list = RecommendationList.new
     @category = Category.all
     if params[:category_id].present?
-      @listing = Listing.where(category_id: params[:category_id])
+      @listing = Listing.where(category_id: params[:category_id], is_private: false)
       render layout: false
     end
   end
@@ -21,9 +21,11 @@ class Admin::RecommendationListsController < Admin::AdminBaseController
   def edit
     @recommendation_list = RecommendationList.find(params[:id])
     @selected_category = @recommendation_list.listings.pluck(:category_id).uniq
+    @selected_listing = @recommendation_list.listings
+    @category_listings = Listing.where(category_id: @selected_category, is_private: false)
     @category = Category.all
     if params[:category_id].present?
-      @listing = Listing.where(category_id: params[:category_id]) 
+      @listing = Listing.where(category_id: params[:category_id], is_private: false) 
       render layout: false
     end
   end
