@@ -2381,6 +2381,11 @@ figure.fluidratio {
           padding: 0px;
           padding-left: 15px;
 
+          &.full_view {
+            @media screen and (min-width: 1025px) {
+              width: calc(100% - 110px);
+            }
+          }
           &:focus {
             border: none;
             outline: none;
@@ -2417,7 +2422,12 @@ figure.fluidratio {
           border-left: 1px solid #e4e4e4;
           border-radius: 0px;
           font-size: 14px;
-
+          
+          &.full_view {
+            @media screen and (min-width: 1025px) {
+              width: calc(100% - 110px);
+            }
+          }
           &:focus {
             border: none;
             outline: none;

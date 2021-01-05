@@ -8,17 +8,29 @@
 <%is_homepage = params[:controller] == "homepage" && params[:action] == "index"%>
 <div class="sub-header">
   <div class="custom-search-bar">
+
     <form action="/s" method="get" class="search-form" id="homepage-filters-loc">
       <%
         placeholder = @current_user.present? ? "Hi #{@current_user.given_name}! #{@community_customization.search_placeholder}" : "#{@community_customization.search_placeholder}"
       %>
-      <input type="text" name="q" id="search_val" value="<%=params[:q]%>" placeholder="<%= placeholder %>" class="style-for-input">
-      <!-- <input type="text" name="lq" id="lq" value="" placeholder="Enter Location" class="style-for-input"> -->
-      <%= text_field_tag "lq", params[:lq], :placeholder => (@community_customization && @community_customization.search_placeholder) || t("homepage.index.what_do_you_need")%>
-      <input type="hidden" name="lc", id="lc", value="<%= params[:lc] %>">
-      <input type="hidden" name="ls", id="ls" value="">
-      <input type="hidden" name="boundingbox", id="boundingbox" value="<%= params[:boundingbox] %>">
-      <input type="hidden" name="distance_max", id="distance_max" value="">
+      <%if search_mode == :keyword_and_location%>
+        <input type="text" name="q" id="search_val" value="<%=params[:q]%>" placeholder="<%= placeholder %>" class="style-for-input">
+        <%= text_field_tag "lq", params[:lq], :placeholder => "Enter Location"%>
+        <input type="hidden" name="lc", id="lc", value="<%= params[:lc] %>">
+        <input type="hidden" name="ls", id="ls" value="">
+        <input type="hidden" name="boundingbox", id="boundingbox" value="<%= params[:boundingbox] %>">
+        <input type="hidden" name="distance_max", id="distance_max" value="">
+      <%end%>
+      <%if search_mode == :location%>
+        <%= text_field_tag "lq", params[:lq], :placeholder => "Enter Location", class: "full_view" %>
+        <input type="hidden" name="lc", id="lc", value="<%= params[:lc] %>">
+        <input type="hidden" name="ls", id="ls" value="">
+        <input type="hidden" name="boundingbox", id="boundingbox" value="<%= params[:boundingbox] %>">
+        <input type="hidden" name="distance_max", id="distance_max" value="">
+      <%end%>
+      <%if search_mode == :keyword%>
+        <input type="text" name="q" id="search_val" value="<%=params[:q]%>" placeholder="<%= placeholder %>" class="style-for-input full_view">
+      <%end%>
       <button type="submit" class="search-btn">
         <u class="text">Search</u>
         <div>
