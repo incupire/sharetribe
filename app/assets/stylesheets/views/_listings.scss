@@ -566,6 +566,9 @@ $listing-author-avatar-height: 108;
             justify-content: center;
             align-items: center;
             max-width: 81%;
+            @media screen and (max-width: 991px) {
+              width: 75%;
+            }
             @media (min-width: 992px) {
               max-width: 75%;
             }
@@ -573,14 +576,23 @@ $listing-author-avatar-height: 108;
             .home-fluid-thumbnail-grid-author-avatar-image {
               height: 24px;
             }
-            .home-fluid-thumbnail-grid-author-name {
-              position: initial;
-              color: #000;
-              font-weight: 600;
-              margin-left: 5px;
-              font-size: 12px;
-              @media (min-width: 992px) {
-                font-size: 10px;
+
+            .home-fluid-thumbnail-grid-details {
+              @media screen and (max-width: 1024px) {
+                position: initial;
+                width: calc(100% - 24px);
+                padding: 0 0 0 5px;
+              }
+
+              .home-fluid-thumbnail-grid-author-name {
+                position: initial;
+                color: #000;
+                font-weight: 600;
+                margin-left: 5px;
+                font-size: 12px;
+                @media (min-width: 992px) {
+                  font-size: 10px;
+                }
               }
             }
           }

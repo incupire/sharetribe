@@ -73,7 +73,6 @@ class HomepageController < ApplicationController
     enabled_search_modes = search_modes_in_use(params[:q], params[:lc], main_search)
     keyword_in_use = enabled_search_modes[:keyword]
     location_in_use = enabled_search_modes[:location]
-
     current_page = Maybe(params)[:page].to_i.map { |n| n > 0 ? n : 1 }.or_else(1)
     relevant_search_fields = parse_relevant_search_fields(params, relevant_filters)
 

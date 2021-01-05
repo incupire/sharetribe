@@ -14,7 +14,6 @@ window.ST = window.ST || {};
     autocomplete.setTypes(['geocode']);
     autocomplete.setFields(['address_components', 'geometry', 'icon', 'name']);
 
-
     // The values of these fields are defined based on the value of searchInput
     function clearHiddenInputs() {
       statusInput.value = null;

@@ -482,6 +482,11 @@ figure.marketplace-cover-small.fluidratio.custom_small_cover {
       padding-right: 0;
     }
   }
+
+  .home-fluid-thumbnail-grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 @media screen and (max-width:992px) and (min-width: 768px){
     home-fluid-thumbnail-grid{
@@ -1847,6 +1852,32 @@ table#admin_listings.new_design {
     .slick-track {
       .slick-slide {
         margin: 0 8px;
+        .redesign_grid_item {
+          .inner_grid_item {
+            .card-body {
+              .left_user {
+                justify-content: flex-start;
+                @media screen and (max-width: 767px) {
+                  width: initial;
+                }
+
+                .home-fluid-thumbnail-grid-author-avatar-image {
+                  width: 24px;
+                }
+              }
+
+              .right_price {
+                .offer_price {
+                  @media screen and (min-width: 768px) and (max-width: 992px) {
+                    display: flex;
+                    justify-content: flex-start;
+                    align-items: center;
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
   }

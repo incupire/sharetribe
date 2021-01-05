@@ -2350,21 +2350,29 @@ figure.fluidratio {
         border-radius: 10px;
         margin-top: 5px;
         margin-bottom: 5px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
 
         @media screen and (max-width: 767px) {
           width: 100%;
-          margin-left: 0;
-          border-radius: 5px;
+          flex-direction: column;
+          height: auto;
+          margin: 30px 0 15px;
+          border: none;
         }
         @media screen and (min-width: 768px) and (max-width: 992px) {
           width: 42%;
+          flex-direction: column;
+          height: auto;
+          border: none;
         }
         @media screen and (min-width: 993px) and (max-width: 1024px) {
           width: 58%;
         }
 
         .style-for-input {
-          width: calc(100% - 110px);
+          width: calc(100% - 340px);
           float: left;
           border: none;
           min-height: 36px;
@@ -2389,50 +2397,75 @@ figure.fluidratio {
           &:-moz-placeholder {
             color: #000;
           }
-          @media screen and (min-width: 768px) and (max-width: 992px) {
-            width: 84%;
+  
+          @media screen and (max-width: 992px) {
+            width: 100%;
             font-size: 12px;
+            margin: 0 0 8px;
+            border: 1px solid #e4e4e4;
           }
           @media screen and (min-width: 993px) and (max-width: 1024px) {
-            width: 88%;
+            width: calc(100% - 270px);
+            font-size: 14px;
           }
-          @media screen and (max-width: 767px) {
-            width: 85%;
-            font-size: 12px;
+        }
+
+        .pac-target-input {
+          width: 230px;
+          border: none;
+          background: transparent;
+          border-left: 1px solid #e4e4e4;
+          border-radius: 0px;
+          font-size: 14px;
+
+          &:focus {
+            border: none;
+            outline: none;
+          }
+          &::-webkit-input-placeholder {
+            color: #000;
+          }
+          &::-moz-placeholder {
+            color: #000;
+          }
+          &:-ms-input-placeholder {
+            color: #000;
+          }
+          &:-moz-placeholder {
+            color: #000;
+          }
+          @media screen and (max-width: 992px) {
+            width: 100%;
+            border: 1px solid #e4e4e4;
+            border-radius: 5px;
+            margin: 0 0 8px;
+            padding: 0 15px;
+          }
+          @media screen and (min-width: 993px) and (max-width: 1024px) {
+            width: 160;
           }
         }
         .search-btn {
-         //  background: #3483de;
           color: #fff;
-          float: left;
           width: 110px;
           font-size: 18px;
-          height: 40px;
-          position: relative;
-          bottom: 2px;
-          left: 2px;
+          height: 100%;
           border-radius: 10px;
           padding: 0px;
           margin: 0;
 
-          @media screen and (min-width: 768px) and (max-width: 992px) {
-            width: 16%;
-            font-size: 14px;
-          }
-          @media screen and (min-width: 993px) and (max-width: 1024px) {
-            width: 12%;
-          }
-
-          @media screen and (max-width: 767px) {
+          @media screen and (max-width: 992px) {
             position: relative;
             display: inline-block;
             margin: 0;
             padding: 0;
-            width: 15%;
+            width: 100%;
             height: 40px;
             border: none;
             stroke: #fff;
             cursor: pointer;
+            width: 100%;
+            border-radius: 5px;
           }
           svg {
             display: none;
