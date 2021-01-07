@@ -3,3 +3,10 @@
 
 #new-message-form.centered-section
   = render partial: "community_memberships/confirmation_form", locals: {support_email: support_email}
+
+
+- content_for :extra_javascript do
+  :javascript
+    $(document).ready(function() {
+      gtag('event', 'conversion', {'send_to': 'AW-800820594/Mr57CNCZm-8BEPKa7v0C'});
+    });
