@@ -11,10 +11,7 @@
                     %tr
                       %td{:width => "5%"}
                       %td{:valign => "top", :width => "90%"}
-                        - if Rails.env == "staging"
-                          = image_tag 'https://staging.avontage.com/assets/logo.png'
-                        - else
-                          = image_tag 'https://www.avontage.com/assets/logo.png'
+                        = image_tag @current_community.logo.present? ? @current_community.logo : 'https://www.avontage.com/assets/logo.png'
                         %div{:style => "font-family:Helvetica Neue, Helvetica, Arial, sans-serif;font-size:16px;line-height:22px; padding: 10px 0;text-align:left;"}
                           %p
                             = t("emails.newsletter.hi", :name => link_to(PersonViewUtils.person_display_name_for_type(@recipient, "first_name_only"), person_url(@recipient, @url_params))).html_safe
