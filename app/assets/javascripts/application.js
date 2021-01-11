@@ -107,6 +107,3 @@
 //= require admin/testimonials
 //= require_self
 
-$(function(){
-  $.noConflict();
-});
