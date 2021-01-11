@@ -1,7 +1,7 @@
+= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js'
 - content_for :extra_javascript do
   :javascript
     $(document).ready(function() {
-      $("#new_listing").attr('novalidate', 'novalidate')
       window.ST.initialize_new_listing_form_selectors("#{I18n.locale}", #{raw @listing_presenter.category_tree.to_json}, #{raw listing_form_menu_titles().to_json});
     });
 
