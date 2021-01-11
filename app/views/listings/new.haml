@@ -1,10 +1,9 @@
-= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js'
 - content_for :extra_javascript do
+  = javascript_include_tag 'listing_form'
   :javascript
     $(document).ready(function() {
       window.ST.initialize_new_listing_form_selectors("#{I18n.locale}", #{raw @listing_presenter.category_tree.to_json}, #{raw listing_form_menu_titles().to_json});
     });
-
 
 - content_for :extra_javascript do
   - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)

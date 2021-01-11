@@ -17,7 +17,7 @@ Rails.application.config.assets.paths << Rails.root.join("app", "assets", "webpa
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 Rails.application.config.assets.precompile << "server-bundle.js"
 
-Rails.application.config.assets.precompile += ["application.js", "application_reactpage.js", "application.css", "react_page/styles.css"]
+Rails.application.config.assets.precompile += ["application.js", "application_reactpage.js", "application.css", "react_page/styles.css", 'listing_form.js']
 
 if Rails.env == 'test'
   Rails.application.config.assets.precompile += ['test/timecop']
