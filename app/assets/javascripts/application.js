@@ -96,6 +96,7 @@
 //= require paypal_account_settings
 //= require transaction
 //= require transactions
+//= require listing_form
 //= require radio_buttons
 //= require slick.min
 //= require new_layout

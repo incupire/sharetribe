@@ -2,7 +2,6 @@
   %h1= t(".edit_listing")
 
 - content_for :extra_javascript do
-  = javascript_include_tag 'listing_form'
   :javascript
     $(document).ready(function() {
       window.ST.initialize_edit_listing_form_selectors("#{I18n.locale}", #{@listing_presenter.category_tree.to_json.html_safe}, #{listing_form_menu_titles().to_json.html_safe}, #{@listing_presenter.category_id.to_json.html_safe}, #{@listing_presenter.subcategory_id.to_json.html_safe}, #{@listing.listing_shape_id.to_json.html_safe}, #{@listing.id});
