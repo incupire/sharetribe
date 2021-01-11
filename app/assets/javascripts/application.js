@@ -105,3 +105,7 @@
 //= require select2.min
 //= require admin/testimonials
 //= require_self
+
+$(function(){
+  $.noConflict();
+});
