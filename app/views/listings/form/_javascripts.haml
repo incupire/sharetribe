@@ -5,7 +5,6 @@
 - content_for :listing_js do
   :javascript
     $(document).ready(function() {
-      $.noConflict();
       var listingImageOpts = #{raw ListingImageS3OptionsJSAdapter.new(@listing).to_json}
       var listingImages = #{raw @listing.listing_images.map { |image| ListingImageJSAdapter.new(image) }.to_json }
 
