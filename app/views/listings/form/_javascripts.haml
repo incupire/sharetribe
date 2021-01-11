@@ -20,7 +20,7 @@
       numeric_field_names = #{raw @numeric_field_ids.collect { |numeric_field_id| "custom_fields[#{numeric_field_id}]" }.to_json }
 
       var numericRules = numeric_field_names.reduce(function(rules, name) {
-        var el = module.utils.findElementByName(name);
+        var el = window.ST.utils.findElementByName(name);
         var min = el.data("min");
         var max = el.data("max");
 
