@@ -399,7 +399,7 @@ window.ST = window.ST || {};
     listingImages,
     listingImageOpts,
     imageLoadingInProgressConfirm) {
-    $.noConflict();
+
     $('#help_valid_until_link').click(function() { $('#help_valid_until').lightbox_me({centered: true, zIndex: 1000000}); });
     $('input.title_text_field:first').focus();
 
@@ -438,67 +438,67 @@ window.ST = window.ST || {};
     var form_id = (listing_id == "false") ? "#new_listing" : ("#edit_listing_" + listing_id);
 
     // Is price required?
-    var pr = null;
-    if (price_required == "true") {
-      pr = true;
-    } else {
-      pr = false;
-    }
+    // var pr = null;
+    // if (price_required == "true") {
+    //   pr = true;
+    // } else {
+    //   pr = false;
+    // }
 
-    var numericRules = numeric_field_names.reduce(function(rules, name) {
-      var el = module.utils.findElementByName(name);
-      var min = el.data("min");
-      var max = el.data("max");
+    // var numericRules = numeric_field_names.reduce(function(rules, name) {
+    //   var el = module.utils.findElementByName(name);
+    //   var min = el.data("min");
+    //   var max = el.data("max");
 
-      rules[name] = {number_min: min, number_max: max};
+    //   rules[name] = {number_min: min, number_max: max};
 
-      return rules;
-    }, {});
+    //   return rules;
+    // }, {});
 
-    module.listingForm = $(form_id).validate({
-      errorPlacement: function(error, element) {
-        if (element.attr("name") == "listing[valid_until(1i)]") {
-          error.appendTo(element.parent());
-        } else if (element.attr("name") == "listing[price]") {
-          error.appendTo(element.parent());
-        } else if ($(element).hasClass("custom_field_checkbox")) {
-          var container = $(element).closest(".checkbox-group-container");
-          error.insertAfter(container);
-        } else if ($(element).hasClass("delivery-method-checkbox")) {
-          error.insertAfter($(".delivery-options-container"));
-        } else if (element.attr("name") == "listing[shipping_price]") {
-          error.insertAfter($(".shipping-price-default"));
-        } else if (element.attr("name") == "listing[shipping_price_additional]") {
-          error.insertAfter($(".js-shipping-price-additional"));
-        } else {
-          error.insertAfter(element);
-        }
-      },
-      debug: false,
-      rules: _.extend(numericRules, {
-        "listing[author_id]": {required: true, remote: "/admin/people/validate_listing_author"},
-        "listing[buyer_id]": {required: true, remote: "/listings/validate_listing_buyer"},
-        "listing[title]": {required: true, minlength: 2, maxlength: 60},
-        "listing[origin]": {address_validator: true},
-        "listing[price]": {required: pr, money: true, minimum_price_required: [minimum_price, subunit_to_unit]},
-        "listing[shipping_price]": {money: true},
-        "listing[shipping_price_additional]": {money: true},
-        "listing[valid_until(1i)]": { min_date: true, max_date: true }
-      }),
-      messages: {
-        "listing[author_id]": {remote: "Please select a valid user!"},
-        "listing[buyer_id]": {remote: "Please select a valid buyer!"},
-        "listing[valid_until(1i)]": { min_date: date_message, max_date: date_message },
-        "listing[price]": { money: "Enter numbers only, no Symbols.", minimum_price_required: minimum_price_message },
-        "listing[shipping_price]": {money: "Enter numbers only, no Symbols."},
-        "listing[shipping_price_additional]": {money: "Enter numbers only, no Symbols."}
-      },
-      // Run validations only when submitting the form.
-      onkeyup: false,
-      onclick: false,
-      onfocusout: false,
-      onsubmit: true
-    });
+    // module.listingForm = $(form_id).validate({
+    //   errorPlacement: function(error, element) {
+    //     if (element.attr("name") == "listing[valid_until(1i)]") {
+    //       error.appendTo(element.parent());
+    //     } else if (element.attr("name") == "listing[price]") {
+    //       error.appendTo(element.parent());
+    //     } else if ($(element).hasClass("custom_field_checkbox")) {
+    //       var container = $(element).closest(".checkbox-group-container");
+    //       error.insertAfter(container);
+    //     } else if ($(element).hasClass("delivery-method-checkbox")) {
+    //       error.insertAfter($(".delivery-options-container"));
+    //     } else if (element.attr("name") == "listing[shipping_price]") {
+    //       error.insertAfter($(".shipping-price-default"));
+    //     } else if (element.attr("name") == "listing[shipping_price_additional]") {
+    //       error.insertAfter($(".js-shipping-price-additional"));
+    //     } else {
+    //       error.insertAfter(element);
+    //     }
+    //   },
+    //   debug: false,
+    //   rules: _.extend(numericRules, {
+    //     "listing[author_id]": {required: true, remote: "/admin/people/validate_listing_author"},
+    //     "listing[buyer_id]": {required: true, remote: "/listings/validate_listing_buyer"},
+    //     "listing[title]": {required: true, minlength: 2, maxlength: 60},
+    //     "listing[origin]": {address_validator: true},
+    //     "listing[price]": {required: pr, money: true, minimum_price_required: [minimum_price, subunit_to_unit]},
+    //     "listing[shipping_price]": {money: true},
+    //     "listing[shipping_price_additional]": {money: true},
+    //     "listing[valid_until(1i)]": { min_date: true, max_date: true }
+    //   }),
+    //   messages: {
+    //     "listing[author_id]": {remote: "Please select a valid user!"},
+    //     "listing[buyer_id]": {remote: "Please select a valid buyer!"},
+    //     "listing[valid_until(1i)]": { min_date: date_message, max_date: date_message },
+    //     "listing[price]": { money: "Enter numbers only, no Symbols.", minimum_price_required: minimum_price_message },
+    //     "listing[shipping_price]": {money: "Enter numbers only, no Symbols."},
+    //     "listing[shipping_price_additional]": {money: "Enter numbers only, no Symbols."}
+    //   },
+    //   // Run validations only when submitting the form.
+    //   onkeyup: false,
+    //   onclick: false,
+    //   onfocusout: false,
+    //   onsubmit: true
+    // });
 
     var status = window.ST.imageUploader(listingImages, listingImageOpts).log("status returned");
 
