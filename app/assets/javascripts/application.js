@@ -26,8 +26,8 @@
 //= require jquery_ujs
 //= require jquery-ui/widgets/autocomplete
 //= require autocomplete-rails
-//= require jquery.form
 //= require jquery.validate
+//= require jquery.form
 //= require jquery.pageless
 //= require jquery.lightbox_me
 //= require jquery.transit.min

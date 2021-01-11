@@ -1,8 +1,10 @@
 - content_for :extra_javascript do
   :javascript
     $(document).ready(function() {
+      $("#new_listing").attr('novalidate', 'novalidate')
       window.ST.initialize_new_listing_form_selectors("#{I18n.locale}", #{raw @listing_presenter.category_tree.to_json}, #{raw listing_form_menu_titles().to_json});
     });
+
 
 - content_for :extra_javascript do
   - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
