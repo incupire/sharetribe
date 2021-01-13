@@ -1,6 +1,6 @@
 class AddColumnToPerson < ActiveRecord::Migration[5.1]
   def change
-  	add_reference :person_categories, :person, type: :string, foreign_key: true
-  	add_reference :person_categories, :category, type: :int, foreign_key: true
+    add_column :person_categories, :person_id, :string
+    add_column :person_categories, :category_id, :integer
   end
 end
