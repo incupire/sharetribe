@@ -1940,3 +1940,8 @@ table#admin_listings.new_design {
 .carasel-image {
   height: 100% !important;
 }
+.recommend_parent_categories {
+  .col-4:first-child {
+    padding-left: 0.75em;
+  }
+}

@@ -27,15 +27,21 @@
       = t("admin.recommend.select_category") 
 
     - @category.each do |cat|
-      - unless cat.has_subcategories?
-        .col-4
-          = check_box_tag(:category,  cat.id, @selected_category.present? && @selected_category.include?(cat.id) ? true : false, class: 'checkbox-category')
-          = f.label( :category,  cat.display_name(cat), class: "checkbox-row-label js-price-enabled-label")
-      - else
-        - cat.children.each do |c|
-          .col-4
-            = check_box_tag(:category, c.id, @selected_category.present? && @selected_category.include?(cat.id) ? true : false, class: 'checkbox-category')
-            = f.label( :category,  c.display_name(c),class: "checkbox-row-label js-price-enabled-label")
+      - if cat.has_subcategories?
+        .row
+          %h4= cat.display_name("en")
+          - cat.children.each do |c|
+            .col-4
+              = check_box_tag(:category, c.id, @selected_category.present? && @selected_category.include?(c.id) ? true : false, class: 'checkbox-category')
+              = f.label( :category,  c.display_name(c),class: "checkbox-row-label js-price-enabled-label")
+
+    %div.recommend_parent_categories
+      .row
+        - @category.each do |cat|
+          - unless cat.has_subcategories?
+            .col-4
+              = check_box_tag(:category,  cat.id, @selected_category.present? && @selected_category.include?(cat.id) ? true : false, class: 'checkbox-category')
+              = f.label( :category,  cat.display_name(cat), class: "checkbox-row-label js-price-enabled-label")
     %br
     .drop-down
       %div
