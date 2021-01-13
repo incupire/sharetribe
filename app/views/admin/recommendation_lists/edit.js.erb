@@ -1,1 +1,5 @@
 $('#recommendation_list_listing_ids').html('<%=j options_from_collection_for_select(@listing, :id, :title) %>');
+$("#recommendation_list_listing_ids").select2({
+  placeholder: "Select listings",
+  allowClear: true
+});

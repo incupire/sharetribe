@@ -11,7 +11,6 @@ class Admin::RecommendationListsController < Admin::AdminBaseController
 
   def new
     @recommendation_list = RecommendationList.new
-    # @parentcategory = @current_community.top_level_categories.includes(:translations, children: :translations).where("parent_id = ", nil)
     @category = @current_community.top_level_categories.includes(:translations, children: :translations)
     if params[:category_id].present?
       @listing = Listing.exist.status_open_active.where(category_id: params[:category_id], is_private: false)
