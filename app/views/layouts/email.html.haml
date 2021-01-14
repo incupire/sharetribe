@@ -16,7 +16,7 @@
 									- if action_name == "new_message_notification"
 										%tr
 											%td{:valign => "top", :width => "90%"}
-												= image_tag @current_community.logo.present? ? @current_community.logo : 'https://www.avontage.com/assets/logo.png'
+												= image_tag @current_community.wide_logo.present? ? @current_community.wide_logo : 'https://www.avontage.com/assets/logo.png'
 									- else
 										%tr
 											%td{:align => "left", :style => "padding-top: 20px; padding-bottom: 5px; border-bottom:1px dotted grey;"}
