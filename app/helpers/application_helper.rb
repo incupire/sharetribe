@@ -828,8 +828,11 @@ module ApplicationHelper
   end
 
   def progress_bar_redirect_link(page_name='other_page')
-    @redirect_link = "<a href="+new_listing_path+" class='next_step button'>Post your Offers</a>"
+    @redirect_link = @current_user.listings.blank? ? "<a href="+new_listing_path+" class='next_step button'>Post your Offers</a>" : ""
     @current_user.profile_progress_info.each do |key, value|
+      if key == :notifications || key == :enable_selling
+        next
+      end
       case page_name
       when 'Contact'
         if @current_user.profile_progress_info.values.sum == 0
@@ -877,8 +880,6 @@ module ApplicationHelper
       "<a href="+person_settings_path(@current_user)+" class='next_step button'>Profile Setup</a>"
     elsif key == :enable_purchasing
       "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
-    else
-      "<a href="+new_listing_path+" class='next_step button'>Post your Offers</a>"
     end
   end
 

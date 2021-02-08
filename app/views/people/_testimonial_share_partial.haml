@@ -1,17 +1,25 @@
-= link_to("javascript:;", class: 'fb_share') do
-	= image_tag 'facebook-logo1.png'
-	%span Share on Facebook
-%a.twitter_share{:href => "https://twitter.com/share?url=https://#{request.host_with_port}/en/#{@current_user.username}", target: '_blank'}
-	= image_tag 'twitter-logo-silhouette.png'
-	%span Share on Twitter
-%a.twitter_share{href: "https://www.linkedin.com/shareArticle?mini=true&url=https://#{request.host_with_port}/en/#{@current_user.username}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
-	= image_tag 'linkedin-letters.png'
-	%span Share on linkedIn
+%div
+	%h2.congrats Congrats! Share this with friends!
+
+%div.sharing_link_box
+	.sharing_link= person_url(@current_user)
+
+%div
+	.share_testimonial_text Share your reviews on your social media feeds and via email and let the world know about your amazing work.
+
+%div
+	.share_testimonial_social_links
+		= link_to("javascript:;", class: 'fb_share') do
+			= image_tag 'facebook-logo1.png'
+		%a.twitter_share{:href => "https://twitter.com/share?url=https://#{request.host_with_port}/en/#{@current_user.username}&via=Avontage&hashtags=Avontage&text=#{testimonial.text}", target: '_blank'}
+			= image_tag 'twitter-logo-silhouette.png'
+		%a.twitter_share{href: "http://www.linkedin.com/shareArticle?mini=true&url=#{person_url(@current_user)}&title=#{testimonial.text}&summary=#{testimonial.text}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
+			= image_tag 'linkedin-letters.png'
 
 - content_for :extra_javascript do
 	:javascript
 		$('.fb_share').click(function(){
-			var url = "https://#{request.host_with_port}/en/#{@current_user.username}";
+			var url = "#{person_url(@current_user)}";
 			return popitup("https://www.facebook.com/sharer/sharer.php?u="+ url)
 		})
 		function popitup(url) {

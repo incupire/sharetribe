@@ -24,7 +24,7 @@
     .modal_heading
       .close X
     .modal_body
-      = render partial: "testimonial_share_partial"
+      = render partial: "testimonial_share_partial", locals: {testimonial: testimonial}
 
 - content_for :extra_javascript do
   :javascript
