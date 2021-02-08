@@ -633,18 +633,11 @@ module ApplicationHelper
         :name => "profile"
       },
       {
-        :id => "settings-tab-account",
-        :text => t("layouts.settings.account"),
-        :icon_class => icon_class("account_settings"),
-        :path => account_person_settings_path(person) ,
-        :name => "account"
-      },
-      {
-        :id => "settings-tab-notifications",
-        :text => t("layouts.settings.notifications"),
-        :icon_class => icon_class("notification_settings"),
-        :path => notifications_person_settings_path(person),
-        :name => "notifications"
+        :id => "settings-tab-offers_and_request",
+        :text => t("layouts.settings.offers_and_request"),
+        :icon_class => icon_class("coins"),
+        :path => offers_and_request_person_settings_path(person),
+        :name => "offers_and_request"
       }
     ]
 
@@ -657,14 +650,6 @@ module ApplicationHelper
         :name => "new-stripe-customber"
       }
     end
-
-    links << {
-      :id => "settings-tab-offers_and_request",
-      :text => t("layouts.settings.offers_and_request"),
-      :icon_class => icon_class("coins"),
-      :path => offers_and_request_person_settings_path(person),
-      :name => "offers_and_request"
-    }
 
     paypal_ready = PaypalHelper.community_ready_for_payments?(@current_community.id)
     stripe_ready = StripeHelper.community_ready_for_payments?(@current_community.id)
@@ -680,12 +665,28 @@ module ApplicationHelper
     end
 
     links << {
-      :id => "settings-tab-payments",
-      :text => t("layouts.settings.transactions"),
-      :icon_class => icon_class("coins"),
-      :path => transactions_person_settings_path(person),
-      :name => "transactions"
-    }
+        :id => "settings-tab-account",
+        :text => t("layouts.settings.account"),
+        :icon_class => icon_class("account_settings"),
+        :path => account_person_settings_path(person) ,
+        :name => "account"
+      }
+
+    links << {
+        :id => "settings-tab-notifications",
+        :text => t("layouts.settings.notifications"),
+        :icon_class => icon_class("notification_settings"),
+        :path => notifications_person_settings_path(person),
+        :name => "notifications"
+      }
+
+    links << {
+        :id => "settings-tab-payments",
+        :text => t("layouts.settings.transactions"),
+        :icon_class => icon_class("coins"),
+        :path => transactions_person_settings_path(person),
+        :name => "transactions"
+      }
 
     return links
   end
@@ -842,7 +843,7 @@ module ApplicationHelper
         end
       when 'Profile'
         if @current_user.profile_progress_info.values.sum == 0
-          @redirect_link = "<a href="+notifications_person_settings_path(@current_user)+" class='next_step button'>Setup notifications</a>"
+          @redirect_link = "<a href="+offers_and_request_person_settings_path(@current_user)+" class='next_step button'>Post offers</a>"
           break
         else
           if key != :user_profile && value == 0
@@ -850,31 +851,11 @@ module ApplicationHelper
             break
           end
         end
-      when 'Notification'
-        if @current_user.profile_progress_info.values.sum == 0
-          @redirect_link = "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
-          break
-        else
-          if key != :notifications && value == 0
-            get_related_link(key)
-            break
-          end
-        end
       when 'Enable purchasing'
         if @current_user.profile_progress_info.values.sum == 0
-          @redirect_link = "<a href="+offers_and_request_person_settings_path(@current_user)+" class='next_step button'>Post offers</a>"
           break
         else
           if key != :enable_purchasing && value == 0
-            get_related_link(key)
-            break
-          end
-        end
-      when 'Enable selling'
-        if @current_user.profile_progress_info.values.sum == 0
-          break
-        else
-          if key != :enable_selling && value == 0
             get_related_link(key)
             break
           end
@@ -890,14 +871,14 @@ module ApplicationHelper
   end
 
   def get_related_link (key)
-    @redirect_link = if key == :user_profile
+    @redirect_link = if key == :contact_info
+      "<a href="+contact_person_settings_path(@current_user)+" class='next_step button'>Contact info setup</a>"
+    elsif key == :user_profile
       "<a href="+person_settings_path(@current_user)+" class='next_step button'>Profile Setup</a>"
-    elsif key == :notifications
-      "<a href="+notifications_person_settings_path(@current_user)+" class='next_step button'>Setup notifications</a>"
     elsif key == :enable_purchasing
       "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
-    elsif key == :enable_selling
-      "<a href="+person_payment_settings_path(@current_user)+" class='next_step button'>Accept Credit Card payments</a>"
+    else
+      "<a href="+new_listing_path+" class='next_step button'>Post your Offers</a>"
     end
   end
 

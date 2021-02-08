@@ -255,6 +255,21 @@ class PeopleController < Devise::RegistrationsController
 
     begin
       person_params = person_update_params(params)
+      if person_params[:business_stage].present?
+        person_params[:business_stage] = person_params[:business_stage].to_i
+      end
+
+      if person_params[:reffered_by_email].present?
+        person_params[:reffered_by_socialmedia] = ""
+        person_params[:reffered_by_other] = ""
+      end
+
+      if person_params[:reffered_by_socialmedia].present?
+        person_params[:reffered_by_socialmedia] = person_params[:reffered_by_socialmedia].to_i
+        if person_params[:reffered_by_socialmedia] != 9
+          person_params[:reffered_by_other] = ""
+        end
+      end
 
       Maybe(person_params)[:location].each { |loc|
         person_params[:location] = loc.merge(location_type: :person)
@@ -291,28 +306,23 @@ class PeopleController < Devise::RegistrationsController
     end
     #redirect_back(fallback_location: homepage_url)
 
-    if params[:notification_page].present?
-      if target_user.profile_progress_info[:notifications] == 0
-        target_user.profile_progress_info.update(notifications: 20)
-        target_user.save
-      end
-    elsif params[:member_profile_page].present?
+    if params[:member_profile_page].present?
       if target_user.profile_progress_info[:user_profile] == 0
-        target_user.profile_progress_info.update(user_profile: 10)
+        target_user.profile_progress_info.update(user_profile: 25)
         target_user.save
       end
-    else
+    elsif params[:contact_info_page].present?
       if target_user.profile_progress_info[:contact_info] == 0
-        target_user.profile_progress_info.update(contact_info: 10)
+        target_user.profile_progress_info.update(contact_info: 25)
         target_user.save
       end
     end
     if params[:contact_info_page].present? && params[:save_and_next].present?
       redirect_to person_settings_path(target_user)
     elsif params[:save_and_next].present?
-      redirect_to notifications_person_settings_path(target_user)
+      redirect_to new_listing_path
     elsif params[:save_and_next_to_enable_purchasing].present?
-      redirect_to person_stripe_customber_settings_path(target_user)
+      redirect_to transactions_person_settings_path(target_user)
     else
       redirect_to person_path(target_user)
     end
@@ -476,7 +486,11 @@ class PeopleController < Devise::RegistrationsController
         :password2,
         :referral_code,
         :min_days_between_community_updates,
+        :business_stage,
         :average_amount,
+        :reffered_by_email,
+        :reffered_by_socialmedia,
+        :reffered_by_other,
         location: [:address, :google_address, :latitude, :longitude],
         send_notifications: [],
         email_attributes: [:address],

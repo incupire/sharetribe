@@ -34,7 +34,7 @@ class Category < ApplicationRecord
 
   has_many :category_custom_fields, :dependent => :destroy
   has_many :custom_fields, -> { order("sort_priority") }, :through => :category_custom_fields
-  has_many :person_categories
+  has_many :person_categories, :dependent => :destroy
   has_many :people, :through => :person_categories
   belongs_to :community
 

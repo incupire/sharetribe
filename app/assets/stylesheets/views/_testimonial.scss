@@ -63,3 +63,50 @@ $testimonial-icon-width: 40;
 .load-more-testimonials {
   margin-top: lines(1);
 }
+
+.share-review-icon-image {
+  width: 24px;
+}
+
+.add_product_modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 1050;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+
+  &.show_modal {
+    display: flex;
+  }
+
+  .modal_box {
+    max-width: 600px;
+    min-height: 400px;
+    background: #fff;
+    width: 100%;
+    border-radius: 8px;
+
+    .modal_heading {
+      position: relative;
+      padding: 10px 20px;
+      .close {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 1;
+      }
+    }
+
+    .modal_body {
+      padding: 20px;
+    }
+  }
+}

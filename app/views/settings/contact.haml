@@ -41,21 +41,13 @@
     .row
       .col-12
         = form.label :business_name, t("settings.profile.business_name")
-        = form.text_field :business_name, :class => "text_field", :maxlength => "30", required: true
+        = form.text_field :business_name, :class => "text_field", :maxlength => "50", required: true
     .row
       .col-12
         = form.label :website_name, t("settings.profile.website_name")
-        = form.text_field :website_name, :class => "text_field", :maxlength => "30", :placeholder => "i.e. https://www.avontage.com"
+        = form.text_field :website_name, :class => "text_field", :maxlength => "50", :placeholder => "i.e. https://www.avontage.com"
     -# Display name
     .row
-      .col-6
-        .inline-label-container
-          = form.label :display_name, t("settings.profile.display_name"), class: "inline"
-        %span.alert-box-icon
-          = icon_tag("information", ["icon-fix"])
-        %small
-          = t("settings.profile.display_name_description")
-        = form.text_field :display_name, class: "text_field", :maxlength => "25"
       .col-6
         .inline-label-container
           = form.label :referral_code, t("settings.profile.referral_code"), class: "inline"
@@ -82,6 +74,30 @@
           %small
             = t('settings.profile.invisible')
         = form.text_field :mobile_number, :class => "text_field", :maxlength => "25", required: true
+
+
+    -# how did you find about us section
+    .reffered_by_section
+      %h2.reffred_heading
+        %strong How did you find out about us
+      .reffered_by_box
+        .box_heading If you were reffered by someone, enter the name so we can send them a thank you gift.
+        .bottom_text_box
+          .text_box_heading Enter the friend who reffered you here:
+          = form.text_field :reffered_by_email, class: 'custom_bottom_field'
+        .box_heading or tell us how you find us:
+        
+        .find_us_box
+          - Person::REFFERED_BY_SOCIALMEDIA.each do |key, value, id|
+            .choose_field
+              .custom_field
+                = form.radio_button :reffered_by_socialmedia, value, checked: key == target_user.reffered_by_socialmedia, class: 'custom_checkbox'
+                %label.choose_key{:for => value}
+                  = key
+                  %span
+                    = image_tag 'check-icn.svg'
+          .choose_field
+            = form.text_field :reffered_by_other, class: "last_input_field"
 
     -# Location
     .inline-label-container
@@ -112,3 +128,13 @@
     .inline_buttons
       = form.button t("settings.save_and_close"), :class => "send_button"
       %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
+
+- content_for :extra_javascript do
+  :javascript
+    $("input[name='person[reffered_by_socialmedia]']").click(function(){
+      if ($("input[name='person[reffered_by_socialmedia]'][value='9']").prop("checked")) {
+        $("#person_reffered_by_other").prop("required", true);
+      }else {
+        $("#person_reffered_by_other").prop("required", false);
+      }
+    });

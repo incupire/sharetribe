@@ -399,6 +399,10 @@ function initialize_update_profile_info_form(locale, person_id, name_required) {
       "person[average_amount]":{required: true},
       "person[description]": {required: true},
       "person[business_name]": {required: true},
+      "person[facebook_link]": {maxlength: 50},
+      "person[instagram_link]": {maxlength: 50},
+      "person[linkedin_link]": {maxlength: 50},
+      "person[twitter_link]": {maxlength: 50},
       "person[image]": { accept: "(jpe?g|gif|png)" }
     },
     onkeyup: false,

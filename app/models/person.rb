@@ -67,6 +67,10 @@
 #  total_received_review              :integer          default(0)
 #  profile_progress_info              :string(255)      default({:contact_info=>0, :user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
 #  average_amount                     :integer
+#  business_stage                     :integer
+#  reffered_by_email                  :string(255)
+#  reffered_by_socialmedia            :integer
+#  reffered_by_other                  :string(255)
 #
 # Indexes
 #
@@ -114,6 +118,10 @@ class Person < ApplicationRecord
   USER_LEVEL = {'New' => 0, 'Bronze' => 1, 'Silver' => 2, 'Gold' => 3}
   OPTIONS = ["Minimum: $500 (Avontage Bucks) in a given month", "$500-$1000 (Avontage Bucks) in a given month", "$1000-$2000 (Avontage Bucks) in a given month", "$2000-$3000 (Avontage Bucks) in a given month", "$3000-$5000 (Avontage Bucks) in a given month", "$5000-$10000 (Avontage Bucks) in a given month", "$10000-$25000 (Avontage Bucks) in a given month", "$25000+ (Avontage Bucks) in a given month"]
   SHOWOPTIONS = ["A$500", "A$500-A$1000", "A$1000-A$2000", "A$2000-A$3000", "A$3000-A$5000", "A$5000-A$10000", "A$10000-A$25000", "A$25000+"]
+  BUSINESS_STAGE = {"Early/Beginner" => 0, "Growing/Intermediate" => 1, "Established/Expert" => 2}
+  enum business_stage: BUSINESS_STAGE
+  REFFERED_BY_SOCIALMEDIA = {"Email" => 0, "Google Ads" => 1, "Youtube Ads" => 2, "Spotify Ads" => 3, "Twitter" => 4, "Linkedin" => 5, "Reddit" => 6, "Blogs" => 7, "Nextdoor" => 8, "Other websites/ads" => 9}
+  enum reffered_by_socialmedia: REFFERED_BY_SOCIALMEDIA
   attr_accessor :login
   has_many :avon_bucks_histories, dependent: :destroy
   has_many :favorites, dependent: :destroy
@@ -150,7 +158,7 @@ class Person < ApplicationRecord
 
   has_many :starter_transactions, :class_name => "Transaction", :foreign_key => "starter_id", :dependent => :destroy, :inverse_of => :starter
   has_many :author_transactions, :class_name => "Transaction", :foreign_key => "listing_author_id", :dependent => :destroy, :inverse_of => :listing_author
-  has_many :person_categories
+  has_many :person_categories, :dependent => :destroy
   has_many :categories, :through => :person_categories
   deprecate communities: "Use accepted_community instead.",
             community_memberships: "Use community_membership instead.",
@@ -727,9 +735,9 @@ class Person < ApplicationRecord
   end
 
   def overall_progress
-    total_progress = 20
-    total_progress = total_progress + profile_progress_info[:contact_info] + profile_progress_info[:user_profile] + profile_progress_info[:notifications] + profile_progress_info[:enable_purchasing] if self.profile_progress_info.present?
-    total_progress += 20 if self.listings.present?
+    total_progress = 0
+    total_progress = total_progress + profile_progress_info[:contact_info] + profile_progress_info[:user_profile] + profile_progress_info[:enable_purchasing] if self.profile_progress_info.present?
+    total_progress += 25 if self.listings.present?
     total_progress
   end
 

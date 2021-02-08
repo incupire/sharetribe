@@ -31,7 +31,7 @@
         .col-12.payment-button-wrapper.paypal-button-wrapper
           .inline_buttons
             //=# button_tag t("settings.save_and_finish_later"), id: "send-add-card", class: 'checkout-with-stripe-buttons'
-            = link_to 'Skip to Next', offers_and_request_person_settings_path(@target_user), class: 'checkout-with-stripe-buttons button skip_to_nxt'
+            = link_to 'Skip to Next', person_payment_settings_path(@target_user), class: 'checkout-with-stripe-buttons button skip_to_nxt'
             = button_tag 'Save and Next', id: "send-add-card1", class: 'checkout-with-stripe-buttons'
 - content_for :extra_javascript do
   :javascript

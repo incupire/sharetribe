@@ -1,7 +1,7 @@
 - target_user = @service.person
 - if @current_user.overall_progress != 100
   - content_for :profile_progress do
-    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
+    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('Offers')}
 
 - content_for :title_header do
   %h1
@@ -60,9 +60,18 @@
   .row
     .col-12
       = will_paginate @listings
+  - unless @listings.present?
+    .row
+      .col-12
+        .important_notice_box
+          .important_text IMPORTANT:
+          .important_notice You need to have atleast one offer to be seen by the rest of the community.
+    .row
+      .col-12
+        .click_below_text Click below to start
   .row
     .col-12
-      = link_to 'Click to Post An Offer', new_listing_path 
+      = link_to '+ POST AN OFFER', new_listing_path, class: 'button post_offer_btn'
 
 
 

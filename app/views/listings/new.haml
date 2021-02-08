@@ -13,6 +13,12 @@
 - content_for :title_header do
   - unless @community_customization.try(:offer_success_tips).present?
     %h1= t("homepage.index.post_new_listing")
+- unless @current_user.listings.present?
+  .row
+    .col-12
+      .important_notice_box
+        .important_text IMPORTANT:
+        .important_notice You need to have atleast one offer to be seen by the rest of the community.
 - unless params[:offer_type].present?
   .text_messege
     - if @community_customization.try(:offer_success_tips).present?

@@ -277,7 +277,7 @@
                 - show_subcategories = show_subcategory_list(category, Maybe(selected_category).id.to_i.or_else(nil))
                 = link_to category.display_name(I18n.locale), search_path(search_params.merge({category: category})), :class => "home-categories-main caps_one #{if show_subcategories then 'selected' end} #{if category.has_subcategories? then 'has-subcategories' end}", :data => {category: category.id, url: search_path({category: category})}
                 - if category.children
-                  - if show_subcategories
+                  - if show_subcategories || true
                     - category.children.each do |child|
                       - is_selected = selected_category == child
                       = link_to child.display_name(I18n.locale), search_path(search_params.merge({category: child})), :class => "home-categories-sub caps_one #{if is_selected then 'selected' end}", :data => {:"sub-category" =>child.id}

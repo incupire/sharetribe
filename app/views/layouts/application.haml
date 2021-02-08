@@ -1,6 +1,7 @@
 = render :partial => 'layouts/head'
 - is_homepage = params[:controller] == "homepage" && params[:action] == "index"
 - is_landing_page = params[:controller] == "homepage" && params[:action] == "home"
+- is_session_page = params[:controller] == "people" && params[:action] == "new"
 
 - unless logged_in?
   :javascript
@@ -87,7 +88,7 @@
             = link_to :back,  class: 'my-class' do
               = image_tag 'left-arrow_white.png'
 
-        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : 'custom-page-content'}
+        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : "#{is_session_page ? 'custom-page-content session_page_content' : ''}"}
           %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
             = render :partial => "layouts/notifications"
             = yield

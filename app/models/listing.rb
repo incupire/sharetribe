@@ -178,11 +178,11 @@ class Listing < ApplicationRecord
     status = "open" if status.blank?
     case status
     when "all"
-      where([])
+      where(["is_private = '0'"])
     when "open"
-      where(["open = '1' AND (valid_until IS NULL OR valid_until > ?)", DateTime.now])
+      where(["open = '1' AND is_private = '0' AND (valid_until IS NULL OR valid_until > ?)", DateTime.now])
     when "closed"
-      where(["open = '0' OR (valid_until IS NOT NULL AND valid_until < ?)", DateTime.now])
+      where(["open = '0' AND is_private = '0' OR (valid_until IS NOT NULL AND valid_until < ?)", DateTime.now])
     end
   end
 

@@ -75,6 +75,19 @@ namespace :sharetribe do
     end
   end
 
+  desc "Update progress bar with new calculation for existing users"
+  task :update_progress_bar_with_new_calculation => :environment do
+    Person.find_each do |person|
+      person.profile_progress_info[:contact_info] = 25 if person.profile_progress_info[:contact_info] > 0
+      person.profile_progress_info[:user_profile] = 25 if person.profile_progress_info[:user_profile] > 0
+      person.profile_progress_info[:enable_purchasing] = 25 if person.profile_progress_info[:enable_purchasing] > 0
+      person.profile_progress_info[:notifications] = 0
+      person.profile_progress_info[:enable_selling] = 0
+      person.save
+      puts "==============#{person.username}============profile_progress_info: #{person.profile_progress_info}"
+    end
+  end
+
   namespace :person_custom_fields do
     desc "Copying person's phone number to custom fields"
     task :copy_phone_number_community, [:community_ident] => :environment do |t, args|

@@ -67,6 +67,10 @@
 #  total_received_review              :integer          default(0)
 #  profile_progress_info              :string(255)      default({:contact_info=>0, :user_profile=>0, :notifications=>0, :enable_purchasing=>0, :enable_selling=>0})
 #  average_amount                     :integer
+#  business_stage                     :integer
+#  reffered_by_email                  :string(255)
+#  reffered_by_socialmedia            :integer
+#  reffered_by_other                  :string(255)
 #
 # Indexes
 #

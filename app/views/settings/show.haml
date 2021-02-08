@@ -58,26 +58,56 @@
   %p
     = t("settings.profile.these_fields_are_shown_in_your")
     = link_to(t("settings.profile.profile_page"), target_user) + "."
+  %div
+    %p
+      %b To provide a high quality experience for all members, admission to Avontage is highly competitive.
 
+  %div.tips_for_succes
+    %p 
+      %b Tips for success:
+    %div
+      %div 
+        %b 1. Fill out your profile thoroughly and accurately.
+      %div 
+        %b 2. Create your best service offerings.
+      %div 
+        %b 3. You'll receive an email within 24 hours, upon review and approval.
   = form_for target_user do |form| 
-    = hidden_field_tag "member_profile_page", "member_profile_page"
-    -# Profile picture
-    .inline-label-container
-      = form.label :image, t("settings.profile.profile_picture")
-    %span.alert-box-icon
-      = icon_tag("information", ["icon-fix"])
-    %small
-      = t("settings.profile.profile_picture_description")
-    = image_tag target_user.image.present? ? target_user.image.url(:medium) : 'profile_image/small/missing.png', class: "square_image"
-    = render 'layouts/filename', file_field: target_user.image
-    .upload_image
-      = "Upload an Image"
-      = form.file_field :image, :size => 30, :id => "avatar_file", class: "invisible-image prof-avtar"
+    .row
+      .col-6
+        = hidden_field_tag "member_profile_page", "member_profile_page"
+        -# Profile picture
+        .inline-label-container
+          = form.label :image, t("settings.profile.profile_picture")
+        %span.alert-box-icon
+          = icon_tag("information", ["icon-fix"])
+        %small
+          = t("settings.profile.profile_picture_description")
+        %div
+          = image_tag target_user.image.present? ? target_user.image.url(:medium) : 'profile_image/small/missing.png', class: "square_image"
+        = render 'layouts/filename', file_field: target_user.image
+        .upload_image
+          = "Upload an Image"
+          = form.file_field :image, :size => 30, :id => "avatar_file", class: "invisible-image prof-avtar"
+      .col-6
+        .inline-label-container
+          = form.label :display_name, t("settings.profile.display_name"), class: "inline"
+        %span.alert-box-icon
+          = icon_tag("information", ["icon-fix"])
+        %small
+          = t("settings.profile.display_name_description")
+        = form.text_field :display_name, class: "text_field", :maxlength => "25"
 
     -# About text
     = form.label :description, t("settings.profile.about_you"), :class => "input"
     = form.text_area :description, :class => "update_profile_description_text_area", required: true, placeholder: "HINT: Our community is built on trust. The best way to build trust is to provide accurate information about your business and the skills that you offer.\n\n 1- Upload your photo or the logo of your business.\n 2- Tell us about your business, your experience, and your passions.\n 3- Enter your website and social media links to built credibility quick.\n\n Your profile is your resume. This is where members come to check you out to make sure you're legit"
     -# Community Description experience
+
+    -# Person Business Stage
+
+    = form.label :business_stage, "What is the stage of your business and/or level of expertise?"
+    = form.select :business_stage, options_for_select(Person::BUSINESS_STAGE, Person::BUSINESS_STAGE[target_user.business_stage]), include_blank: "-Select-"
+
     = form.label :community_description_experience, t("settings.profile.community_experience"), :class => "input"
     = form.text_area :community_description_experience, :class => "update_profile_description_text_area", placeholder: "HINT: I enjoy bartering my services for health, fitness and restaurant offers and love being part of like-minded community of business owners"
     = form.label :category_ids, "Chose the types of services you need for your business or personal in the near future:(max 10 choices)"
@@ -87,22 +117,22 @@
     = form.label :average_amount, "* On the average, how much services in total will you be offering on trade?"
     = form.select :average_amount, options_for_select(Array[*Person::OPTIONS.collect {|v,i| [v,Person::OPTIONS.index(v)] }], target_user.average_amount), required: true, include_blank: "-Select-"
     = form.label :tags, 'Hashtags', :class => "input"
-    = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input", placeholder: 'HINT: Enter the keywords associated with your business or offers. it will help end user to search your offers'
+    = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input customize_hashtags_input", placeholder: 'HINT: Enter the keywords associated with your business or offers. it will help end user to search your offers'
 
     .row
       .col-6
         = form.label :facebook_link, t("settings.profile.facebook_link")
-        = form.text_field :facebook_link, :class => "text_field", placeholder: "i.e. https://www.facebook.com/avontage/"
+        = form.text_field :facebook_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.facebook.com/avontage/"
       .col-6
         = form.label :instagram_link, t("settings.profile.instagram_link")
-        = form.text_field :instagram_link, :class => "text_field", placeholder: "i.e. https://www.instagram.com/avontage"
+        = form.text_field :instagram_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.instagram.com/avontage"
     .row
       .col-6
         = form.label :linkedin_link, t("settings.profile.linkedin_link")
-        = form.text_field :linkedin_link, :class => "text_field", placeholder: "i.e. https://www.linkedin.com/avontage"
+        = form.text_field :linkedin_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.linkedin.com/avontage"
       .col-6
         = form.label :twitter_link, t("settings.profile.twitter_link")
-        = form.text_field :twitter_link, :class => "text_field", placeholder: "i.e. https://twitter.com/avontagebiz/"
+        = form.text_field :twitter_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://twitter.com/avontagebiz/"
 
     - if FeatureFlagHelper.feature_enabled?(:user_fields) && @service.has_person_custom_fields?
       - @service.custom_field_values.each_with_index do |custom_field_value, index|
@@ -122,6 +152,14 @@
             :custom_field => custom_field, index: index,
             :custom_field_value => custom_field_value,
             :prefix => prefix
+
+    .good_avontizen
+      %h4 
+        %i Good Avontizen Awards:
+      .sub_text 
+        %i * Complete your profile info and instantly receive A$25 bonus A-Bucks for free.
+      .sub_text 
+        %i * Post your offers and receive upto A$200 bonus A-Bucks for free.
     .inline_buttons
       = form.button t("settings.save_and_close"), :class => "send_button"
       %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}

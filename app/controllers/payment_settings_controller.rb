@@ -45,7 +45,7 @@ class PaymentSettingsController < ApplicationController
       if @form_error
         render 'index', locals: index_view_locals
       else
-        redirect_to new_listing_path
+        redirect_to account_person_settings_path(target_user)
       end
     else
       render 'index', locals: index_view_locals
@@ -68,7 +68,7 @@ class PaymentSettingsController < ApplicationController
     #   @current_user.save
     # end
     if params[:save_and_next_to_post].present?
-      redirect_to new_listing_path
+      redirect_to account_person_settings_path(target_user)
     else
       render 'index', locals: index_view_locals
     end
@@ -123,7 +123,7 @@ class PaymentSettingsController < ApplicationController
           end
           @target_user.update_attribute(:stripe_customer_id, stripe_customer[:id])
           if @target_user.profile_progress_info[:enable_purchasing] == 0
-            @target_user.profile_progress_info.update(enable_purchasing: 20)
+            @target_user.profile_progress_info.update(enable_purchasing: 25)
             @target_user.save
           end
           flash[:notice] = "Card saved successfully!"
@@ -142,7 +142,7 @@ class PaymentSettingsController < ApplicationController
       end
       if params[:save_and_next_to_enable_selling].present? && !@err
         # redirect_to homepage_without_locale_path
-        redirect_to offers_and_request_person_settings_path(@target_user)
+        redirect_to person_payment_settings_path(@target_user)
       else
         # redirect_to person_edit_stripe_customber_settings_path(@target_user)
         redirect_to person_stripe_customber_settings_path(@target_user)

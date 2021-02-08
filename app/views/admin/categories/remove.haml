@@ -36,7 +36,6 @@
           = t(prefix + 'custom_field_will_be_moved', count: count)
 
   = form_tag('destroy_and_move', :method => :delete) do
-
     -if @category.has_own_or_subcategory_listings? || @category.has_own_or_subcategory_custom_fields?
       %p
         = t('.select_new_category')
