@@ -19,9 +19,16 @@
 - content_for :extra_javascript do
 	:javascript
 		$('.fb_share').click(function(){
-			var url = "#{person_url(@current_user)}";
-			return popitup("https://www.facebook.com/sharer/sharer.php?u="+ url)
+			FB.api(
+		    "/{photo-id}",
+		    function (response) {
+		      if (response && !response.error) {
+		        /* handle the result */
+		      }
+		    }
+			);
 		})
+
 		function popitup(url) {
 			newwindow=window.open(url,'name','height=600,width=650');
 			if (window.focus) {newwindow.focus()}

@@ -141,7 +141,7 @@ class ConfirmConversationsController < ApplicationController
       flash[:error] = "Only admin can perform the requested action"
       redirect_to (session[:return_to_content] || root)
     end
-  end  
+  end
 
   def fetch_listing
     @listing = @listing_transaction.listing

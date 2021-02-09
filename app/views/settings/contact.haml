@@ -17,10 +17,6 @@
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
-  %p.profile_text
-    = t("settings.profile.profile_complete_info")
-  %p
-    = t("settings.profile.these_fields_are_shown_in_contact_info")  
   %p
     = t("settings.profile.our_promise_for_profile").html_safe
 
@@ -47,15 +43,15 @@
         = form.label :website_name, t("settings.profile.website_name")
         = form.text_field :website_name, :class => "text_field", :maxlength => "50", :placeholder => "i.e. https://www.avontage.com"
     -# Display name
-    .row
-      .col-6
-        .inline-label-container
-          = form.label :referral_code, t("settings.profile.referral_code"), class: "inline"
-        %span.alert-box-icon
-          = icon_tag("information", ["icon-fix"])
-        %small
-          = t("settings.profile.referral_code_description")
-        = form.text_field :referral_code, class: "text_field", :maxlength => "25"
+    // .row
+    //   .col-6
+    //     .inline-label-container
+    //       = form.label :referral_code, t("settings.profile.referral_code"), class: "inline"
+    //     %span.alert-box-icon
+    //       = icon_tag("information", ["icon-fix"])
+    //     %small
+    //       = t("settings.profile.referral_code_description")
+    //     = form.text_field :referral_code, class: "text_field", :maxlength => "25"
 
     -# Phone number
     - show_phone_number = FeatureFlagHelper.feature_enabled?(:user_fields) ? @service.fixed_phone_field? : true

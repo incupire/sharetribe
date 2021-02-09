@@ -58,20 +58,21 @@
   %p
     = t("settings.profile.these_fields_are_shown_in_your")
     = link_to(t("settings.profile.profile_page"), target_user) + "."
-  %div
-    %p
-      %b To provide a high quality experience for all members, admission to Avontage is highly competitive.
-
-  %div.tips_for_succes
-    %p 
-      %b Tips for success:
+  .tips_for_success_experience_box
     %div
-      %div 
-        %b 1. Fill out your profile thoroughly and accurately.
-      %div 
-        %b 2. Create your best service offerings.
-      %div 
-        %b 3. You'll receive an email within 24 hours, upon review and approval.
+      %p
+        %b To provide a high quality experience for all members, admission to Avontage is highly competitive.
+
+    %div.tips_for_succes
+      %p 
+        %b Tips for success:
+      %div
+        %div 
+          %b 1. Fill out your profile thoroughly and accurately.
+        %div 
+          %b 2. Create your best service offerings.
+        %div 
+          %b 3. You'll receive an email within 24 hours, upon review and approval.
   = form_for target_user do |form| 
     .row
       .col-6

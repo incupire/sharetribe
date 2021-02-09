@@ -4,7 +4,7 @@
 %tr
   %td{:align => align || "center", :style => "padding-top: 25px;"}
     = link_to 'https://www.avontage.com/', :style => "margin-left: 8px;margin-right: 8px;" do
-      = image_tag @current_community.wide_logo.present? ? @current_community.wide_logo : 'https://www.avontage.com/assets/logo.png', height: "40px", alt: 'logo'
+      = image_tag @current_community.present? && @current_community.wide_logo.present? ? @current_community.wide_logo : 'https://www.avontage.com/assets/logo.png', height: "40px", alt: 'logo'
 
 %tr
   %td{:align => align || "center", :style => "padding-top: 5px; padding-bottom: 20px;"}

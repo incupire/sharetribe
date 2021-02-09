@@ -845,11 +845,21 @@ module ApplicationHelper
           end
         end
       when 'Profile'
-        if @current_user.profile_progress_info.values.sum == 0
+        if @current_user.profile_progress_info.values.sum == 0 || @current_user.listings.blank?
           @redirect_link = "<a href="+offers_and_request_person_settings_path(@current_user)+" class='next_step button'>Post offers</a>"
           break
         else
           if key != :user_profile && value == 0
+            get_related_link(key)
+            break
+          end
+        end
+      when 'Offers'
+        if @current_user.profile_progress_info.values.sum == 0
+          @redirect_link = "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
+          break
+        else
+          if value == 0
             get_related_link(key)
             break
           end
@@ -876,7 +886,7 @@ module ApplicationHelper
   def get_related_link (key)
     @redirect_link = if key == :contact_info
       "<a href="+contact_person_settings_path(@current_user)+" class='next_step button'>Contact info setup</a>"
-    elsif key == :user_profile
+    elsif key == :user_profile 
       "<a href="+person_settings_path(@current_user)+" class='next_step button'>Profile Setup</a>"
     elsif key == :enable_purchasing
       "<a href="+person_stripe_customber_settings_path(@current_user)+" class='next_step button'>Activate purchasing</a>"
