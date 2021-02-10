@@ -2,6 +2,7 @@
   - if conversation[:type].eql?(:avon_bucks)
     .table_box.one
       Avontage Bucks
+      = link_to 'View Details', "javascript:void(0);", class: 'button get-started listing_status_filter disable-lnk'
     .table_box.two
       =l(conversation[:last_transition_at], format: :short_date)
     .table_box.three
@@ -26,12 +27,12 @@
         Added
       - else
         Deducted
-      = link_to 'View Details', "javascript:void(0);", class: 'button get-started listing_status_filter disable-lnk'
 
   - else
     - txn  = Transaction.find_by(id: conversation[:transaction_id])
     .table_box.one
       =conversation[:current_is_starter] ? "Purchase" : "Sell"
+      = link_to 'View Details', person_transaction_path(@current_user, txn.id), class: 'button get-started listing_status_filter'
     .table_box.two
       =l(conversation[:transaction_started_at], format: :short_date)
     .table_box.three
@@ -65,5 +66,4 @@
         = link_to status, person_transaction_path(@current_user, txn.id)
       - else
         = status
-      = link_to 'View Details', person_transaction_path(@current_user, txn.id), class: 'button get-started listing_status_filter'
       

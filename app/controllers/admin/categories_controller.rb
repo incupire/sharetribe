@@ -85,6 +85,7 @@ class Admin::CategoriesController < Admin::AdminBaseController
 
       # Move custom fields
       Admin::CategoryService.move_custom_fields!(@category, new_category)
+      Delayed::Job.enqueue(RebuildWhenUpdate.new(new_category.community_id))
     end
 
     @category.destroy

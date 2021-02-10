@@ -846,7 +846,7 @@ module ApplicationHelper
         end
       when 'Profile'
         if @current_user.profile_progress_info.values.sum == 0 || @current_user.listings.blank?
-          @redirect_link = "<a href="+offers_and_request_person_settings_path(@current_user)+" class='next_step button'>Post offers</a>"
+          @redirect_link = "<a href="+offers_and_request_person_settings_path(@current_user)+" class='next_step button'>Post your Offers</a>"
           break
         else
           if key != :user_profile && value == 0
