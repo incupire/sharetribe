@@ -16,8 +16,9 @@
       = icon_tag("like", ["positive"])
     - else
       = icon_tag("dislike", ["negative"])
-    .share-review-icon
-      = image_tag "share.svg", class: "share-review-icon-image"
+    .hidden
+      .share-review-icon
+        = image_tag "share.svg", class: "share-review-icon-image"
 
 .add_product_modal
   .modal_box
