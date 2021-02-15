@@ -562,11 +562,7 @@ Rails.application.routes.draw do
             get :update_cell
           end
         end
-        resources :testimonials do
-          member do
-            get :show_feedback_with_image
-          end
-        end
+        resources :testimonials
         resources :emails do
           member do
             post :send_confirmation
