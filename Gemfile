@@ -27,6 +27,8 @@ gem 'rest-client', '~> 2.0.2'
 gem 'paperclip', '~> 5.2.1'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary'
+gem 'wkhtmltoimage-binary', '<= 0.12.4'
+gem 'imgkit', '~> 1.6', '>= 1.6.1'
 gem 'delayed_paperclip', '~> 3.0.1'
 gem 'daemons'
 gem 'aws-sdk', '~> 2.9.25'
@@ -176,3 +178,4 @@ gem "browser"
 gem 'fcm'
 gem 'geocoder'
 gem 'letter_opener'
+gem "koala"

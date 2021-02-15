@@ -2,15 +2,19 @@
 #
 # Table name: testimonials
 #
-#  id               :integer          not null, primary key
-#  grade            :float(24)
-#  text             :text(65535)
-#  author_id        :string(255)
-#  participation_id :integer
-#  transaction_id   :integer
-#  created_at       :datetime
-#  updated_at       :datetime
-#  receiver_id      :string(255)
+#  id                    :integer          not null, primary key
+#  grade                 :float(24)
+#  text                  :text(65535)
+#  author_id             :string(255)
+#  participation_id      :integer
+#  transaction_id        :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  receiver_id           :string(255)
+#  snapshot_file_name    :string(255)
+#  snapshot_content_type :string(255)
+#  snapshot_file_size    :integer
+#  snapshot_updated_at   :datetime
 #
 # Indexes
 #
@@ -28,6 +32,7 @@ class Testimonial < ApplicationRecord
   validates_inclusion_of :grade, :in => 0..1, :allow_nil => false
 
   after_create :update_total_received_review
+  after_create :take_snapshot
 
   scope :for_admin_view, -> (community) {
     includes(:tx, :author, :receiver)
@@ -44,6 +49,13 @@ class Testimonial < ApplicationRecord
   scope :with_tx_subquery, -> { where("testimonials.transaction_id = transactions.id") }
   scope :with_tx_author, -> { with_tx_subquery.where("testimonials.author_id = transactions.listing_author_id") }
   scope :with_tx_starter, -> { with_tx_subquery.where("testimonials.author_id = transactions.starter_id") }
+  has_attached_file :snapshot
+  validates_attachment_content_type :snapshot,
+                                    :content_type => ["image/jpeg",
+                                                      "image/png",
+                                                      "image/gif",
+                                                      "image/pjpeg",
+                                                      "image/x-png"]
 
   # Formats grade so that it can be displayed in the UI
   def displayed_grade
@@ -56,5 +68,18 @@ class Testimonial < ApplicationRecord
 
   def update_total_received_review
     receiver.update(total_received_review: receiver.received_testimonials.size)
+  end
+
+  def take_snapshot
+    html  = "<div class='testimonial_image'><div class='comment'>#{self.text.first(503)}</div></div>"
+    kit   = IMGKit.new(html, quality: 50, width: 600)
+    kit.stylesheets << "app/assets/stylesheets/feedback_image.scss"
+    img   = kit.to_img(:png)
+    file  = Tempfile.new(["template_#{self.id}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+    file.write(img)
+    file.flush
+    self.snapshot = file
+    self.save
+    file.unlink
   end
 end

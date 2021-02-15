@@ -1,11 +1,11 @@
 class TestimonialsController < ApplicationController
 
-  before_action :except => :index do |controller|
+  before_action :except => [:index, :show_feedback_with_image] do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_give_feedback")
   end
 
-  before_action :ensure_authorized_to_give_feedback, :except => :index
-  before_action :ensure_feedback_not_given, :except => :index
+  before_action :ensure_authorized_to_give_feedback, :except => [:index, :show_feedback_with_image]
+  before_action :ensure_feedback_not_given, :except => [:index, :show_feedback_with_image]
 
   # Skip auth token check as current jQuery doesn't provide it automatically
   skip_before_action :verify_authenticity_token, :only => [:skip]
@@ -66,6 +66,20 @@ class TestimonialsController < ApplicationController
       format.js { render :layout => false, locals: {is_author: is_author} }
     end
   end
+
+  # def show_feedback_with_image
+  #   @testimonial = Testimonial.find(params[:id])
+  #   html  = "<div class='testimonial_image'><div class='comment'>#{@testimonial.text.first(503)}</div></div>"
+  #   kit   = IMGKit.new(html, quality: 80, width: 600, height: 360)
+  #   kit.stylesheets << "app/assets/stylesheets/feedback_image.scss"
+  #   img   = kit.to_img(:png)
+  #   file  = Tempfile.new(["template_#{@testimonial.id}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+  #   file.write(img)
+  #   file.flush
+  #   @testimonial.snapshot = file
+  #   @testimonial.save
+  #   file.unlink
+  # end
 
   private
 

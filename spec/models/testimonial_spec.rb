@@ -2,15 +2,19 @@
 #
 # Table name: testimonials
 #
-#  id               :integer          not null, primary key
-#  grade            :float(24)
-#  text             :text(65535)
-#  author_id        :string(255)
-#  participation_id :integer
-#  transaction_id   :integer
-#  created_at       :datetime
-#  updated_at       :datetime
-#  receiver_id      :string(255)
+#  id                    :integer          not null, primary key
+#  grade                 :float(24)
+#  text                  :text(65535)
+#  author_id             :string(255)
+#  participation_id      :integer
+#  transaction_id        :integer
+#  created_at            :datetime
+#  updated_at            :datetime
+#  receiver_id           :string(255)
+#  snapshot_file_name    :string(255)
+#  snapshot_content_type :string(255)
+#  snapshot_file_size    :integer
+#  snapshot_updated_at   :datetime
 #
 # Indexes
 #

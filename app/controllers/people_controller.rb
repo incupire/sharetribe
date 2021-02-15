@@ -220,7 +220,7 @@ class PeopleController < Devise::RegistrationsController
     flash[:notice] = t("layouts.notifications.login_successful", :person_name => view_context.link_to(PersonViewUtils.person_display_name_for_type(@person, "first_name_only"), person_path(@person))).html_safe
     #redirect_to homepage_without_locale_path(state: nil, from: 'social')
     if @person.present? && @person.sign_in_count <= 1
-      redirect_to person_settings_path(@person)
+      redirect_to contact_person_settings_path(@person)
     else
       redirect_to pending_consent_path
     end

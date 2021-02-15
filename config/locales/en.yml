@@ -855,7 +855,7 @@ en:
     cancel: Cancel
     fields_that_are_mandatory: "Fields marked with star (*) are mandatory."
     or: or
-    password: Password
+    password: "Choose a password"
     service_name: "%{service_name}"
     share_types:
       request: request
@@ -892,7 +892,7 @@ en:
       garden: Garden
       travel: Travel
       other: Other
-    username: Username
+    username: "Choose a username"
     username_or_email: "Email or username"
     what_is_this: "What's this?"
     removed_user: "Removed user"
@@ -2259,7 +2259,7 @@ en:
       inactive_description: "This user has stopped using %{service_name}. You cannot contact this user, give feedback to them or comment their offers."
     new:
       create_new_account: "Join"
-      email: "Email address"
+      email: "Enter your email"
       email_is_in_use: "The email you gave is already in use."
       email_is_in_use_or_not_allowed: "This email is not allowed or it is already in use. If you can't get in, contact us."
       email_not_allowed: "This email is not allowed in %{service_name}. Please use an email address that is allowed. If you still cannot get in, contact us."
@@ -2279,7 +2279,7 @@ en:
       password: "Password"
       password_again: "Confirm password"
       show_my_name_to_others: "Show my real name to other %{service_name} users"
-      sign_up: "Create a new %{service_name} account"
+      sign_up: "Get your free account"
       terms: "Terms of Use"
       privacy: "Privacy Policy"
       username_is_in_use: "This username is already in use."

@@ -1,6 +1,34 @@
-.profile-testimonials-list
-  = render :partial => "people/testimonial", :collection => received_testimonials.take(limit)
+- content_for :extra_javascript do
+	:javascript
+		$("#share-btn").click(function(){
+			FB.getLoginStatus(function(response){
+				if (response.status === "connected") {
+					document.getElementById("status").innerHTML = "We are connected";
+
+					FB.ui({
+						method: 'share_open_graph',
+						action_type: 'og.shares',
+						action_properties: JSON.stringify({
+							object: {
+								'og:url': "https://14778e1fa5af.ngrok.io/en/jack",
+								'og:title': "title",
+								'og:description': "desc"
+							}
+						})
+					});
+
+				}else {
+					login();
+				}
+			});
+
+			function login(){
+				FB.login();
+			}
+		});
+.profile-testimonials-list.customize_profile_testimonial
+	= render :partial => "people/testimonial", :collection => received_testimonials.take(limit)
 .row.load-more-link
-  - if received_testimonials.size > limit
-    #load-more-testimonials.load-more-testimonials
-      = link_to t("people.show.show_all_reviews"), "#"
+	- if received_testimonials.size > limit
+		#load-more-testimonials.load-more-testimonials
+			= link_to t("people.show.show_all_reviews"), "#"

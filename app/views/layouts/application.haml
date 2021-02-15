@@ -4,164 +4,168 @@
 - is_session_page = params[:controller] == "people" && params[:action] == "new"
 
 - unless logged_in?
-  :javascript
-    sessionStorage.setItem('notif_popup_close', 'false');
+	:javascript
+		sessionStorage.setItem('notif_popup_close', 'false');
 %body
-  %link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css", :rel => "stylesheet"}
-  %link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800", :rel => "stylesheet"}
-  #sidewinder-wrapper{class: is_homepage ? 'homepage_main_class' : ''}
+	%link{:href => "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css", :rel => "stylesheet"}
+	%link{:href => "https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800", :rel => "stylesheet"}
+	#sidewinder-wrapper{class: is_homepage ? 'homepage_main_class' : ''}
 
-    -# Render railsContext here before any react component gets rendered
-    = prepend_render_rails_context("")
+		-# Render railsContext here before any react component gets rendered
+		= prepend_render_rails_context("")
 
-    %noscript
-      .noscript-padding
-        -# Noscript content will be positioned here
+		%noscript
+			.noscript-padding
+				-# Noscript content will be positioned here
 
-    - if logged_in?
-      - unReadTransactionalMessagesCount = InboxService.transactional_notification_count(@current_user&.id, @current_community&.id)
-      - unReadDirectMessagesCount = InboxService.direct_conversations_notification_count(@current_user&.id, @current_community&.id)
-      - totalUnreadNotifCount = unReadTransactionalMessagesCount + unReadDirectMessagesCount
-      - if totalUnreadNotifCount > 0
-        .unread_notification_popup.hidden
-          = render partial: "layouts/unread_message_popup", locals: {totalUnreadNotifCount:  totalUnreadNotifCount }
+		- if logged_in?
+			- unReadTransactionalMessagesCount = InboxService.transactional_notification_count(@current_user&.id, @current_community&.id)
+			- unReadDirectMessagesCount = InboxService.direct_conversations_notification_count(@current_user&.id, @current_community&.id)
+			- totalUnreadNotifCount = unReadTransactionalMessagesCount + unReadDirectMessagesCount
+			- if totalUnreadNotifCount > 0
+				.unread_notification_popup.hidden
+					= render partial: "layouts/unread_message_popup", locals: {totalUnreadNotifCount:  totalUnreadNotifCount }
 
-    - if display_onboarding_topbar?
-      - props = onboarding_topbar_props
-      - unless props[:next_step] == :all_done
-        - react_component_cache(name: "onboarding_topbar", props: props) do
-          = react_component("OnboardingTopBar", props: props, prerender: true)
-    - if @current_user.present? && @current_user.overall_progress != 100
-      - if params[:controller] == "settings" || params[:controller] == 'payment_settings'
-        = yield :profile_progress
-      - else
-        - if (browser.device.mobile? && !is_homepage) || !browser.device.mobile?
-          = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
+		- if display_onboarding_topbar?
+			- props = onboarding_topbar_props
+			- unless props[:next_step] == :all_done
+				- react_component_cache(name: "onboarding_topbar", props: props) do
+					= react_component("OnboardingTopBar", props: props, prerender: true)
+		- if @current_user.present? && @current_user.overall_progress != 100
+			- if params[:controller] == "settings" || params[:controller] == 'payment_settings'
+				= yield :profile_progress
+			- else
+				- if (browser.device.mobile? && !is_homepage) || !browser.device.mobile?
+					= render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
 
-    - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
-      - if(search_mode != :keyword || @view_type.eql?("map"))
-        - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
-        - key_param = maps_key ? "&key=#{maps_key}" : ""
-        = javascript_include_tag "//maps.googleapis.com/maps/api/js?libraries=places#{key_param}"
-      - if(@view_type.eql?("map"))
-        = javascript_include_tag "markerclusterer.js"
-      - props = topbar_props
-      .custom_react_navbar
-        - cache props do
-          = react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
-      - if @current_user.present? && !(@current_user.sign_in_count <= 1 && (params[:controller] == "settings" || params[:controller] == "payment_settings"))
-        %div.global_search_bar{ class: is_landing_page ? 'hide_search_field' : ''}
-          = render partial: 'homepage/global_search_bar'
-    - else
-      = render partial: 'layouts/global_header', locals: header_props()
+		- if FeatureFlagHelper.feature_enabled?(:topbar_v1)
+			- if(search_mode != :keyword || @view_type.eql?("map"))
+				- maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
+				- key_param = maps_key ? "&key=#{maps_key}" : ""
+				= javascript_include_tag "//maps.googleapis.com/maps/api/js?libraries=places#{key_param}"
+			- if(@view_type.eql?("map"))
+				= javascript_include_tag "markerclusterer.js"
+			- props = topbar_props
+			- unless @current_user
+				- props.delete(:newListingButton)
+				- props.delete(:newListingButtonTwo)
+				- props.delete(:newListingButtonThree)
+			.custom_react_navbar
+				- cache props do
+					= react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
+			- if @current_user.present? && !(@current_user.overall_progress != 100 && (params[:controller] == "settings" || params[:controller] == "payment_settings"))
+				%div.global_search_bar{ class: is_landing_page ? 'hide_search_field' : ''}
+					= render partial: 'homepage/global_search_bar'
+		- else
+			= render partial: 'layouts/global_header', locals: header_props()
 
-    - if logged_in? && @display_expiration_notice
-      - if @current_user.has_admin_rights?(@current_community)
-        = render partial: "layouts/admin_expiration_notice", locals: {external_plan_service_login_url: admin_plan_path}
-      - else
-        = render partial: "layouts/expiration_notice", locals: {contact_owner_link: contact_page_path}
-    - if is_landing_page
-      = yield
-    - else
-      =# yield :profile_progress
-      - content_for(:page_content) do
-        - is_map_view = params[:view].present? && params[:view] == "map"
-        - unless is_homepage
-          %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
-            - if @big_cover_photo
-              .coverimage
-                %figure.marketplace-cover.fluidratio
-                  .lander-content.marketplace-lander-content
-                    = yield :title_header
-            - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
-              = link_to is_homepage ? search_path(category: "featured") : '' do
-                .coverimage
-                  - unless on_admin?
-                    %figure.marketplace-cover-small.fluidratio.custom_small_cover
-                  .coverimage-fade.disbale_fade{:class => yield(:coverfade_class)}
-                    %figure.marketplace-cover-small-fade.fluidratio
-                .title-container
-                  .title-header-wrapper
-                    .marketplace-title-header.make_custom_cover_title
-                      = yield :title_header
-          - if @current_user && params[:controller] != "homepage" 
-            = link_to :back,  class: 'my-class' do
-              = image_tag 'left-arrow_white.png'
+		- if logged_in? && @display_expiration_notice
+			- if @current_user.has_admin_rights?(@current_community)
+				= render partial: "layouts/admin_expiration_notice", locals: {external_plan_service_login_url: admin_plan_path}
+			- else
+				= render partial: "layouts/expiration_notice", locals: {contact_owner_link: contact_page_path}
+		- if is_landing_page
+			= yield
+		- else
+			=# yield :profile_progress
+			- content_for(:page_content) do
+				- is_map_view = params[:view].present? && params[:view] == "map"
+				- unless is_homepage
+					%section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
+						- if @big_cover_photo
+							.coverimage
+								%figure.marketplace-cover.fluidratio
+									.lander-content.marketplace-lander-content
+										= yield :title_header
+						- elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
+							= link_to is_homepage ? search_path(category: "featured") : '' do
+								.coverimage
+									- unless on_admin?
+										%figure.marketplace-cover-small.fluidratio.custom_small_cover
+									.coverimage-fade.disbale_fade{:class => yield(:coverfade_class)}
+										%figure.marketplace-cover-small-fade.fluidratio
+								.title-container
+									.title-header-wrapper
+										.marketplace-title-header.make_custom_cover_title
+											= yield :title_header
+					- if @current_user && params[:controller] != "homepage" 
+						= link_to :back,  class: 'my-class' do
+							= image_tag 'left-arrow_white.png'
 
-        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : "#{is_session_page ? 'custom-page-content session_page_content' : ''}"}
-          %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
-            = render :partial => "layouts/notifications"
-            = yield
-            - if display_branding_info?
-              = render partial: "layouts/non_whitelabel_branding", locals: {link_to_sharetribe: "https://www.sharetribe.com/?utm_source=#{@current_community.ident}.sharetribe.com&utm_medium=referral&utm_campaign=nowl-footer"}
-    -#
-      This is not pretty, but works.
-      On homepage, we want to wrap the whole page content (search bar and the "real" content) to a form, so that
-      pressing send from either search bar of filter list will send all the form fields
+				%article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : "#{is_session_page ? 'custom-page-content session_page_content' : ''}"}
+					%div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
+						= render :partial => "layouts/notifications"
+						= yield
+						- if display_branding_info?
+							= render partial: "layouts/non_whitelabel_branding", locals: {link_to_sharetribe: "https://www.sharetribe.com/?utm_source=#{@current_community.ident}.sharetribe.com&utm_medium=referral&utm_campaign=nowl-footer"}
+		-#
+			This is not pretty, but works.
+			On homepage, we want to wrap the whole page content (search bar and the "real" content) to a form, so that
+			pressing send from either search bar of filter list will send all the form fields
 
-    - if is_homepage
-      %form{method: "get", id: "homepage-filters"}
-        - # New top bar search params are in different form and they have to be retained here
-        - search_params = ["q", "lc", "ls", "boundingbox", "distance_max"]
-        - excluded_params = search_params unless FeatureFlagHelper.feature_enabled?(:topbar_v1)
-        - exclude_sort = ['sort']
-        - params.except("action", "controller", "view", "utf8", *excluded_params, *exclude_sort).each do |param, value|
-          - unless CustomFieldSearchParams.custom_field_search_param?(param) || param.match(/^price_/)
-            = hidden_field_tag param, value
-        = hidden_field_tag "view", @view_type
-        = content_for(:page_content)
-    - else
-      = content_for(:page_content)
+		- if is_homepage
+			%form{method: "get", id: "homepage-filters"}
+				- # New top bar search params are in different form and they have to be retained here
+				- search_params = ["q", "lc", "ls", "boundingbox", "distance_max"]
+				- excluded_params = search_params unless FeatureFlagHelper.feature_enabled?(:topbar_v1)
+				- exclude_sort = ['sort']
+				- params.except("action", "controller", "view", "utf8", *excluded_params, *exclude_sort).each do |param, value|
+					- unless CustomFieldSearchParams.custom_field_search_param?(param) || param.match(/^price_/)
+						= hidden_field_tag param, value
+				= hidden_field_tag "view", @view_type
+				= content_for(:page_content)
+		- else
+			= content_for(:page_content)
 
-    -# Most of the JavaScript should be for performance reasons at the end of the body
+		-# Most of the JavaScript should be for performance reasons at the end of the body
 
-    -# load Facebook SDK for the whole page
-    = render :partial => "layouts/facebook_sdk"
-    = render :partial => "layouts/mobile_navbar"
-    -# Initialize global I18n variable and load translations there
-    :javascript
-      window.I18n = {};
+		-# load Facebook SDK for the whole page
+		= render :partial => "layouts/facebook_sdk"
+		= render :partial => "layouts/mobile_navbar"
+		-# Initialize global I18n variable and load translations there
+		:javascript
+			window.I18n = {};
 
-    = javascript_include_tag "i18n/#{I18n.locale}"
+		= javascript_include_tag "i18n/#{I18n.locale}"
 
-    = javascript_include_tag 'application'
+		= javascript_include_tag 'application'
 
-    :javascript
-      window.ST.jsonTranslations = #{raw JSONTranslations.get(I18n.locale)}
+		:javascript
+			window.ST.jsonTranslations = #{raw JSONTranslations.get(I18n.locale)}
 
-    :javascript
-      $(function() {
-        if ('touchAction' in document.body.style) {
-          document.body.style.touchAction = 'manipulation';
-        } else {
-          window.FastClick.attach(document.body, { excludeNode: '^pac-'} );
-        }
-      });
-      $('.close_modal').click(function(){
-        sessionStorage.setItem('notif_popup_close', 'true');
-        $('.unread_notification_popup').addClass('hidden');
-        $('.unread_message_popup_modal').hide();
-      });
+		:javascript
+			$(function() {
+				if ('touchAction' in document.body.style) {
+					document.body.style.touchAction = 'manipulation';
+				} else {
+					window.FastClick.attach(document.body, { excludeNode: '^pac-'} );
+				}
+			});
+			$('.close_modal').click(function(){
+				sessionStorage.setItem('notif_popup_close', 'true');
+				$('.unread_notification_popup').addClass('hidden');
+				$('.unread_message_popup_modal').hide();
+			});
 
-      if(sessionStorage.getItem('notif_popup_close') == 'true') {
-        $('.unread_notification_popup').addClass('hidden');
-      }else{
-        $('.unread_notification_popup').removeClass('hidden');
-      }
+			if(sessionStorage.getItem('notif_popup_close') == 'true') {
+				$('.unread_notification_popup').addClass('hidden');
+			}else{
+				$('.unread_notification_popup').removeClass('hidden');
+			}
 
-    -# Disable animations on tests
-    - if Rails.env.test?
-      :javascript
-        $(function() {
-          $.transit.enabled = false;
-        });
+		-# Disable animations on tests
+		- if Rails.env.test?
+			:javascript
+				$(function() {
+					$.transit.enabled = false;
+				});
 
-    = content_for :extra_javascript
+		= content_for :extra_javascript
 
-    :javascript
-      $(document).ready(function() { initialize_defaults("#{I18n.locale}"); #{yield :javascript} });
+		:javascript
+			$(document).ready(function() { initialize_defaults("#{I18n.locale}"); #{yield :javascript} });
 
-    = render :partial => 'analytics/bottom_scripts'
+		= render :partial => 'analytics/bottom_scripts'
 
-    = render :partial => "layouts/noscript"
+		= render :partial => "layouts/noscript"
 

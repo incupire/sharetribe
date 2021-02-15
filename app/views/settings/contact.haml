@@ -12,7 +12,8 @@
     = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Contact')}
 
 - content_for :title_header do
-  %h1= t("layouts.no_tribe.contact")
+  %h1.left_content
+    = t("layouts.no_tribe.contact")
 
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
@@ -122,7 +123,8 @@
       = form.label :physical_location, "Number of Physical Locations"
       = form.select :physical_location, options_for_select([ "None, my business is online only", "One location", "Multiple locations" ], target_user.physical_location), include_blank: "-Select-"
     .inline_buttons
-      = form.button t("settings.save_and_close"), :class => "send_button"
+      - unless @current_user.overall_progress != 100
+        = form.button t("settings.save_and_close"), :class => "send_button"
       %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
 
 - content_for :extra_javascript do

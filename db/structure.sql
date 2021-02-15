@@ -1629,6 +1629,10 @@ CREATE TABLE `testimonials` (
   `created_at` datetime DEFAULT NULL,
   `updated_at` datetime DEFAULT NULL,
   `receiver_id` varchar(255) DEFAULT NULL,
+  `snapshot_file_name` varchar(255) DEFAULT NULL,
+  `snapshot_content_type` varchar(255) DEFAULT NULL,
+  `snapshot_file_size` int(11) DEFAULT NULL,
+  `snapshot_updated_at` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `index_testimonials_on_author_id` (`author_id`) USING BTREE,
   KEY `index_testimonials_on_receiver_id` (`receiver_id`) USING BTREE,
@@ -2675,6 +2679,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20201222065634'),
 ('20201223053156'),
 ('20210204113550'),
-('20210205050401');
+('20210205050401'),
+('20210210120801');
 
 

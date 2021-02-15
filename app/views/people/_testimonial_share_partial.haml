@@ -1,36 +1,24 @@
-%div
+.sharing_modal_inner
 	%h2.congrats Congrats! Share this with friends!
 
-%div.sharing_link_box
-	.sharing_link= person_url(@current_user)
+	.sharing_link_box
+		.sharing_link
+			.link_text
+				= person_url(@current_user)
+			.right_content
+				= link_to '', class: 'link_img_box' do
+					= image_tag 'notes.svg', alt: 'notes', class: 'sharing_img'
+				= link_to '', class: 'link_img_box' do
+					= image_tag 'right-arrow.svg', alt: 'arrow', class: 'sharing_img'
 
-%div
 	.share_testimonial_text Share your reviews on your social media feeds and via email and let the world know about your amazing work.
 
-%div
 	.share_testimonial_social_links
-		= link_to("javascript:;", class: 'fb_share') do
-			= image_tag 'facebook-logo1.png'
-		%a.twitter_share{:href => "https://twitter.com/share?url=https://#{request.host_with_port}/en/#{@current_user.username}&via=Avontage&hashtags=Avontage&text=#{testimonial.text}", target: '_blank'}
-			= image_tag 'twitter-logo-silhouette.png'
-		%a.twitter_share{href: "http://www.linkedin.com/shareArticle?mini=true&url=#{person_url(@current_user)}&title=#{testimonial.text}&summary=#{testimonial.text}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
-			= image_tag 'linkedin-letters.png'
-
-- content_for :extra_javascript do
-	:javascript
-		$('.fb_share').click(function(){
-			FB.api(
-		    "/{photo-id}",
-		    function (response) {
-		      if (response && !response.error) {
-		        /* handle the result */
-		      }
-		    }
-			);
-		})
-
-		function popitup(url) {
-			newwindow=window.open(url,'name','height=600,width=650');
-			if (window.focus) {newwindow.focus()}
-			return false;
-		}
+		= link_to("javascript:;", class: 'social_link') do
+			= image_tag 'facebook.svg', class: "review_share_fb"
+		%a.social_link{:href => "javascript:;"}
+			= image_tag 'twitter-sign.svg', class: "review_share_tw"
+		%a.social_link{href: "http://www.linkedin.com/shareArticle?mini=true&url=#{person_url(@current_user)}&title=#{testimonial.text}&summary=#{testimonial.text}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
+			= image_tag 'linkedin.svg', class: "review_share_li"
+		= link_to("javascript:;", class: 'social_link') do
+			= image_tag 'email.svg'

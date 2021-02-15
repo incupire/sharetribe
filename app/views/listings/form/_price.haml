@@ -25,6 +25,8 @@
         = t(".per")
       %select.js-listing-unit{name: "listing[unit]"}
         - @listing_presenter.unit_options.each do |unit_option|
+          - if @listing.new_record? && unit_option[:display].eql?("Offer")
+            - unit_option[:selected] = true
           %option{value: unit_option[:value], selected: unit_option[:selected], data: { kind: unit_option[:kind] }}
             = unit_option[:display]
 

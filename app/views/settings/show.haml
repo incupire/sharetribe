@@ -51,7 +51,7 @@
     = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Profile')}
 
 - content_for :title_header do
-  %h1= t("layouts.no_tribe.settings")
+  %h1.left_content= t("layouts.no_tribe.settings")
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
@@ -162,7 +162,8 @@
       .sub_text 
         %i * Post your offers and receive upto A$200 bonus A-Bucks for free.
     .inline_buttons
-      = form.button t("settings.save_and_close"), :class => "send_button"
+      - unless @current_user.overall_progress != 100
+        = form.button t("settings.save_and_close"), :class => "send_button"
       %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
       =# form.button t("settings.save_and_next"), :class => "send_button"
       =# form.button t("settings.save_and_next"), :class => "send_button"
