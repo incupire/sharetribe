@@ -112,6 +112,10 @@ $testimonial-icon-width: 40;
         .congrats {
           font-size: 28px;
           font-weight: 600;
+
+          @media screen and (max-width: 767px) {
+            font-size: 21px;
+          }
         }
         .sharing_link_box {
           .sharing_link {
@@ -126,9 +130,9 @@ $testimonial-icon-width: 40;
             font-weight: 600;
             position: relative;
             @media screen and (max-width: 767px) {
-              //padding: 38px 5px 5px;
               font-size: 16px;
               font-weight: 600;
+              padding: 18px 5px;
             }
 
             .link_text {
@@ -171,29 +175,37 @@ $testimonial-icon-width: 40;
           font-size: 18px;
           margin: 0 0 15px;
           font-weight: 600;
+
+          @media screen and (max-width: 767px) {
+            font-size: 16px;
+            text-align: center;
+          }
         }
 
         .share_testimonial_social_links {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          margin: 0 auto;
+          max-width: 60%;
+          width: 100%;
 
           .social_link {
             img {
-              height: 70px;
+              height: 60px;
             }
 
-            &:nth-last-of-type(1) {
+            .mail_link {
               display: flex;
               background: #a0caf0;
               border-radius: 10px;
               justify-content: center;
               align-items: center;
-              height: 70px;
-              width: 70px;
+              height: 60px;
+              width: 60px;
 
               img {
-                height: 40px;
+                height: 30px;
               }
             }
           }

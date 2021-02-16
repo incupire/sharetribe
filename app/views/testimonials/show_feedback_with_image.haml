@@ -1,9 +1,0 @@
-%meta{:content => "Title", :property => "og:title"}
-%meta{:content => "/assets/share_review.png", :property => "og:image"}
-%div#feedback_with_image
-  //=# image_tag @testimonial.snapshot
-.testimonial_image
-  .comment
-    = truncate(@testimonial.text, length: 503)
-
-= image_tag @testimonial.snapshot
