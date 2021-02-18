@@ -1,11 +1,12 @@
+require 'net/http'
 class TestimonialsController < ApplicationController
 
   before_action :except => [:index] do |controller|
     controller.ensure_logged_in t("layouts.notifications.you_must_log_in_to_give_feedback")
   end
 
-  before_action :ensure_authorized_to_give_feedback, :except => [:index]
-  before_action :ensure_feedback_not_given, :except => [:index]
+  before_action :ensure_authorized_to_give_feedback, :except => [:index, :linkedin_share]
+  before_action :ensure_feedback_not_given, :except => [:index, :linkedin_share]
 
   # Skip auth token check as current jQuery doesn't provide it automatically
   skip_before_action :verify_authenticity_token, :only => [:skip]
@@ -65,6 +66,15 @@ class TestimonialsController < ApplicationController
       }
       format.js { render :layout => false, locals: {is_author: is_author} }
     end
+  end
+
+  def linkedin_share
+    binding.pry
+    client = LinkedIn::Client.new('778hk1ev8qg4o7', 'yNlakCLblbghnqoz')
+    client.authorize_url(:redirect_uri => 'https://a8a5bb30e4f2.ngrok.io', :state => SecureRandom.uuid, :scope => "r_liteprofile+r_emailaddress+w_member_social")
+    client.authorize_from_request(params[:code], :redirect_uri => 'https://a8a5bb30e4f2.ngrok.io')
+
+    client.authorize_from_access("OU812")
   end
 
   private

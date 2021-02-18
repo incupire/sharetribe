@@ -18,7 +18,7 @@
       = image_tag 'facebook.svg', class: "review_share_fb"
     %a.social_link{:href => "https://twitter.com/share?url=#{person_url(@current_user)}&image[0]=https://homepages.cae.wisc.edu/~ece533/images/airplane.png", target: '_blank'}
       = image_tag 'twitter-sign.svg', class: "review_share_tw"
-    %a.social_link{href: "http://www.linkedin.com/shareArticle?mini=true&url=#{person_url(@current_user)}&title=#{testimonial.text}&summary=#{testimonial.text}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
+    = link_to linkedin_share_person_testimonials_path(@current_user), class: "social_link" do
       = image_tag 'linkedin.svg', class: "review_share_li"
     =# link_to("javascript:;", class: 'social_link mail_link') do
     =# image_tag 'email.svg'

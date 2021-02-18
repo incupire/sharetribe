@@ -1,4 +1,5 @@
 require 'rest_client'
+require 'net/http'
 
 class SessionsController < ApplicationController
 
@@ -124,6 +125,8 @@ class SessionsController < ApplicationController
     if provider.eql?('linkedin')
       data = request.env["omniauth.auth"].info
       data[:uid] = request.env["omniauth.auth"].uid
+      access_token = request.env["omniauth.auth"].credentials.token
+      binding.pry
     end
     origin_locale = get_origin_locale(request, available_locales())
     I18n.locale = origin_locale if origin_locale

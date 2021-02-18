@@ -262,7 +262,7 @@ Devise.setup do |config|
                     authorize_url: "https://www.facebook.com/#{facebook_api_version}/dialog/oauth"
                   }
                   
-  config.omniauth :linkedin, APP_CONFIG.linkedin_client_key, APP_CONFIG.linkedin_client_secret
+  config.omniauth :linkedin, APP_CONFIG.linkedin_client_key, APP_CONFIG.linkedin_client_secret, :scope => 'r_liteprofile r_emailaddress w_member_social'
   # ==> Warden configuration
   # see config/initializers/warden.rb
 end
