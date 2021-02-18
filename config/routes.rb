@@ -490,6 +490,7 @@ Rails.application.routes.draw do
           get :check_invitation_code
           get :create_facebook_based
           get :create_omniauth_based
+          get :share_on_twitter_success
         end
       end
 

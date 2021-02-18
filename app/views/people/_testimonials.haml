@@ -1,34 +1,60 @@
 - content_for :extra_javascript do
-	:javascript
-		$("#share-btn").click(function(){
-			FB.getLoginStatus(function(response){
-				if (response.status === "connected") {
-					document.getElementById("status").innerHTML = "We are connected";
+  :javascript
+    $("#share-btn").click(function(){
+      FB.getLoginStatus(function(response){
+        if (response.status === "connected") {
+          document.getElementById("status").innerHTML = "We are connected";
 
-					FB.ui({
-						method: 'share_open_graph',
-						action_type: 'og.shares',
-						action_properties: JSON.stringify({
-							object: {
-								'og:url': "https://14778e1fa5af.ngrok.io/en/jack",
-								'og:title': "title",
-								'og:description': "desc"
-							}
-						})
-					});
+          FB.ui({
+            method: 'share_open_graph',
+            action_type: 'og.shares',
+            action_properties: JSON.stringify({
+              object: {
+                'og:url': "https://14778e1fa5af.ngrok.io/en/jack",
+                'og:title': "title",
+                'og:description': "desc"
+              }
+            })
+          });
 
-				}else {
-					login();
-				}
-			});
+        }else {
+          login();
+        }
+      });
 
-			function login(){
-				FB.login();
-			}
-		});
+      function login(){
+        FB.login();
+      }
+    });
 .profile-testimonials-list.customize_profile_testimonial
-	= render :partial => "people/testimonial", :collection => received_testimonials.take(limit)
+  = render :partial => "people/testimonial", :collection => received_testimonials.take(limit)
 .row.load-more-link
-	- if received_testimonials.size > limit
-		#load-more-testimonials.load-more-testimonials
-			= link_to t("people.show.show_all_reviews"), "#"
+  - if received_testimonials.size > limit
+    #load-more-testimonials.load-more-testimonials
+      = link_to t("people.show.show_all_reviews"), "#"
+
+
+.add_product_modal
+  .modal_box
+    .modal_heading
+      .close X
+    .modal_body
+      = render partial: "testimonial_share_partial"
+
+- content_for :extra_javascript do
+  :javascript
+    $('.share-review-icon').click(function() {
+      $("#connect-to-twitter").attr('onClick', "twitterShare("+$(this).data('testimonial-id')+")");
+      $('.add_product_modal').addClass('show_modal');
+    });
+
+    $('.close').click(function(){
+      $('.add_product_modal').removeClass('show_modal');
+    });
+
+    function twitterShare(testimonial_id) {
+      $.oauthpopup({path: '/people/auth/twitter?testimonial_id='+testimonial_id,
+        callback: function(data){
+        }
+      });
+    }

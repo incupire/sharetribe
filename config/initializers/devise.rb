@@ -263,6 +263,9 @@ Devise.setup do |config|
                   }
                   
   config.omniauth :linkedin, APP_CONFIG.linkedin_client_key, APP_CONFIG.linkedin_client_secret, :scope => 'r_liteprofile r_emailaddress w_member_social'
+  config.omniauth :twitter, APP_CONFIG.twitter_app_id, APP_CONFIG.twitter_app_secret
+
+
   # ==> Warden configuration
   # see config/initializers/warden.rb
 end

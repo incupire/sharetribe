@@ -16,22 +16,5 @@
       = icon_tag("like", ["positive"])
     - else
       = icon_tag("dislike", ["negative"])
-    .share-review-icon
+    .share-review-icon{data: {testimonial_id: testimonial.id}}
       = image_tag "share.svg", class: "share-review-icon-image"
-
-.add_product_modal
-  .modal_box
-    .modal_heading
-      .close X
-    .modal_body
-      = render partial: "testimonial_share_partial", locals: {testimonial: testimonial}
-
-- content_for :extra_javascript do
-  :javascript
-    $('.share-review-icon').click(function() {
-      $('.add_product_modal').addClass('show_modal');
-    });
-
-    $('.close').click(function(){
-      $('.add_product_modal').removeClass('show_modal');
-    });

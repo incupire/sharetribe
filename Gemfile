@@ -170,6 +170,8 @@ gem 'redcarpet', '~> 3.4.0'
 gem 'intercom'
 
 gem 'twitter_cldr'
+gem 'twitter'
+gem 'omniauth-twitter'
 gem 'memoist'
 gem 'biz'
 gem 'rails-jquery-autocomplete'
