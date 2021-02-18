@@ -104,7 +104,7 @@ class Person < ApplicationRecord
   # :lockable, :timeoutable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable,
-         :omniauthable, omniauth_providers: [:facebook, :linkedin]
+         :omniauthable, omniauth_providers: [:facebook, :linkedin, :twitter]
 
   attr_accessor :guid, :password2, :form_login,
                 :form_given_name, :form_family_name, :form_password,

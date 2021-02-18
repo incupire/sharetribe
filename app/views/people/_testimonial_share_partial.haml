@@ -4,7 +4,7 @@
   .sharing_link_box
     .sharing_link
       .link_text
-        = person_url(@current_user)
+        = person_url(@person)
       .right_content
         = link_to '', class: 'link_img_box' do
           = image_tag 'notes.svg', alt: 'notes', class: 'sharing_img'
@@ -16,68 +16,9 @@
   .share_testimonial_social_links
     = link_to("javascript:;", class: 'social_link', id: 'connect-to-facebook') do
       = image_tag 'facebook.svg', class: "review_share_fb"
-    %a.social_link{:href => "https://twitter.com/share?url=#{person_url(@current_user)}&image[0]=https://homepages.cae.wisc.edu/~ece533/images/airplane.png", target: '_blank'}
+    %a.social_link{:href => "javascript:void(0);", id: 'connect-to-twitter', onClick: ""}
       = image_tag 'twitter-sign.svg', class: "review_share_tw"
-    %a.social_link{href: "http://www.linkedin.com/shareArticle?mini=true&url=#{person_url(@current_user)}&title=#{testimonial.text}&summary=#{testimonial.text}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
+    %a.social_link{href: "http://www.linkedin.com/shareArticle?mini=true&url=#{person_url(@current_user)}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
       = image_tag 'linkedin.svg', class: "review_share_li"
-    =# link_to("javascript:;", class: 'social_link mail_link') do
-    =# image_tag 'email.svg'
-
-- content_for :extra_javascript do
-  :javascript
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId      : "317726672315473",
-        cookie     : true,
-        xfbml      : true,
-        version    : 'v4.0'
-      });
-      FB.AppEvents.logPageView();
-    };
-
-    (function(d, s, id){
-      var js, fjs = d.getElementsByTagName(s)[0];
-      if (d.getElementById(id)) {return;}
-      js = d.createElement(s); js.id = id;
-      js.src = "https://connect.facebook.net/en_US/sdk.js";
-      fjs.parentNode.insertBefore(js, fjs);
-    }(document, 'script', 'facebook-jssdk'));
-
-    document.getElementById('connect-to-facebook').addEventListener('click', function() {
-      FB.getLoginStatus(function(response) {
-        if (response.status === 'connected') {
-          FB.logout();
-        }
-      });
-
-      FB.login(function(response) {
-        if (response.authResponse) {
-          if (response.status === 'connected') {
-            accessToken = response.authResponse.accessToken;
-            console.log('accessToken: '+accessToken)
-            FB.ui({
-              method: 'feed',
-              name: 'Facebook Dialogs',
-              link: 'http://developers.facebook.com/docs/reference/dialogs/',
-              picture: 'http://fbrell.com/f8.jpg',
-              caption: 'Reference Documentation',
-              description: 'Dialogs provide a simple, consistent interface for applications to interface with users.'
-            },
-            function(response) {
-              if (response && response.post_id) {
-                alert('Succeeded to post');
-              }
-              else {
-                alert('Failed to post');
-              }
-            }
-            );
-          }else{
-            window.warning_alert('Something went wrong. Please try again')
-          }
-        }else {
-          console.log('User cancelled login or did not fully authorize');
-        }
-      }, {scope: 'publish_pages, public_profile'});
-    }, false);
-  
+    = link_to("mailto:?subject=Testing&body=hello", class: 'social_link mail_link') do
+      = image_tag 'email.svg'

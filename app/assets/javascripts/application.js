@@ -105,5 +105,6 @@
 //= require social-insurance-number
 //= require select2.min
 //= require admin/testimonials
+//= require oauthpopup
 //= require_self
 

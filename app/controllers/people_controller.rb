@@ -11,7 +11,8 @@ class PeopleController < Devise::RegistrationsController
   LOOSER_ACCESS_CONTROL = [
     :check_email_availability,
     :check_email_availability_and_validity,
-    :check_invitation_code
+    :check_invitation_code,
+    :share_on_twitter_success
   ]
 
   skip_before_action :cannot_access_if_banned,            only: LOOSER_ACCESS_CONTROL
@@ -20,6 +21,9 @@ class PeopleController < Devise::RegistrationsController
   skip_before_action :ensure_user_belongs_to_community,   only: LOOSER_ACCESS_CONTROL
 
   helper_method :show_closed?
+
+  def share_on_twitter_success
+  end
 
   def show
     @person = Person.find_by!(username: params[:username], community_id: @current_community.id)

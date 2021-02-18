@@ -185,7 +185,7 @@ $testimonial-icon-width: 40;
         .share_testimonial_social_links {
           display: flex;
           justify-content: space-between;
-          align-items: center;
+          align-items: flex-start;
           margin: 0 auto;
           max-width: 60%;
           width: 100%;
@@ -195,7 +195,7 @@ $testimonial-icon-width: 40;
               height: 60px;
             }
 
-            .mail_link {
+            &.mail_link {
               display: flex;
               background: #a0caf0;
               border-radius: 10px;
