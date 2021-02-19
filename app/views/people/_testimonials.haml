@@ -41,10 +41,14 @@
     .modal_body
       = render partial: "testimonial_share_partial"
 
+
+-linked_url = "https://www.linkedin.com/oauth/v2/authorization?response_type=code&scope=w_member_social,r_liteprofile&client_id=#{APP_CONFIG.linkedin_client_key}&client_secret=#{APP_CONFIG.linkedin_client_secret}&redirect_uri=#{APP_CONFIG.linkedin_redirect_uri}&state=testimonial_"
+
 - content_for :extra_javascript do
   :javascript
     $('.share-review-icon').click(function() {
       $("#connect-to-twitter").attr('onClick', "twitterShare("+$(this).data('testimonial-id')+")");
+      $("#share_on_linkedin").attr('onClick', "linkedinShare("+$(this).data('testimonial-id')+")");
       $("#share_on_mail").attr('href', "mailto:?body="+$(this).data('image'))
       $('.add_product_modal').addClass('show_modal');
     });
@@ -59,3 +63,14 @@
         }
       });
     }
+
+    function linkedinShare(testimonial_id) {
+      $.oauthpopup({path: "#{linked_url}"+testimonial_id,
+        callback: function(data){
+        }
+      });
+    }
+
+
+
+

@@ -171,6 +171,7 @@ gem 'intercom'
 
 gem 'twitter_cldr'
 gem 'twitter'
+gem "linkedin-oauth2"
 gem 'omniauth-twitter'
 gem 'memoist'
 gem 'biz'
