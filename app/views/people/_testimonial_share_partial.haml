@@ -18,7 +18,8 @@
       = image_tag 'facebook.svg', class: "review_share_fb"
     %a.social_link{:href => "javascript:void(0);", id: 'connect-to-twitter', onClick: ""}
       = image_tag 'twitter-sign.svg', class: "review_share_tw"
-    %a.social_link{href: "javascript:void(0);", id: 'share_on_linkedin', onClick: ''}
+    - binding.pry
+    %a.social_link{href: "https://www.linkedin.com/shareArticle?url=#{person_url(@current_user)}&title='Avontage feedback'&source=#{@current_community.name('en')}&fb_share=true&feed_id=#{person.received_testimonials.first.id}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;", id: ''}
       = image_tag 'linkedin.svg', class: "review_share_li"
     = link_to("#", class: 'social_link mail_link', id: 'share_on_mail') do
       = image_tag 'email.svg'
