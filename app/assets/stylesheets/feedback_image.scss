@@ -1,5 +1,5 @@
-.testimonial_image {
-  background: url("http://avontage.com/assets/share_review.png") no-repeat center center;
+.five_star_testimonial {
+  background: url("http://staging.avontage.com/assets/five_star_review.png") no-repeat center center;
   -webkit-background-size: 100% 100%;
   -moz-background-size: 100% 100%;
   -o-background-size: 100% 100%;
@@ -9,7 +9,26 @@
   width: 100%;
   position: relative;
 }
-.testimonial_image .comment {
+.five_star_testimonial .comment {
+  position: absolute;
+  width: 80%;
+  height: 100%;
+  padding: 95px 60px;
+  line-height: 20px;
+}
+
+.one_star_testimonial {
+  background: url("http://staging.avontage.com/assets/one_star_review.png") no-repeat center center;
+  -webkit-background-size: 100% 100%;
+  -moz-background-size: 100% 100%;
+  -o-background-size: 100% 100%;
+  background-size: 100% 100%;
+  color: white;
+  height: 360px;
+  width: 100%;
+  position: relative;
+}
+.one_star_testimonial .comment {
   position: absolute;
   width: 80%;
   height: 100%;

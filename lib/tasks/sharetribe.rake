@@ -88,6 +88,23 @@ namespace :sharetribe do
     end
   end
 
+  desc "Update all testimonials snapshots"
+  task :update_all_testimonials_snapshots => :environment do
+    Testimonial.find_each do |testimonial|
+      testimonial_class_image = testimonial.grade > 0.25 ? "five_star_testimonial" : "one_star_testimonial"
+      html  = "<div class='#{testimonial_class_image}'><div class='comment'>#{testimonial.text.first(503)}</div></div>"
+      kit   = IMGKit.new(html, quality: 50, width: 600, height: 360)
+      kit.stylesheets << "app/assets/stylesheets/feedback_image.scss"
+      img   = kit.to_img(:png)
+      file  = Tempfile.new(["template_#{testimonial.id}", 'png'], 'tmp', :encoding => 'ascii-8bit')
+      file.write(img)
+      file.flush
+      testimonial.snapshot = file
+      testimonial.save
+      file.unlink
+    end
+  end
+
   namespace :person_custom_fields do
     desc "Copying person's phone number to custom fields"
     task :copy_phone_number_community, [:community_ident] => :environment do |t, args|

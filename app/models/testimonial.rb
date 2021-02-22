@@ -71,8 +71,9 @@ class Testimonial < ApplicationRecord
   end
 
   def take_snapshot
-    html  = "<div class='testimonial_image'><div class='comment'>#{self.text.first(503)}</div></div>"
-    kit   = IMGKit.new(html, quality: 50, width: 600)
+    testimonial_class_image = self.grade > 0.25 ? "five_star_testimonial" : "one_star_testimonial"
+    html  = "<div class='#{testimonial_class_image}'><div class='comment'>#{self.text.first(503)}</div></div>"
+    kit   = IMGKit.new(html, quality: 50, width: 600, height: 360)
     kit.stylesheets << "app/assets/stylesheets/feedback_image.scss"
     img   = kit.to_img(:png)
     file  = Tempfile.new(["template_#{self.id}", 'png'], 'tmp', :encoding => 'ascii-8bit')
