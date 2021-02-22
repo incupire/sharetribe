@@ -21,6 +21,7 @@
 				FB.getLoginStatus(function(response){
 					if (response.status === "connected") {
 						FB.ui({
+							display: 'popup',
 							method: 'share',
 							href: "#{person_url(@current_user)}" + "?fb_share=true&feed_id=" + feedback_id
 						});
