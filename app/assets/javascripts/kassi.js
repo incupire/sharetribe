@@ -535,6 +535,7 @@ function initialize_profile_view(profile_id) {
       $('.share-review-icon').click(function() {
         $("#connect-to-twitter").attr('onClick', "twitterShare("+$(this).data('testimonial-id')+")");
         $("#share_on_mail").attr('href', "mailto:?body="+$(this).data('image'))
+        $("#share_on_linkedin").attr('onClick', "linkedinShare("+$(this).data('testimonial-id')+")");
         $('.add_product_modal').addClass('show_modal');
       });
 
