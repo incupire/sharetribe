@@ -1,4 +1,3 @@
-require 'net/http'
 class TestimonialsController < ApplicationController
 
   before_action :except => [:index] do |controller|
@@ -31,6 +30,7 @@ class TestimonialsController < ApplicationController
   end
 
   def create
+    received_testimonial = nil
     testimonial_params = params.require(:testimonial).permit(
       :text,
       :grade,
@@ -43,8 +43,11 @@ class TestimonialsController < ApplicationController
 
     if @testimonial.save
       Delayed::Job.enqueue(TestimonialGivenJob.new(@testimonial.id, @current_community.id))
+      unless @transaction.waiting_testimonial_from?(@testimonial.receiver_id)
+        received_testimonial = @transaction.testimonials.where(author_id: @testimonial.receiver_id).last
+      end
       flash[:notice] = t("layouts.notifications.feedback_sent_to", :target_person => view_context.link_to(PersonViewUtils.person_display_name_for_type(@transaction.other_party(@current_user), "first_name_only"), @transaction.other_party(@current_user))).html_safe
-      redirect_to person_transaction_path(:person_id => @current_user.id, :id => @transaction.id, :new_feedback => @testimonial.id)
+      redirect_to person_transaction_path(:person_id => @current_user.id, :id => @transaction.id, :recieved_feedback => received_testimonial ? received_testimonial.id : nil)
     else
       render :action => new
     end
@@ -66,15 +69,6 @@ class TestimonialsController < ApplicationController
       }
       format.js { render :layout => false, locals: {is_author: is_author} }
     end
-  end
-
-  def linkedin_share
-    binding.pry
-    client = LinkedIn::Client.new('778hk1ev8qg4o7', 'yNlakCLblbghnqoz')
-    client.authorize_url(:redirect_uri => 'https://a8a5bb30e4f2.ngrok.io', :state => SecureRandom.uuid, :scope => "r_liteprofile+r_emailaddress+w_member_social")
-    client.authorize_from_request(params[:code], :redirect_uri => 'https://a8a5bb30e4f2.ngrok.io')
-
-    client.authorize_from_access("OU812")
   end
 
   private

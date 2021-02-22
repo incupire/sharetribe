@@ -26,11 +26,14 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def show
+    if params[:feed_id].present?
+      @shareable_testimonial = Testimonial.find(params[:feed_id])
+    end
     @person = Person.find_by!(username: params[:username], community_id: @current_community.id)
     raise PersonDeleted if @person.deleted?
     raise PersonBanned if @person.banned?
 
-    redirect_to landing_page_path and return if @current_community.private? && !@current_user
+    redirect_to landing_page_path and return if @current_community.private? && !@current_user && !params[:fb_share].present?
     @selected_tribe_navi_tab = "members"
     @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@person.id, @current_community.id, "accepted")
 

@@ -1,31 +1,39 @@
 - content_for :extra_javascript do
   :javascript
-    $("#share-btn").click(function(){
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : 784772042393270,
+        xfbml      : true,
+        version    : 'v2.4'
+      });
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+    $("#connect-to-facebook").click(function(){
+      feedback_id = $("#feedback_id").val()
+      debugger
       FB.getLoginStatus(function(response){
         if (response.status === "connected") {
-          document.getElementById("status").innerHTML = "We are connected";
-
           FB.ui({
-            method: 'share_open_graph',
-            action_type: 'og.shares',
-            action_properties: JSON.stringify({
-              object: {
-                'og:url': "https://14778e1fa5af.ngrok.io/en/jack",
-                'og:title': "title",
-                'og:description': "desc"
-              }
-            })
+            method: 'share',
+            href: "#{person_url(@person)}" + "?fb_share=true&feed_id=" + feedback_id
           });
-
-        }else {
-          login();
+        } else if (response.status === "not_authorized"){
+          FB.login();
+        } else {
+          FB.login();
         }
       });
-
-      function login(){
-        FB.login();
-      }
     });
+
+%input{type: "hidden", value: "", id: "feedback_id"}
 .profile-testimonials-list.customize_profile_testimonial
   = render :partial => "people/testimonial", :collection => received_testimonials.take(limit)
 .row.load-more-link
@@ -39,13 +47,15 @@
     .modal_heading
       .close X
     .modal_body
-      = render partial: "testimonial_share_partial"
+      = render partial: "testimonial_share_partial", locals: {person: @person}
 
 - content_for :extra_javascript do
   :javascript
     $('.share-review-icon').click(function() {
       $("#connect-to-twitter").attr('onClick', "twitterShare("+$(this).data('testimonial-id')+")");
       $('.add_product_modal').addClass('show_modal');
+      feedback_id = $(this).data("testimonialId")
+      $("#feedback_id").val(feedback_id)
     });
 
     $('.close').click(function(){

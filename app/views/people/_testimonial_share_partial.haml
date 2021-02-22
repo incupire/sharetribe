@@ -4,7 +4,7 @@
   .sharing_link_box
     .sharing_link
       .link_text
-        = person_url(@person)
+        = person_url(person)
       .right_content
         = link_to '', class: 'link_img_box' do
           = image_tag 'notes.svg', alt: 'notes', class: 'sharing_img'
@@ -18,7 +18,7 @@
       = image_tag 'facebook.svg', class: "review_share_fb"
     %a.social_link{:href => "javascript:void(0);", id: 'connect-to-twitter', onClick: ""}
       = image_tag 'twitter-sign.svg', class: "review_share_tw"
-    %a.social_link{href: "http://www.linkedin.com/shareArticle?mini=true&url=#{person_url(@current_user)}&source=#{@current_community.name('en')}", onclick: "window.open(this.href,  'mywin', 'left=20, top=20, width=500, height=500, toolbar=1, resizable=0'); return false;"}
+    %a.social_link{:href => person_linkedin_omniauth_authorize_path}
       = image_tag 'linkedin.svg', class: "review_share_li"
     = link_to("mailto:?subject=Testing&body=hello", class: 'social_link mail_link') do
       = image_tag 'email.svg'

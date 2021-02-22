@@ -34,17 +34,22 @@
 
 %title= title
 %meta{ :property => "og:title", :content => title}
+%meta{ :property => "og:title:secure", :content => title}
+
 %meta{ :name => "twitter:title", :content => title}
 %meta{ :name => "author", :content=> meta_author }
 %meta{ :name => "keywords", :content => keywords }
 %meta{ :property => "og:url", :content => full_url}
+%meta{ :property => "og:url:secure", :content => full_url}
 %meta{ :name => "identifier-url", :content => "#{@current_community.full_domain(with_protocol: true)}"}
 %meta{ :name => "copyright", :content => "#{@current_community.name(I18n.locale)}"}
 %meta{ :name => "twitter:url", :content => full_url}
 %meta{ :property => "og:site_name", :content =>"#{@current_community.full_name(locale)}"}
 %meta{ :name => "description", :content => strip_tags(meta_description)}
 %meta{ :property => "og:description", :content => strip_tags(meta_description)}
+%meta{ :property => "og:description:secure", :content => strip_tags(meta_description)}
 %meta{ :name => "twitter:description", :content => strip_tags(meta_description)}
+%meta{ :property => "og:image:secure", :content => meta_image}
 %meta{ :property => "og:image", :content => meta_image}
 - if meta_image_width && meta_image_height
   %meta{ :property => "og:image:width", :content => meta_image_width}

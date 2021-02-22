@@ -157,6 +157,7 @@ class TransactionsController < ApplicationController
       role: role,
       message_form: Message.new({sender_id: @current_user.id, conversation_id: @conversation.id}),
       message_form_action: person_message_messages_path(@current_user, :message_id => @conversation.id),
+      recieved_feedback: nil,
       price_break_down_locals: price_break_down_locals(@transaction, @conversation)
     }
   end

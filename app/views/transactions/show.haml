@@ -4,3 +4,49 @@
 	= render :partial => "transactions/details", locals: {role: role, is_author: is_author, price_break_down_locals: price_break_down_locals}
 
 	= render :partial => "conversations/messages_and_form", locals: {role: role, message_form: message_form, message_form_action: message_form_action, messages: messages}
+- if params[:recieved_feedback].present?
+	%input{type: "hidden", value: "#{params[:recieved_feedback]}", id: "feedback_id"}
+	.add_product_modal.show_modal
+		.modal_box
+			.modal_heading
+				.close X
+			.modal_body
+				= render partial: "people/testimonial_share_partial", locals: {person: @current_user}
+
+	- content_for :extra_javascript do
+		:javascript
+			window.fbAsyncInit = function() {
+				FB.init({
+					appId      : 784772042393270,
+					xfbml      : true,
+					version    : 'v2.4'
+				});
+			};
+
+			(function(d, s, id){
+				var js, fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {return;}
+				js = d.createElement(s); js.id = id;
+				js.src = "//connect.facebook.net/en_US/sdk.js";
+				fjs.parentNode.insertBefore(js, fjs);
+			}(document, 'script', 'facebook-jssdk'));
+
+			$("#connect-to-facebook").click(function(){
+				feedback_id = $("#feedback_id").val()
+				FB.getLoginStatus(function(response){
+					if (response.status === "connected") {
+						FB.ui({
+							method: 'share',
+							href: "#{person_url(@current_user)}" + "?fb_share=true&feed_id=" + feedback_id
+						});
+					} else if (response.status === "not_authorized"){
+						FB.login();
+					} else {
+						FB.login();
+					}
+				});
+			});
+
+			$('.close').click(function(){
+				$('.add_product_modal').removeClass('show_modal');
+			});

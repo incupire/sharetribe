@@ -566,6 +566,7 @@ Rails.application.routes.draw do
         resources :testimonials do 
           collection do
             get :linkedin_share
+            get :linkedin_redirect
           end
         end
         resources :emails do
