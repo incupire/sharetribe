@@ -58,7 +58,6 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def show
-    binding.pry
     if params[:feed_id].present?
       @shareable_testimonial = Testimonial.find(params[:feed_id])
     end
