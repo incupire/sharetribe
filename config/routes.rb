@@ -491,6 +491,7 @@ Rails.application.routes.draw do
           get :create_facebook_based
           get :create_omniauth_based
           get :share_on_twitter_success
+          match :request_from_linkedin, via: [:get, :post]
         end
       end
 

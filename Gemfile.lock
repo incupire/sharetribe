@@ -308,6 +308,9 @@ GEM
     linkedin (1.1.1)
       hashie (~> 3.0)
       multi_json (~> 1.0)
+    linkedin-oauth2 (1.0.0)
+      faraday (~> 0.9)
+      hashie (~> 3.2)
       oauth2 (~> 1.0)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -704,6 +707,7 @@ DEPENDENCIES
   launchy (~> 2.1)
   letter_opener
   linkedin
+  linkedin-oauth2
   listen (~> 3.1.5)
   lograge (~> 0.5.1)
   mail (~> 2.6.6.rc1)

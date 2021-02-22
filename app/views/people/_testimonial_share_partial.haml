@@ -18,7 +18,8 @@
       = image_tag 'facebook.svg', class: "review_share_fb"
     %a.social_link{:href => "javascript:void(0);", id: 'connect-to-twitter', onClick: ""}
       = image_tag 'twitter-sign.svg', class: "review_share_tw"
-    %a.social_link{:href => person_linkedin_omniauth_authorize_path}
+    %a.social_link{href: "javascript:void(0);", id: 'share_on_linkedin', onClick: ''}
       = image_tag 'linkedin.svg', class: "review_share_li"
-    = link_to("mailto:?subject=Testing&body=hello", class: 'social_link mail_link') do
+    = link_to("#", class: 'social_link mail_link', id: 'share_on_mail') do
       = image_tag 'email.svg'
+
