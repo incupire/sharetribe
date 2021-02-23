@@ -40,7 +40,7 @@
   :javascript
     $('.share-review-icon').click(function() {
       $("#connect-to-twitter").attr('onClick', "twitterShare("+$(this).data('testimonial-id')+")");
-      $("#share_on_linkedin").attr('onClick', "linkedinShare("+$(this).data('testimonial-id')+")");
+      // $("#share_on_linkedin").attr('onClick', "linkedinShare("+$(this).data('testimonial-id')+")");
       $("#share_on_mail").attr('href', "mailto:?body="+$(this).data('image'))
       $('.add_product_modal').addClass('show_modal');
       feedback_id = $(this).data("testimonialId")
@@ -58,13 +58,21 @@
       });
     }
 
-    function linkedinShare(testimonial_id) {
-      $.oauthpopup({path: "#{linked_url}"+testimonial_id,
-        callback: function(data){
-        }
-      });
+    // function linkedinShare(testimonial_id) {
+    //   $.oauthpopup({path: "#{linked_url}"+testimonial_id,
+    //     callback: function(data){
+    //     }
+    //   });
+    // }
+
+    $('#connect-linkedin-share').click(function(){
+      feedback_id = $("#feedback_id").val();
+      var url = "#{person_url(@person)}" + "%3Ffb_share%3Dtrue%26feed_id%3D" + feedback_id;
+      return popitup("https://www.linkedin.com/sharing/share-offsite/?url="+ url)
+    })
+
+    function popitup(url) {
+      newwindow=window.open(url,'name','height=600,width=650');
+      if (window.focus) {newwindow.focus()}
+      return false;
     }
-
-
-
-

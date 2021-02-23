@@ -27,37 +27,38 @@ class PeopleController < Devise::RegistrationsController
   end
 
   def request_from_linkedin
-    begin
-      LinkedIn.configure do |config|
-        config.client_id     = APP_CONFIG.linkedin_client_key
-        config.client_secret = APP_CONFIG.linkedin_client_secret
-        config.redirect_uri  = APP_CONFIG.linkedin_redirect_uri
-      end
-      oauth = LinkedIn::OAuth2.new
-      access_token = oauth.get_access_token(params[:code]).token
-      res = RestClient.get('https://api.linkedin.com/v2/me', {:Authorization => "Bearer #{access_token}"})
-      linkedin_profle_id = JSON.parse(res.body)['id']
-      testimonial = Testimonial.find(params[:state].split('_')[1])
-      res = `curl -X POST \
-        https://api.linkedin.com/v2/ugcPosts \
-        -H 'Accept: application/json' \
-        -H 'Content-Type: application/json' \
-        -H 'Authorization: Bearer #{access_token}' \
-        -H 'cache-control: no-cache' \
-        -d '{"author": "urn:li:person:#{linkedin_profle_id}","lifecycleState": "PUBLISHED","specificContent":{"com.linkedin.ugc.ShareContent":{"shareCommentary":{"text": "Avonatge review"},"shareMediaCategory": "ARTICLE","media":[{"status": "READY", "description":{"text": "#{person_url(testimonial.receiver)}"},"originalUrl": "#{testimonial.snapshot.url}"}]}},"visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"}}'`
-      post_id = JSON.parse(res)['id']
-      if post_id.present?
-        flash[:notice] = 'Review successfully shared'
-      else
-        flash[:error] = 'Something went wrong. Please try again'
-      end
-    rescue Exception => e
-      flash[:error] = 'Something went wrong. Please try again'
-    end
-    redirect_to share_on_twitter_success_people_path
+    # begin
+    #   LinkedIn.configure do |config|
+    #     config.client_id     = APP_CONFIG.linkedin_client_key
+    #     config.client_secret = APP_CONFIG.linkedin_client_secret
+    #     config.redirect_uri  = APP_CONFIG.linkedin_redirect_uri
+    #   end
+    #   oauth = LinkedIn::OAuth2.new
+    #   access_token = oauth.get_access_token(params[:code]).token
+    #   res = RestClient.get('https://api.linkedin.com/v2/me', {:Authorization => "Bearer #{access_token}"})
+    #   linkedin_profle_id = JSON.parse(res.body)['id']
+    #   testimonial = Testimonial.find(params[:state].split('_')[1])
+    #   res = `curl -X POST \
+    #     https://api.linkedin.com/v2/ugcPosts \
+    #     -H 'Accept: application/json' \
+    #     -H 'Content-Type: application/json' \
+    #     -H 'Authorization: Bearer #{access_token}' \
+    #     -H 'cache-control: no-cache' \
+    #     -d '{"author": "urn:li:person:#{linkedin_profle_id}","lifecycleState": "PUBLISHED","specificContent":{"com.linkedin.ugc.ShareContent":{"shareCommentary":{"text": "Avonatge review"},"shareMediaCategory": "ARTICLE","media":[{"status": "READY", "description":{"text": "#{person_url(testimonial.receiver)}"},"originalUrl": "#{testimonial.snapshot.url}"}]}},"visibility": {"com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"}}'`
+    #   post_id = JSON.parse(res)['id']
+    #   if post_id.present?
+    #     flash[:notice] = 'Review successfully shared'
+    #   else
+    #     flash[:error] = 'Something went wrong. Please try again'
+    #   end
+    # rescue Exception => e
+    #   flash[:error] = 'Something went wrong. Please try again'
+    # end
+    # redirect_to share_on_twitter_success_people_path
   end
 
   def show
+    Rails.cache.clear
     if params[:feed_id].present?
       @shareable_testimonial = Testimonial.find(params[:feed_id])
     end
