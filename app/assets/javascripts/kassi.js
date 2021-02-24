@@ -533,7 +533,6 @@ function initialize_profile_view(profile_id) {
     $.get(request_path, {per_page: 200, page: 1}, function(data) {
       $('#profile-testimonials-list').html(data);
       $('.share-review-icon').click(function() {
-        $("#connect-to-twitter").attr('onClick', "twitterShare("+$(this).data('testimonial-id')+")");
         $("#share_on_mail").attr('href', "mailto:?body="+$(this).data('image'))
         // $("#share_on_linkedin").attr('onClick', "linkedinShare("+$(this).data('testimonial-id')+")");
         $('.add_product_modal').addClass('show_modal');
@@ -545,13 +544,6 @@ function initialize_profile_view(profile_id) {
     });
     return false;
   });
-
-  function twitterShare(testimonial_id) {
-    $.oauthpopup({path: '/people/auth/twitter?testimonial_id='+testimonial_id,
-      callback: function(data){
-      }
-    });
-  }
 
 
   // The code below is not used in early 3.0 version, but part of it will probably be used again soon, so kept here.

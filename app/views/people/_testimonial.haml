@@ -16,6 +16,7 @@
       = icon_tag("like", ["positive"])
     - else
       = icon_tag("dislike", ["negative"])
-    .share-review-icon{data: {testimonial_id: testimonial.id, image: testimonial.snapshot.url}}
-      = image_tag "share.svg", class: "share-review-icon-image"
+    - if @current_user == @person
+      .share-review-icon{data: {testimonial_id: testimonial.id, image: testimonial.snapshot.url}}
+        = image_tag "share.svg", class: "share-review-icon-image"
 
