@@ -10,8 +10,7 @@
 #
 # Indexes
 #
-#  index_person_categories_on_category_id  (category_id)
-#  index_person_categories_on_person_id    (person_id)
+#  index_person_categories_on_person_id  (person_id)
 #
 
 require 'rails_helper'

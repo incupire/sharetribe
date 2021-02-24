@@ -16,7 +16,7 @@ class RobotsGenerator
 
       # Disallow indexing from other than production environments
       body =
-        if Rails.env.production?
+        if Rails.env.production? || Rails.env.staging?
           index_content(req)
         else
           no_index_content()

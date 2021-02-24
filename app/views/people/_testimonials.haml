@@ -4,6 +4,11 @@
       feedback_id = $("#feedback_id").val()
       FB.getLoginStatus(function(response){
         if (response.status === "connected") {
+          var url= "#{person_url(@person)}" + "?fb_share=true&feed_id=" + feedback_id;
+          $.ajax({
+            type: 'POST',
+            url: 'https://graph.facebook.com?id='+url+'&scrape=true'
+          });
           FB.ui({
             display: 'popup',
             method: 'share',

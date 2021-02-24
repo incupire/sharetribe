@@ -60,6 +60,7 @@
 
 - if @current_community.twitter_handle.present?
   %meta{ :name => "twitter:site", :content => "@#{@current_community.twitter_handle}"}
+  %meta{ :name => "twitter:creator", :content => "@#{@current_community.twitter_handle}"}
 
 - if @current_community.facebook_connect_id
   %meta{ :property => "fb:app_id", :content => "#{@current_community.facebook_connect_id}" }
