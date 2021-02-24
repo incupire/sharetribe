@@ -121,39 +121,39 @@ class SessionsController < ApplicationController
   end
 
   def twitter
-    begin
-      if params[:testimonial_id].present?
-        testimonial = Testimonial.find(params[:testimonial_id])
-        client = Twitter::REST::Client.new do |config|
-          config.consumer_key     = APP_CONFIG.twitter_app_id
-          config.consumer_secret  = APP_CONFIG.twitter_app_secret
-          config.access_token     = request.env["omniauth.auth"]['extra']['access_token'].token
-          config.access_token_secret = request.env["omniauth.auth"]['extra']['access_token'].secret
-        end
-        result = client.update_with_media("#{person_url(testimonial.receiver)}", download_to_file(testimonial.snapshot.url)) rescue nil
-        if result.nil?
-          flash[:error] = 'Something went wrong. Please try again'
-        else
-          flash[:notice] = 'Review successfully shared'
-        end
-      else
-        flash[:error] = 'Something went wrong. Please try again'
-      end
-    rescue Exception => e
-      flash[:error] = 'Something went wrong. Please try again'
-    end
-    redirect_to share_on_twitter_success_people_path
+    # begin
+    #   if params[:testimonial_id].present?
+    #     testimonial = Testimonial.find(params[:testimonial_id])
+    #     client = Twitter::REST::Client.new do |config|
+    #       config.consumer_key     = APP_CONFIG.twitter_app_id
+    #       config.consumer_secret  = APP_CONFIG.twitter_app_secret
+    #       config.access_token     = request.env["omniauth.auth"]['extra']['access_token'].token
+    #       config.access_token_secret = request.env["omniauth.auth"]['extra']['access_token'].secret
+    #     end
+    #     result = client.update_with_media("#{person_url(testimonial.receiver)}", download_to_file(testimonial.snapshot.url)) rescue nil
+    #     if result.nil?
+    #       flash[:error] = 'Something went wrong. Please try again'
+    #     else
+    #       flash[:notice] = 'Review successfully shared'
+    #     end
+    #   else
+    #     flash[:error] = 'Something went wrong. Please try again'
+    #   end
+    # rescue Exception => e
+    #   flash[:error] = 'Something went wrong. Please try again'
+    # end
+    # redirect_to share_on_twitter_success_people_path
   end
 
   def download_to_file(uri)
-    stream = open(uri, "rb")
-    return stream if stream.respond_to?(:path)
-    Tempfile.new.tap do |file|
-      file.binmode
-      IO.copy_stream(stream, file)
-      stream.close
-      file.rewind
-    end
+    # stream = open(uri, "rb")
+    # return stream if stream.respond_to?(:path)
+    # Tempfile.new.tap do |file|
+    #   file.binmode
+    #   IO.copy_stream(stream, file)
+    #   stream.close
+    #   file.rewind
+    # end
   end
 
   def omniauth_setup(provider)
