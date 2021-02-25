@@ -64,7 +64,8 @@
     })
 
     function popitup(url) {
-      newwindow=window.open(url,'name','height=600,width=650');
+      var left = (screen.width/2)-(325);
+      newwindow=window.open(url,'name','height=600,width=650,left='+left);
       if (window.focus) {newwindow.focus()}
       return false;
     }
