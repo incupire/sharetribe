@@ -29,6 +29,10 @@ module InboxService
     query_inbox_data_count(person_id, community_id)
   end
 
+  def transaction_inbox_data_count(person_id, community_id)
+    query_transactions_inbox_data_count(person_id, community_id)
+  end
+
   def inbox_data(person_id, community_id, limit, offset, status='', q='', sort_column='last_transition_at DESC', txn_type='')
     query_inbox_data(person_id, community_id, limit, offset, status, q, sort_column, txn_type)
   end
@@ -104,7 +108,6 @@ module InboxService
       community_id: community_id,
       conversation_ids: conversation_ids
     )
-
     connection.select_value(sql)
   end
 
@@ -118,9 +121,8 @@ module InboxService
       community_id: community_id,
       conversation_ids: conversation_ids
     )
-
     connection.select_value(sql)
-  end  
+  end
 
   def direct_conversation_query_notification_count(person_id, community_id)
     conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
@@ -206,7 +208,21 @@ module InboxService
       community_id: community_id,
       conversation_ids: conversation_ids
     )
+    
+    connection.select_value(sql)
+  end
 
+  def query_transactions_inbox_data_count(person_id, community_id)
+    conversation_ids = Participation.where(person_id: person_id).pluck(:conversation_id)
+    return 0 if conversation_ids.empty?
+
+    connection = ActiveRecord::Base.connection
+    sql = SQLUtils.ar_quote(connection, @construct_transactions_inbox_row_count_sql,
+      person_id: person_id,
+      community_id: community_id,
+      conversation_ids: conversation_ids
+    )
+    
     connection.select_value(sql)
   end
 
@@ -453,6 +469,26 @@ module InboxService
       # Where person and community
       WHERE conversations.community_id = #{params[:community_id]}
       AND conversations.id IN (#{params[:conversation_ids].join(',')})
+
+      # Ignore initiated and deleted
+      AND (
+        transactions.id IS NULL
+        OR (transactions.current_state != 'initiated'
+            AND transactions.deleted = 0)
+      )
+    "
+  }
+
+  @construct_transactions_inbox_row_count_sql = ->(params) {
+    "
+      SELECT COUNT(conversations.id)
+      FROM conversations
+
+      LEFT JOIN transactions      ON transactions.conversation_id = conversations.id
+
+      # Where person and community
+      WHERE conversations.community_id = #{params[:community_id]}
+      AND transactions.conversation_id IN (#{params[:conversation_ids].join(',')})
 
       # Ignore initiated and deleted
       AND (

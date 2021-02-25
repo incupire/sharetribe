@@ -60,6 +60,7 @@ class InboxesController < ApplicationController
   end
 
   def transactions
+
     statuses = %w[free confirmed paid canceled preauthorized rejected
                        payment_intent_requires_action payment_intent_action_expired
                        disputed refunded dismissed]
@@ -69,7 +70,7 @@ class InboxesController < ApplicationController
 
     params[:page] = 1 unless request.xhr?
     pagination_opts = PaginationViewUtils.parse_pagination_opts(params)
-    count = InboxService.inbox_data_count(@current_user.id, @current_community.id)
+    count = InboxService.transaction_inbox_data_count(@current_user.id, @current_community.id)
     transactional_inbox_rows = transactional_inbox_rows(pagination_opts, count)
     sorted_activity_dates = transactional_inbox_rows.pluck(:last_transition_at)
     pattern = "%#{params[:q]}%"

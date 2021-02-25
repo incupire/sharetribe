@@ -48,6 +48,7 @@
         = render :partial => "transaction_row", :collection => result_rows, :as => :conversation, locals: { payments_in_use: payments_in_use }
 
     = will_paginate(transactional_inbox_rows)
+
     = pageless(transactional_inbox_rows.total_pages, '#admin_transactions', request.url, t('conversations.index.loading_more_messages'))
 
   - else
