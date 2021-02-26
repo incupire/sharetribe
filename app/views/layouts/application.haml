@@ -26,19 +26,19 @@
         .unread_notification_popup.hidden
           = render partial: "layouts/unread_message_popup", locals: {totalUnreadNotifCount:  totalUnreadNotifCount }
 
-    - if display_onboarding_topbar? && action_name != 'share_on_twitter_success'
+    - if display_onboarding_topbar?
       - props = onboarding_topbar_props
       - unless props[:next_step] == :all_done
         - react_component_cache(name: "onboarding_topbar", props: props) do
           = react_component("OnboardingTopBar", props: props, prerender: true)
-    - if @current_user.present? && @current_user.overall_progress != 100 && action_name != 'share_on_twitter_success'
+    - if @current_user.present? && @current_user.overall_progress != 100
       - if params[:controller] == "settings" || params[:controller] == 'payment_settings'
         = yield :profile_progress
       - else
         - if (browser.device.mobile? && !is_homepage) || !browser.device.mobile?
           = render :partial => "settings/progress_bar", :locals => {progress_title: 'Profile Setup progress', redirect_link: progress_bar_redirect_link('other_page')}
 
-    - if FeatureFlagHelper.feature_enabled?(:topbar_v1) && action_name != 'share_on_twitter_success'
+    - if FeatureFlagHelper.feature_enabled?(:topbar_v1)
       - if(search_mode != :keyword || @view_type.eql?("map"))
         - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
         - key_param = maps_key ? "&key=#{maps_key}" : ""
@@ -53,14 +53,13 @@
       .custom_react_navbar
         - cache props do
           = react_component("TopbarApp", props: props, prerender: true, id: 'topbar-container')
-      - if @current_user.present? && !(@current_user.overall_progress != 100 && (params[:controller] == "settings" || params[:controller] == "payment_settings")) && action_name != 'share_on_twitter_success'
+      - if @current_user.present? && !(@current_user.overall_progress != 100 && (params[:controller] == "settings" || params[:controller] == "payment_settings"))
         %div.global_search_bar{ class: is_landing_page ? 'hide_search_field' : ''}
           = render partial: 'homepage/global_search_bar'
     - else
-      - if action_name != 'share_on_twitter_success'
-        = render partial: 'layouts/global_header', locals: header_props()
+      = render partial: 'layouts/global_header', locals: header_props()
 
-    - if logged_in? && @display_expiration_notice && action_name != 'share_on_twitter_success'
+    - if logged_in? && @display_expiration_notice
       - if @current_user.has_admin_rights?(@current_community)
         = render partial: "layouts/admin_expiration_notice", locals: {external_plan_service_login_url: admin_plan_path}
       - else
@@ -70,39 +69,39 @@
     - else
       =# yield :profile_progress
       - content_for(:page_content) do
-        - if action_name != 'share_on_twitter_success'
-          - is_map_view = params[:view].present? && params[:view] == "map"
-          - unless is_homepage
-            %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
-              - if @big_cover_photo
+        - is_map_view = params[:view].present? && params[:view] == "map"
+        - unless is_homepage
+          %section.marketplace-lander{class: is_homepage ? "#{is_map_view ? 'banner_for_map_view' : ''}" : "featured_conditionally#{is_map_view ? 'banner_for_map_view' : ''}"}
+            - if @big_cover_photo
+              .coverimage
+                %figure.marketplace-cover.fluidratio
+                  .lander-content.marketplace-lander-content
+                    = yield :title_header
+            - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
+              = link_to is_homepage ? search_path(category: "featured") : '' do
                 .coverimage
-                  %figure.marketplace-cover.fluidratio
-                    .lander-content.marketplace-lander-content
+                  - unless on_admin?
+                    %figure.marketplace-cover-small.fluidratio.custom_small_cover
+                  .coverimage-fade.disbale_fade{:class => yield(:coverfade_class)}
+                    %figure.marketplace-cover-small-fade.fluidratio
+                .title-container
+                  .title-header-wrapper
+                    .marketplace-title-header.make_custom_cover_title
                       = yield :title_header
-              - elsif !(is_landing_page && FeatureFlagHelper.feature_enabled?(:topbar_v1))
-                = link_to is_homepage ? search_path(category: "featured") : '' do
-                  .coverimage
-                    - unless on_admin?
-                      %figure.marketplace-cover-small.fluidratio.custom_small_cover
-                    .coverimage-fade.disbale_fade{:class => yield(:coverfade_class)}
-                      %figure.marketplace-cover-small-fade.fluidratio
-                  .title-container
-                    .title-header-wrapper
-                      .marketplace-title-header.make_custom_cover_title
-                        = yield :title_header
-            - if @current_user && params[:controller] != "homepage" 
-              = link_to :back,  class: 'my-class' do
-                = image_tag 'left-arrow_white.png'
-      %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : "#{is_session_page ? 'custom-page-content session_page_content' : ''}"}
-        %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
-          = render :partial => "layouts/notifications"
-          = yield
-          - if display_branding_info?
-            = render partial: "layouts/non_whitelabel_branding", locals: {link_to_sharetribe: "https://www.sharetribe.com/?utm_source=#{@current_community.ident}.sharetribe.com&utm_medium=referral&utm_campaign=nowl-footer"}
-    -#
-      This is not pretty, but works.
-      On homepage, we want to wrap the whole page content (search bar and the "real" content) to a form, so that
-      pressing send from either search bar of filter list will send all the form fields
+          - if @current_user && params[:controller] != "homepage" 
+            = link_to :back,  class: 'my-class' do
+              = image_tag 'left-arrow_white.png'
+      
+        %article.page-content{class: is_homepage && !@big_cover_photo ? 'no-cover-photo' : "#{is_session_page ? 'custom-page-content session_page_content' : ''}"}
+          %div{ class: is_homepage ? 'wrapper mobile-view-wrapper' : 'wrapper' }
+            = render :partial => "layouts/notifications"
+            = yield
+            - if display_branding_info?
+              = render partial: "layouts/non_whitelabel_branding", locals: {link_to_sharetribe: "https://www.sharetribe.com/?utm_source=#{@current_community.ident}.sharetribe.com&utm_medium=referral&utm_campaign=nowl-footer"}
+      -#
+        This is not pretty, but works.
+        On homepage, we want to wrap the whole page content (search bar and the "real" content) to a form, so that
+        pressing send from either search bar of filter list will send all the form fields
 
     - if is_homepage
       %form{method: "get", id: "homepage-filters"}

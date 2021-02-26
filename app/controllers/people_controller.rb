@@ -12,7 +12,6 @@ class PeopleController < Devise::RegistrationsController
     :check_email_availability,
     :check_email_availability_and_validity,
     :check_invitation_code,
-    :share_on_twitter_success,
     :request_from_linkedin
   ]
 
@@ -66,7 +65,7 @@ class PeopleController < Devise::RegistrationsController
     raise PersonDeleted if @person.deleted?
     raise PersonBanned if @person.banned?
 
-    redirect_to landing_page_path and return if @current_community.private? && !@current_user && !params[:fb_share].present?
+    redirect_to landing_page_path and return if @current_community.private? && !@current_user && !params[:feed_id].present?
     @selected_tribe_navi_tab = "members"
     @community_membership = CommunityMembership.find_by_person_id_and_community_id_and_status(@person.id, @current_community.id, "accepted")
 

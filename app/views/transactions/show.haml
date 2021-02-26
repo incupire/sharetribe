@@ -22,7 +22,7 @@
 					FB.ui({
 						display: 'popup',
 						method: 'share',
-						href: "#{person_url(@current_user)}" + "?fb_share=true&feed_id=" + feedback_id
+						href: "#{person_url(@current_user)}" + "?feed_id=" + feedback_id
 					});
 				} else if (response.status === "not_authorized"){
 					FB.login();
@@ -40,13 +40,18 @@
 
 		$('#connect-to-twitter').click(function(){
 			feedback_id = $("#feedback_id").val();
-			var url = "#{person_url(@current_user)}" + "%3Ffb_share%3Dtrue%26feed_id%3D" + feedback_id;
+			var url = "#{person_url(@current_user)}" + "%3Ffeed_id%3D" + feedback_id;
+			$.ajax({
+				type: 'GET',
+				url: "#{person_path(@current_user)}",
+				data: {feed_id: feedback_id}
+			});
 			return popitup("https://twitter.com/share?url="+ url)
 		})
 
 		$('#connect-linkedin-share').click(function(){
 			feedback_id = $("#feedback_id").val();
-			var url = "#{person_url(@current_user)}" + "%3Ffb_share%3Dtrue%26feed_id%3D" + feedback_id;
+			var url = "#{person_url(@current_user)}" + "%3Ffeed_id%3D" + feedback_id;
 			return popitup("https://www.linkedin.com/sharing/share-offsite/?url="+ url)
 		})
 
