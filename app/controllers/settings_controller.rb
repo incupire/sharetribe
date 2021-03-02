@@ -14,6 +14,12 @@ class SettingsController < ApplicationController
     flash.now[:notice] = t("settings.profile.image_is_processing") if @service.image_is_processing?
   end
 
+  def wish_list
+    @selected_left_navi_link = "wish_list"
+    @service = Person::SettingsService.new(community: @current_community, params: params)
+    @service.add_location_to_person
+  end
+
   def contact
     @selected_left_navi_link = "contact"
     @service = Person::SettingsService.new(community: @current_community, params: params)

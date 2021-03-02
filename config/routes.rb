@@ -552,6 +552,7 @@ Rails.application.routes.draw do
         resources :transactions, only: [:show, :new, :create]
         resource :settings do
           member do
+            get :wish_list
             get :contact
             get :account
             get :notifications

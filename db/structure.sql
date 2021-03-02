@@ -1475,6 +1475,18 @@ CREATE TABLE `person_categories` (
   KEY `index_person_categories_on_person_id` (`person_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `person_wish_lists`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `person_wish_lists` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `person_id` varchar(255) DEFAULT NULL,
+  `category_id` int(11) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `prospect_emails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
@@ -2675,6 +2687,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20201223053156'),
 ('20210204113550'),
 ('20210205050401'),
-('20210210120801');
+('20210210120801'),
+('20210301115757');
 
 

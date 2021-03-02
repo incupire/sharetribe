@@ -158,8 +158,13 @@ class Person < ApplicationRecord
 
   has_many :starter_transactions, :class_name => "Transaction", :foreign_key => "starter_id", :dependent => :destroy, :inverse_of => :starter
   has_many :author_transactions, :class_name => "Transaction", :foreign_key => "listing_author_id", :dependent => :destroy, :inverse_of => :listing_author
+  
   has_many :person_categories, :dependent => :destroy
   has_many :categories, :through => :person_categories
+
+  has_many :person_wish_lists, :dependent => :destroy
+  has_many :wish_list_categories, :class_name => "Category", :through => :person_wish_lists
+
   deprecate communities: "Use accepted_community instead.",
             community_memberships: "Use community_membership instead.",
             deprecator: MethodDeprecator.new

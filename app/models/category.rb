@@ -34,8 +34,13 @@ class Category < ApplicationRecord
 
   has_many :category_custom_fields, :dependent => :destroy
   has_many :custom_fields, -> { order("sort_priority") }, :through => :category_custom_fields
+
   has_many :person_categories, :dependent => :destroy
   has_many :people, :through => :person_categories
+
+  has_many :person_wish_lists, :dependent => :destroy
+  has_many :wish_list_people, :class_name => "Person", :through => :person_wish_lists
+  
   belongs_to :community
 
   before_save :uniq_url

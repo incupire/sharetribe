@@ -1632,8 +1632,9 @@ en:
       learn_more: "Learn more"
     no_tribe:
       inbox: Inbox
-      settings: Profile Information
-      contact: Contact Information
+      settings: "Profile Information"
+      contact: "Contact Information"
+      wish_list: "Welcome to Avontage Community"
       feedback: "Contact the %{service_name} team"
       transactions: "Transactions"
       favorite: "Favorite Offers"

@@ -619,6 +619,13 @@ module ApplicationHelper
   def settings_links_for(person, community=nil, is_manager = false)
     links = [
       {
+        :id => "wish-list-tab-profile",
+        :text => t("layouts.settings.contact"),
+        :icon_class => icon_class("contact"),
+        :path => wish_list_person_settings_path(person),
+        :name => "wish_list"
+      },
+      {
         :id => "contact-tab-profile",
         :text => t("layouts.settings.contact"),
         :icon_class => icon_class("contact"),
