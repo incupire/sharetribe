@@ -620,7 +620,7 @@ module ApplicationHelper
     links = [
       {
         :id => "wish-list-tab-profile",
-        :text => t("layouts.settings.contact"),
+        :text => t("layouts.settings.wish_list"),
         :icon_class => icon_class("contact"),
         :path => wish_list_person_settings_path(person),
         :name => "wish_list"

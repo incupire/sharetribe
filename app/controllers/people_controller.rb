@@ -4,6 +4,7 @@ class PeopleController < Devise::RegistrationsController
 
   skip_before_action :verify_authenticity_token, :only => [:creates]
   skip_before_action :require_no_authentication, :only => [:new]
+  skip_before_action :check_progress_bar, :only => [:new, :update]
 
   before_action EnsureCanAccessPerson.new(
     :id, error_message_key: "layouts.notifications.you_are_not_authorized_to_view_this_content"), only: [:update, :destroy]
@@ -191,7 +192,7 @@ class PeopleController < Devise::RegistrationsController
     if APP_CONFIG.skip_email_confirmation
       email.confirm!
 
-      redirect_to contact_person_settings_path(@person)
+      redirect_to wish_list_person_settings_path(@person)
     else
       Email.send_confirmation(email, @current_community)
 
@@ -259,7 +260,7 @@ class PeopleController < Devise::RegistrationsController
     flash[:notice] = t("layouts.notifications.login_successful", :person_name => view_context.link_to(PersonViewUtils.person_display_name_for_type(@person, "first_name_only"), person_path(@person))).html_safe
     #redirect_to homepage_without_locale_path(state: nil, from: 'social')
     if @person.present? && @person.sign_in_count <= 1
-      redirect_to contact_person_settings_path(@person)
+      redirect_to wish_list_person_settings_path(@person)
     else
       redirect_to pending_consent_path
     end
@@ -267,6 +268,13 @@ class PeopleController < Devise::RegistrationsController
 
   def update
     target_user = Person.find_by!(username: params[:id], community_id: @current_community.id)
+    if params[:person_wish_list_ids].present?
+      target_user.person_wish_lists.destroy_all
+      @recommedation_list = RecommendationList.new(recommendation_title: "Based on your wish list", active: true)
+      params[:person_wish_list_ids].each do |w_cat|
+        target_user.person_wish_lists.create(category_id: w_cat)
+      end
+    end
     if params[:member_profile_page].present?
       target_user.person_categories.destroy_all
       if params[:person][:category_ids].present?
@@ -289,7 +297,6 @@ class PeopleController < Devise::RegistrationsController
       flash[:error] = t("people.new.email_not_allowed")
       redirect_back(fallback_location: homepage_url) and return
     end
-
     target_user.set_emails_that_receive_notifications(params[:person][:send_notifications])
 
     begin
@@ -356,7 +363,9 @@ class PeopleController < Devise::RegistrationsController
         target_user.save
       end
     end
-    if params[:contact_info_page].present? && params[:save_and_next].present?
+    if params[:wish_list_page].present? && params[:save_and_next_to_contact_page].present?
+      redirect_to contact_person_settings_path(target_user)
+    elsif params[:contact_info_page].present? && params[:save_and_next_to_profile].present?
       redirect_to person_settings_path(target_user)
     elsif params[:save_and_next].present?
       redirect_to new_listing_path

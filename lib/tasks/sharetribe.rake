@@ -30,6 +30,30 @@ namespace :sharetribe do
     AuthToken.delete_expired
   end
 
+  # desc "Set state country for all people"
+  # task :set_state_country_for_all_people => :environment do
+  #   Person.find_each do |person|
+  #     if person.location && person.location.google_address
+  #       geocoder = "https://maps.googleapis.com/maps/api/geocode/json?address=#{person.location.google_address}&key=#{APP_CONFIG.google_maps_key}"
+  #       url = URI.escape(geocoder)
+  #       resp = RestClient.get(url)
+  #       result = JSON.parse(resp.body)
+  #       if result["status"] == "OK"
+  #         for i in 0...result["results"][0]["address_components"].count
+  #           addresstype = result["results"][0]["address_components"][i]["types"][0]
+  #           if addresstype.eql?("administrative_area_level_1")
+  #             state = result["results"][0]["address_components"][i]["long_name"]
+  #           end
+  #           if addresstype.eql?("country")
+  #             country_code = result["results"][0]["address_components"][i]["short_name"]
+  #           end
+  #         end
+  #         person.update_column(:state_country, "#{state}, #{country_code}") if state && country_code
+  #       end
+  #     end
+  #   end
+  # end
+
   desc "Retries set express checkouts"
   task :retry_and_clean_paypal_tokens => :environment do
     Delayed::Job.enqueue(PaypalService::Jobs::RetryAndCleanTokens.new(1.hour.ago))

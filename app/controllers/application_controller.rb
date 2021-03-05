@@ -40,6 +40,7 @@ class ApplicationController < ActionController::Base
     :setup_intercom_user,
     :setup_device_token
 
+  before_action :check_progress_bar
   # This updates translation files from WTI on every page load. Only useful in translation test servers.
   before_action :fetch_translations if APP_CONFIG.update_translations_on_every_page_load == "true"
 
@@ -349,6 +350,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def check_progress_bar
+    # Not logged in
+    return unless @current_user
+
+    # Admin can access
+    return if @current_user.is_admin?
+    if @current_user.overall_progress != 100
+      progress_redirect_path
+    end
+  end
+
   def fetch_community_admin_status
     @is_current_community_admin = (@current_user && @current_user.has_admin_rights?(@current_community))
   end
@@ -415,6 +427,29 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def progress_redirect_path
+    @current_user.profile_progress_info.each do |key, value|
+      if value == 0
+        case key
+        when :notifications
+          next
+        when :enable_selling
+          next
+        when :contact_info
+          redirect_to contact_person_settings_path(@current_user)
+          return
+        when :user_profile
+          redirect_to person_settings_path(@current_user)
+          return
+        when :enable_purchasing
+          redirect_to person_stripe_customber_settings_path(@current_user)
+          return
+        end
+      end
+    end
+    redirect_to new_listing_path
+  end
 
   # Override basic instrumentation and provide additional info for
   # lograge to consume. These are pulled and logged in environment

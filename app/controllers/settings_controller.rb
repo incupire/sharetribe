@@ -6,6 +6,7 @@ class SettingsController < ApplicationController
   end
 
   before_action EnsureCanAccessPerson.new(:person_id, error_message_key: "layouts.notifications.you_are_not_authorized_to_view_this_content"), except: :unsubscribe
+  skip_before_action :check_progress_bar
 
   def show
     @selected_left_navi_link = "profile"

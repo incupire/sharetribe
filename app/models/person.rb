@@ -71,6 +71,7 @@
 #  reffered_by_email                  :string(255)
 #  reffered_by_socialmedia            :integer
 #  reffered_by_other                  :string(255)
+#  state_country                      :string(255)
 #
 # Indexes
 #
@@ -174,6 +175,8 @@ class Person < ApplicationRecord
   monetize :coupon_balance_cents, :allow_nil => true, with_model_currency: :currency
 
   after_save :rebuild_sphinx
+
+  scope :active_offers, -> {listings.exist.status_open_active.count > 0}
 
   def to_param
     username
@@ -380,6 +383,33 @@ class Person < ApplicationRecord
     else
       return nil
     end
+  end
+
+  # def state_country
+  #   if location && location.google_address
+  #     geocoder = "https://maps.googleapis.com/maps/api/geocode/json?address=#{location.google_address}&key=#{APP_CONFIG.google_maps_key}"
+  #     url = URI.escape(geocoder)
+  #     resp = RestClient.get(url)
+  #     result = JSON.parse(resp.body)
+  #     if result["status"] == "OK"
+  #       for i in 0...result["results"][0]["address_components"].count
+  #         addresstype = result["results"][0]["address_components"][i]["types"][0]
+  #         if addresstype.eql?("administrative_area_level_1")
+  #           state = result["results"][0]["address_components"][i]["long_name"]
+  #         end
+  #         if addresstype.eql?("country")
+  #           country_code = result["results"][0]["address_components"][i]["short_name"]
+  #         end
+  #       end
+  #       return state + ", " + country_code
+  #     end
+  #   else
+  #     return nil
+  #   end
+  # end
+
+  def since_member
+    "Member since #{created_at.strftime("%b %-d, %Y")}"
   end
 
   def update_attributes(params)

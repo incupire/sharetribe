@@ -46,6 +46,21 @@ class Person::SettingsService
     @fixed_phone_field ||= community_person_custom_fields.phone_number.empty?
   end
 
+  def wish_list_categories
+    wish_list_categories = []
+    @categories = @community.top_level_categories.includes(:translations, children: :translations)
+    @categories.each do |main_cat|
+      if main_cat.has_subcategories?
+        main_cat.children.each do |cat|
+          wish_list_categories << cat
+        end
+      else
+        wish_list_categories << main_cat
+      end
+    end
+    wish_list_categories
+  end
+
   private
 
   def new_custom_field_value(custom_field)

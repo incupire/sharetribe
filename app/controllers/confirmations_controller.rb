@@ -55,7 +55,7 @@ class ConfirmationsController < Devise::ConfirmationsController
         record_event(flash, "admin_email_confirmed")
         redirect_to admin_getting_started_guide_path and return
       elsif @current_user # normal logged in user
-        redirect_to contact_person_settings_path(@current_user)
+        redirect_to wish_list_person_settings_path(@current_user)
         return
         # if session[:return_to]
         #   redirect_to session[:return_to]

@@ -1,144 +1,122 @@
 - target_user = @service.person
 - content_for :javascript do
-  initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
+	initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
 - content_for :extra_javascript do
-  - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
-  - key_param = maps_key ? "?key=#{maps_key}" : ""
-  - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
-  = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
+	- maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
+	- key_param = maps_key ? "?key=#{maps_key}" : ""
+	- needs_maps = FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
+	= javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
 
 - if @current_user.overall_progress != 100
-  - content_for :profile_progress do
-    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Contact')}
+	- content_for :profile_progress do
+		= render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Contact')}
 
 - content_for :title_header do
-  %h1.left_content
-    = t("layouts.no_tribe.contact")
+	%h1.left_content
+		= t("layouts.no_tribe.contact")
 
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
-  %p
-    = t("settings.profile.our_promise_for_profile").html_safe
+	.tips_for_success_experience_box
+		%div
+			%p
+				%b To provide a high quality experience for all members, admission to Avontage is highly competitive.
 
-  = form_for target_user do |form| 
-    %input{:autocomplete => "off", :name => "hidden", :style => "display:none;", :type => "text"}
-    = hidden_field_tag "contact_info_page", "contact_info_page"
-    .row
-      .col-6
-        = form.label :given_name, t("settings.profile.given_name")
-        = form.text_field :given_name, :class => "text_field", :maxlength => "30", required: true
-      .col-6
-        .inline-label-container
-          = form.label :family_name, t("settings.profile.family_name"), :class => "inline"
-          %small
-            - if ["first_name_with_initial", "first_name_only"].include? @current_community.name_display_type
-              = t("settings.profile.#{@current_community.name_display_type}")
-          = form.text_field :family_name, :class => "text_field", :maxlength => "30", required: true
-    -# Business and website name
-    .row
-      .col-12
-        = form.label :business_name, t("settings.profile.business_name")
-        = form.text_field :business_name, :class => "text_field", :maxlength => "50", required: true
-    .row
-      .col-12
-        = form.label :website_name, t("settings.profile.website_name")
-        = form.text_field :website_name, :class => "text_field", :maxlength => "50", :placeholder => "i.e. https://www.avontage.com", :autocomplete => "none"
-    -# Display name
-    // .row
-    //   .col-6
-    //     .inline-label-container
-    //       = form.label :referral_code, t("settings.profile.referral_code"), class: "inline"
-    //     %span.alert-box-icon
-    //       = icon_tag("information", ["icon-fix"])
-    //     %small
-    //       = t("settings.profile.referral_code_description")
-    //     = form.text_field :referral_code, class: "text_field", :maxlength => "25"
+		%div.tips_for_succes
+			%p 
+				%b Tips for success:
+			%div
+				%div 
+					%b 1. Fill out your profile thoroughly and accurately.
+				%div 
+					%b 2. Create your best service offerings.
+				%div 
+					%b 3. You'll receive an email within 24 hours, upon review and approval.
+		= image_tag "This_month_special1.png"
+	%h2 Contact Information
+	%p
+		= t("settings.profile.our_promise_for_profile").html_safe
 
-    -# Phone number
-    - show_phone_number = FeatureFlagHelper.feature_enabled?(:user_fields) ? @service.fixed_phone_field? : true
-    .row
-      .col-6
-        - if show_phone_number
-          .inline-label-container
-            = form.label :phone_number, t("settings.profile.phone_number"), :class => "inline"
-            %small
-              = t('settings.profile.invisible')
-          = form.text_field :phone_number, :class => "text_field", :maxlength => "25", required: true
-      .col-6
-        -# Mobile number
-        .inline-label-container
-          = form.label :mobile_number, t("settings.profile.mobile_number"), :class => "inline"
-          %small
-            = t('settings.profile.invisible')
-        = form.text_field :mobile_number, :class => "text_field", :maxlength => "25", required: true
+	= form_for target_user do |form| 
+		%input{:autocomplete => "off", :name => "hidden", :style => "display:none;", :type => "text"}
+		= hidden_field_tag "contact_info_page", "contact_info_page"
+		.row
+			.col-6
+				= form.label :given_name, t("settings.profile.given_name")
+				= form.text_field :given_name, :class => "text_field", :maxlength => "30", required: true
+			.col-6
+				.inline-label-container
+					= form.label :family_name, t("settings.profile.family_name"), :class => "inline"
+					%small
+						- if ["first_name_with_initial", "first_name_only"].include? @current_community.name_display_type
+							= t("settings.profile.#{@current_community.name_display_type}")
+					= form.text_field :family_name, :class => "text_field", :maxlength => "30", required: true
 
+		-# Phone number
+		- show_phone_number = FeatureFlagHelper.feature_enabled?(:user_fields) ? @service.fixed_phone_field? : true
+		.row
+			.col-6
+				- if show_phone_number
+					.inline-label-container
+						= form.label :phone_number, t("settings.profile.phone_number"), :class => "inline"
+						%small
+							= t('settings.profile.invisible')
+					= form.text_field :phone_number, :class => "text_field", :maxlength => "25", required: true
+			.col-6
+				-# Mobile number
+				.inline-label-container
+					= form.label :mobile_number, t("settings.profile.mobile_number"), :class => "inline"
+					%small
+						= t('settings.profile.invisible')
+				= form.text_field :mobile_number, :class => "text_field", :maxlength => "25", required: true
 
-    -# how did you find about us section
-    .reffered_by_section
-      %h2.reffred_heading
-        %strong How did you find out about us?
-      .reffered_by_box
-        .box_heading If you were reffered by someone, enter the name so we can send them a thank you gift.
-        .bottom_text_box
-          .text_box_heading Enter the friend who reffered you here:
-          = form.text_field :reffered_by_email, class: 'custom_bottom_field', :autocomplete => "nope"
-        .box_heading or tell us how you find us:
-        
-        .find_us_box
-          - Person::REFFERED_BY_SOCIALMEDIA.each do |key, value, id|
-            .choose_field
-              .custom_field
-                = form.radio_button :reffered_by_socialmedia, value, checked: key == target_user.reffered_by_socialmedia, class: 'custom_checkbox'
-                %label.choose_key{:for => value}
-                  = key
-                  %span
-                    = image_tag 'check-icn.svg'
-          .choose_field
-            = form.text_field :reffered_by_other, class: "last_input_field"
+		-# Business and website name
+		%h2 Business Information
+		.row
+			.col-12
+				= form.label :business_name, t("settings.profile.business_name")
+				= form.text_field :business_name, :class => "text_field", :maxlength => "50", required: true
+		.row
+			.col-12
+				= form.label :website_name, t("settings.profile.website_name")
+				= form.text_field :website_name, :class => "text_field", :maxlength => "50", :placeholder => "i.e. https://www.avontage.com", :autocomplete => "none"
 
-    -# Location
-    .inline-label-container
-      = form.label :street_address, t("settings.profile.street_address"), :class => "inline"
-      %small
-        = t('settings.profile.default_in_listing')
-    %span.alert-box-icon
-      = icon_tag("information", ["icon-fix"])
-    %small
-      = t("settings.profile.location_description")
-    = form.text_field :street_address, :class => "text_field", :onkeyup => "timed_input(this)", required: true
-    #settings_map_canvas.map
-      - content_for :extra_javascript do
-        :javascript
-          source = document.getElementById("person_street_address");
-          $(document).ready(function(){
-            googlemapMarkerInit("settings_map_canvas","person_location","person_street_address", true, #{tribe_latitude}, #{tribe_longitude});
-            });
-    -# Physical locations
-    = form.fields_for :location do |loc|
-      = loc.hidden_field :address, :value => target_user.location.address
-      = loc.hidden_field :google_address, :value => target_user.location.google_address
-      = loc.hidden_field :latitude, :value => target_user.location.latitude
-      = loc.hidden_field :longitude, :value => target_user.location.longitude
-    .physical_locations
-      = form.label :physical_location, "Number of Physical Locations"
-      = form.select :physical_location, options_for_select([ "None, my business is online only", "One location", "Multiple locations" ], target_user.physical_location), include_blank: "-Select-"
-    .inline_buttons
-      - unless @current_user.overall_progress != 100
-        = form.button t("settings.save_and_close"), :class => "send_button"
-      %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
+		-# Location
+		.inline-label-container
+			= form.label :street_address, t("settings.profile.street_address"), :class => "inline"
+			%small
+				= t('settings.profile.default_in_listing')
+		%span.alert-box-icon
+			= icon_tag("information", ["icon-fix"])
+		%small
+			= t("settings.profile.location_description")
+		= form.text_field :street_address, :class => "text_field", :onkeyup => "timed_input(this)", required: true
+		#settings_map_canvas.map
+			- content_for :extra_javascript do
+				:javascript
+					source = document.getElementById("person_street_address");
+					$(document).ready(function(){
+						googlemapMarkerInit("settings_map_canvas","person_location","person_street_address", true, #{tribe_latitude}, #{tribe_longitude});
+					});
+		-# Physical locations
+		= form.fields_for :location do |loc|
+			= loc.hidden_field :address, :value => target_user.location.address
+			= loc.hidden_field :google_address, :value => target_user.location.google_address
+			= loc.hidden_field :latitude, :value => target_user.location.latitude
+			= loc.hidden_field :longitude, :value => target_user.location.longitude
 
-- content_for :extra_javascript do
-  :javascript
-    $("input[name='person[reffered_by_socialmedia]']").click(function(){
-      if ($("input[name='person[reffered_by_socialmedia]'][value='9']").prop("checked")) {
-        $("#person_reffered_by_other").prop("required", true);
-      }else {
-        $("#person_reffered_by_other").prop("required", false);
-      }
-    });
+		-# Person Business Stage
 
-    $(document).ready(function() {
-      $("#person_website_name").attr("autocomplete", "nope");
-      $("#person_reffered_by_email").attr("autocomplete", "nope");
-    });
+		= form.label :business_stage, "What is the stage of your business and/or level of expertise?"
+		= form.select :business_stage, options_for_select(Person::BUSINESS_STAGE, Person::BUSINESS_STAGE[target_user.business_stage]), include_blank: "-Select-"
+
+		.physical_locations
+			=# form.label :physical_location, "Number of Physical Locations"
+			=# form.select :physical_location, options_for_select([ "None, my business is online only", "One location", "Multiple locations" ], target_user.physical_location), include_blank: "-Select-"
+		.inline_buttons
+			- unless @current_user.overall_progress != 100
+				= form.button t("settings.save_and_close"), :class => "send_button"
+			- else
+				= link_to 'Back', :back, class: "button"
+			%input.send_button.button{:name => "save_and_next_to_profile", :type => "submit", :value => "Save and Next"}

@@ -1,180 +1,178 @@
 - target_user = @service.person
 - content_for :javascript do
-  initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
+	initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
 
 - content_for :extra_javascript do
-  - maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
-  - key_param = maps_key ? "?key=#{maps_key}" : ""
-  - needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
-  = javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
+	- maps_key = MarketplaceHelper.google_maps_key(@current_community.id)
+	- key_param = maps_key ? "?key=#{maps_key}" : ""
+	- needs_maps = !FeatureFlagHelper.feature_enabled?(:topbar_v1) || search_mode == :keyword
+	= javascript_include_tag "//maps.googleapis.com/maps/api/js#{key_param}" if needs_maps
 
-  :javascript
-    $(".prof-avtar").on('change', function(){
-      var files = event.target.files;
-      var image = files[0]
-      var reader = new FileReader();
-      reader.onload = function (file) {
-        var img = new Image();
-        img.src = file.target.result;
-        $(".square_image").attr('src', img.src)
-      }
-      reader.readAsDataURL(image);
-    })
+	:javascript
+		$(".prof-avtar").on('change', function(){
+			var files = event.target.files;
+			var image = files[0]
+			var reader = new FileReader();
+			reader.onload = function (file) {
+				var img = new Image();
+				img.src = file.target.result;
+				$(".square_image").attr('src', img.src)
+			}
+			reader.readAsDataURL(image);
+		})
 
-    createHasgtags($(".hashtags_input").val())
+		createHasgtags($(".hashtags_input").val())
 
-    $(".hashtags_input").on('focusout', function(){
-      createHasgtags($(this).val())
-    })
+		$(".hashtags_input").on('focusout', function(){
+			createHasgtags($(this).val())
+		})
 
-    function createHasgtags(ele_value){
-      if (ele_value != ''){
-        current_value = ele_value.split(" ")
-        current_value_arr = []
-        $(current_value).each(function(i, e){
-          var step = 0;
-          for (let step = 0; step < 5; step++) {
-            e = e.replace('#', '')
-          }
-          current_value_arr.push(e)
-        })
-        var outPlus = [];
-        $(current_value_arr).each(function( g, h ) {
-          outPlus.push("#"+h.split(" ").join(' #'));
-        });
-        final_string = outPlus.join(' ')
-        $(".hashtags_input").val(final_string)
-      }
-    }
+		function createHasgtags(ele_value){
+			if (ele_value != ''){
+				current_value = ele_value.split(" ")
+				current_value_arr = []
+				$(current_value).each(function(i, e){
+					var step = 0;
+					for (let step = 0; step < 5; step++) {
+						e = e.replace('#', '')
+					}
+					current_value_arr.push(e)
+				})
+				var outPlus = [];
+				$(current_value_arr).each(function( g, h ) {
+					outPlus.push("#"+h.split(" ").join(' #'));
+				});
+				final_string = outPlus.join(' ')
+				$(".hashtags_input").val(final_string)
+			}
+		}
 - if @current_user.overall_progress != 100
-  - content_for :profile_progress do
-    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Profile')}
+	- content_for :profile_progress do
+		= render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('Profile')}
 
 - content_for :title_header do
-  %h1.left_content= t("layouts.no_tribe.settings")
+	%h1.left_content= t("layouts.no_tribe.settings")
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
-  %p
-    = t("settings.profile.these_fields_are_shown_in_your")
-    = link_to(t("settings.profile.profile_page"), target_user) + "."
-  .tips_for_success_experience_box
-    %div
-      %p
-        %b To provide a high quality experience for all members, admission to Avontage is highly competitive.
+	%p
+		= t("settings.profile.these_fields_are_shown_in_your")
+		= link_to(t("settings.profile.profile_page"), target_user) + "."
+	= form_for target_user do |form| 
+		.row
+			.col-6
+				= hidden_field_tag "member_profile_page", "member_profile_page"
+				-# Profile picture
+				.inline-label-container
+					= form.label :image, t("settings.profile.profile_picture")
+				%span.alert-box-icon
+					= icon_tag("information", ["icon-fix"])
+				%small
+					= t("settings.profile.profile_picture_description")
+				%div
+					= image_tag target_user.image.present? ? target_user.image.url(:medium) : 'profile_image/small/missing.png', class: "square_image"
+				= render 'layouts/filename', file_field: target_user.image
+				.upload_image
+					= "Upload an Image"
+					= form.file_field :image, :size => 30, :id => "avatar_file", class: "invisible-image prof-avtar"
+			.col-6
+				.inline-label-container
+					= form.label :display_name, t("settings.profile.display_name"), class: "inline"
+				%span.alert-box-icon
+					= icon_tag("information", ["icon-fix"])
+				%small
+					= t("settings.profile.display_name_description")
+				= form.text_field :display_name, class: "text_field", :maxlength => "25"
 
-    %div.tips_for_succes
-      %p 
-        %b Tips for success:
-      %div
-        %div 
-          %b 1. Fill out your profile thoroughly and accurately.
-        %div 
-          %b 2. Create your best service offerings.
-        %div 
-          %b 3. You'll receive an email within 24 hours, upon review and approval.
-  = form_for target_user do |form| 
-    .row
-      .col-6
-        = hidden_field_tag "member_profile_page", "member_profile_page"
-        -# Profile picture
-        .inline-label-container
-          = form.label :image, t("settings.profile.profile_picture")
-        %span.alert-box-icon
-          = icon_tag("information", ["icon-fix"])
-        %small
-          = t("settings.profile.profile_picture_description")
-        %div
-          = image_tag target_user.image.present? ? target_user.image.url(:medium) : 'profile_image/small/missing.png', class: "square_image"
-        = render 'layouts/filename', file_field: target_user.image
-        .upload_image
-          = "Upload an Image"
-          = form.file_field :image, :size => 30, :id => "avatar_file", class: "invisible-image prof-avtar"
-      .col-6
-        .inline-label-container
-          = form.label :display_name, t("settings.profile.display_name"), class: "inline"
-        %span.alert-box-icon
-          = icon_tag("information", ["icon-fix"])
-        %small
-          = t("settings.profile.display_name_description")
-        = form.text_field :display_name, class: "text_field", :maxlength => "25"
+		-# About text
+		= form.label :description, t("settings.profile.about_you"), :class => "input"
+		= form.text_area :description, :class => "update_profile_description_text_area", required: true, placeholder: "HINT: Our community is built on trust. The best way to build trust is to provide accurate information about your business and the skills that you offer.\n\n 1- Upload your photo or the logo of your business.\n 2- Tell us about your business, your experience, and your passions.\n 3- Enter your website and social media links to built credibility quick.\n\n Your profile is your resume. This is where members come to check you out to make sure you're legit"
 
-    -# About text
-    = form.label :description, t("settings.profile.about_you"), :class => "input"
-    = form.text_area :description, :class => "update_profile_description_text_area", required: true, placeholder: "HINT: Our community is built on trust. The best way to build trust is to provide accurate information about your business and the skills that you offer.\n\n 1- Upload your photo or the logo of your business.\n 2- Tell us about your business, your experience, and your passions.\n 3- Enter your website and social media links to built credibility quick.\n\n Your profile is your resume. This is where members come to check you out to make sure you're legit"
-    -# Community Description experience
+		=# form.label :tags, 'Hashtags', :class => "input"
+		=# form.text_area :tags, :class => "update_profile_description_text_area hashtags_input customize_hashtags_input", placeholder: 'HINT: Enter the keywords associated with your business or offers. it will help end user to search your offers'
 
-    -# Person Business Stage
+		-# social media marketing
+		%h2 Social Media Marketing (optional)
+		.row
+			.col-6
+				= form.label :facebook_link, t("settings.profile.facebook_link")
+				= form.text_field :facebook_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.facebook.com/avontage/"
+			.col-6
+				= form.label :instagram_link, t("settings.profile.instagram_link")
+				= form.text_field :instagram_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.instagram.com/avontage"
+		.row
+			.col-6
+				= form.label :linkedin_link, t("settings.profile.linkedin_link")
+				= form.text_field :linkedin_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.linkedin.com/avontage"
+			.col-6
+				= form.label :twitter_link, t("settings.profile.twitter_link")
+				= form.text_field :twitter_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://twitter.com/avontagebiz/"
 
-    = form.label :business_stage, "What is the stage of your business and/or level of expertise?"
-    = form.select :business_stage, options_for_select(Person::BUSINESS_STAGE, Person::BUSINESS_STAGE[target_user.business_stage]), include_blank: "-Select-"
+		-# how did you find about us section
+		.reffered_by_section
+			%h2.reffred_heading
+				%strong How did you find out about us?
+			.reffered_by_box
+				.box_heading If you were reffered by someone, enter the name so we can send them a thank you gift.
+				.bottom_text_box
+					.text_box_heading Enter the friend who reffered you here:
+					= form.text_field :reffered_by_email, class: 'custom_bottom_field', :autocomplete => "nope"
+				.box_heading or tell us how you find us:
+				
+				.find_us_box
+					- Person::REFFERED_BY_SOCIALMEDIA.each do |key, value, id|
+						.choose_field
+							.custom_field
+								= form.radio_button :reffered_by_socialmedia, value, checked: key == target_user.reffered_by_socialmedia, class: 'custom_checkbox'
+								%label.choose_key{:for => value}
+									= key
+									%span
+										= image_tag 'check-icn.svg'
+					.choose_field
+						= form.text_field :reffered_by_other, class: "last_input_field"
 
-    = form.label :community_description_experience, t("settings.profile.community_experience"), :class => "input"
-    = form.text_area :community_description_experience, :class => "update_profile_description_text_area", placeholder: "HINT: I enjoy bartering my services for health, fitness and restaurant offers and love being part of like-minded community of business owners"
-    = form.label :category_ids, "Chose the types of services you need for your business or personal in the near future:(max 10 choices)"
-    .row
-      .col-md-12
-        = form.select :category_ids, Category.display_in_user_profile.collect { |t| [t.display_name('en'), t.id]}, {prompts: "Select Categories"}, id: "category_select", multiple: 'multiple'
-    = form.label :average_amount, "* On the average, how much services in total will you be offering on trade?"
-    = form.select :average_amount, options_for_select(Array[*Person::OPTIONS.collect {|v,i| [v,Person::OPTIONS.index(v)] }], target_user.average_amount), required: true, include_blank: "-Select-"
-    = form.label :tags, 'Hashtags', :class => "input"
-    = form.text_area :tags, :class => "update_profile_description_text_area hashtags_input customize_hashtags_input", placeholder: 'HINT: Enter the keywords associated with your business or offers. it will help end user to search your offers'
+		- if FeatureFlagHelper.feature_enabled?(:user_fields) && @service.has_person_custom_fields?
+			- @service.custom_field_values.each_with_index do |custom_field_value, index|
+				.inline-label-container
+				- custom_field = custom_field_value.question
+				- custom_field.with_type do |field_type|
+					- prefix = "person[custom_field_values_attributes][]"
+					.inline-label-container
+						= label "person_custom_fields", index, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}",
+							class: 'inline'
+						- if custom_field.public?
+							%small= t('settings.profile.shown_in_your_public_profile')
+					= hidden_field_tag "#{prefix}[id]", custom_field_value.id
+					= hidden_field_tag "#{prefix}[type]", custom_field_value.type
+					= hidden_field_tag "#{prefix}[custom_field_id]", custom_field_value.custom_field_id
+					= render "settings/custom_fields/#{field_type}", :service => @service,
+						:custom_field => custom_field, index: index,
+						:custom_field_value => custom_field_value,
+						:prefix => prefix
 
-    .row
-      .col-6
-        = form.label :facebook_link, t("settings.profile.facebook_link")
-        = form.text_field :facebook_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.facebook.com/avontage/"
-      .col-6
-        = form.label :instagram_link, t("settings.profile.instagram_link")
-        = form.text_field :instagram_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.instagram.com/avontage"
-    .row
-      .col-6
-        = form.label :linkedin_link, t("settings.profile.linkedin_link")
-        = form.text_field :linkedin_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://www.linkedin.com/avontage"
-      .col-6
-        = form.label :twitter_link, t("settings.profile.twitter_link")
-        = form.text_field :twitter_link, :class => "text_field", :maxlength => "50", placeholder: "i.e. https://twitter.com/avontagebiz/"
-
-    - if FeatureFlagHelper.feature_enabled?(:user_fields) && @service.has_person_custom_fields?
-      - @service.custom_field_values.each_with_index do |custom_field_value, index|
-        .inline-label-container
-        - custom_field = custom_field_value.question
-        - custom_field.with_type do |field_type|
-          - prefix = "person[custom_field_values_attributes][]"
-          .inline-label-container
-            = label "person_custom_fields", index, "#{custom_field.name(I18n.locale)}#{custom_field.required ? '*' : ''}",
-              class: 'inline'
-            - if custom_field.public?
-              %small= t('settings.profile.shown_in_your_public_profile')
-          = hidden_field_tag "#{prefix}[id]", custom_field_value.id
-          = hidden_field_tag "#{prefix}[type]", custom_field_value.type
-          = hidden_field_tag "#{prefix}[custom_field_id]", custom_field_value.custom_field_id
-          = render "settings/custom_fields/#{field_type}", :service => @service,
-            :custom_field => custom_field, index: index,
-            :custom_field_value => custom_field_value,
-            :prefix => prefix
-
-    .good_avontizen
-      %h4 
-        %i Good Avontizen Awards:
-      .sub_text 
-        %i * Complete your profile info and instantly receive A$25 bonus A-Bucks for free.
-      .sub_text 
-        %i * Post your offers and receive upto A$200 bonus A-Bucks for free.
-    .inline_buttons
-      - unless @current_user.overall_progress != 100
-        = form.button t("settings.save_and_close"), :class => "send_button"
-      %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
-      =# form.button t("settings.save_and_next"), :class => "send_button"
-      =# form.button t("settings.save_and_next"), :class => "send_button"
+		// .good_avontizen
+		// 	%h4 
+		// 		%i Good Avontizen Awards:
+		// 	.sub_text 
+		// 		%i * Complete your profile info and instantly receive A$25 bonus A-Bucks for free.
+		// 	.sub_text 
+		// 		%i * Post your offers and receive upto A$200 bonus A-Bucks for free.
+		.inline_buttons
+			- unless @current_user.overall_progress != 100
+				= form.button t("settings.save_and_close"), :class => "send_button"
+			- else
+				= link_to 'Back', :back, class: "button"
+			%input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
+			=# form.button t("settings.save_and_next"), :class => "send_button"
+			=# form.button t("settings.save_and_next"), :class => "send_button"
 - content_for :extra_javascript do
-  :javascript
-    $("#category_select").select2({
-      placeholder: "Select categories",
-      allowClear: true
-    });
-    $("select").on('change', function(e) {
-      if (Object.keys($(this).val()).length > 9) {
-        $('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
-      }
-    });
+	:javascript
+		$("#category_select").select2({
+			placeholder: "Select categories",
+			allowClear: true
+		});
+		$("select").on('change', function(e) {
+			if (Object.keys($(this).val()).length > 9) {
+				$('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
+			}
+		});

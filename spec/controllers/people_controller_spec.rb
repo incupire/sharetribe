@@ -71,6 +71,7 @@
 #  reffered_by_email                  :string(255)
 #  reffered_by_socialmedia            :integer
 #  reffered_by_other                  :string(255)
+#  state_country                      :string(255)
 #
 # Indexes
 #

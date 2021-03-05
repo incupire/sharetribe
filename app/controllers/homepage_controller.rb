@@ -144,6 +144,21 @@ class HomepageController < ApplicationController
     end
   end
 
+  def member_directory
+    @members = @current_community.members
+    if params[:filter].present?
+      case params[:filter]
+      when "all"
+        @members = @members
+      when "active_offers"
+        @members = @members.active_offers
+    end
+    if params[:q].present?
+      @members = @members.where("given_name LIKE '%#{params[:q]}%' OR family_name LIKE '%#{params[:q]}%' OR display_name LIKE '%#{params[:q]}%'")
+      render layout: false
+    end
+  end
+
   def recommendation_list_listings
     @rec_list = RecommendationList.find(params[:id])
   end

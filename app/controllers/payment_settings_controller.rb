@@ -6,7 +6,7 @@ class PaymentSettingsController < ApplicationController
   before_action :ensure_payments_enabled
   before_action :load_stripe_account
   skip_before_action :warn_about_missing_payment_info, only: [:update]
-
+  skip_before_action :check_progress_bar
   def index
     if @current_user.is_manager? && @current_user != target_user
       flash[:error] = 'You are not authorized to perform this action'

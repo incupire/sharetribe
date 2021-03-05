@@ -1,33 +1,85 @@
 - target_user = @service.person
 - content_for :javascript do
-  initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
+	initialize_update_profile_info_form("#{I18n.locale}","#{target_user.id.to_s}", #{@current_community.real_name_required?});
 
 - if @current_user.overall_progress != 100
-  - content_for :profile_progress do
-    = render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('WishList')}
+	- content_for :profile_progress do
+		= render :partial => "settings/progress_bar", :locals => {progress_title: 'Member Setup progress', redirect_link: progress_bar_redirect_link('WishList')}
 
 - content_for :title_header do
-  %h1
-    = t("layouts.no_tribe.wish_list")
+	%h1
+		= t("layouts.no_tribe.wish_list")
 
 = render :partial => "layouts/left_hand_navigation", :locals => { :links => settings_links_for(target_user, @current_community, @current_user.is_manager? && @current_user != target_user) }
 
 #person_settings_form.left-navi-section.settings-section
-  %p Choose the service types and skills that you need help with-on trade
-  %h2 Wish List (you can modify these later, as your needs change)
-  %h4 Choose min 3 categories
-  = form_tag url: person_registration_path, method: "PUT"
-    .row
-      .col-12
-      	= form.label :business_stage, "1st Choice"
-    		= form.select :business_stage, options_for_select(Person::BUSINESS_STAGE, Person::BUSINESS_STAGE[target_user.business_stage]), include_blank: "-Select-"
-    .row
-      .col-12
-    .row
-      .col-12
-    .row
-      .col-12
-    .inline_buttons
-      - unless target_user.overall_progress != 100
-        = form.button t("settings.save_and_close"), :class => "send_button"
-      %input.send_button.button{:name => "save_and_next", :type => "submit", :value => "Save and Next"}
+	= form_for target_user do |form| 
+		%p Choose the service types and skills that you need help with-on trade
+		.wish_list_div
+			%h2 Wish List (you can modify these later, as your needs change)
+			%h4 Choose min 3 categories	 
+			= hidden_field_tag :wish_list_page, true
+			.row
+				.col-12
+					= form.label "person_wish_list_ids", "* 1st Choice"
+					= select_tag "person_wish_list_ids[]", options_for_select(@service.wish_list_categories.collect { |t| [t.display_name('en'), t.id]}, target_user.wish_list_categories[0] ? target_user.wish_list_categories[0].id : ""), required: true, include_blank: "-Select-"
+			.row
+				.col-12
+					= form.label "person_wish_list_ids", "* 2nd Choice"
+					= select_tag "person_wish_list_ids[]", options_for_select(@service.wish_list_categories.collect { |t| [t.display_name('en'), t.id]}, target_user.wish_list_categories[1] ? target_user.wish_list_categories[1].id : ""), required: true, include_blank: "-Select-"
+			.row
+				.col-12
+					= form.label "person_wish_list_ids", "* 3rd Choice"
+					= select_tag "person_wish_list_ids[]", options_for_select(@service.wish_list_categories.collect { |t| [t.display_name('en'), t.id]}, target_user.wish_list_categories[2] ? target_user.wish_list_categories[2].id : ""), required: true, include_blank: "-Select-"
+			.row
+				.col-12
+					= form.label "person_wish_list_ids", "4th Choice"
+					= select_tag "person_wish_list_ids[]", options_for_select(@service.wish_list_categories.collect { |t| [t.display_name('en'), t.id]}, target_user.wish_list_categories[3] ? target_user.wish_list_categories[3].id : ""), include_blank: "-Select-"
+			.row
+				.col-12
+					= form.label "person_wish_list_ids", "5th Choice"
+					= select_tag "person_wish_list_ids[]", options_for_select(@service.wish_list_categories.collect { |t| [t.display_name('en'), t.id]}, target_user.wish_list_categories[4] ? target_user.wish_list_categories[4].id : ""), include_blank: "-Select-"
+			.row
+				.col-12
+					= form.label "person_wish_list_ids", "6th Choice"
+					= select_tag "person_wish_list_ids[]", options_for_select(@service.wish_list_categories.collect { |t| [t.display_name('en'), t.id]}, target_user.wish_list_categories[5] ? target_user.wish_list_categories[5].id : ""), include_blank: "-Select-"
+			.row
+				.col-12
+					= form.label "person_wish_list_ids", "7th Choice"
+					= select_tag "person_wish_list_ids[]", options_for_select(@service.wish_list_categories.collect { |t| [t.display_name('en'), t.id]}, target_user.wish_list_categories[6] ? target_user.wish_list_categories[6].id : ""), include_blank: "-Select-"
+		.availability_div
+			%h2 Availability
+			%p Select your top skills and services that you can offer in exchange.
+			.row
+				.col-12
+					= form.label :category_ids, "Chose min 1 to 7 categories"
+					= form.select :category_ids, Category.display_in_user_profile.collect { |t| [t.display_name('en'), t.id]}, {prompts: "Select Categories"}, id: "category_select", multiple: 'multiple'
+			.row
+				.col-12
+					= form.label :average_amount, "* On the average, how much services in total will you be offering on trade?"
+					= form.select :average_amount, options_for_select(Array[*Person::OPTIONS.collect {|v,i| [v,Person::OPTIONS.index(v)] }], target_user.average_amount), required: true, include_blank: "-Select-"
+			-# Community Description experience
+			.row
+				.col-12
+					= form.label :community_description_experience, t("settings.profile.community_experience_new"), :class => "input"
+					= form.text_area :community_description_experience, :class => "update_profile_description_text_area", placeholder: "we love bieng part of community of highly skilled freelancers, local small business owners, and entrepreneurs with a passion for collaboration."
+		.row
+			.col-12
+		.inline_buttons
+			- unless target_user.overall_progress != 100
+				= form.submit t("settings.save_and_close"), :class => "send_button"
+			- else
+				= link_to 'Back', :back, class: "button"
+			%input.send_button.button{:name => "save_and_next_to_contact_page", :type => "submit", :value => "Save and Next"}
+
+- content_for :extra_javascript do
+	:javascript
+		$("#category_select").select2({
+			placeholder: "Select categories",
+			allowClear: true
+		});
+		$("select").on('change', function(e) {
+			if (Object.keys($(this).val()).length > 6) {
+				$('option[value="' + $(this).val().toString().split(',')[3] + '"]').prop('selected', false);
+			}
+		});

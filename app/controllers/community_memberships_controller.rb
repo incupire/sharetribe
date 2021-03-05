@@ -8,6 +8,7 @@ class CommunityMembershipsController < ApplicationController
   skip_before_action :cannot_access_without_confirmation
   skip_before_action :ensure_consent_given
   skip_before_action :ensure_user_belongs_to_community
+  skip_before_action :check_progress_bar, only: [:confirmation_pending]
 
   before_action :ensure_membership_found
   before_action :ensure_membership_is_not_accepted
@@ -79,7 +80,7 @@ class CommunityMembershipsController < ApplicationController
 
       flash[:notice] = t("layouts.notifications.you_are_now_member")
 
-      redirect_to contact_person_settings_path(@current_user)
+      redirect_to wish_list_person_settings_path(@current_user)
       # if session[:return_to]
       #   redirect_to session[:return_to]
       #   session[:return_to] = nil

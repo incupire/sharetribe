@@ -14,6 +14,6 @@
 class RecommendationList < ApplicationRecord
   has_many :recommendation_list_listings
   has_many :listings, through: :recommendation_list_listings
-
+  
   default_scope { order(sortpriorty: :asc) }
 end

@@ -69,7 +69,7 @@ CREATE TABLE `avon_bucks_histories` (
   `operator_id` varchar(255) DEFAULT NULL,
   `stripe_charge_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `billing_agreements`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -590,7 +590,7 @@ CREATE TABLE `favorites` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `feature_flags`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -806,7 +806,7 @@ CREATE TABLE `homepage_sections` (
   `cta_link` text,
   `cta_text` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `invitation_unsubscribes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1450,6 +1450,7 @@ CREATE TABLE `people` (
   `reffered_by_email` varchar(255) DEFAULT NULL,
   `reffered_by_socialmedia` int(11) DEFAULT NULL,
   `reffered_by_other` varchar(255) DEFAULT NULL,
+  `state_country` varchar(255) DEFAULT NULL,
   UNIQUE KEY `index_people_on_username_and_community_id` (`username`,`community_id`) USING BTREE,
   UNIQUE KEY `index_people_on_uuid` (`uuid`),
   UNIQUE KEY `index_people_on_email` (`email`) USING BTREE,
@@ -1471,9 +1472,8 @@ CREATE TABLE `person_categories` (
   `updated_at` datetime NOT NULL,
   `person_id` varchar(255) DEFAULT NULL,
   `category_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `index_person_categories_on_person_id` (`person_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `person_wish_lists`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1510,7 +1510,7 @@ CREATE TABLE `rebates` (
   `updated_at` datetime NOT NULL,
   `minimum_amount` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `recommendation_list_listings`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1524,7 +1524,7 @@ CREATE TABLE `recommendation_list_listings` (
   PRIMARY KEY (`id`),
   KEY `index_recommendation_list_listings_on_recommendation_list_id` (`recommendation_list_id`),
   KEY `index_recommendation_list_listings_on_listing_id` (`listing_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `recommendation_lists`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -1538,7 +1538,7 @@ CREATE TABLE `recommendation_lists` (
   `active` tinyint(1) DEFAULT '0',
   `sortpriorty` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `schema_migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -2688,6 +2688,7 @@ INSERT INTO `schema_migrations` (version) VALUES
 ('20210204113550'),
 ('20210205050401'),
 ('20210210120801'),
-('20210301115757');
+('20210301115757'),
+('20210304103911');
 
 

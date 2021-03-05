@@ -8,10 +8,6 @@
 #  person_id   :string(255)
 #  category_id :integer
 #
-# Indexes
-#
-#  index_person_categories_on_person_id  (person_id)
-#
 
 require 'rails_helper'
 

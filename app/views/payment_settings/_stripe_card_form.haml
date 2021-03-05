@@ -1,98 +1,98 @@
 = javascript_include_tag "#{STRIPE_JS_HOST}/v3/"
 = form_tag person_update_stripe_customer_settings_path(@current_user), method: :put, id: "card-form" do
-  .preauthorize-section.mr_0
-    .row
-      %p.or Enter Your Credit card information to be used for Avontage Marketplaces fees
-      .form-row
-        .row
-          .col-12
-            #card-element.col-12.left
-            %label.hidden#card-errors{role: "alert"}
-        .row
-          .col-12
+	.preauthorize-section.mr_0
+		.row
+			%p.or Enter Your Credit card information to be used for Avontage Marketplaces fees
+			.form-row
+				.row
+					.col-12
+						#card-element.col-12.left
+						%label.hidden#card-errors{role: "alert"}
+				.row
+					.col-12
 
-        = hidden_field_tag :redir_url , params[:redir_url]
-        = hidden_field_tag :save_and_next_to_enable_selling
+				= hidden_field_tag :redir_url , params[:redir_url]
+				= hidden_field_tag :save_and_next_to_enable_selling
 
-        .row.stripe-payment.mr_0
-          .row
-            .col-12
-              %p.mr_top= t("stripe_accounts.card_not_stored").html_safe
-          .row
-            .col-12
-              %p= t("stripe_accounts.deduction_notice", percentage: @stripe_service[:commission_from_seller] ).html_safe
-          %h2= t("payment_settings.stripe_customer.avontage_fee_structure")
-          = t("payment_settings.stripe_customer.content1")
-          %br
-          %br
-            = t("payment_settings.stripe_customer.content2",commission_from_seller: @stripe_service[:commission_from_seller])
-          %br
-            =t("payment_settings.stripe_customer.content3",commission_from_seller: @stripe_service[:commission_from_seller])      
-        .col-12.payment-button-wrapper.paypal-button-wrapper
-          .inline_buttons
-            //=# button_tag t("settings.save_and_finish_later"), id: "send-add-card", class: 'checkout-with-stripe-buttons'
-            = link_to 'Skip to Next', person_payment_settings_path(@target_user), class: 'checkout-with-stripe-buttons button skip_to_nxt'
-            = button_tag 'Save and Next', id: "send-add-card1", class: 'checkout-with-stripe-buttons'
+				.row.stripe-payment.mr_0
+					.row
+						.col-12
+							%p.mr_top= t("stripe_accounts.card_not_stored").html_safe
+					.row
+						.col-12
+							%p= t("stripe_accounts.deduction_notice", percentage: @stripe_service[:commission_from_seller] ).html_safe
+					%h2= t("payment_settings.stripe_customer.avontage_fee_structure")
+					= t("payment_settings.stripe_customer.content1")
+					%br
+					%br
+						= t("payment_settings.stripe_customer.content2",commission_from_seller: @stripe_service[:commission_from_seller])
+					%br
+						=t("payment_settings.stripe_customer.content3",commission_from_seller: @stripe_service[:commission_from_seller])      
+				.col-12.payment-button-wrapper.paypal-button-wrapper
+					.inline_buttons
+						//=# button_tag t("settings.save_and_finish_later"), id: "send-add-card", class: 'checkout-with-stripe-buttons'
+						= link_to 'Skip to Next', person_payment_settings_path(@target_user), class: 'checkout-with-stripe-buttons button skip_to_nxt'
+						= button_tag 'Save and Next', id: "send-add-card1", class: 'checkout-with-stripe-buttons'
 - content_for :extra_javascript do
-  :javascript
-    var stripe = Stripe("#{stripe_publishable_key}");
-    var elements = stripe.elements();
-    var style = {
-      base: {
-        color: '#32325d',
-        lineHeight: '24px',
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: 'antialiased',
-        fontSize: '16px',
-        '::placeholder': {
-          color: '#aab7c4'
-        }
-      },
-      invalid: {
-        color: '#fa755a',
-        iconColor: '#fa755a'
-      }
-    };
+	:javascript
+		var stripe = Stripe("#{stripe_publishable_key}");
+		var elements = stripe.elements();
+		var style = {
+			base: {
+				color: '#32325d',
+				lineHeight: '24px',
+				fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+				fontSmoothing: 'antialiased',
+				fontSize: '16px',
+				'::placeholder': {
+					color: '#aab7c4'
+				}
+			},
+			invalid: {
+				color: '#fa755a',
+				iconColor: '#fa755a'
+			}
+		};
 
-    var card = elements.create('card', {style: style});
-    card.mount('#card-element');
-    card.addEventListener('change', function(event) {
-      var displayError = document.getElementById('card-errors');
-      if (event.error) {
-        displayError.textContent = event.error.message;
-        displayError.className = 'error';
-      } else {
-        displayError.textContent = '';
-        displayError.className = 'hidden';
-      }
-    });
+		var card = elements.create('card', {style: style});
+		card.mount('#card-element');
+		card.addEventListener('change', function(event) {
+			var displayError = document.getElementById('card-errors');
+			if (event.error) {
+				displayError.textContent = event.error.message;
+				displayError.className = 'error';
+			} else {
+				displayError.textContent = '';
+				displayError.className = 'hidden';
+			}
+		});
 
-    $("#send-add-card, #send-add-card1").on('click', function(event) {
-      event.preventDefault();
-      var form = $("#card-form");
-      form.validate();
-      if(!form.valid()) {
-        return false;
-      }
+		$("#send-add-card, #send-add-card1").on('click', function(event) {
+			event.preventDefault();
+			var form = $("#card-form");
+			form.validate();
+			if(!form.valid()) {
+				return false;
+			}
 
-      if (event.target.id == 'send-add-card1'){
-        $("#save_and_next_to_enable_selling").val('true');
-      }else{
-        $("#save_and_next_to_enable_selling").val(null);
-      }
+			if (event.target.id == 'send-add-card1'){
+				$("#save_and_next_to_enable_selling").val('true');
+			}else{
+				$("#save_and_next_to_enable_selling").val(null);
+			}
 
-      stripe.createToken(card).then(function(result) {
-        var errorElement = document.getElementById('card-errors');
-        if (result.error) {
-          errorElement.textContent = result.error.message;
-          errorElement.className = 'error';
-        } else {
-          errorElement.className = 'hidden';
-          var input = $("<input/>", {type: "hidden", name: "stripe_token", value: result.token.id});
-          form.append(input);
-          if(form.valid()) {
-            form.submit();
-          }
-        }
-      });
-    });  
+			stripe.createToken(card).then(function(result) {
+				var errorElement = document.getElementById('card-errors');
+				if (result.error) {
+					errorElement.textContent = result.error.message;
+					errorElement.className = 'error';
+				} else {
+					errorElement.className = 'hidden';
+					var input = $("<input/>", {type: "hidden", name: "stripe_token", value: result.token.id});
+					form.append(input);
+					if(form.valid()) {
+						form.submit();
+					}
+				}
+			});
+		});  

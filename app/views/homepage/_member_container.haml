@@ -1,0 +1,39 @@
+.row#meber_container
+	.col-3
+		= link_to person_path(member) do
+			.member_image
+				= medium_avatar_thumb(member)
+			.member_badge_review_box
+				= render 'layouts/level_rating_and_verified', user: member
+	.col-3
+		.member_details
+			= link_to person_path(member) do
+				.member_name
+					%h2= PersonViewUtils.person_display_name(member, @current_community)
+			.member_address
+				- if member.street_address
+					= icon_tag("map")
+					= member.street_address
+			.member_since
+				= icon_tag("calendar")
+				= member.since_member
+			.member_experience
+				- if member.business_stage
+					= "Experience: #{member.business_stage}"
+	.col-2
+		.skill_and_offers
+			%h2 Skills & Offers:
+			%p= "- Photography"
+			%p= "- Headshot"
+			%p= "- Wedding photo"
+			%p= "- Photo editing"
+	.col-2
+		.wish_list
+			%h2 Wish List
+			- member.wish_list_categories.first(4).each do |cat|
+				%p= "- #{cat.display_name('en')}"
+	.col-2
+		%a{href: "javascript:;", class: "button"} Get a quote
+		%a{href: person_path(member), class: "button"}= "#{pluralize(member.listings.exist.status_open_active.count, "offer")}"
+		- if @current_community.follow_in_use? && @current_user && !current_user?(member)
+			= render :partial => "people/follow_button", :locals => { :person => member }

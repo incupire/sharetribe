@@ -26,7 +26,7 @@ class ListingsController < ApplicationController
 	before_action :ensure_is_admin, :only => [ :move_to_top, :show_in_updates_email ]
 
 	before_action :is_authorized_to_post, :only => [ :new, :create, :update]
-
+	skip_before_action :check_progress_bar, :only => [ :new, :create, :new_form_content, :edit_form_content]
 	def index
 		@selected_tribe_navi_tab = "home"
 

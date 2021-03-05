@@ -3691,3 +3691,41 @@ h2.crf-acc-trigger {
   margin: 0 auto;
 }
 
+.member_badge_review_box {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+  color: #3c3c3c;
+  font-weight: 600;
+  margin: 0;
+  &.profile_show_badge {
+    font-size: 18px;
+    margin-top: 0px;
+
+    .badge_img {
+      height: 18px;
+    }
+  }
+
+  &.listing_show_badge {
+    margin: 0 0 0 10px;
+  }
+
+  .badge_img {
+    height: 18px;
+    margin: 0 5px 0 0;
+  }
+
+  .flex_box {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 0 6px 0 0;
+
+    a {
+      color: #525960;
+    }
+  }
+}
