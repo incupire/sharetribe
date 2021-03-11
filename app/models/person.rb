@@ -176,8 +176,6 @@ class Person < ApplicationRecord
 
   after_save :rebuild_sphinx
 
-  scope :active_offers, -> {listings.exist.status_open_active.count > 0}
-
   def to_param
     username
   end
@@ -384,29 +382,6 @@ class Person < ApplicationRecord
       return nil
     end
   end
-
-  # def state_country
-  #   if location && location.google_address
-  #     geocoder = "https://maps.googleapis.com/maps/api/geocode/json?address=#{location.google_address}&key=#{APP_CONFIG.google_maps_key}"
-  #     url = URI.escape(geocoder)
-  #     resp = RestClient.get(url)
-  #     result = JSON.parse(resp.body)
-  #     if result["status"] == "OK"
-  #       for i in 0...result["results"][0]["address_components"].count
-  #         addresstype = result["results"][0]["address_components"][i]["types"][0]
-  #         if addresstype.eql?("administrative_area_level_1")
-  #           state = result["results"][0]["address_components"][i]["long_name"]
-  #         end
-  #         if addresstype.eql?("country")
-  #           country_code = result["results"][0]["address_components"][i]["short_name"]
-  #         end
-  #       end
-  #       return state + ", " + country_code
-  #     end
-  #   else
-  #     return nil
-  #   end
-  # end
 
   def since_member
     "Member since #{created_at.strftime("%b %-d, %Y")}"
@@ -774,6 +749,10 @@ class Person < ApplicationRecord
     total_progress = total_progress + profile_progress_info[:contact_info] + profile_progress_info[:user_profile] + profile_progress_info[:enable_purchasing] if self.profile_progress_info.present?
     total_progress += 25 if self.listings.present?
     total_progress
+  end
+
+  def with_active_offers
+    listings.exist.status_open_active.count > 0
   end
 
   private

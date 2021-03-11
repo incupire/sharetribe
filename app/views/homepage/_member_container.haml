@@ -33,7 +33,24 @@
 			- member.wish_list_categories.first(4).each do |cat|
 				%p= "- #{cat.display_name('en')}"
 	.col-2
-		%a{href: "javascript:;", class: "button"} Get a quote
+		%a{href: "javascript:;", class: "button get-a-quote"} Get a quote
 		%a{href: person_path(member), class: "button"}= "#{pluralize(member.listings.exist.status_open_active.count, "offer")}"
 		- if @current_community.follow_in_use? && @current_user && !current_user?(member)
 			= render :partial => "people/follow_button", :locals => { :person => member }
+
+.get_quote_modal
+	.modal_box
+		.modal_heading
+			.close X
+		.modal_body
+			= render partial: "get_quote_form", locals: {member: member}
+
+- content_for :extra_javascript do
+	:javascript
+		$('.get-a-quote').click(function() {
+			$('.get_quote_modal').addClass('show_modal');
+		});
+
+		$('.close').click(function(){
+			$('.get_quote_modal').removeClass('show_modal');
+		});

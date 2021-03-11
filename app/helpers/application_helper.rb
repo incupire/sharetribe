@@ -965,5 +965,21 @@ module ApplicationHelper
   def regex_definition_to_js(string)
     string.gsub('\A', '^').gsub('\z', '$').gsub('\\', '\\\\')
   end
+
+  def near_by_persons(members)
+    results = Geocoder.search("#{request.remote_ip}")
+    current_lat = results.first.coordinates[0]
+    current_lng = results.first.coordinates[1]
+    unsorted_members_hash = {}
+    members.each do |member|
+      if member.location.present?
+        distance = Geocoder::Calculations.distance_between([current_lat, current_lng], [member.location.latitude, member.location.longitude], units: :km)
+        id = member.id
+        unsorted_members_hash[id] = distance
+      end
+    end
+    sorted_members_hash = Hash[unsorted_members_hash.sort_by{|k, v| v}]
+    near_by_members = sorted_members_hash.keys.collect {|i| Person.find(i) }
+  end
 end
-# rubocop:enable Metrics/ModuleLength
+# rubocop:enable Metrics/ModuleLengt

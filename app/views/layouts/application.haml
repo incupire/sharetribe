@@ -104,9 +104,8 @@
         This is not pretty, but works.
         On homepage, we want to wrap the whole page content (search bar and the "real" content) to a form, so that
         pressing send from either search bar of filter list will send all the form fields
-    - if is_homepage || is_member_directory_page
-      - action = is_member_directory_page ? "/s" : ""
-      %form{action: action, method: "get", id: "homepage-filters"}
+    - if is_homepage
+      %form{action: "", method: "get", id: "homepage-filters"}
         - # New top bar search params are in different form and they have to be retained here
         - search_params = ["q", "lc", "ls", "boundingbox", "distance_max"]
         - excluded_params = search_params unless FeatureFlagHelper.feature_enabled?(:topbar_v1)

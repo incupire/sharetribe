@@ -419,12 +419,12 @@ Rails.application.routes.draw do
         get :autocomplete_person_emails
         get :validate_listing_buyer
       end
-    resources :favorites, only: []  do
-      collection do
-        post :select
-        delete :unselect
+      resources :favorites, only: []  do
+        collection do
+          post :select
+          delete :unselect
+        end
       end
-    end
       resources :comments, :only => [:create, :destroy]
       resources :listing_images do
         collection do
@@ -505,7 +505,6 @@ Rails.application.routes.draw do
           end
         end
         resources :person_messages
-
         resource :inbox, :only => [:show] do
           collection do
             get '/transactions', to: 'inboxes#transactions'

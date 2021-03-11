@@ -1,5 +1,6 @@
 # encoding: utf-8
 class HomepageController < ApplicationController
+  require 'will_paginate/array'
 
   before_action :save_current_path, :except => :sign_in
 
@@ -145,18 +146,17 @@ class HomepageController < ApplicationController
   end
 
   def member_directory
-    @members = @current_community.members
-    if params[:filter].present?
-      case params[:filter]
-      when "all"
-        @members = @members
-      when "active_offers"
-        @members = @members.active_offers
-    end
-    if params[:q].present?
-      @members = @members.where("given_name LIKE '%#{params[:q]}%' OR family_name LIKE '%#{params[:q]}%' OR display_name LIKE '%#{params[:q]}%'")
-      render layout: false
-    end
+    @members = 
+      if params[:q].present? && params[:filter].present?
+        members = @current_community.members.where("given_name LIKE '%#{params[:q]}%' OR family_name LIKE '%#{params[:q]}%' OR display_name LIKE '%#{params[:q]}%'")
+        apply_filter_on_members(params[:filter], members)
+      elsif params[:q].present? && !params[:filter].present?
+        paginated_members(@current_community.members.where("given_name LIKE '%#{params[:q]}%' OR family_name LIKE '%#{params[:q]}%' OR display_name LIKE '%#{params[:q]}%'"))
+      elsif !params[:q].present? && params[:filter].present?
+        apply_filter_on_members(params[:filter], @current_community.members)
+      else
+        paginated_members(@current_community.members)
+      end
   end
 
   def recommendation_list_listings
@@ -230,6 +230,29 @@ class HomepageController < ApplicationController
   end
 
   private
+
+  def paginated_members(members)
+    members.paginate(page: params[:page], per_page: 20)
+  end
+
+  def apply_filter_on_members(filter, members)
+    case filter
+    when "all"
+      paginated_members(members)
+    when "by_category"
+      paginated_members(members)
+    when "active_offers"
+      paginated_members(members.select(&:with_active_offers))
+    when "near_you"
+      paginated_members(near_by_persons(members))
+    when "newest"
+      paginated_members(members.order(created_at: :desc))
+    when "verified"
+      paginated_members(members.where(is_verified: true))
+    when "most_review"
+      paginated_members(members.order(total_received_review: :desc))
+    end
+  end
 
   def parse_relevant_search_fields(params, relevant_filters)
     search_filters = SearchPageHelper.parse_filters_from_params(params)
